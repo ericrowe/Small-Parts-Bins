@@ -270,6 +270,12 @@ Compatibility rules:
 
 ## Repository Working Agreements
 
+- Use the repository task pipeline in `IDEAS.md` and `Plans/` for project work.
+  Ideas are limited to three sentences, only one numbered plan may be active,
+  and implementation must follow that plan's ordered checklist.
+- Preserve continuity with plan-numbered Git checkpoints. When complete, move
+  the plan to `Plans/Completed/` with its ISO completion date prefixed and add
+  the matching `-walkthrough.md` file before starting another plan.
 - Read this file, the current release README, manifest, and latest physical-test
   notes before changing geometry.
 - Keep all dimensions in millimeters in source; include inch conversions only

@@ -1,0 +1,60 @@
+# Plan pipeline
+
+The project processes one defined plan at a time:
+
+`Idea → Plan → Execution → Archive`
+
+## 1. Idea
+
+Record new work in `../IDEAS.md`. Keep each idea under three sentences. Ideas
+may be clarified or combined in the inbox, but implementation does not begin
+until one idea is promoted into a numbered plan.
+
+## 2. Plan
+
+Create one Markdown file in this directory using the next unused number and a
+short kebab-case name, such as `002-design-carrier-removal-feature.md`. Copy
+`_templates/plan.md`, replace every placeholder, and develop the idea into a
+bounded implementation plan with requirements, non-goals, ordered steps,
+validation, and rollback/reuse notes.
+
+Plan numbers are permanent and never reused. `README.md` and `_templates/` do
+not count as active plans. There must never be more than one numbered Markdown
+file directly inside `Plans/`.
+
+## 3. Execution
+
+Set the plan status to `Executing` before changing implementation files. Work
+through its numbered steps in order, update the checklist as evidence is
+produced, and record important decisions and physical results in the plan.
+
+Use Git to preserve continuity:
+
+1. Commit the accepted plan before implementation with a message beginning
+   `plan-NNN:`.
+2. Make focused implementation checkpoints that reference the same plan
+   number.
+3. Do not rewrite or delete tested revisions; record replacements explicitly.
+4. Before archiving, require a clean validation result or clearly document
+   every remaining limitation.
+
+## 4. Archive
+
+When every acceptance criterion is satisfied:
+
+1. Set the plan status to `Complete` and add its completion date and final
+   commit references.
+2. Move it into `Completed/`, prefixing the original filename with the ISO
+   completion date: `YYYY-MM-DD-NNN-name.md`.
+3. Create a detailed walkthrough beside it named
+   `YYYY-MM-DD-NNN-name-walkthrough.md`, using the walkthrough template.
+4. Commit the move and walkthrough with a message beginning `plan-NNN:`.
+5. Only after that archive commit may the next inbox idea become an active
+   plan.
+
+Archived plans and walkthroughs are immutable historical records. Corrections
+must be appended and committed, not silently rewritten.
+
+Run `python3 Plans/check_pipeline.py` from the repository root before committing
+a plan transition. It verifies the single-active-plan rule, filenames, unique
+numbers, and completed plan/walkthrough pairs.
