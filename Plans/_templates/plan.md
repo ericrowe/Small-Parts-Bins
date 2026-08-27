@@ -41,6 +41,8 @@ State the concrete result this plan must deliver.
 - [ ] Required exported files pass their audits.
 - [ ] Physical validation is recorded when the plan depends on a real print.
 - [ ] Documentation distinguishes modeled, printed, and verified results.
+- [ ] Every applicable documentation item in the `AGENTS.md` plan-completion
+  checklist has been updated or recorded as reviewed with no change required.
 - [ ] Git checkpoints and final file list are recorded.
 
 ## Validation record

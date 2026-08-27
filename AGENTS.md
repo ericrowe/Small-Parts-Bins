@@ -277,8 +277,8 @@ Compatibility rules:
 - Preserve continuity with plan-numbered Git checkpoints. When complete, move
   the plan to `Plans/Completed/` with its ISO completion date prefixed and add
   the matching `-walkthrough.md` file before starting another plan.
-- Read this file, the current release README, manifest, and latest physical-test
-  notes before changing geometry.
+- Read the top-level `README.md`, this file, the active plan, the current release
+  README, manifest, and latest physical-test notes before changing geometry.
 - Keep all dimensions in millimeters in source; include inch conversions only
   for user-supplied measurements such as the drawer height.
 - Preserve unrelated user changes and existing revision directories.
@@ -289,3 +289,35 @@ Compatibility rules:
 - Do not silently change the Gridfinity interface, 2.0 mm minimum carrier wall,
   glass standard, cassette sub-grid, drawer ceiling, hinge pin, or label format.
 - Mark untested future cassette sizes and carrier features as provisional.
+
+### Required Documentation Updates Before Every Plan Completion
+
+Before setting any plan to `Complete` or moving it into `Plans/Completed/`,
+review and update every applicable item below. An item may be recorded as
+“reviewed—no change required,” but it must not be silently skipped:
+
+1. **Top-level `README.md`:** current project status, verified baseline,
+   provisional work, active/next plan, and relevant repository links.
+2. **`AGENTS.md`:** binding dimensions, physical findings, compatibility and
+   failure history, workflow rules, and any new non-regression constraint.
+3. **`IDEAS.md`:** remove promoted work and add only genuinely deferred or
+   follow-up ideas, each in no more than three sentences.
+4. **The numbered plan:** completed checklist, validation evidence, decisions,
+   deviations, completion date, and start/completion Git references.
+5. **Relevant release README files:** what changed, what remains reusable, what
+   must be reprinted, assembly/print instructions, and unverified limitations.
+6. **Release manifests:** version, dimensions, file inventory, triangle counts,
+   mesh audits, modeled checks, and validation state matching the exported files.
+7. **Physical-test notes:** material, printer/nozzle, slicer settings, measured
+   dimensions, test procedure, observed results, failures, and disposition.
+8. **Source comments and generated previews/references:** named parameters,
+   orientations, diagrams, and assembly references consistent with the release.
+9. **Compatibility tables or notes:** reusable earlier parts, incompatible or
+   superseded parts, and every required reprint.
+10. **Completed archive pair:** the dated completed-plan file and matching dated
+    `-walkthrough.md` containing the detailed implementation and validation
+    narrative.
+
+Run `python3 Plans/check_pipeline.py`, verify the exported artifacts required by
+the plan, and make the final plan-numbered Git checkpoint only after this
+documentation reconciliation is complete.

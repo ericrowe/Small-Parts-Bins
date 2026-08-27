@@ -48,12 +48,14 @@ When every acceptance criterion is satisfied:
 
 1. Set the plan status to `Complete` and add its completion date and final
    commit references.
-2. Move it into `Completed/`, prefixing the original filename with the ISO
+2. Complete the required documentation reconciliation checklist in `AGENTS.md`,
+   including the top-level project README and all applicable release records.
+3. Move it into `Completed/`, prefixing the original filename with the ISO
    completion date: `YYYY-MM-DD-NNN-name.md`.
-3. Create a detailed walkthrough beside it named
+4. Create a detailed walkthrough beside it named
    `YYYY-MM-DD-NNN-name-walkthrough.md`, using the walkthrough template.
-4. Commit the move and walkthrough with a message beginning `plan-NNN:`.
-5. Only after that archive commit may a queued plan be activated or the next
+5. Commit the move and walkthrough with a message beginning `plan-NNN:`.
+6. Only after that archive commit may a queued plan be activated or the next
    inbox idea become a plan.
 
 Archived plans and walkthroughs are immutable historical records. Corrections
