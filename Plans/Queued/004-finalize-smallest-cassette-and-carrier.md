@@ -1,7 +1,8 @@
 # Plan 004 — Finalize the smallest cassette and six-cassette carrier
 
 - Status: Queued
-- Depends on: Plans 001–003 completed and physically accepted
+- Priority: 4
+- Depends on: Plans 001–003 and 009 completed and physically accepted
 - Created: 2026-08-27
 - Started: Not started
 - Completed: Not completed
@@ -96,4 +97,3 @@ clearance, tip-over outcome, failures, and corrective actions.
 
 The walkthrough must be a complete build-and-use reference for the verified
 smallest system and must list every reusable earlier part and required reprint.
-

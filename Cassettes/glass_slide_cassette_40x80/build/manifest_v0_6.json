@@ -82,6 +82,7 @@
   "hinge_attachment_note": "Lid rail clears its 2.10 mm bore by 0.15 mm in X and Z, and its bed-supported root overlaps the hinge axis by 0.20 mm across both lid-knuckle spans; body centre support stops 0.15 mm below the 2.25 mm bore.",
   "recommended_material": "ASA or PETG for body/lid; PETG preferred for the removable snap retainer",
   "retainer_note": "Four chamfered lugs engage a 0.35 mm pocket-wall groove. Original ladder: 0.10/0.20/0.30 mm per side. Added stronger retainers: 0.35/0.40/0.45 mm; the final two intentionally add 0.05/0.10 mm seated preload per side.",
+  "physical_retention_status": "Firmest 0.45 PETG was the best v0.6 fit-ladder sample, but subsequent handling found that the glass can still be knocked out easily. This capture is experimental and not accepted for production containment; Plan 009 will test positive end-loaded or alternative capture and multiple pane materials/thicknesses.",
   "mesh_note": "Individual closed shells intentionally overlap at hinge/latch joins; modern slicers merge overlapping volumes.",
   "files": [
     {

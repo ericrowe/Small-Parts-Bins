@@ -193,8 +193,14 @@ version explicitly documents a change:
   | Firmer | 0.40 mm | 0.05 mm preload |
   | Firmest | 0.45 mm | 0.10 mm preload; **best physical fit** |
 
-- **Current selected retainer: Firmest 0.45.** It worked best in physical
-  testing and is the default full-size retainer for the current print setup.
+- **Best v0.6 ladder fit: Firmest 0.45.** It worked best in the initial physical
+  fit comparison, but subsequent handling shows that the glass can still be
+  knocked out easily. Treat it as experimental and inadequate for production
+  containment, not as a verified final capture method.
+- Plan 009 has priority immediately after the active carrier test. It must
+  investigate positive pane capture, including an end-loaded slide with a
+  removable mechanical end stop, and test both glass and transparent plastic
+  pane options of different measured thicknesses.
 - The existing firm retainer remains the lightest reference in the stronger
   ladder. Keep all variants for recalibration after a material, printer, nozzle,
   extrusion, or slicer-setting change; when recalibrating, test upward in order.
@@ -238,9 +244,10 @@ Compatibility rules:
   to be reprinted merely to change its version label.
 - The v0.6 body is geometrically equivalent to the v0.5 body.
 - Do not use v0.4 or v0.5 lids for the next test; use the v0.6 lid.
-- Grooved-lid retainers and glass remain reusable when their measured fit is
-  acceptable. Use Firmest 0.45 as the current physically selected fit, but
-  recalibrate if the material or print process changes materially.
+- Grooved-lid retainers and glass remain reusable for controlled experiments
+  when their measured fit is acceptable. The Firmest 0.45 retainer is the best
+  v0.6 comparison sample but must not be described as adequate knockout
+  retention; use positive-capture results from Plan 009 for future releases.
 
 ## Design and Validation Workflow
 
@@ -283,6 +290,10 @@ Compatibility rules:
   Ideas are limited to three sentences. Fully developed future plans may wait
   in `Plans/Queued/`, but only one numbered plan may be active directly in
   `Plans/`, and implementation must follow that active plan's ordered checklist.
+- Maintain the documented queued-plan order in `Plans/PRIORITIES.md`. Plan
+  numbers are permanent identifiers, not priority ranks. Reassess priorities
+  when physical failures, dependencies, or user goals change, and activate only
+  the highest-priority eligible queued plan after the current plan is archived.
 - Preserve continuity with plan-numbered Git checkpoints. When complete, move
   the plan to `Plans/Completed/` with its ISO completion date prefixed and add
   the matching `-walkthrough.md` file before starting another plan.
@@ -311,19 +322,22 @@ review and update every applicable item below. An item may be recorded as
    failure history, workflow rules, and any new non-regression constraint.
 3. **`IDEAS.md`:** remove promoted work and add only genuinely deferred or
    follow-up ideas, each in no more than three sentences.
-4. **The numbered plan:** completed checklist, validation evidence, decisions,
+4. **`Plans/PRIORITIES.md`:** remove the completed plan from the queue order,
+   reassess the remaining work using the documented criteria, renumber priority
+   ranks contiguously, date the decision, and identify the next eligible plan.
+5. **The numbered plan:** completed checklist, validation evidence, decisions,
    deviations, completion date, and start/completion Git references.
-5. **Relevant release README files:** what changed, what remains reusable, what
+6. **Relevant release README files:** what changed, what remains reusable, what
    must be reprinted, assembly/print instructions, and unverified limitations.
-6. **Release manifests:** version, dimensions, file inventory, triangle counts,
+7. **Release manifests:** version, dimensions, file inventory, triangle counts,
    mesh audits, modeled checks, and validation state matching the exported files.
-7. **Physical-test notes:** material, printer/nozzle, slicer settings, measured
+8. **Physical-test notes:** material, printer/nozzle, slicer settings, measured
    dimensions, test procedure, observed results, failures, and disposition.
-8. **Source comments and generated previews/references:** named parameters,
+9. **Source comments and generated previews/references:** named parameters,
    orientations, diagrams, and assembly references consistent with the release.
-9. **Compatibility tables or notes:** reusable earlier parts, incompatible or
+10. **Compatibility tables or notes:** reusable earlier parts, incompatible or
    superseded parts, and every required reprint.
-10. **Completed archive pair:** the dated completed-plan file and matching dated
+11. **Completed archive pair:** the dated completed-plan file and matching dated
     `-walkthrough.md` containing the detailed implementation and validation
     narrative.
 

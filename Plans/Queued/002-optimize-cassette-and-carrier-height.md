@@ -1,7 +1,8 @@
 # Plan 002 — Optimize cassette and carrier height
 
 - Status: Queued
-- Depends on: Plan 001 physical measurements and disposition
+- Priority: 2
+- Depends on: Plan 001 physical measurements and Plan 009 verified lid/capture envelope
 - Created: 2026-08-27
 - Started: Not started
 - Completed: Not completed
@@ -34,8 +35,9 @@ the 14U drawer stack, or practical handling clearance.
 
 ## Reusable parts and compatibility
 
-- Reuse the v0.6 lid, Firmest 0.45 PETG retainer, glass, and successful hinge
-  components if the optimized height can be confined to the body.
+- Reuse the Plan 009 verified lid/capture interface and successful v0.6 hinge
+  components if the optimized height can be confined to the body. Do not carry
+  the inadequate Firmest 0.45 snap capture into the optimized release.
 - Preserve the tested Plan 001 carriers unless its measurements require a
   corrective carrier revision.
 - Version any changed body or carrier; do not overwrite v0.6 or carrier v0.1.
@@ -99,4 +101,3 @@ sectional previews where available.
 The walkthrough must state the final support-floor and engagement-plane datums,
 selected cassette height, measured stack/drawer results, parts that remain
 reusable, and all untested material combinations.
-

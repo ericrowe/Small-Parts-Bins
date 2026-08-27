@@ -51,7 +51,8 @@ keeping every v0.6 cassette below the stacking plane.
    individual cassette fit. Printing is currently in progress.
 5. [ ] Print the identical carrier 2 and repeat the individual checks.
 6. [ ] Load and engage both carriers; measure stack height, cassette/lip
-   clearance, stability, and fit within the drawer.
+   clearance, stability, and fit within the drawer. Use non-glass dummy panes
+   for any rollover or impact portion unless the test is safely enclosed.
 7. [ ] Record results and decide whether to verify v0.1 or create a new plan for
    corrective geometry.
 8. [ ] Update final documentation and archive this plan with its walkthrough.
@@ -84,6 +85,10 @@ keeping every v0.6 cassette below the stacking plane.
 
 - The two side openings are intentional 22 mm fingertip-access features and
   are provisional pending the removal test.
+- Subsequent feedback shows that Firmest 0.45 glass capture can be knocked out.
+  Plan 001 validates the carrier, not glass retention. Use dummy panes or a
+  protective enclosure for handling tests and defer capture conclusions to
+  priority-1 queued Plan 009.
 - The pipeline was introduced after geometry generation began. Existing Git
   checkpoints are retained as the start history instead of being rewritten.
 
@@ -94,6 +99,7 @@ keeping every v0.6 cassette below the stacking plane.
   the stack.
 - Stop loaded stacking if the upper carrier contacts glass, hinges, latches, or
   labels instead of seating on the lip.
+- Do not perform an unenclosed tip or impact test with the current glass capture.
 - If carrier v0.1 fails, preserve both printed samples and the complete v0.1
   release as evidence. Record a bounded correction in Plan 002 rather than
   rewriting this tested revision.

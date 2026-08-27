@@ -24,13 +24,27 @@ not count as plans. Queued plans may be developed in advance, but they authorize
 no implementation work and must use `Status: Queued`. There must never be more
 than one numbered Markdown file directly inside `Plans/`.
 
+## Prioritization
+
+[`PRIORITIES.md`](PRIORITIES.md) is the authoritative execution order for queued
+plans. Permanent plan numbers describe creation history and do not determine
+priority. Each queued plan must declare one unique positive `Priority` value,
+and the current priorities must form a contiguous sequence beginning at 1.
+
+Prioritize known safety/containment failures first, followed by dependency
+blocking, rework avoidance, information gain, user value, and finally readiness
+and print cost. Reassess and commit the priority table whenever physical feedback
+reveals a failure, dependencies change, or project goals change. Record the
+reason; never renumber existing plan files merely to reorder execution.
+
 ## 3. Execution
 
-After the current active plan is archived, move the next selected file from
-`Queued/` directly into `Plans/` and set its status to `Executing` before
-changing implementation files. Work through its numbered steps in order,
-update the checklist as evidence is produced, and record important decisions
-and physical results in the plan.
+After the current active plan is archived, move the priority-1 eligible plan
+from `Queued/` directly into `Plans/`, remove its queue-only priority field, and
+set its status to `Executing` before changing implementation files. Renumber the
+remaining priority ranks and update `PRIORITIES.md` in the same transition.
+Work through the active plan's numbered steps in order, update the checklist as
+evidence is produced, and record important decisions and physical results.
 
 Use Git to preserve continuity:
 
@@ -63,4 +77,5 @@ must be appended and committed, not silently rewritten.
 
 Run `python3 Plans/check_pipeline.py` from the repository root before committing
 a plan transition. It verifies active and queued filenames, the single-active-
-plan rule, unique numbers, and completed plan/walkthrough pairs.
+plan rule, unique numbers, contiguous queue priorities, and completed
+plan/walkthrough pairs.

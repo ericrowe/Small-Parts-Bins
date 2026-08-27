@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 ACTIVE_RE = re.compile(r"^(\d{3})-[a-z0-9]+(?:-[a-z0-9]+)*\.md$")
+PRIORITY_RE = re.compile(r"^- Priority: ([1-9]\d*)$", re.MULTILINE)
 ARCHIVE_RE = re.compile(
     r"^(\d{4}-\d{2}-\d{2})-(\d{3})-([a-z0-9]+(?:-[a-z0-9]+)*?)(-walkthrough)?\.md$"
 )
@@ -18,6 +19,7 @@ def main() -> int:
     errors: list[str] = []
     active = []
     queued = []
+    priorities: dict[int, str] = {}
     locations: dict[str, tuple[str, str]] = {}
 
     for path in sorted(ROOT.glob("[0-9]*.md")):
@@ -44,8 +46,30 @@ def main() -> int:
                 f"plan number {number} exists in both {locations[number][0]} and queued locations"
             )
         locations[number] = ("queued", path.name)
-        if "- Status: Queued" not in path.read_text():
+        text = path.read_text()
+        if "- Status: Queued" not in text:
             errors.append(f"queued plan does not declare queued status: {path.name}")
+        priority_match = PRIORITY_RE.search(text)
+        if not priority_match:
+            errors.append(f"queued plan does not declare a positive priority: {path.name}")
+        else:
+            priority = int(priority_match.group(1))
+            if priority in priorities:
+                errors.append(
+                    f"queued priority {priority} is duplicated by {priorities[priority]} and {path.name}"
+                )
+            priorities[priority] = path.name
+
+    expected_priorities = set(range(1, len(queued) + 1))
+    if set(priorities) != expected_priorities:
+        errors.append(
+            "queued priorities must be contiguous from 1 through "
+            f"{len(queued)}; found {sorted(priorities)}"
+        )
+
+    priority_doc = ROOT / "PRIORITIES.md"
+    if queued and not priority_doc.is_file():
+        errors.append("queued plans exist but Plans/PRIORITIES.md is missing")
 
     archived: dict[tuple[str, str, str], set[bool]] = {}
     for path in sorted((ROOT / "Completed").glob("*.md")):
@@ -74,9 +98,11 @@ def main() -> int:
 
     active_name = active[0].name if active else "none"
     highest = max((int(number) for number in locations), default=0)
+    next_queued = priorities.get(1, "none")
     print(
         f"Plan pipeline valid; active plan: {active_name}; "
-        f"queued plans: {len(queued)}; next number: {highest + 1:03d}"
+        f"queued plans: {len(queued)}; next queued: {next_queued}; "
+        f"next number: {highest + 1:03d}"
     )
     return 0
 

@@ -11,9 +11,11 @@ Version 0.6 corrects the unsupported root visible in the v0.5 lid STL:
 - The body, glass pocket, latch, and retainers are unchanged from v0.5.
 
 Physical testing with PETG confirmed that the Firmest 0.45 retainer held the
-glass in place best. The hinge also works well with straight 1.75 mm printer
-filament as its removable pin. The tested v0.5 body may be reused with the v0.6
-lid, and the selected Firmest 0.45 retainer is the default for this print setup.
+glass in place best within the supplied fit ladder. Later handling found that
+the glass can still be knocked out easily, so this is not an adequate production
+capture method. The hinge works well with straight 1.75 mm printer filament as
+its removable pin, and the tested v0.5 body may be reused with the v0.6 lid for
+controlled tests.
 
 ![Functional geometry](build/cassette_functional_details_v0_6.png)
 
@@ -81,11 +83,12 @@ The lid groove is 0.35 mm deep per side. The existing firm retainer is now the l
 | Firmest — new | 0.45 mm | 0.10 mm preload |
 
 The Firmest 0.45 retainer worked best in physical testing with PETG and is the
-selected full-size retainer for the current print setup. If the material,
-printer, nozzle, extrusion, or slicer settings change, recalibrate by testing
-the retainers upward in order. The 0.40 and 0.45 mm versions intentionally flex
-the PETG rails after seating. Do not force a retainer that requires levering
-against the glass.
+best comparison sample for the current print setup. It does **not** provide
+adequate knockout retention: the installed glass can still be dislodged easily.
+Use these retainers only for controlled v0.6 testing while Plan 009 develops a
+positive capture method. If recalibrating the ladder for experimental use, test
+upward in order. The 0.40 and 0.45 mm versions intentionally flex the PETG rails
+after seating. Do not force a retainer that requires levering against the glass.
 
 The glass is part of the installed stack and acts as the retainer's upper stop. A full retainer tested in an empty lid can move farther into the pocket and feel less positively located than it will with the correctly sized slide installed. Make the final choice with the glass present.
 
@@ -132,6 +135,8 @@ The package also contains the original light, nominal, and firm retainers, full 
 Physical testing has verified that the v0.6 lid works with the v0.5 body using
 straight 1.75 mm printer filament as the hinge pin. The hinge operates well.
 The Firmest 0.45 PETG retainer also provided the best tested hold on the glass.
+It subsequently failed the practical knockout expectation and is not a final
+retention solution.
 
 The body, hinge coupons, and retainer-fit samples remain included for future
 recalibration, but they do not need to be repeated solely for v0.6 when using

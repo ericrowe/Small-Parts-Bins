@@ -1,6 +1,7 @@
 # Plan 007 — Validate system durability and materials
 
 - Status: Queued
+- Priority: 7
 - Depends on: Plans 004–006 production-candidate geometry
 - Created: 2026-08-27
 - Started: Not started
@@ -36,7 +37,8 @@ variation.
 - Use production-source coupons and parts so durability results apply to the
   intended releases.
 - Preserve at least one uncycled reference specimen of each critical fit.
-- Recalibrate retainer ladders when material or process changes.
+- Recalibrate any compliant pane-capture spacers or removable retention parts
+  when material or process changes; do not reinstate friction-only snap capture.
 
 ## Implementation steps and test prints
 
@@ -88,4 +90,3 @@ cycle logs, transfer counts, failures, images, and disposition for every sample.
 
 The walkthrough must include the test matrix, specimen traceability, results by
 material, accepted process assumptions, failure modes, and excluded variants.
-

@@ -60,7 +60,9 @@ levels visible through replaceable microscope-slide glass.
 The smallest cassette baseline is v0.6 with a maximum closed envelope of
 39.55 × 80.0 × 28.0 mm. Its v0.6 lid has been physically verified with a v0.5
 body using straight 1.75 mm printer filament as the hinge pin, and the Firmest
-0.45 PETG glass retainer gave the best tested glass hold.
+0.45 PETG glass retainer gave the best hold within the tested v0.6 fit ladder.
+Subsequent handling shows that the glass can still be knocked out easily, so
+that retainer is not accepted as a production capture method.
 
 The active work is [Plan 001](Plans/001-validate-14u-carrier-stack.md): physical
 validation of two identical 3 × 4 × 7U carriers forming a 14U stack. The modeled
@@ -76,9 +78,9 @@ and loaded stack behavior remain provisional until both prints are tested.
 
 | Component | Current reference | Validation state |
 |---|---|---|
-| Smallest cassette | v0.6, 39.55 × 80.0 × 28.0 mm closed | Hinge and retainer physically verified as documented |
+| Smallest cassette | v0.6, 39.55 × 80.0 × 28.0 mm closed | Hinge verified; pane capture requires redesign |
 | Window | Plain slide glass, maximum intended 26.3 × 76.3 × 1.2 mm | Measure each delivered batch |
-| Retainer | Firmest 0.45, PETG preferred | Best current physical fit |
+| Pane capture | Firmest 0.45 PETG retainer | Best v0.6 ladder fit, but inadequate knockout retention; redesign queued |
 | Hinge pin | Straight 1.75 mm printer filament | Works well in the verified hinge pair |
 | Reference carrier | 3 × 4 × 7U, six cassettes | v0.1 physical test in progress |
 | Two-carrier stack | 14U, modeled 102.4 mm overall | Not yet physically verified |
@@ -86,10 +88,16 @@ and loaded stack behavior remain provisional until both prints are tested.
 
 ## Development sequence
 
-Only one plan is executed at a time. Plans 002–008 are fully developed in
+Only one plan is executed at a time. Plans 002–009 are fully developed in
 [`Plans/Queued/`](Plans/Queued/) and cover height optimization, cassette
 dividers, finalization of the smallest system, larger cassettes, mixed-layout
-carriers, durability/material testing, and the production baseline.
+carriers, durability/material testing, the production baseline, and a priority-1
+re-evaluation of glass capture and alternative transparent pane materials.
+
+The authoritative queue order and its rationale are maintained in
+[`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). After Plan 001, Plan 009 is next
+because the observed glass-knockout weakness is a safety and containment issue
+that affects every later cassette design.
 
 New ideas belong in [IDEAS.md](IDEAS.md) and must remain under three sentences.
 See the [plan pipeline](Plans/README.md) for promotion, execution, Git checkpoint,

@@ -1,6 +1,7 @@
 # Plan 005 — Develop the larger cassette family
 
 - Status: Queued
+- Priority: 5
 - Depends on: Plan 004 verified smallest-module baseline
 - Created: 2026-08-27
 - Started: Not started
@@ -35,8 +36,9 @@ window, label, closure, and divider principles.
 
 ## Reusable parts and compatibility
 
-- Reuse the verified hinge profile, pin material, retainer fit strategy, label
-  tape, divider interface, and carrier datums when their tested spans permit.
+- Reuse the verified hinge profile, pin material, Plan 009 pane-capture strategy,
+  label tape, divider interface, and carrier datums when their tested spans
+  permit.
 - Prefer repeated standard window or hinge modules over untested long spans.
 - Mark every new size provisional until its own complete print passes.
 
@@ -94,4 +96,3 @@ and verified versus provisional components.
 
 The walkthrough must explain the selected family, rejected sizes, sub-grid
 math, per-size test evidence, shared parts, unique parts, and mixing rules.
-

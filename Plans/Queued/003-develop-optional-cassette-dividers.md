@@ -1,6 +1,7 @@
 # Plan 003 — Develop optional cassette dividers
 
 - Status: Queued
+- Priority: 3
 - Depends on: Plan 002 verified cassette height and internal cavity
 - Created: 2026-08-27
 - Started: Not started
@@ -102,4 +103,3 @@ transfer counts, and wear after repeated removal.
 The walkthrough must document the divider interface, equal-spacing method,
 selected fit, tested transfer behavior, installation instructions, compatible
 cassette revisions, and how the interface should extend to larger sizes.
-

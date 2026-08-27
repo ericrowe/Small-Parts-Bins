@@ -1,7 +1,8 @@
 # Plan 008 — Prepare and archive the production baseline
 
 - Status: Queued
-- Depends on: Plans 001–007 completed with accepted physical evidence
+- Priority: 8
+- Depends on: Plans 001–007 and 009 completed with accepted physical evidence
 - Created: 2026-08-27
 - Started: Not started
 - Completed: Not completed
@@ -92,4 +93,3 @@ corrections, and final repository status.
 The walkthrough must provide a guided tour of the complete system, explain how
 to select and print parts, summarize validation evidence, list known limitations,
 and identify the Git commit that constitutes the production baseline.
-
