@@ -188,8 +188,8 @@ a change:
   - 23.0 mm top/visible opening and 24.0 mm opposite opening.
   - 0.95/0.45 mm overlap per side on the measured 24.9 mm glass.
   - 0.70 mm axial clearance for a 76.3 mm pane.
-  - Integral PETG tongue: 8.0 mm wide × 0.6 mm thick × 6.75 mm free length.
-  - Relaxed tongue face remains 0.20 mm clear of the pane plane.
+  - Integral PETG tongue: 8.0 mm wide × 0.8 mm thick (4 layers) × 6.75 mm free length with 45° root gussets and 1.05 mm root embed.
+  - Relaxed tongue face sits flush at channel ceiling (0.2–0.3 mm clearance over 1.1–1.2 mm glass).
 - Print the lid top/label-face down without internal support. Manually depress
   the tongue during pane insertion/removal; never use the glass to cam it aside.
 - The v0.4 short coupon physically worked. The v0.7 complete lid is generated

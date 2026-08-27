@@ -41,10 +41,10 @@ but it is not required when reusing a successful v0.5/v0.6 body.
 | Overlap per side on tested glass | 0.95 mm top / 0.45 mm opposite |
 | Maximum intended pane | 26.3 × 76.3 × 1.2 mm |
 | Axial clearance at 76.3 mm length | 0.70 mm |
-| PETG tongue | 8.0 mm wide × 0.6 mm thick × 6.75 mm free length |
+| PETG tongue | 8.0 mm wide × 0.8 mm thick × 6.75 mm free length with 45° root gussets |
 | Latch finger pad | 10.0 mm wide |
 | Frame entry slot cutout | 13.0 mm wide (1.5 mm lateral clearance per side) |
-| Relaxed tongue-to-pane-plane gap | 0.20 mm |
+| Relaxed tongue-to-glass gap | Flush at channel ceiling (0.2–0.3 mm clearance over 1.1–1.2 mm glass) |
 
 The pane enters at the end opposite the label, slides under the solid label band,
 and stops at the far end. Manually depress the compliant tongue outward, slide

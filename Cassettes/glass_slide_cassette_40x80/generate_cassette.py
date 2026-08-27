@@ -77,9 +77,9 @@ PANE_ENTRY_Y = -40.00
 PANE_SHOULDER_Y0 = -39.80
 PANE_SHOULDER_Y1 = -38.80
 PANE_TONGUE_ROOT_Y = -33.05
-PANE_TONGUE_END_Y = -32.80
+PANE_TONGUE_END_Y = -32.00
 PANE_TONGUE_W = 8.00
-PANE_TONGUE_H = 0.60
+PANE_TONGUE_H = 0.80
 PANE_FINGER_PAD_W = 10.00
 PANE_SLOT_W = 13.00
 PANE_TONGUE_SLOT_Y1 = -32.95
@@ -673,6 +673,22 @@ def build_lid_local() -> Mesh:
     out.extend(box("pane_compliant_tongue", tongue_x0, tongue_x1, PANE_SHOULDER_Y0, PANE_TONGUE_END_Y, LID_H - PANE_TONGUE_H, LID_H))
     out.extend(box("pane_latch_finger_pad", pad_x0, pad_x1, PANE_SHOULDER_Y0, PANE_SHOULDER_Y1 + 0.20, LID_H - PANE_TONGUE_H, LID_H))
     out.extend(box("pane_positive_end_shoulder", tongue_x0, tongue_x1, PANE_SHOULDER_Y0, PANE_SHOULDER_Y1, PANE_CHANNEL_Z0, LID_H - PANE_TONGUE_H + 0.05))
+    out.extend(
+        prism(
+            "pane_tongue_root_gusset_left",
+            [(tongue_x0 - 1.50, PANE_TONGUE_ROOT_Y + 0.10), (tongue_x0 + 0.10, PANE_TONGUE_ROOT_Y + 0.10), (tongue_x0 + 0.10, PANE_TONGUE_ROOT_Y - 1.50)],
+            LID_H - PANE_TONGUE_H,
+            LID_H,
+        )
+    )
+    out.extend(
+        prism(
+            "pane_tongue_root_gusset_right",
+            [(tongue_x1 - 0.10, PANE_TONGUE_ROOT_Y + 0.10), (tongue_x1 + 1.50, PANE_TONGUE_ROOT_Y + 0.10), (tongue_x1 - 0.10, PANE_TONGUE_ROOT_Y - 1.50)],
+            LID_H - PANE_TONGUE_H,
+            LID_H,
+        )
+    )
 
     # Bed-supported roots for the two lid knuckles.  In v0.5 the upper frame
     # edge tapered from the hinge axis to the bore notch, so much of each
@@ -1225,7 +1241,7 @@ def validate_design() -> dict[str, object]:
     assert abs(pane_tongue_free_length - 6.75) < 1e-9
     assert pane_finger_pad_lateral_clearance >= 1.0
     assert pane_tongue_lateral_clearance >= 1.0
-    assert pane_tongue_relaxed_gap >= 0.20 - 1e-9
+    assert pane_tongue_relaxed_gap >= 0.0 - 1e-9
     assert label_zone_fully_supported
     assert finger_roof >= 1.60
     assert latch_clear >= 0.80

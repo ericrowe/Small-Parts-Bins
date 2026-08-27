@@ -314,12 +314,12 @@ and identify all lids or retainers that must be reprinted or retired.
 - The pane channel is 27.0 mm wide × 1.4 mm clear with 23.0/24.0 mm openings,
   0.95/0.45 mm overlap per side on the measured 24.9 mm glass, and 0.70 mm axial
   clearance at the maximum intended 76.3 mm length.
-- The integrated PETG latch retains the 6.75 mm free length, 0.6 mm thickness,
-  and 0.20 mm relaxed face clearance. Its shoulder was moved close to the entry
-  edge to compact the successful mechanism within the 80.0 mm envelope. The
-  finger pad is 10.0 mm wide within a 13.0 mm frame slot (1.5 mm lateral clearance
-  per side; 2.5 mm clearance along the 8.0 mm tongue) to prevent fused boundaries.
-- Exported lid: 692 triangles, zero boundary edges, zero non-manifold edges,
+- The integrated PETG latch retains the 6.75 mm free length, reinforced 0.80 mm
+  thickness (4 layers), and 1.05 mm embed into the root crossbar with 45-degree
+  root gussets to resist bed-removal peel forces. The finger pad is 10.0 mm wide
+  within a 13.0 mm frame slot (1.5 mm lateral clearance per side; 2.5 mm clearance
+  along the 8.0 mm tongue) to prevent fused boundaries.
+- Exported lid: 708 triangles, zero boundary edges, zero non-manifold edges,
   zero degenerate triangles, finite coordinates, and valid binary size/count.
   The body and non-print reference also pass the same exported-artifact checks.
 - The regenerated v0.7 body has 376 triangles with coordinate arrays identical
