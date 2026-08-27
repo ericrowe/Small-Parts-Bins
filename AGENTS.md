@@ -224,6 +224,14 @@ version explicitly documents a change:
   simple beam estimate rises from about 0.69% to 11.1% strain. Compact it with a
   longer folded flexure path or another tested geometry. Material/settings and
   detailed cycle/wear results remain unreported.
+- The user explicitly chose to physically try the direct 75% reduction because
+  v0.3 actuation pressure was far below anything expected to damage the glass.
+  Plan 009 v0.4 therefore preserves every successful v0.3 capture dimension and
+  changes only the straight free length from 27.0 to 6.75 mm. It remains a
+  PETG-specific staged coupon; the user's experience indicates this 0.6 mm PETG
+  feature will tolerate the motion despite the conservative beam calculation.
+  PLA is excluded. Do not carry v0.4 into a lid until actuation, full return,
+  root condition, positive retention, and up to 25 cycles are reported.
 - The existing firm retainer remains the lightest reference in the stronger
   ladder. Keep all variants for recalibration after a material, printer, nozzle,
   extrusion, or slicer-setting change; when recalibrating, test upward in order.

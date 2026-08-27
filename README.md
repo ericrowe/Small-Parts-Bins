@@ -121,9 +121,14 @@ integral compliant end latch.
 That comparison is available as the short
 [`v0.3 compliant end-capture coupon`](Cassettes/glass_capture_coupons_v0_3/).
 It prints top-face down, has no separate gate or pin, and was physically reported
-to work in all tested respects. The next revision will compact its compliant
-latch footprint without directly imposing the excessive strain of a straight
-75% lever-length reduction.
+to work in all tested respects. A compact follow-up was initially expected to
+use a folded flexure because of the strain predicted for a straight reduction.
+
+At the user's direction, that direct reduction is now available as the
+[`v0.4 short compliant-latch coupon`](Cassettes/glass_capture_coupons_v0_4/).
+It preserves the successful v0.3 capture geometry and reduces only the straight
+free length from 27.0 to 6.75 mm. It is a PETG-specific test; PLA is excluded.
+Treat it as provisional until its return and cycle behavior are printed.
 
 New ideas belong in [IDEAS.md](IDEAS.md) and must remain under three sentences.
 See the [plan pipeline](Plans/README.md) for promotion, execution, Git checkpoint,

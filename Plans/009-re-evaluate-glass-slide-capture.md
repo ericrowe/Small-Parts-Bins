@@ -1,6 +1,6 @@
 # Plan 009 — Re-evaluate glass slide capture and material options
 
-- Status: Executing — v0.3 compliant-latch coupon ready for physical test
+- Status: Executing — v0.3 passed; direct 75%-shorter v0.4 latch ready for test
 - Depends on: No prerequisite for concept and coupon work; final carrier-envelope validation uses Plan 001 measurements
 - Created: 2026-08-27
 - Started: 2026-08-27
@@ -282,3 +282,20 @@ and identify all lids or retainers that must be reprinted or retired.
 - Material/settings, completion of all 25 cycles, wear/creep detail, pane length,
   and pane thickness remain unreported and must not be inferred from the general
   pass statement.
+
+### Exported v0.4 direct-shortening coupon audit — 2026-08-27
+
+- At the user's direction, generated a direct 75% shortening test rather than a
+  folded flexure. All successful v0.3 capture dimensions remain unchanged; only
+  the straight compliant free length changes from 27.0 mm to 6.75 mm.
+- The coupon is 31.0 × 20.0 × 3.0 mm and uses a nearby bed-supported root
+  crossbar. It contains 120 triangles with zero boundary edges, zero non-manifold
+  edges, zero degenerate triangles, finite coordinates, and a valid binary STL
+  size/count.
+- The same-travel simple-beam estimate is 11.06% outer-fiber strain. Retain that
+  value as design metadata, but the user's material experience indicates the
+  0.6 mm PETG feature will tolerate the motion and physical PETG behavior is
+  authoritative. PLA is explicitly excluded from this shortened geometry.
+- Test actuation before inserting glass, then five inspected cycles before
+  continuing to 25. Stop for whitening, creasing, cracking, permanent set,
+  incomplete return, or root/frame damage.

@@ -1,0 +1,60 @@
+{
+  "design": "Plan 009 directly shortened compliant-latch coupon",
+  "version": "0.4",
+  "units": "mm",
+  "status": "provisional PETG direct-shortening test; physical validation required",
+  "design_validation": {
+    "change_from_v0_3": "straight compliant free length reduced by 75%; successful capture dimensions unchanged",
+    "print_orientation": "top/visible face down; supplied STL orientation",
+    "loading_channel_width_mm": 27.0,
+    "top_capture_opening_mm": 23.0,
+    "bottom_capture_opening_mm": 24.0,
+    "clear_channel_height_mm": 1.4,
+    "measured_pane_width_mm": 24.9,
+    "compliant_tongue_width_mm": 8.0,
+    "compliant_tongue_thickness_mm": 0.6,
+    "compliant_tongue_free_length_mm": 6.75,
+    "free_length_reduction_from_v0_3_percent": 75.0,
+    "required_nominal_release_deflection_mm": 1.4,
+    "estimated_outer_fiber_strain": 0.1106,
+    "estimated_outer_fiber_strain_percent": 11.06,
+    "material_scope": "PETG; PLA excluded from this shortened latch geometry",
+    "validation_note": "simple-beam strain is retained as metadata; physical PETG behavior is authoritative",
+    "retention": "unchanged continuous side ledges + shortened integral positive end shoulder",
+    "loose_parts": 0
+  },
+  "files": [
+    {
+      "file": "short_compliant_end_capture_coupon_v0_4.stl",
+      "triangles": 120,
+      "bounds_min_mm": [
+        -15.5,
+        -14.0,
+        0.0
+      ],
+      "bounds_max_mm": [
+        15.5,
+        6.0,
+        3.0
+      ],
+      "size_mm": [
+        31.0,
+        20.0,
+        3.0
+      ],
+      "signed_mesh_volume_mm3": 488.72,
+      "edge_audit": {
+        "triangles": 120,
+        "unique_edges": 180,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "exported_stl_audit": {
+        "binary_stl_size_valid": true,
+        "triangle_count": 120,
+        "finite_coordinates": true,
+        "degenerate_triangles": 0
+      }
+    }
+  ]
+}
