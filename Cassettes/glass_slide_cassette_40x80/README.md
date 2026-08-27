@@ -18,9 +18,7 @@ the existing straight 1.75 mm filament hinge pin.
 
 ## Print this file
 
-- **Bambu Studio project:** `build/cassette_lid_v0_7_print.3mf`
-- **Binary STL:** `build/cassette_lid_v0_7_print.stl`
-- *(Full set project if printing both body and lid: `build/cassette_v0_7_full_set.3mf`)*
+`build/cassette_lid_v0_7_print.stl`
 
 Print it exactly as supplied, top/label-face down, in PETG. Do not scale it and
 do not add support inside the pane channel or hinge. A 0.4 mm nozzle, 0.20 mm

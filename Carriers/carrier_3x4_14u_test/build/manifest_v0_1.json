@@ -3,8 +3,7 @@
   "version": "0.1",
   "units": "mm",
   "print_quantity": {
-    "carrier_3x4_7u_v0_1.stl": 2,
-    "carrier_3x4_7u_v0_1.3mf": 2
+    "carrier_3x4_7u_v0_1.stl": 2
   },
   "gridfinity": {
     "pitch_mm": 42,
@@ -46,10 +45,6 @@
       "nonmanifold_edges": 0,
       "degenerate_triangles": 0,
       "finite_coordinates": true
-    },
-    "carrier_3x4_7u_v0_1.3mf": {
-      "objects": 1,
-      "triangles": 2900
     },
     "REFERENCE_two_carrier_14u_stack_DO_NOT_PRINT.stl": {
       "triangles": 5800,

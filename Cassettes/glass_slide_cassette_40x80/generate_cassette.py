@@ -960,73 +960,6 @@ def write_obj(path: Path, named_meshes: Sequence[tuple[str, Mesh]]) -> None:
                 index += 3
 
 
-def write_3mf(path: Path, items: Sequence[tuple[str, Mesh]]) -> None:
-    """Write a standard 3MF package containing one or more model objects for Bambu Studio."""
-    import zipfile
-
-    content_types = """<?xml version="1.0" encoding="UTF-8"?>
-<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
- <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
- <Default Extension="model" ContentType="application/vnd.ms-package.3dmanufacturing-3dmodel+xml"/>
-</Types>"""
-
-    rels = """<?xml version="1.0" encoding="UTF-8"?>
-<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
- <Relationship Target="/3D/3dmodel.model" Id="rel0" Type="http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel"/>
-</Relationships>"""
-
-    objects_xml = []
-    build_items_xml = []
-
-    for obj_id, (name, mesh) in enumerate(items, start=1):
-        vertices: list[Vec3] = []
-        v_map: dict[tuple[float, float, float], int] = {}
-        triangles: list[list[int]] = []
-        for tri in mesh.triangles:
-            tri_indices = []
-            for pt in tri:
-                key = (round(pt[0], 5), round(pt[1], 5), round(pt[2], 5))
-                if key not in v_map:
-                    v_map[key] = len(vertices)
-                    vertices.append(pt)
-                tri_indices.append(v_map[key])
-            triangles.append(tri_indices)
-
-        v_lines = "\n".join(f'     <vertex x="{p[0]:.5f}" y="{p[1]:.5f}" z="{p[2]:.5f}"/>' for p in vertices)
-        t_lines = "\n".join(f'     <triangle v1="{t[0]}" v2="{t[1]}" v3="{t[2]}"/>' for t in triangles)
-
-        objects_xml.append(f"""  <object id="{obj_id}" type="model" name="{name}">
-   <mesh>
-    <vertices>
-{v_lines}
-    </vertices>
-    <triangles>
-{t_lines}
-    </triangles>
-   </mesh>
-  </object>""")
-        build_items_xml.append(f'  <item objectid="{obj_id}"/>')
-
-    objects_str = "\n".join(objects_xml)
-    build_items_str = "\n".join(build_items_xml)
-
-    model_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
-<model unit="millimeter" xml:lang="en-US" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02">
- <metadata name="Application">Gridfinity Glass-Window Cassette Generator</metadata>
- <resources>
-{objects_str}
- </resources>
- <build>
-{build_items_str}
- </build>
-</model>"""
-
-    with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
-        z.writestr("[Content_Types].xml", content_types)
-        z.writestr("_rels/.rels", rels)
-        z.writestr("3D/3dmodel.model", model_xml)
-
-
 def edge_audit(mesh: Mesh, decimals: int = 5) -> dict[str, int]:
     """Check each triangle soup for boundary/non-manifold edges."""
     counts: dict[tuple[Vec3, Vec3], int] = {}
@@ -1753,7 +1686,6 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, default=HERE / "build", help="output directory")
     parser.add_argument("--preview", action="store_true", help="also render PNG previews (requires matplotlib)")
-    parser.add_argument("--open", action="store_true", help="open printable 3MF in default slicer (Bambu Studio)")
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
 
@@ -1820,14 +1752,6 @@ def main() -> None:
             record["shell_overlap_connectivity"] = connectivity
             assert connectivity["positive_aabb_overlap_graph_connected"]
         manifest["files"].append(record)
-    lid_3mf_path = args.out / f"cassette_lid_{VERSION_TAG}_print.3mf"
-    full_set_3mf_path = args.out / f"cassette_{VERSION_TAG}_full_set.3mf"
-    write_3mf(lid_3mf_path, [(f"cassette_lid_{VERSION_TAG}_print", lid_print)])
-    write_3mf(full_set_3mf_path, [(f"cassette_body_{VERSION_TAG}", body), (f"cassette_lid_{VERSION_TAG}_print", lid_print)])
-    manifest["print_projects_3mf"] = [
-        lid_3mf_path.name,
-        full_set_3mf_path.name,
-    ]
 
     with (args.out / f"manifest_{VERSION_TAG}.json").open("w", encoding="utf-8", newline="\n") as f:
         json.dump(manifest, f, indent=2)
@@ -1839,10 +1763,6 @@ def main() -> None:
         write_mesh_projection_svg(args.out / f"cassette_lid_mesh_preview_{VERSION_TAG}.svg", lid_print)
 
     print(json.dumps(manifest, indent=2))
-
-    if args.open:
-        import subprocess
-        subprocess.run(["open", str(lid_3mf_path)], check=False)
 
 
 if __name__ == "__main__":
