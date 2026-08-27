@@ -186,6 +186,37 @@ envelope, carrier clearance, and specimen disposition.
 - The v0.2 frame and gate now require physical assembly and cycle testing. The
   83.35 mm depth remains deliberately outside the final cassette envelope.
 
+### Physical v0.2 mechanics result — 2026-08-27
+
+- The printed gate fits the gate end.
+- The nominal gate clearance is acceptable, but print sag required minor cleanup
+  before the gate would fit. Treat the dimension as provisionally selected while
+  treating support-free printability as failed.
+- Gate insertion fractured one side of the frame because the surrounding
+  material was too thin. Gate clearance therefore passes, but v0.2 structural
+  strength fails.
+- The actual glass is narrower than the frame's assumed capture geometry. The
+  existing roof-rail overlap is insufficient and the pane tends to fall out;
+  lateral pane capture therefore fails independently of the selected 1.4 mm
+  channel height.
+- Stop testing the damaged specimen. Preserve the verified gate clearance and
+  1.4 mm channel height, reinforce the gate-end frame, and increase lateral roof
+  overlap in the next version after the remaining observations are recorded.
+  Improve or better support the sag-prone printed span without adding slicer
+  support. A thicker continuous lid frame may help, but requires coupon evidence.
+- The tested glass is 24.9 mm wide. Keep the 27.0 mm loading channel so wider
+  alternate panes remain possible, but reduce the capture opening to a
+  provisional 23.0 mm. This yields 0.95 mm overlap per side on the tested pane
+  and 1.65 mm per side on a 26.3 mm pane. The resulting 2.0 mm roof ledge per
+  side requires explicit print-orientation, sag, and insertion testing.
+- Print material/settings, pane length/thickness, and the exact fracture location
+  remain unreported.
+- User suggestion: replace the separate gate and filament pin with an integral
+  compliant end latch. This becomes the leading v0.3 comparison because it can
+  reduce loose parts and envelope length. It must be manually actuated without
+  using the glass as a cam or pry surface, spring to a positive shoulder behind
+  the pane, resist accidental release, and pass cycle, creep, and impact tests.
+
 ## Stop and rollback conditions
 
 - Stop immediately for chipped or cracked glass, unsafe ejection, rail fracture,
@@ -212,3 +243,7 @@ and identify all lids or retainers that must be reprinted or retired.
 - The first full-length article isolates positive retention mechanics and is not
   a lid or envelope-compatible release. This avoids prematurely weakening the
   end stop or pin support merely to satisfy the 80.0 mm depth.
+- After the v0.2 gate-end fracture and the user's compliant-feature suggestion,
+  prioritize an integral positive end latch for v0.3. Preserve the pinned-gate
+  result as comparison evidence rather than adding more parts to that concept
+  before the lower-part-count alternative is tested.

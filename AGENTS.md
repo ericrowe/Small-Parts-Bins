@@ -207,6 +207,12 @@ version explicitly documents a change:
   those exact fits into the next mechanics coupon. The print material/settings
   and measured pane dimensions were not reported, and the end gate, knockout
   retention, alternate panes, and final lid remain unverified.
+- The glass used in the Plan 009 v0.2 frame is 24.9 mm wide. It fell through the
+  25.1 mm capture opening, confirming inadequate lateral overlap. Preserve the
+  27.0 mm loading channel for wider alternate slides while testing a provisional
+  23.0 mm capture opening: 0.95 mm overlap per side on the measured pane and
+  1.65 mm per side at the current 26.3 mm maximum pane width. Validate the
+  resulting 2.0 mm ledges for sag and support-free printing.
 - The existing firm retainer remains the lightest reference in the stronger
   ladder. Keep all variants for recalibration after a material, printer, nozzle,
   extrusion, or slicer-setting change; when recalibrating, test upward in order.

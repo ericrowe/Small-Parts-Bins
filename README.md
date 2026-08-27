@@ -113,6 +113,11 @@ The positive end gate, knockout
 retention, alternate pane materials, and final cassette envelope remain
 unverified.
 
+The glass used in the v0.2 mechanics test measures 24.9 mm wide and can fall
+through the 25.1 mm capture opening. The next comparison will retain the 27.0 mm
+loading channel for wider alternate panes while testing a 23.0 mm opening and an
+integral compliant end latch.
+
 New ideas belong in [IDEAS.md](IDEAS.md) and must remain under three sentences.
 See the [plan pipeline](Plans/README.md) for promotion, execution, Git checkpoint,
 validation, and dated archive rules.
