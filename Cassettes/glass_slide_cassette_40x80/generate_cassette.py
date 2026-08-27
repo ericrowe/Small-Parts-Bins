@@ -80,7 +80,8 @@ PANE_TONGUE_ROOT_Y = -33.05
 PANE_TONGUE_END_Y = -32.80
 PANE_TONGUE_W = 8.00
 PANE_TONGUE_H = 0.60
-PANE_FINGER_PAD_W = 12.00
+PANE_FINGER_PAD_W = 10.00
+PANE_SLOT_W = 13.00
 PANE_TONGUE_SLOT_Y1 = -32.95
 
 # The uninterrupted top surface above the window accepts a 9 mm TZe tape.
@@ -620,8 +621,8 @@ def build_lid_local() -> Mesh:
     window_y1 = WINDOW_Y + WINDOW_D / 2
     window_x0 = WINDOW_X - WINDOW_W / 2
     window_x1 = WINDOW_X + WINDOW_W / 2
-    slot_x0 = POCKET_X - PANE_FINGER_PAD_W / 2
-    slot_x1 = POCKET_X + PANE_FINGER_PAD_W / 2
+    slot_x0 = POCKET_X - PANE_SLOT_W / 2
+    slot_x1 = POCKET_X + PANE_SLOT_W / 2
 
     out.extend(box("top_entry_left", -16.20, slot_x0, -40.00, PANE_TONGUE_SLOT_Y1 + 0.10, top_z0, top_z1))
     out.extend(box("top_entry_right", slot_x1, 17.30, -40.00, PANE_TONGUE_SLOT_Y1 + 0.10, top_z0, top_z1))
@@ -1055,6 +1056,8 @@ def validate_design() -> dict[str, object]:
     pane_tongue_free_length = PANE_TONGUE_ROOT_Y - PANE_SHOULDER_Y0
     pane_tongue_relaxed_gap = LID_H - PANE_TONGUE_H - PANE_CHANNEL_Z1
     pane_tongue_strain = 6.0 * pane_channel_h * PANE_TONGUE_H / pane_tongue_free_length**2
+    pane_finger_pad_lateral_clearance = (PANE_SLOT_W - PANE_FINGER_PAD_W) / 2
+    pane_tongue_lateral_clearance = (PANE_SLOT_W - PANE_TONGUE_W) / 2
     pane_lateral_clearance = PANE_CHANNEL_W - MAX_GLASS_W
     opposite_ledge_overhang = (PANE_CHANNEL_W - PANE_BOTTOM_OPENING_W) / 2
     label_x0, label_x1 = LABEL_X - LABEL_W / 2, LABEL_X + LABEL_W / 2
@@ -1187,6 +1190,8 @@ def validate_design() -> dict[str, object]:
         "opposite_ledge_functional_overhang_mm": round(opposite_ledge_overhang, 3),
         "pane_tongue_free_length_mm": round(pane_tongue_free_length, 3),
         "pane_tongue_thickness_mm": PANE_TONGUE_H,
+        "pane_finger_pad_lateral_clearance_mm": round(pane_finger_pad_lateral_clearance, 3),
+        "pane_tongue_lateral_clearance_mm": round(pane_tongue_lateral_clearance, 3),
         "pane_tongue_relaxed_face_clearance_mm": round(pane_tongue_relaxed_gap, 3),
         "pane_tongue_simple_beam_strain_estimate": round(pane_tongue_strain, 4),
         "pane_capture_material": "PETG",
@@ -1218,6 +1223,8 @@ def validate_design() -> dict[str, object]:
     assert pane_lateral_clearance >= 0.60
     assert opposite_ledge_overhang <= 1.50 + 1e-9
     assert abs(pane_tongue_free_length - 6.75) < 1e-9
+    assert pane_finger_pad_lateral_clearance >= 1.0
+    assert pane_tongue_lateral_clearance >= 1.0
     assert pane_tongue_relaxed_gap >= 0.20 - 1e-9
     assert label_zone_fully_supported
     assert finger_roof >= 1.60

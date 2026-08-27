@@ -42,6 +42,8 @@ but it is not required when reusing a successful v0.5/v0.6 body.
 | Maximum intended pane | 26.3 × 76.3 × 1.2 mm |
 | Axial clearance at 76.3 mm length | 0.70 mm |
 | PETG tongue | 8.0 mm wide × 0.6 mm thick × 6.75 mm free length |
+| Latch finger pad | 10.0 mm wide |
+| Frame entry slot cutout | 13.0 mm wide (1.5 mm lateral clearance per side) |
 | Relaxed tongue-to-pane-plane gap | 0.20 mm |
 
 The pane enters at the end opposite the label, slides under the solid label band,

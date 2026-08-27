@@ -75,6 +75,8 @@
     "opposite_ledge_functional_overhang_mm": 1.5,
     "pane_tongue_free_length_mm": 6.75,
     "pane_tongue_thickness_mm": 0.6,
+    "pane_finger_pad_lateral_clearance_mm": 1.5,
+    "pane_tongue_lateral_clearance_mm": 2.5,
     "pane_tongue_relaxed_face_clearance_mm": 0.2,
     "pane_tongue_simple_beam_strain_estimate": 0.1106,
     "pane_capture_material": "PETG",
@@ -148,7 +150,7 @@
         80.0,
         6.5
       ],
-      "signed_mesh_volume_mm3": 3413.86,
+      "signed_mesh_volume_mm3": 3402.5,
       "edge_audit": {
         "triangles": 692,
         "unique_edges": 1038,
@@ -185,7 +187,7 @@
         80.0,
         28.0
       ],
-      "signed_mesh_volume_mm3": 22230.93,
+      "signed_mesh_volume_mm3": 22219.57,
       "edge_audit": {
         "triangles": 1080,
         "unique_edges": 1620,

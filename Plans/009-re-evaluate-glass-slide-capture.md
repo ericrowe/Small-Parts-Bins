@@ -316,7 +316,9 @@ and identify all lids or retainers that must be reprinted or retired.
   clearance at the maximum intended 76.3 mm length.
 - The integrated PETG latch retains the 6.75 mm free length, 0.6 mm thickness,
   and 0.20 mm relaxed face clearance. Its shoulder was moved close to the entry
-  edge to compact the successful mechanism within the 80.0 mm envelope.
+  edge to compact the successful mechanism within the 80.0 mm envelope. The
+  finger pad is 10.0 mm wide within a 13.0 mm frame slot (1.5 mm lateral clearance
+  per side; 2.5 mm clearance along the 8.0 mm tongue) to prevent fused boundaries.
 - Exported lid: 692 triangles, zero boundary edges, zero non-manifold edges,
   zero degenerate triangles, finite coordinates, and valid binary size/count.
   The body and non-print reference also pass the same exported-artifact checks.
