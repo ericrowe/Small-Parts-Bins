@@ -1,6 +1,6 @@
 # Plan 009 — Re-evaluate glass slide capture and material options
 
-- Status: Executing — initial fits selected; developing exact-dimension mechanics coupon
+- Status: Executing — v0.3 compliant-latch coupon ready for physical test
 - Depends on: No prerequisite for concept and coupon work; final carrier-envelope validation uses Plan 001 measurements
 - Created: 2026-08-27
 - Started: 2026-08-27
@@ -247,3 +247,21 @@ and identify all lids or retainers that must be reprinted or retired.
   prioritize an integral positive end latch for v0.3. Preserve the pinned-gate
   result as comparison evidence rather than adding more parts to that concept
   before the lower-part-count alternative is tested.
+
+### Exported v0.3 compliant-latch coupon audit — 2026-08-27
+
+- Generated a short 31.0 × 32.0 × 3.0 mm pass-through coupon so the end of the
+  full pane can cross and re-engage an integral latch without printing another
+  full-length frame.
+- The supplied top-face-down orientation puts the 2.0 mm top capture ledges on
+  the bed. The opposite ledges project 1.5 mm and form a 24.0 mm opening; this
+  provides 0.45 mm overlap per side on the measured 24.9 mm pane.
+- The central 8.0 × 27.0 × 0.6 mm compliant tongue has a positive end shoulder,
+  no loose parts, 1.4 mm nominal release travel, and approximately 0.69% simple
+  beam outer-fiber strain before print/material effects.
+- The exported binary STL contains 120 triangles with zero boundary edges, zero
+  non-manifold edges, zero degenerate triangles, finite coordinates, and a valid
+  binary size/count. All separate modeled solids use positive overlaps rather
+  than coplanar-only attachment.
+- Physical validation remains required for overhang sag, latch travel and return,
+  the measured pane's two-sided overlap, positive pull retention, and 25 cycles.

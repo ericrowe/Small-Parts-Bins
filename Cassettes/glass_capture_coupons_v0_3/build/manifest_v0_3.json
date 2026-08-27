@@ -1,0 +1,61 @@
+{
+  "design": "Plan 009 short compliant-latch end-capture coupon",
+  "version": "0.3",
+  "units": "mm",
+  "status": "provisional test article; compliant latch and revised overlap are unverified",
+  "design_validation": {
+    "print_orientation": "top/visible face down; supplied STL orientation",
+    "loading_channel_width_mm": 27.0,
+    "top_capture_opening_mm": 23.0,
+    "bottom_capture_opening_mm": 24.0,
+    "clear_channel_height_mm": 1.4,
+    "top_ledge_overhang_from_channel_wall_mm": 2.0,
+    "bottom_ledge_overhang_from_channel_wall_mm": 1.5,
+    "measured_pane_width_mm": 24.9,
+    "top_overlap_per_side_measured_pane_mm": 0.95,
+    "bottom_overlap_per_side_measured_pane_mm": 0.45,
+    "top_overlap_per_side_max_pane_mm": 1.65,
+    "bottom_overlap_per_side_max_pane_mm": 1.15,
+    "compliant_tongue_width_mm": 8.0,
+    "compliant_tongue_thickness_mm": 0.6,
+    "compliant_tongue_free_length_mm": 27.0,
+    "required_nominal_release_deflection_mm": 1.4000000000000001,
+    "estimated_outer_fiber_strain": 0.0069,
+    "retention": "continuous side ledges + integral manually depressed positive end shoulder",
+    "loose_parts": 0
+  },
+  "files": [
+    {
+      "file": "compliant_end_capture_coupon_v0_3.stl",
+      "triangles": 120,
+      "bounds_min_mm": [
+        -15.5,
+        -16.0,
+        0.0
+      ],
+      "bounds_max_mm": [
+        15.5,
+        16.0,
+        3.0
+      ],
+      "size_mm": [
+        31.0,
+        32.0,
+        3.0
+      ],
+      "signed_mesh_volume_mm3": 801.68,
+      "edge_audit": {
+        "triangles": 120,
+        "unique_edges": 180,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "exported_stl_audit": {
+        "binary_stl_size_valid": true,
+        "triangle_count": 120,
+        "finite_coordinates": true,
+        "degenerate_triangles": 0
+      }
+    }
+  ]
+}

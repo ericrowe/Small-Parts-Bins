@@ -213,6 +213,11 @@ version explicitly documents a change:
   23.0 mm capture opening: 0.95 mm overlap per side on the measured pane and
   1.65 mm per side at the current 26.3 mm maximum pane width. Validate the
   resulting 2.0 mm ledges for sag and support-free printing.
+- Plan 009 v0.3 is the current next test article: a short, top-face-down,
+  pass-through coupon with a 27.0 mm loading channel, 23.0 mm top opening,
+  24.0 mm opposite opening, 1.4 mm channel height, and integral manually
+  depressed positive end latch. It has no loose gate or pin. Treat all v0.3
+  latch, sag, overlap, retention, and cycle behavior as unverified until printed.
 - The existing firm retainer remains the lightest reference in the stronger
   ladder. Keep all variants for recalibration after a material, printer, nozzle,
   extrusion, or slicer-setting change; when recalibrating, test upward in order.

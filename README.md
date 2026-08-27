@@ -118,6 +118,11 @@ through the 25.1 mm capture opening. The next comparison will retain the 27.0 mm
 loading channel for wider alternate panes while testing a 23.0 mm opening and an
 integral compliant end latch.
 
+That comparison is available as the short
+[`v0.3 compliant end-capture coupon`](Cassettes/glass_capture_coupons_v0_3/).
+It prints top-face down, has no separate gate or pin, and remains physically
+unverified.
+
 New ideas belong in [IDEAS.md](IDEAS.md) and must remain under three sentences.
 See the [plan pipeline](Plans/README.md) for promotion, execution, Git checkpoint,
 validation, and dated archive rules.
