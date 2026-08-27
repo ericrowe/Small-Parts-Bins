@@ -170,6 +170,22 @@ envelope, carrier clearance, and specimen disposition.
   remain unreported; this result does not yet validate alternate pane materials,
   the end gate, knockout retention, durability, or the final cassette envelope.
 
+### Exported v0.2 selected-fit mechanics audit — 2026-08-27
+
+- The versioned follow-up frame uses the physically selected 2.05 mm bore and
+  1.4 mm clear pane channel; the fitted gate has 0.1 mm nominal vertical
+  clearance in that channel.
+- Frame: 31.0 × 83.35 × 3.6 mm, 260 triangles, zero boundary edges, zero
+  non-manifold edges, zero degenerate triangles, and finite coordinates.
+- Gate in print orientation: 26.6 × 1.3 × 1.0 mm, 12 triangles, zero boundary
+  edges, zero non-manifold edges, zero degenerate triangles, and finite
+  coordinates.
+- Both binary STL sizes and encoded triangle counts were verified by re-reading
+  the exported files. Pin-boss bridges positively overlap the rails and remain
+  0.125 mm clear of the selected bore vertices.
+- The v0.2 frame and gate now require physical assembly and cycle testing. The
+  83.35 mm depth remains deliberately outside the final cassette envelope.
+
 ## Stop and rollback conditions
 
 - Stop immediately for chipped or cracked glass, unsafe ejection, rail fracture,

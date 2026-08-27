@@ -107,7 +107,9 @@ Plan 009's first provisional print set is available in
 [`Cassettes/glass_capture_coupons_v0_1/`](Cassettes/glass_capture_coupons_v0_1/).
 Its smallest 2.05 mm pin bore and 1.4 mm pane channel both work and meet the
 reported requirements. Those selected fits will be carried into the next
-full-length end-loaded mechanics coupon. The positive end gate, knockout
+full-length end-loaded mechanics coupon, now available in
+[`Cassettes/glass_capture_coupons_v0_2/`](Cassettes/glass_capture_coupons_v0_2/).
+The positive end gate, knockout
 retention, alternate pane materials, and final cassette envelope remain
 unverified.
 
