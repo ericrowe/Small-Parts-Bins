@@ -120,8 +120,10 @@ integral compliant end latch.
 
 That comparison is available as the short
 [`v0.3 compliant end-capture coupon`](Cassettes/glass_capture_coupons_v0_3/).
-It prints top-face down, has no separate gate or pin, and remains physically
-unverified.
+It prints top-face down, has no separate gate or pin, and was physically reported
+to work in all tested respects. The next revision will compact its compliant
+latch footprint without directly imposing the excessive strain of a straight
+75% lever-length reduction.
 
 New ideas belong in [IDEAS.md](IDEAS.md) and must remain under three sentences.
 See the [plan pipeline](Plans/README.md) for promotion, execution, Git checkpoint,

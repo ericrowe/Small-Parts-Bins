@@ -265,3 +265,20 @@ and identify all lids or retainers that must be reprinted or retired.
   than coplanar-only attachment.
 - Physical validation remains required for overhang sag, latch travel and return,
   the measured pane's two-sided overlap, positive pull retention, and 25 cycles.
+
+### Physical v0.3 result — reported after print
+
+- Overall user result: everything works. Treat the revised overlap, channel,
+  support-free ledges, compliant actuation, latch return, and positive capture as
+  physically passing for this specimen.
+- The user recommends reducing the compliant lever-arm footprint by about 75%.
+  A direct reduction from the current 27.0 mm free length to 6.75 mm is not
+  suitable without redesign: at the same 0.6 mm thickness and 1.4 mm travel,
+  the simple beam estimate increases from approximately 0.69% to 11.1% strain.
+- Develop the compact follow-up using a folded/serpentine compliant path that
+  preserves effective flex length, or a smaller straight-length reduction with
+  a physically validated strain margin. Do not trade the successful positive
+  shoulder engagement for reduced travel based only on visual clearance.
+- Material/settings, completion of all 25 cycles, wear/creep detail, pane length,
+  and pane thickness remain unreported and must not be inferred from the general
+  pass statement.
