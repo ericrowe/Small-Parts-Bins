@@ -5,7 +5,7 @@
 - Created: 2026-08-27
 - Started: 2026-08-27
 - Completed: Not completed
-- Git start: Pending activation checkpoint
+- Git start: `c61ff9f`
 - Git completion: Not completed
 
 ## Triggering physical feedback
@@ -79,12 +79,14 @@ capture geometry.
 3. [ ] Convert the physical failure into requirements for edge engagement,
    positive end blocking, thickness accommodation, removal access, and protected
    top-surface height.
-4. [ ] Develop a concept matrix including end-loaded rails with a removable end
+4. [x] Develop a concept matrix including end-loaded rails with a removable end
    gate and at least one credible alternative. Evaluate escape paths, print
    orientation, wear, debris traps, glass loading, part count, and compatibility.
-5. [ ] Generate low-material coupons reproducing the complete pane cross-section,
+   The v0.1 matrix retains a sliding locked bezel and keyed clip for comparison.
+5. [x] Generate low-material coupons reproducing the complete pane cross-section,
    end-entry geometry, rail support, thickness accommodation, and named retention
-   variants. Clearly mark every coupon and removable component.
+   variants. The first set includes three channel heights, three pin bores, a
+   full-length pinned-gate mechanics frame, gate, and three optional spacers.
 6. [ ] Print coupons and first test them with dimensionally representative
    non-glass blanks. Reject fits that require forcing, sharp bending, prying, or
    dependence on friction alone.
@@ -141,6 +143,18 @@ coupon identifier, print material/settings, insertion/removal observations,
 retention cycles, knockout protocol and results, scratches or damage, final
 envelope, carrier clearance, and specimen disposition.
 
+### Exported v0.1 coupon audit — 2026-08-27
+
+- Nine binary printable STLs generated from the checked-in Python source.
+- Every STL reports zero boundary edges and zero non-manifold edges.
+- All signed mesh volumes are positive after print-orientation transforms.
+- Channel ladder: 1.4, 1.8, and 2.2 mm clear heights with 27.0 mm width.
+- Pin ladder: 2.05, 2.15, and 2.25 mm support-free octagonal bores.
+- Full frame: 31.0 × 83.35 × 3.6 mm mechanics coupon; 0.325 mm modeled
+  length clearance for a 76.3 mm pane after the 1.0 mm gate.
+- The full frame intentionally exceeds the 80.0 mm cassette depth. Envelope
+  compaction is unvalidated and cannot begin until the mechanics pass.
+
 ## Stop and rollback conditions
 
 - Stop immediately for chipped or cracked glass, unsafe ejection, rail fracture,
@@ -157,3 +171,13 @@ The walkthrough must compare the old and new escape paths, show the entry and
 positive-retention mechanism, list tested pane dimensions/materials, provide the
 safe replacement procedure and knockout evidence, state body/carrier compatibility,
 and identify all lids or retainers that must be reprinted or retired.
+
+## Decisions and changes to plan
+
+- Coupon geometry began before exact pane measurements were reported so short
+  print articles could run between Plan 001 carrier prints. The width, channel,
+  and bore ladders deliberately bracket the current v0.6 pane specification;
+  no glass may be forced into them, and measurement remains required before use.
+- The first full-length article isolates positive retention mechanics and is not
+  a lid or envelope-compatible release. This avoids prematurely weakening the
+  end stop or pin support merely to satisfy the 80.0 mm depth.

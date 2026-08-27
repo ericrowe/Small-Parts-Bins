@@ -103,6 +103,11 @@ Plan 001 because the observed glass-knockout weakness is a safety and containmen
 issue and its coupons require much less printer time than the carrier articles.
 Dependency-gated final dimensions remain provisional.
 
+Plan 009's first provisional print set is available in
+[`Cassettes/glass_capture_coupons_v0_1/`](Cassettes/glass_capture_coupons_v0_1/).
+It provides channel and pin-bore ladders before a full-length end-loaded mechanics
+coupon. No new capture method has yet been physically verified.
+
 New ideas belong in [IDEAS.md](IDEAS.md) and must remain under three sentences.
 See the [plan pipeline](Plans/README.md) for promotion, execution, Git checkpoint,
 validation, and dated archive rules.
