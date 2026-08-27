@@ -270,6 +270,11 @@ Compatibility rules:
 
 ## Repository Working Agreements
 
+- This is an AI-assisted project. Do not present AI-generated source, dimensions,
+  geometry, analysis, or documentation as certified, professionally reviewed,
+  or physically verified without direct evidence. Preserve the AI-use warning
+  in the top-level `README.md` and carry applicable safety limitations into
+  release instructions and walkthroughs.
 - Use the repository task pipeline in `IDEAS.md` and `Plans/` for project work.
   Ideas are limited to three sentences. Fully developed future plans may wait
   in `Plans/Queued/`, but only one numbered plan may be active directly in

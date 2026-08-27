@@ -6,6 +6,23 @@ inside stackable Gridfinity-compatible carrier trays, preventing the broad spill
 failure of conventional open bins while keeping contents and approximate stock
 levels visible through replaceable microscope-slide glass.
 
+> [!WARNING]
+> **AI-assisted development:** This project includes dimensions, code, geometry,
+> documentation, and recommendations produced with assistance from generative
+> AI. AI output can be incomplete, internally inconsistent, or geometrically
+> wrong even when source calculations, previews, or mesh audits appear valid.
+> Nothing in this repository is a certified engineering design or a substitute
+> for independent review, slicer inspection, test prints, measurements, and
+> real-world validation.
+>
+> Printed parts and glass can fail. Inspect every exported STL and sliced toolpath,
+> reject chipped or forced glass, wear appropriate eye protection when handling
+> or testing glass, and keep hands clear of sharp fragments. Do not rely on an
+> unverified cassette or carrier to contain hazardous, valuable, food-contact,
+> medical, electrical-safety-critical, or otherwise safety-critical contents.
+> The person fabricating and using these parts is responsible for determining
+> whether a particular revision, material, printer, and application are safe.
+
 ## Project goals
 
 - Keep every cassette individually closed when removed, handled, or tipped.
@@ -85,6 +102,7 @@ validation, and dated archive rules.
   dimensions and release a new version.
 - Never overwrite or delete a tested revision.
 - Keep modeled, printed, and physically verified claims clearly separated.
+- Treat all AI-assisted output as unverified until independently reviewed and
+  validated against the actual exported artifact and physical print.
 - Before completing a plan, reconcile every required project and release
   document listed in `AGENTS.md`, then archive the plan with its walkthrough.
-
