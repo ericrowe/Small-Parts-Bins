@@ -1,0 +1,262 @@
+# Gridfinity Glass-Window Cassette System
+
+## Purpose
+
+Design a durable, modular small-parts storage system for screws, nuts, bolts,
+and similar hardware. Open Gridfinity bins spill when knocked over, so this
+system uses individually closed and labeled cassettes held in stackable,
+Gridfinity-compatible carrier trays. The contents and approximate stock level
+must remain visible through a replaceable glass window.
+
+Treat the physical-print feedback and measured parts recorded below as binding.
+Do not substitute generic Gridfinity assumptions or visually plausible hinge
+geometry for checked dimensions and exported-STL validation.
+
+## System Architecture
+
+- The system has two levels:
+  1. A Gridfinity-compatible carrier tray that locates a set of cassettes.
+  2. Independently closed, removable cassettes in several modular sizes.
+- Carrier trays must be stackable while loaded.
+- Cassette lids, glass, hinges, latches, labels, and pull features must remain
+  below or clear of the carrier's stacking engagement plane.
+- Cassettes must remain individually closed when removed or when a carrier is
+  knocked over. The tray organizes them; the cassette closure prevents spills.
+- Labels and windows must remain visible from above when the drawer is open.
+- Prefer fewer than 10 cassettes per carrier when practical. Carriers holding
+  20 or more are acceptable when packing or part size makes that useful.
+- The current reference carrier holds six smallest-size cassettes.
+
+## Drawer Constraint
+
+- Measured inside drawer height: **4 3/8 in = 111.125 mm**.
+- Treat 111.125 mm as an absolute measured ceiling, not a target part height.
+- Reserve practical clearance for drawer variation, insertion, removal, tray
+  stacking, labels, and print tolerances before choosing a maximum stack height.
+
+## Gridfinity Carrier Constraints
+
+- Base all carrier footprints on the standard **42 mm Gridfinity pitch**.
+- The 42 mm pitch is not usable internal space. Account for carrier walls,
+  clearances, dividers, corner geometry, and the stacking lip.
+- Use **2.0 mm minimum printed walls** for carrier trays unless a tested design
+  justifies something thicker. Do not reduce them to force a packing result.
+- Calculate cassette packing against the narrowest stacking-lip throat, not
+  against `42N` or the carrier's maximum outside dimensions.
+- Preserve the standard Gridfinity base and stacking interface unless the user
+  explicitly approves a deviation.
+- Working Gridfinity envelopes used in this project:
+
+  | Carrier | Approx. outside | Approx. narrowest lip throat |
+  |---|---:|---:|
+  | 2 × 3 | 83.5 × 125.5 mm | 78.3 × 120.3 mm |
+  | 3 × 4 | 125.5 × 167.5 mm | 120.3 × 162.3 mm |
+
+- Treat those throat values as current design envelopes. Recheck them against
+  the selected authoritative Gridfinity profile before releasing a final tray.
+- Current reference layout: a **3 × 4 Gridfinity carrier** containing six
+  smallest cassettes in a 3-across × 2-deep arrangement.
+- Six current cassette envelopes with 0.4 mm gaps occupy approximately
+  **119.45 × 160.4 mm**, fitting the working 120.3 × 162.3 mm throat.
+- Provide enough clearance for real prints to insert and remove without binding.
+  Do not treat a zero-clearance CAD packing result as acceptable.
+- Carrier design must allow fingertip access or another simple removal feature
+  without loading or prying against the glass.
+
+## Modular Cassette Family
+
+- The smallest v0.6 cassette is the current **1 × 1 cassette module** for
+  family planning; it is not one 42 mm Gridfinity cell.
+- Develop multiple cassette sizes for different part volumes.
+- Larger cassettes must occupy integer multiples of a consistent cassette
+  sub-grid so different sizes can be mixed in one compatible carrier.
+- Preserve the current smallest-cassette packing as the provisional sub-grid:
+  39.55 × 80.0 mm closed envelope with nominal 0.4 mm inter-cassette gaps.
+- Do not freeze larger external dimensions until carrier clearance and physical
+  prints establish the final sub-grid pitch.
+- Larger cassettes may use one or multiple standard microscope-slide window
+  modules. Keep window replacement, labeling, hinge access, and stacking
+  clearance consistent across the family.
+- Optimize carrier footprint and cassette combinations together. Do not enlarge
+  a cassette merely to align it with one 42 mm Gridfinity cell.
+
+## Canonical Smallest Cassette: v0.6
+
+Use v0.6 as the current baseline. Preserve these dimensions unless a new
+version explicitly documents a change:
+
+| Feature | Dimension |
+|---|---:|
+| Nominal body | 38.6 × 80.0 × 24.8 mm |
+| Maximum closed envelope, including hinge | 39.55 × 80.0 × 28.0 mm |
+| Body wall and floor | 2.0 mm |
+| Internal cavity before hinge/latch intrusion | 34.6 × 76.0 × 22.8 mm |
+| Glass pocket | 27.0 × 76.8 × 2.3 mm deep |
+| Maximum intended measured slide | 26.3 × 76.3 × 1.2 mm |
+| Visible window | 23.0 × 58.5 mm |
+| Solid label zone | 34.0 × 10.0 mm |
+| Glass recess below printed top | 0.9 mm |
+
+- The hinge runs along one long side and the positive latch is on the opposite
+  long side.
+- The lid has a centered fingernail opening relief at the latch edge:
+  approximately 14.0 mm wide × 1.3 mm deep × 1.4 mm high.
+- Preserve approximately 1.8 mm of roof above the fingernail relief and at
+  least the current 0.95 mm relief-to-latch clearance.
+
+## Glass Window and Label
+
+- Baseline window material: low-cost, plain, clear, non-frosted microscope
+  slide glass. Do not switch back to acrylic without explicit approval.
+- Prefer standard slides near **75 × 25 mm and 1.1–1.2 mm thick**, ideally with
+  ground or polished edges. Standard 76 × 26 mm or 3 × 1 in slides may vary;
+  measure the delivered batch before relying on nominal dimensions.
+- Never design the glass as a press fit and never instruct the user to force a
+  slide. Enclose and support all edges. Reject chipped or oversize glass.
+- Avoid 2 mm slides; the current lid is designed for no more than 1.2 mm glass.
+- The pane is installed from the underside and mechanically captured by a
+  removable printed retainer. It is fixed in the lid; it is not the moving lid.
+- Optional clear polyester safety film may be applied to the parts-facing side
+  to retain fragments while leaving the exposed top surface as scratch-resistant
+  glass. Trim film so it does not change the fit.
+- Provide a flat solid area for **9 mm Brother TZe label tape**. The current
+  smallest lid provides a 34 × 10 mm label zone.
+
+## Hinge: Required v0.6 Geometry
+
+- The hinge is an original three-knuckle removable-pin design, not a copied or
+  published tested hinge. Say so when provenance matters.
+- Use a straight piece of nominal **1.75 mm printer filament**, approximately
+  75 mm long, as the removable pin.
+- The body uses the long center knuckle; the lid uses the two end knuckles.
+- Use the support-free peaked outside profile and teardrop/45-degree bore roof.
+  Do not return to a long horizontal circular tube.
+- Print the body upright and the lid top/label-face down in the supplied STL
+  orientations.
+- Current nominal bore cores:
+  - Body knuckle: **2.25 mm diameter**.
+  - Lid knuckles: **2.10 mm diameter**.
+- Current modeled minimum radial clearance around 1.75 mm filament:
+  - Body: approximately 0.242 mm.
+  - Lid: approximately 0.168 mm.
+- Preserve 0.15 mm attachment-to-bore clearance at the body support and lid
+  rail, 0.8 mm axial gap between alternating knuckles, and the current 0.25 mm
+  radial clearance to mating reliefs.
+- Use the current 2.45 mm rotational keep-out and validate opening through at
+  least 120 degrees.
+- Each v0.6 lid knuckle requires a continuous, bed-supported root:
+  - Root begins at print Z = 0 and remains solid for the first 1.8 mm.
+  - First knuckle material begins at approximately print Z = 0.55 mm.
+  - Root extends 0.20 mm past the hinge axis.
+  - Root overlaps each knuckle end by 0.10 mm along the pin axis.
+  - Root remains 0.15 mm clear of the lid bore and full-height body end wall.
+  - Root remains approximately 0.70 mm clear of the body center knuckle axially.
+  - Validate root/body collision clearance over a 0–120 degree sweep.
+- Do not use internal hinge support. Correct printability in the model.
+- If a lid bore alone prints slightly tight, a 2.0 mm drill may be turned gently
+  by hand. Do not power-drill printed knuckles.
+
+## Glass Retainer
+
+- Use a replaceable underside retainer with four chamfered lugs engaging a
+  positive 0.35 mm-deep groove in the lid pocket wall.
+- The installed glass is the retainer's upper stop. Judge final retention with
+  the correct glass installed, not with an empty lid.
+- Preserve the retainer fit ladder:
+
+  | Variant | Lug projection per side | Nominal seated state |
+  |---|---:|---:|
+  | Existing firm | 0.30 mm | 0.05 mm groove clearance |
+  | Firm+ | 0.35 mm | Fills groove, no preload |
+  | Firmer | 0.40 mm | 0.05 mm preload |
+  | Firmest | 0.45 mm | 0.10 mm preload; **best physical fit** |
+
+- **Current selected retainer: Firmest 0.45.** It worked best in physical
+  testing and is the default full-size retainer for the current print setup.
+- The existing firm retainer remains the lightest reference in the stronger
+  ladder. Keep all variants for recalibration after a material, printer, nozzle,
+  extrusion, or slicer-setting change; when recalibrating, test upward in order.
+- Do not force a retainer that requires levering against the glass.
+- PETG is preferred for a removable retainer because its rails must flex. ASA
+  may be useful for dimensional testing but is stiffer.
+
+## Materials and Print Assumptions
+
+- Support both ASA and PETG for body/lid prototypes. PETG remains the preferred
+  flexible-retainer material.
+- Reasonable starting settings: 0.4 mm nozzle, 0.20 mm layers, four perimeters.
+- Retainers may use 0.16 or 0.20 mm layers so the 0.8 mm bezel divides evenly.
+- Keep seams away from hinge bores where possible.
+- Do not scale parts in the slicer to fix tolerances. Change named parametric
+  dimensions and release a new version.
+- Do not generate support inside or beneath the v0.6 hinge.
+
+## Compatibility and Failure History
+
+Do not regress to earlier geometries:
+
+- **v0.1:** hinge parts lacked mating wall/rail relief and could not assemble;
+  the glass retainer had no meaningful positive capture.
+- **v0.2:** added mating relief, fingernail access, and a retainer groove, but
+  the long circular horizontal hinge bore sagged badly in PETG.
+- **v0.3:** introduced the peaked hinge and stronger retainers, but separate
+  rectangular attachment solids intruded into the bores when slicer-unioned.
+- **v0.4:** fixed attachment intrusion, but the long body bore printed slightly
+  deformed and required manual opening.
+- **v0.5:** enlarged only the body bore to 2.25 mm; the lid still had a tapered
+  root that left much of each knuckle beginning as a floating cantilever.
+- **v0.6:** current baseline. Retains the v0.5 body bore and adds continuous,
+  bed-supported roots beneath both lid knuckles. The v0.6 lid paired with a
+  printed v0.5 body has been physically verified as a functioning hinge.
+
+Compatibility rules:
+
+- **Physically verified hinge combination:** v0.6 lid + v0.5 body.
+- A successful v0.5 body should be reused with the v0.6 lid; it does not need
+  to be reprinted merely to change its version label.
+- The v0.6 body is geometrically equivalent to the v0.5 body.
+- Do not use v0.4 or v0.5 lids for the next test; use the v0.6 lid.
+- Grooved-lid retainers and glass remain reusable when their measured fit is
+  acceptable. Use Firmest 0.45 as the current physically selected fit, but
+  recalibrate if the material or print process changes materially.
+
+## Design and Validation Workflow
+
+- Preserve the editable parametric Python generator, README, binary STLs,
+  manifest, assembly reference, and preview images in each release.
+- Version every geometry change. Do not overwrite a physically tested revision.
+- Record the user's material, slicer settings, measured dimensions, and physical
+  outcome beside the revision that was tested.
+- Before printing a full body or lid, provide small hinge coupons reproducing
+  the exact full-part attachment geometry and print orientation.
+- Before printing a full retainer/lid combination, provide a glass-pocket coupon
+  and clearly identifiable retainer-fit samples.
+- Validate the **exported STL**, not only source equations or an assembly render:
+  - Binary STL triangle count and file integrity.
+  - Zero boundary and zero non-manifold edges for each printable STL.
+  - No degenerate triangles or non-finite coordinates.
+  - Actual sectional checks through hinge roots and bores.
+  - No floating islands, unsupported cantilevers, or slicer-dependent coplanar
+    contacts at functional joints.
+  - Bore/attachment clearances and pin containment.
+  - Hinge sweep and root/body collision clearance.
+  - Closed envelope and carrier-throat packing.
+- A manifold audit alone is insufficient: earlier failures were closed shells
+  whose overlapping solids produced blocked bores or unsupported printed starts.
+- Treat physical prints as authoritative. If a print contradicts the model,
+  diagnose the actual STL and layer orientation before claiming the design works.
+
+## Repository Working Agreements
+
+- Read this file, the current release README, manifest, and latest physical-test
+  notes before changing geometry.
+- Keep all dimensions in millimeters in source; include inch conversions only
+  for user-supplied measurements such as the drawer height.
+- Preserve unrelated user changes and existing revision directories.
+- Use Git checkpoints before and after substantive geometry changes.
+- Never delete or rewrite a tested release to make a new revision look clean.
+- Lead handoff notes with what changed, which old parts remain reusable, what
+  must be reprinted, and what still lacks physical validation.
+- Do not silently change the Gridfinity interface, 2.0 mm minimum carrier wall,
+  glass standard, cassette sub-grid, drawer ceiling, hinge pin, or label format.
+- Mark untested future cassette sizes and carrier features as provisional.
