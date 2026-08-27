@@ -32,10 +32,9 @@ Print upright as supplied. Reasonable starting settings are a 0.4 mm nozzle,
 0.20 mm layers, four perimeters, and no internal support. The carrier walls are
 2.6 mm at the working throat, exceeding the project's 2.0 mm minimum.
 
-The 22 mm openings centered in the two long side walls are fingertip-access
-openings. They are intended to help lift or push a cassette out without loading
-or prying against its glass window. They are not part of the Gridfinity
-stacking interface, and their dimensions remain provisional pending this test.
+All four outer carrier walls are continuous solids (2.6 mm at the working
+throat). Cassette extraction is handled via top-edge pinch-grip features on the
+cassettes themselves, avoiding holes in the carrier perimeter.
 
 ## Physical checks to record
 

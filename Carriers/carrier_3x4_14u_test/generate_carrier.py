@@ -91,10 +91,11 @@ def build_carrier():
     # Positive overlaps avoid slicer-dependent coplanar contacts between shells.
     m.add(loft([(BASE_HEIGHT-.05,rounded_rect(OUTER_X,OUTER_Y,3.75)),(FLOOR_TOP,rounded_rect(OUTER_X,OUTER_Y,3.75))]))
     hx,hy=OUTER_X/2,OUTER_Y/2; ix,iy=THROAT_X/2,THROAT_Y/2
-    # Four 2.6 mm walls. Central 22 mm access gaps stop below the continuous lip.
-    for y0,y1 in ((-hy+.01,-11),(11,hy-.01)):
-        m.add(box(-hx,-ix,y0,y1,FLOOR_TOP-.05,ENGAGED_HEIGHT)); m.add(box(ix,hx,y0,y1,FLOOR_TOP-.05,ENGAGED_HEIGHT))
-    m.add(box(-hx,hx,-hy,-iy,FLOOR_TOP-.05,ENGAGED_HEIGHT)); m.add(box(-hx,hx,iy,hy,FLOOR_TOP-.05,ENGAGED_HEIGHT))
+    # Four continuous 2.6 mm outer walls.
+    m.add(box(-hx, -ix, -hy + 0.01, hy - 0.01, FLOOR_TOP - 0.05, ENGAGED_HEIGHT))
+    m.add(box(ix, hx, -hy + 0.01, hy - 0.01, FLOOR_TOP - 0.05, ENGAGED_HEIGHT))
+    m.add(box(-hx, hx, -hy, -iy, FLOOR_TOP - 0.05, ENGAGED_HEIGHT))
+    m.add(box(-hx, hx, iy, hy, FLOOR_TOP - 0.05, ENGAGED_HEIGHT))
     # Negative of the stepped base profile, with a continuous stackable rim.
     xp=[(ix,ENGAGED_HEIGHT-.05),(hx,ENGAGED_HEIGHT-.05),(hx,TOTAL_HEIGHT),(hx-.10,TOTAL_HEIGHT),(ix+.70,51.50),(ix+.70,49.70)]
     xn=[(-x,z) for x,z in reversed(xp)]

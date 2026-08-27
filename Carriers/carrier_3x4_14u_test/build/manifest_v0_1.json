@@ -40,14 +40,14 @@
   },
   "files": {
     "carrier_3x4_7u_v0_1.stl": {
-      "triangles": 2900,
+      "triangles": 2876,
       "boundary_edges": 0,
       "nonmanifold_edges": 0,
       "degenerate_triangles": 0,
       "finite_coordinates": true
     },
     "REFERENCE_two_carrier_14u_stack_DO_NOT_PRINT.stl": {
-      "triangles": 5800,
+      "triangles": 5752,
       "boundary_edges": 0,
       "nonmanifold_edges": 0,
       "degenerate_triangles": 0,

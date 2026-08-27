@@ -83,8 +83,9 @@ keeping every v0.6 cassette below the stacking plane.
 
 ## Decisions and changes to plan
 
-- The two side openings are intentional 22 mm fingertip-access features and
-  are provisional pending the removal test.
+- The 22 mm side openings were found non-functional during physical testing and
+  have been removed. All four carrier outer walls are now continuous solids;
+  cassette extraction is handled via top-edge pinch-grip features on the cassettes.
 - Subsequent feedback shows that Firmest 0.45 glass capture can be knocked out.
   Plan 001 validates the carrier, not glass retention. Use dummy panes or a
   protective enclosure for handling tests and defer capture conclusions to
