@@ -1,0 +1,58 @@
+{
+  "design": "3x4 carrier 14U physical test",
+  "version": "0.1",
+  "units": "mm",
+  "print_quantity": {
+    "carrier_3x4_7u_v0_1.stl": 2
+  },
+  "gridfinity": {
+    "pitch_mm": 42,
+    "foot_height_mm": 4.75,
+    "height_units_per_carrier": 7,
+    "engaged_height_per_carrier_mm": 49,
+    "lip_height_mm": 4.4,
+    "two_carrier_stack_mm": 102.4,
+    "profile_source": "Gridfinity Rebuilt/OpenSCAD standard dimensions; locally generated and provisional pending print"
+  },
+  "drawer": {
+    "measured_internal_height_mm": 111.125,
+    "nominal_clearance_above_14u_stack_mm": 8.725
+  },
+  "cassette_fit": {
+    "layout": "3 across x 2 deep",
+    "closed_envelope_mm": [
+      39.55,
+      80.0,
+      28.0
+    ],
+    "array_with_0_4_mm_gaps_mm": [
+      119.45,
+      160.4
+    ],
+    "lip_throat_mm": [
+      120.3,
+      162.3
+    ],
+    "support_floor_z_mm": 6.75,
+    "cassette_top_z_mm": 34.75,
+    "stacking_engagement_plane_z_mm": 49.0,
+    "vertical_clearance_below_engagement_plane_mm": 14.25
+  },
+  "files": {
+    "carrier_3x4_7u_v0_1.stl": {
+      "triangles": 2900,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_triangles": 0,
+      "finite_coordinates": true
+    },
+    "REFERENCE_two_carrier_14u_stack_DO_NOT_PRINT.stl": {
+      "triangles": 5800,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_triangles": 0,
+      "finite_coordinates": true
+    }
+  },
+  "status": "provisional; requires physical validation"
+}
