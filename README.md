@@ -106,3 +106,9 @@ validation, and dated archive rules.
   validated against the actual exported artifact and physical print.
 - Before completing a plan, reconcile every required project and release
   document listed in `AGENTS.md`, then archive the plan with its walkthrough.
+
+## License
+
+This project is available under the [MIT License](LICENSE). The license's
+software warranty disclaimer supplements, and does not replace, the AI-use,
+glass-handling, print-validation, and physical-safety warning above.
