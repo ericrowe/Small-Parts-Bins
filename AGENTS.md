@@ -275,6 +275,10 @@ Compatibility rules:
   or physically verified without direct evidence. Preserve the AI-use warning
   in the top-level `README.md` and carry applicable safety limitations into
   release instructions and walkthroughs.
+- Preserve the active-development warning in the top-level `README.md`. Every
+  printable release must use explicit versions and document compatibility;
+  never imply that current geometry, filenames, or cross-version fit will remain
+  unchanged or compatible without notice and physical evidence.
 - Use the repository task pipeline in `IDEAS.md` and `Plans/` for project work.
   Ideas are limited to three sentences. Fully developed future plans may wait
   in `Plans/Queued/`, but only one numbered plan may be active directly in

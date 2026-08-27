@@ -23,6 +23,22 @@ levels visible through replaceable microscope-slide glass.
 > The person fabricating and using these parts is responsible for determining
 > whether a particular revision, material, printer, and application are safe.
 
+> [!CAUTION]
+> **Active development:** This project is a work in progress. Dimensions,
+> tolerances, interfaces, filenames, instructions, and compatibility may change
+> at any time without notice as physical-test results become available. A part
+> that fits one revision, material, printer, or slicer configuration may not fit
+> another, and compatibility with future releases is not guaranteed unless it is
+> explicitly documented.
+>
+> Before printing, record the exact Git commit and part version being used,
+> review the matching README, manifest, and physical-test notes, and inspect the
+> sliced toolpath. Print the supplied functional coupons and one complete sample
+> before committing to a large batch. Do not mix revisions based only on similar
+> appearance or filenames; use the documented compatibility rules. Keep known-
+> good printed parts until their replacements have passed the same real-world
+> tests, and expect failed or superseded prototypes during development.
+
 ## Project goals
 
 - Keep every cassette individually closed when removed, handled, or tipped.
@@ -104,6 +120,8 @@ validation, and dated archive rules.
 - Keep modeled, printed, and physically verified claims clearly separated.
 - Treat all AI-assisted output as unverified until independently reviewed and
   validated against the actual exported artifact and physical print.
+- Record the exact revision before printing, validate one sample before a batch,
+  and do not assume compatibility between versions unless it is documented.
 - Before completing a plan, reconcile every required project and release
   document listed in `AGENTS.md`, then archive the plan with its walkthrough.
 
