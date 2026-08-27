@@ -27,6 +27,11 @@ the user's experience is that a 0.6 mm PETG feature will tolerate this motion;
 the physical PETG print is authoritative. This result must not be generalized to
 PLA. Eye protection and glass containment remain required.
 
+In the installed state, the shoulder returns **behind the trailing end** of the
+glass. It does not remain pressed against the glass face. The relaxed tongue is
+modeled 0.20 mm below the pane-support plane; retention comes from the shoulder
+blocking withdrawal, not continuous spring pressure or friction on the pane.
+
 Regenerate with `python3 generate_glass_capture_coupon.py`.
 
 ![v0.4 shortened PETG latch](build/short_compliant_end_capture_preview_v0_4.svg)
