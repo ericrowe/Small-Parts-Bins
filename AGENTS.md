@@ -326,6 +326,11 @@ Compatibility rules:
   generated artifacts after a Git checkpoint when the user explicitly chooses
   Git as the revision history; never rewrite the Git history that preserves the
   physically tested revision.
+- After generating printable STL files, generate a ready-to-print `.3mf` project
+  file in the component's `build/` folder containing the objects needed for the step
+  (test article or full part set). Open the generated `.3mf` file in Bambu
+  Studio (`open <path_to_3mf>`) so the user can verify settings, select filament,
+  and start the print.
 - Record the user's material, slicer settings, measured dimensions, and physical
   outcome beside the revision that was tested.
 - Before printing a full body or lid, provide small hinge coupons reproducing

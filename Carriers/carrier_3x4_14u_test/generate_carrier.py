@@ -139,14 +139,96 @@ def write_preview(path:Path):
 <text x="25" y="505" font-family="sans-serif" font-size="13">Print two identical carrier STLs. Cassettes remain 14.25 mm below each stacking engagement plane.</text></svg>'''
     path.write_text(svg)
 
-def main():
-    out=Path(__file__).parent/'build'; out.mkdir(exist_ok=True)
-    tray=build_carrier(); stack=Mesh(); stack.add(tray); stack.add(tray.moved(ENGAGED_HEIGHT))
-    write_stl(out/'carrier_3x4_7u_v0_1.stl',tray)
-    write_stl(out/'REFERENCE_two_carrier_14u_stack_DO_NOT_PRINT.stl',stack)
-    write_preview(out/'carrier_14u_test_preview_v0_1.svg')
-    data={'design':'3x4 carrier 14U physical test','version':'0.1','units':'mm','print_quantity':{'carrier_3x4_7u_v0_1.stl':2},'gridfinity':{'pitch_mm':42,'foot_height_mm':4.75,'height_units_per_carrier':7,'engaged_height_per_carrier_mm':49,'lip_height_mm':4.4,'two_carrier_stack_mm':102.4,'profile_source':'Gridfinity Rebuilt/OpenSCAD standard dimensions; locally generated and provisional pending print'},'drawer':{'measured_internal_height_mm':DRAWER_HEIGHT,'nominal_clearance_above_14u_stack_mm':round(DRAWER_HEIGHT-(14*7+LIP_HEIGHT),3)},'cassette_fit':{'layout':'3 across x 2 deep','closed_envelope_mm':CASSETTE,'array_with_0_4_mm_gaps_mm':[119.45,160.4],'lip_throat_mm':[THROAT_X,THROAT_Y],'support_floor_z_mm':FLOOR_TOP,'cassette_top_z_mm':FLOOR_TOP+CASSETTE[2],'stacking_engagement_plane_z_mm':ENGAGED_HEIGHT,'vertical_clearance_below_engagement_plane_mm':ENGAGED_HEIGHT-FLOOR_TOP-CASSETTE[2]},'files':{'carrier_3x4_7u_v0_1.stl':audit(tray),'REFERENCE_two_carrier_14u_stack_DO_NOT_PRINT.stl':audit(stack)},'status':'provisional; requires physical validation'}
-    (out/'manifest_v0_1.json').write_text(json.dumps(data,indent=2)+'\n')
-    print(json.dumps(data,indent=2))
+def write_3mf(path: Path, items: list[tuple[str, Mesh]]) -> None:
+    import zipfile
+    content_types = """<?xml version="1.0" encoding="UTF-8"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+ <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+ <Default Extension="model" ContentType="application/vnd.ms-package.3dmanufacturing-3dmodel+xml"/>
+</Types>"""
+    rels = """<?xml version="1.0" encoding="UTF-8"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+ <Relationship Target="/3D/3dmodel.model" Id="rel0" Type="http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel"/>
+</Relationships>"""
+    objects_xml, build_items_xml = [], []
+    for obj_id, (name, mesh) in enumerate(items, start=1):
+        vertices, v_map, triangles = [], {}, []
+        for tri in mesh.triangles:
+            tri_indices = []
+            for pt in tri:
+                key = (round(pt[0], 5), round(pt[1], 5), round(pt[2], 5))
+                if key not in v_map:
+                    v_map[key] = len(vertices)
+                    vertices.append(pt)
+                tri_indices.append(v_map[key])
+            triangles.append(tri_indices)
+        v_lines = "\n".join(f'     <vertex x="{p[0]:.5f}" y="{p[1]:.5f}" z="{p[2]:.5f}"/>' for p in vertices)
+        t_lines = "\n".join(f'     <triangle v1="{t[0]}" v2="{t[1]}" v3="{t[2]}"/>' for t in triangles)
+        objects_xml.append(f'  <object id="{obj_id}" type="model" name="{name}">\n   <mesh>\n    <vertices>\n{v_lines}\n    </vertices>\n    <triangles>\n{t_lines}\n    </triangles>\n   </mesh>\n  </object>')
+        build_items_xml.append(f'  <item objectid="{obj_id}"/>')
+    model_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+<model unit="millimeter" xml:lang="en-US" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02">
+ <metadata name="Application">Gridfinity Carrier Generator</metadata>
+ <resources>
+{chr(10).join(objects_xml)}
+ </resources>
+ <build>
+{chr(10).join(build_items_xml)}
+ </build>
+</model>"""
+    with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr("[Content_Types].xml", content_types)
+        z.writestr("_rels/.rels", rels)
+        z.writestr("3D/3dmodel.model", model_xml)
 
-if __name__=='__main__': main()
+def main():
+    out = Path(__file__).parent / 'build'
+    out.mkdir(exist_ok=True)
+    tray = build_carrier()
+    stack = Mesh()
+    stack.add(tray)
+    stack.add(tray.moved(ENGAGED_HEIGHT))
+    write_stl(out / 'carrier_3x4_7u_v0_1.stl', tray)
+    write_stl(out / 'REFERENCE_two_carrier_14u_stack_DO_NOT_PRINT.stl', stack)
+    write_3mf(out / 'carrier_3x4_7u_v0_1.3mf', [('carrier_3x4_7u_v0_1', tray)])
+    write_preview(out / 'carrier_14u_test_preview_v0_1.svg')
+    data = {
+        'design': '3x4 carrier 14U physical test',
+        'version': '0.1',
+        'units': 'mm',
+        'print_quantity': {'carrier_3x4_7u_v0_1.stl': 2, 'carrier_3x4_7u_v0_1.3mf': 2},
+        'gridfinity': {
+            'pitch_mm': 42,
+            'foot_height_mm': 4.75,
+            'height_units_per_carrier': 7,
+            'engaged_height_per_carrier_mm': 49,
+            'lip_height_mm': 4.4,
+            'two_carrier_stack_mm': 102.4,
+            'profile_source': 'Gridfinity Rebuilt/OpenSCAD standard dimensions; locally generated and provisional pending print',
+        },
+        'drawer': {
+            'measured_internal_height_mm': DRAWER_HEIGHT,
+            'nominal_clearance_above_14u_stack_mm': round(DRAWER_HEIGHT - (14 * 7 + LIP_HEIGHT), 3),
+        },
+        'cassette_fit': {
+            'layout': '3 across x 2 deep',
+            'closed_envelope_mm': CASSETTE,
+            'array_with_0_4_mm_gaps_mm': [119.45, 160.4],
+            'lip_throat_mm': [THROAT_X, THROAT_Y],
+            'support_floor_z_mm': FLOOR_TOP,
+            'cassette_top_z_mm': FLOOR_TOP + CASSETTE[2],
+            'stacking_engagement_plane_z_mm': ENGAGED_HEIGHT,
+            'vertical_clearance_below_engagement_plane_mm': ENGAGED_HEIGHT - FLOOR_TOP - CASSETTE[2],
+        },
+        'files': {
+            'carrier_3x4_7u_v0_1.stl': audit(tray),
+            'carrier_3x4_7u_v0_1.3mf': {'objects': 1, 'triangles': len(tray.triangles)},
+            'REFERENCE_two_carrier_14u_stack_DO_NOT_PRINT.stl': audit(stack),
+        },
+        'status': 'provisional; requires physical validation',
+    }
+    (out / 'manifest_v0_1.json').write_text(json.dumps(data, indent=2) + '\n')
+    print(json.dumps(data, indent=2))
+
+if __name__ == '__main__':
+    main()

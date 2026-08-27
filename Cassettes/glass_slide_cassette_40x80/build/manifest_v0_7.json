@@ -201,5 +201,9 @@
         "degenerate_triangles": 0
       }
     }
+  ],
+  "print_projects_3mf": [
+    "cassette_lid_v0_7_print.3mf",
+    "cassette_v0_7_full_set.3mf"
   ]
 }
