@@ -1,6 +1,7 @@
 # Plan 001 — Validate the 14U carrier stack
 
 - Status: Executing — waiting for physical prints
+- Depends on: None; this is the current physical baseline
 - Source idea: Optimize cassette and tray height for the 111.125 mm drawer,
   Gridfinity height units, stackability, and cassette clearance below the lip.
 - Created: 2026-08-27
@@ -86,3 +87,20 @@ keeping every v0.6 cassette below the stacking plane.
 - The pipeline was introduced after geometry generation began. Existing Git
   checkpoints are retained as the start history instead of being rewritten.
 
+## Stop and rollback conditions
+
+- Stop drawer testing if the stack scrapes, wedges, or lacks safe finger
+  clearance; the 111.125 mm measurement is a ceiling, not permission to force
+  the stack.
+- Stop loaded stacking if the upper carrier contacts glass, hinges, latches, or
+  labels instead of seating on the lip.
+- If carrier v0.1 fails, preserve both printed samples and the complete v0.1
+  release as evidence. Record a bounded correction in Plan 002 rather than
+  rewriting this tested revision.
+
+## Archive handoff
+
+The walkthrough must include both carriers' material and slicer settings,
+actual print durations, individual and engaged height measurements, minimum
+drawer clearance, loaded cassette fit, access-opening observations, stack and
+tip results, STL audit evidence, and the explicit verify/revise disposition.

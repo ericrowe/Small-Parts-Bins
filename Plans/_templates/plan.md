@@ -7,6 +7,7 @@
 - Completed: Not completed
 - Git start: Not committed
 - Git completion: Not completed
+- Depends on: Prior plan numbers or `None`
 
 ## Outcome
 
@@ -27,9 +28,12 @@ State the concrete result this plan must deliver.
 ## Implementation steps
 
 1. [ ] First ordered step.
-2. [ ] Second ordered step.
-3. [ ] Validate exported artifacts and physical results as applicable.
-4. [ ] Update documentation, manifest, and test notes.
+2. [ ] Generate a low-cost coupon reproducing the exact functional geometry and
+   print orientation before a complete part.
+3. [ ] Print and physically validate the coupon; record material and settings.
+4. [ ] Generate and audit the complete exported artifacts.
+5. [ ] Print and physically validate the complete feature or assembly.
+6. [ ] Update documentation, manifest, and test notes.
 
 ## Acceptance criteria
 
@@ -47,3 +51,10 @@ Record commands, measurements, print settings, results, and remaining risks.
 
 Append material decisions or deviations here while executing.
 
+## Stop and rollback conditions
+
+State when testing must stop and which verified revision remains the fallback.
+
+## Archive handoff
+
+State the evidence and compatibility details required in the walkthrough.
