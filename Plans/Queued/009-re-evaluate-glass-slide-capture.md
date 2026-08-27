@@ -1,8 +1,7 @@
 # Plan 009 — Re-evaluate glass slide capture and material options
 
 - Status: Queued
-- Priority: 1
-- Depends on: Plan 001 completion for orderly activation; cassette investigation can reuse v0.6 parts
+- Depends on: No prerequisite for concept and coupon work; final carrier-envelope validation uses Plan 001 measurements
 - Created: 2026-08-27
 - Started: Not started
 - Completed: Not completed
@@ -158,4 +157,3 @@ The walkthrough must compare the old and new escape paths, show the entry and
 positive-retention mechanism, list tested pane dimensions/materials, provide the
 safe replacement procedure and knockout evidence, state body/carrier compatibility,
 and identify all lids or retainers that must be reprinted or retired.
-

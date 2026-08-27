@@ -288,15 +288,22 @@ Compatibility rules:
   unchanged or compatible without notice and physical evidence.
 - Use the repository task pipeline in `IDEAS.md` and `Plans/` for project work.
   Ideas are limited to three sentences. Fully developed future plans may wait
-  in `Plans/Queued/`, but only one numbered plan may be active directly in
-  `Plans/`, and implementation must follow that active plan's ordered checklist.
+  in `Plans/Queued/`; multiple numbered plans may be in work directly in
+  `Plans/` when their current steps can proceed independently. Implementation
+  must follow each plan's ordered checklist and dependency gates.
 - Maintain the documented queued-plan order in `Plans/PRIORITIES.md`. Plan
-  numbers are permanent identifiers, not priority ranks. Reassess priorities
-  when physical failures, dependencies, or user goals change, and activate only
-  the highest-priority eligible queued plan after the current plan is archived.
+  numbers are permanent identifiers, not priority ranks, and priority values
+  must appear only in `Plans/PRIORITIES.md`. Reassess priorities when physical
+  failures, dependencies, or user goals change. Higher-priority eligible work
+  normally starts first, but independent plans may overlap while another plan
+  waits on printing, measurement, material, or other external results.
+- Use focused plan-numbered Git commits for concurrent work. Do not combine
+  unrelated implementation changes from different plans in one checkpoint, and
+  do not finalize a dependency-gated dimension before its prerequisite physical
+  evidence exists.
 - Preserve continuity with plan-numbered Git checkpoints. When complete, move
   the plan to `Plans/Completed/` with its ISO completion date prefixed and add
-  the matching `-walkthrough.md` file before starting another plan.
+  the matching `-walkthrough.md` file before treating that plan as archived.
 - Read the top-level `README.md`, this file, the active plan, the current release
   README, manifest, and latest physical-test notes before changing geometry.
 - Keep all dimensions in millimeters in source; include inch conversions only
@@ -322,9 +329,10 @@ review and update every applicable item below. An item may be recorded as
    failure history, workflow rules, and any new non-regression constraint.
 3. **`IDEAS.md`:** remove promoted work and add only genuinely deferred or
    follow-up ideas, each in no more than three sentences.
-4. **`Plans/PRIORITIES.md`:** remove the completed plan from the queue order,
-   reassess the remaining work using the documented criteria, renumber priority
-   ranks contiguously, date the decision, and identify the next eligible plan.
+4. **`Plans/PRIORITIES.md`:** confirm the completed/in-work plan is absent from
+   the queued order, reassess remaining work using the documented criteria,
+   renumber priority ranks contiguously, date the decision, and identify the next
+   eligible queued plan.
 5. **The numbered plan:** completed checklist, validation evidence, decisions,
    deviations, completion date, and start/completion Git references.
 6. **Relevant release README files:** what changed, what remains reusable, what

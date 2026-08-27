@@ -1,7 +1,6 @@
 # Plan NNN — Title
 
 - Status: Draft
-- Priority: Required while queued; remove when activated
 - Source idea: Exact text copied from `IDEAS.md`
 - Created: YYYY-MM-DD
 - Started: Not started

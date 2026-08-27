@@ -1,8 +1,7 @@
 # Plan 003 — Develop optional cassette dividers
 
 - Status: Queued
-- Priority: 3
-- Depends on: Plan 002 verified cassette height and internal cavity
+- Depends on: Early concept/coupon work may use the v0.6 cavity; final divider geometry requires Plan 002 verified height and internal cavity
 - Created: 2026-08-27
 - Started: Not started
 - Completed: Not completed

@@ -1,7 +1,6 @@
 # Plan 007 — Validate system durability and materials
 
 - Status: Queued
-- Priority: 7
 - Depends on: Plans 004–006 production-candidate geometry
 - Created: 2026-08-27
 - Started: Not started

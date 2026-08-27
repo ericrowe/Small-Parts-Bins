@@ -1,9 +1,9 @@
 # Plan pipeline
 
-The project executes one defined plan at a time while allowing future plans to
-be developed in a non-executing queue:
+The project may execute multiple defined plans concurrently while retaining a
+prioritized queue for work that has not started:
 
-`Idea → Queued plan → Active execution → Archive`
+`Idea → Queued plan → In-work execution → Archive`
 
 ## 1. Idea
 
@@ -21,30 +21,50 @@ prints, validation, and rollback/reuse notes.
 
 Plan numbers are permanent and never reused. `README.md` and `_templates/` do
 not count as plans. Queued plans may be developed in advance, but they authorize
-no implementation work and must use `Status: Queued`. There must never be more
-than one numbered Markdown file directly inside `Plans/`.
+no implementation work and must use `Status: Queued`.
 
 ## Prioritization
 
 [`PRIORITIES.md`](PRIORITIES.md) is the authoritative execution order for queued
-plans. Permanent plan numbers describe creation history and do not determine
-priority. Each queued plan must declare one unique positive `Priority` value,
-and the current priorities must form a contiguous sequence beginning at 1.
+plans and the only location where priority ranks are stored. Permanent plan
+numbers describe creation history and do not determine priority. Do not add
+priority fields to individual plan files. The priority table must list every
+queued plan exactly once in a contiguous sequence beginning at 1.
 
 Prioritize known safety/containment failures first, followed by dependency
 blocking, rework avoidance, information gain, user value, and finally readiness
-and print cost. Reassess and commit the priority table whenever physical feedback
-reveals a failure, dependencies change, or project goals change. Record the
-reason; never renumber existing plan files merely to reorder execution.
+and print cost. Reassess and commit the priority table whenever physical
+feedback reveals a failure, dependencies change, or project goals change.
+Record the reason in that single file; never renumber existing plan files merely
+to reorder execution.
 
 ## 3. Execution
 
-After the current active plan is archived, move the priority-1 eligible plan
-from `Queued/` directly into `Plans/`, remove its queue-only priority field, and
-set its status to `Executing` before changing implementation files. Renumber the
-remaining priority ranks and update `PRIORITIES.md` in the same transition.
-Work through the active plan's numbered steps in order, update the checklist as
-evidence is produced, and record important decisions and physical results.
+Move a selected plan from `Queued/` directly into `Plans/` and set its status to
+`Executing` before changing implementation files. Remove it from the priority
+table and renumber the remaining queued ranks in `PRIORITIES.md` in the same
+transition.
+
+Multiple numbered plans may be in work directly inside `Plans/`. Concurrency is
+appropriate when work is independent or when one plan is waiting for a print,
+measurement, material, or other external result. For example, Plan 009 glass-
+capture concepts and Plan 003 divider concepts may progress while Plan 001 waits
+for carrier prints.
+
+Concurrency does not waive dependencies. Each plan must state which steps may
+proceed provisionally and which steps are gated by another plan's verified
+result. Do not freeze dependent dimensions, release geometry, or claim physical
+validation before the prerequisite evidence exists.
+
+Keep concurrent work traceable:
+
+- Update each plan's status and checklist independently.
+- Use plan-numbered, focused Git commits; avoid combining unrelated plan changes
+  in one commit.
+- Record shared-interface decisions in every affected plan and update queue
+  priorities if the dependency graph changes.
+- A plan waiting on a physical result remains `Executing — waiting on ...`; it
+  does not prevent eligible work in another active plan.
 
 Use Git to preserve continuity:
 
@@ -69,13 +89,13 @@ When every acceptance criterion is satisfied:
 4. Create a detailed walkthrough beside it named
    `YYYY-MM-DD-NNN-name-walkthrough.md`, using the walkthrough template.
 5. Commit the move and walkthrough with a message beginning `plan-NNN:`.
-6. Only after that archive commit may a queued plan be activated or the next
-   inbox idea become a plan.
+6. After that archive commit, continue other in-work plans and activate further
+   eligible queued work only when the dependency and workload rules above permit.
 
 Archived plans and walkthroughs are immutable historical records. Corrections
 must be appended and committed, not silently rewritten.
 
 Run `python3 Plans/check_pipeline.py` from the repository root before committing
-a plan transition. It verifies active and queued filenames, the single-active-
-plan rule, unique numbers, contiguous queue priorities, and completed
+a plan transition. It verifies active and queued filenames, unique plan numbers,
+the single-source priority table, contiguous queued ranks, and completed
 plan/walkthrough pairs.

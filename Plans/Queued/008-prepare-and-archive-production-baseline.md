@@ -1,7 +1,6 @@
 # Plan 008 — Prepare and archive the production baseline
 
 - Status: Queued
-- Priority: 8
 - Depends on: Plans 001–007 and 009 completed with accepted physical evidence
 - Created: 2026-08-27
 - Started: Not started

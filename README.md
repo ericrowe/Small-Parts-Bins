@@ -88,16 +88,19 @@ and loaded stack behavior remain provisional until both prints are tested.
 
 ## Development sequence
 
-Only one plan is executed at a time. Plans 002–009 are fully developed in
+Multiple plans may be in work when their current steps are independent or one is
+waiting for a physical print. Plans 002–009 are fully developed in
 [`Plans/Queued/`](Plans/Queued/) and cover height optimization, cassette
 dividers, finalization of the smallest system, larger cassettes, mixed-layout
 carriers, durability/material testing, the production baseline, and a priority-1
 re-evaluation of glass capture and alternative transparent pane materials.
 
-The authoritative queue order and its rationale are maintained in
+The authoritative queue order and its rationale exist only in
 [`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). After Plan 001, Plan 009 is next
 because the observed glass-knockout weakness is a safety and containment issue
-that affects every later cassette design.
+that affects every later cassette design. Plan 009 and provisional Plan 003
+design work may proceed while Plan 001 waits for physical carrier results, but
+their dependency-gated final dimensions must remain provisional.
 
 New ideas belong in [IDEAS.md](IDEAS.md) and must remain under three sentences.
 See the [plan pipeline](Plans/README.md) for promotion, execution, Git checkpoint,
@@ -111,7 +114,7 @@ validation, and dated archive rules.
   manifests, previews, and assembly references.
 - [`Carriers/`](Carriers/) — carrier generators, printable tests, manifests,
   previews, and physical-test records.
-- [`Plans/`](Plans/) — the single active plan, queued plans, templates, checker,
+- [`Plans/`](Plans/) — in-work plans, the prioritized queue, templates, checker,
   and completed-plan archive.
 - [`IDEAS.md`](IDEAS.md) — concise unprocessed project ideas.
 - `Trays/` — reserved for future tray-related work not represented by the

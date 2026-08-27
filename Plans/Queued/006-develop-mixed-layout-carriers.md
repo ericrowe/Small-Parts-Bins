@@ -1,7 +1,6 @@
 # Plan 006 — Develop mixed-layout carriers
 
 - Status: Queued
-- Priority: 6
 - Depends on: Plan 005 verified cassette-family envelopes
 - Created: 2026-08-27
 - Started: Not started

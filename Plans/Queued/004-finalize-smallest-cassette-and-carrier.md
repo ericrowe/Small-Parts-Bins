@@ -1,7 +1,6 @@
 # Plan 004 — Finalize the smallest cassette and six-cassette carrier
 
 - Status: Queued
-- Priority: 4
 - Depends on: Plans 001–003 and 009 completed and physically accepted
 - Created: 2026-08-27
 - Started: Not started

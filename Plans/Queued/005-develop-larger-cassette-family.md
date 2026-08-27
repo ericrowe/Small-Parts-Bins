@@ -1,7 +1,6 @@
 # Plan 005 — Develop the larger cassette family
 
 - Status: Queued
-- Priority: 5
 - Depends on: Plan 004 verified smallest-module baseline
 - Created: 2026-08-27
 - Started: Not started

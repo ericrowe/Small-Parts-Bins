@@ -2,7 +2,8 @@
 
 Plan numbers are permanent historical identifiers, not execution priority. This
 file is the authoritative order for selecting the next queued plan after the
-active plan is completed and archived.
+currently in-work plans. Priority ranks exist only in this file; never copy them
+into individual plan documents.
 
 ## Prioritization method
 
@@ -23,9 +24,14 @@ Review every queued plan against these factors, in order:
 
 Priority is reassessed whenever physical feedback reveals a new failure, a plan
 changes a downstream dependency, or the user changes project goals. Changing
-priority does not renumber plan files or authorize parallel execution. Record
-the reason and date below, update each queued plan's `Priority` field, run the
-pipeline checker, and commit the change before activating a different plan.
+priority does not renumber plan files. Record the reason and date below, edit
+only this table, run the pipeline checker, and commit the change.
+
+Several plans may be in work simultaneously. The table orders work that remains
+queued; it does not rank active plans against one another. A lower-ranked queued
+plan may be activated alongside higher-ranked work when its current steps are
+independent, capacity is available, and all dependency-gated decisions remain
+explicitly provisional.
 
 ## Current order — 2026-08-27
 
@@ -40,6 +46,7 @@ pipeline checker, and commit the change before activating a different plan.
 | 7 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
 | 8 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
 
-Plan 001 remains the sole active plan. Unless new evidence changes this table,
-Plan 009 is activated immediately after Plan 001 is completed and archived.
-
+Plan 001 is currently in work and waiting on physical prints. Plan 009 concept
+and coupon work, and provisional Plan 003 divider concept work, are eligible to
+start concurrently without waiting for Plan 001 to archive; their final geometry
+remains gated by the dependencies stated in their plan documents.
