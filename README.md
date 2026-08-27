@@ -64,8 +64,10 @@ body using straight 1.75 mm printer filament as the hinge pin, and the Firmest
 Subsequent handling shows that the glass can still be knocked out easily, so
 that retainer is not accepted as a production capture method.
 
-The active work is [Plan 001](Plans/001-validate-14u-carrier-stack.md): physical
-validation of two identical 3 × 4 × 7U carriers forming a 14U stack. The modeled
+Current in-work plans are [Plan 001](Plans/001-validate-14u-carrier-stack.md),
+physical validation of two identical 3 × 4 × 7U carriers, and
+[Plan 009](Plans/009-re-evaluate-glass-slide-capture.md), development of a
+positive, replaceable pane-capture method. The modeled carrier
 stack height is 102.4 mm, leaving 8.725 mm nominal clearance below the drawer
 ceiling. Carrier 1 of 2 is currently recorded as printing; carrier 2 and all
 loaded stack, throat, stability, and drawer-clearance results remain pending.
@@ -96,11 +98,10 @@ carriers, durability/material testing, the production baseline, and a priority-1
 re-evaluation of glass capture and alternative transparent pane materials.
 
 The authoritative queue order and its rationale exist only in
-[`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). After Plan 001, Plan 009 is next
-because the observed glass-knockout weakness is a safety and containment issue
-that affects every later cassette design. Plan 009 and provisional Plan 003
-design work may proceed while Plan 001 waits for physical carrier results, but
-their dependency-gated final dimensions must remain provisional.
+[`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). Plan 009 is now in work alongside
+Plan 001 because the observed glass-knockout weakness is a safety and containment
+issue and its coupons require much less printer time than the carrier articles.
+Dependency-gated final dimensions remain provisional.
 
 New ideas belong in [IDEAS.md](IDEAS.md) and must remain under three sentences.
 See the [plan pipeline](Plans/README.md) for promotion, execution, Git checkpoint,

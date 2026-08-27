@@ -37,16 +37,15 @@ explicitly provisional.
 
 | Priority | Plan | Reason |
 |---:|---|---|
-| 1 | 009 — Re-evaluate glass slide capture and material options | The Firmest 0.45 retainer is the best tested snap fit but the glass can still be knocked out easily. This is a containment and glass-safety failure that affects every cassette size and should be resolved before height or family optimization. |
-| 2 | 002 — Optimize cassette and carrier height | Establishes the shared vertical envelope after the lid/capture interface is known. |
-| 3 | 003 — Develop optional cassette dividers | Adds the requested small-part partitions after the final internal height and lid interface are available. |
-| 4 | 004 — Finalize the smallest cassette and carrier | Integrates the verified carrier, glass capture, height, and divider work into the smallest production candidate. |
-| 5 | 005 — Develop the larger cassette family | Extends the verified smallest interfaces without propagating unresolved geometry. |
-| 6 | 006 — Develop mixed-layout carriers | Requires physical envelopes from the completed cassette family. |
-| 7 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
-| 8 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
+| 1 | 002 — Optimize cassette and carrier height | Establishes the shared vertical envelope after the lid/capture interface is known. |
+| 2 | 003 — Develop optional cassette dividers | Adds the requested small-part partitions after the final internal height and lid interface are available. |
+| 3 | 004 — Finalize the smallest cassette and carrier | Integrates the verified carrier, glass capture, height, and divider work into the smallest production candidate. |
+| 4 | 005 — Develop the larger cassette family | Extends the verified smallest interfaces without propagating unresolved geometry. |
+| 5 | 006 — Develop mixed-layout carriers | Requires physical envelopes from the completed cassette family. |
+| 6 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
+| 7 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
 
-Plan 001 is currently in work and waiting on physical prints. Plan 009 concept
-and coupon work, and provisional Plan 003 divider concept work, are eligible to
-start concurrently without waiting for Plan 001 to archive; their final geometry
-remains gated by the dependencies stated in their plan documents.
+Plans 001 and 009 are currently in work. Plan 001 is waiting on long carrier
+prints while Plan 009 develops shorter glass-capture test articles. Provisional
+Plan 003 divider concept work remains eligible to start concurrently; all final
+geometry remains gated by the dependencies stated in the plan documents.

@@ -1,11 +1,11 @@
 # Plan 009 — Re-evaluate glass slide capture and material options
 
-- Status: Queued
+- Status: Executing — developing first capture coupons
 - Depends on: No prerequisite for concept and coupon work; final carrier-envelope validation uses Plan 001 measurements
 - Created: 2026-08-27
-- Started: Not started
+- Started: 2026-08-27
 - Completed: Not completed
-- Git start: Not committed
+- Git start: Pending activation checkpoint
 - Git completion: Not completed
 
 ## Triggering physical feedback
