@@ -1,0 +1,203 @@
+{
+  "design": "Glass-slide small-parts cassette",
+  "version": "0.7",
+  "units": "mm",
+  "nominal_body_mm": [
+    38.6,
+    80.0,
+    24.8
+  ],
+  "closed_height_mm": 28.0,
+  "maximum_printed_envelope_mm": [
+    39.55,
+    80.0,
+    28.0
+  ],
+  "maximum_intended_glass_mm": [
+    26.3,
+    76.3,
+    1.2
+  ],
+  "pane_channel_mm": [
+    27.0,
+    77.0,
+    1.4
+  ],
+  "clear_window_mm": [
+    23.0,
+    58.5
+  ],
+  "label_zone_mm": [
+    34.0,
+    10.0
+  ],
+  "functional_validation": {
+    "hinge_body_knuckle_radial_clearance_mm": 0.25,
+    "hinge_lid_knuckle_radial_clearance_mm": 0.25,
+    "hinge_sweep_checked_deg": [
+      0,
+      120
+    ],
+    "hinge_axial_gap_between_knuckles_mm": 0.8,
+    "hinge_profile": "pointed outer underside and 45-degree teardrop bore roof",
+    "hinge_outer_lower_run_over_rise": 0.837,
+    "hinge_bore_roof_run_over_rise": 1.0,
+    "body_hinge_nominal_core_diameter_mm": 2.25,
+    "lid_hinge_nominal_core_diameter_mm": 2.1,
+    "body_hinge_min_inscribed_radius_mm": 1.117,
+    "lid_hinge_min_inscribed_radius_mm": 1.043,
+    "body_hinge_pin_min_radial_clearance_mm": 0.242,
+    "lid_hinge_pin_min_radial_clearance_mm": 0.168,
+    "body_attachment_to_bore_clearance_mm": 0.15,
+    "lid_attachment_to_bore_x_clearance_mm": 0.15,
+    "lid_attachment_to_bore_z_clearance_mm": 0.15,
+    "lid_knuckle_root_overlap_mm": 0.2,
+    "lid_knuckle_first_print_height_mm": 0.55,
+    "bed_supported_lid_root_height_mm": 1.8,
+    "supported_height_above_knuckle_start_mm": 1.25,
+    "lid_root_overlap_beyond_each_knuckle_end_mm": 0.1,
+    "lid_root_to_body_knuckle_axial_clearance_mm": 0.7,
+    "lid_root_to_body_end_wall_axial_clearance_mm": 0.15,
+    "lid_root_sweep_checked_deg": [
+      0,
+      120
+    ],
+    "lid_root_sweep_sample_step_deg": 0.5,
+    "lid_root_body_collision_free": true,
+    "pane_loading_channel_width_mm": 27.0,
+    "pane_clear_channel_height_mm": 1.4,
+    "pane_top_capture_opening_mm": 23.0,
+    "pane_bottom_capture_opening_mm": 24.0,
+    "pane_top_overlap_per_side_at_24_9_mm_mm": 0.95,
+    "pane_bottom_overlap_per_side_at_24_9_mm_mm": 0.45,
+    "pane_axial_clearance_at_76_3_mm_mm": 0.7,
+    "pane_lateral_clearance_at_26_3_mm_mm": 0.7,
+    "opposite_ledge_functional_overhang_mm": 1.5,
+    "pane_tongue_free_length_mm": 6.75,
+    "pane_tongue_thickness_mm": 0.6,
+    "pane_tongue_relaxed_face_clearance_mm": 0.2,
+    "pane_tongue_simple_beam_strain_estimate": 0.1106,
+    "pane_capture_material": "PETG",
+    "label_zone_fully_supported": true,
+    "fingernail_relief_mm": [
+      14.0,
+      1.3,
+      1.4
+    ],
+    "fingernail_roof_thickness_mm": 1.8,
+    "fingernail_relief_to_latch_clearance_mm": 0.95,
+    "future_3_by_2_array_with_0_4_gaps_mm": [
+      119.45,
+      160.4
+    ]
+  },
+  "hinge_pin": "1.75 mm printer filament, cut 75 mm; body core 2.25 mm, lid cores 2.10 mm, all with 45-degree teardrop roofs",
+  "hinge_attachment_note": "Lid rail clears its 2.10 mm bore by 0.15 mm in X and Z, and its bed-supported root overlaps the hinge axis by 0.20 mm across both lid-knuckle spans; body centre support stops 0.15 mm below the 2.25 mm bore.",
+  "recommended_material": "PETG required for the integral pane latch; verified v0.5/v0.6 body remains reusable",
+  "pane_capture_note": "End-loaded 27.0 x 1.4 mm channel with 23.0/24.0 mm capture openings and a 6.75 mm integral PETG tongue. The shoulder returns behind the pane end and does not press on the glass face.",
+  "physical_retention_status": "Coupon v0.4 works physically. Full-lid v0.7 integration remains unverified.",
+  "mesh_note": "Individual closed shells intentionally overlap at hinge/latch joins; modern slicers merge overlapping volumes.",
+  "files": [
+    {
+      "file": "cassette_body_v0_7.stl",
+      "triangles": 376,
+      "bounds_min_mm": [
+        -20.25,
+        -40.0,
+        0.0
+      ],
+      "bounds_max_mm": [
+        19.3,
+        40.0,
+        27.45
+      ],
+      "size_mm": [
+        39.55,
+        80.0,
+        27.45
+      ],
+      "signed_mesh_volume_mm3": 16409.03,
+      "edge_audit": {
+        "triangles": 376,
+        "unique_edges": 564,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "exported_stl_audit": {
+        "binary_stl_size_valid": true,
+        "triangle_count": 376,
+        "finite_coordinates": true,
+        "degenerate_triangles": 0
+      }
+    },
+    {
+      "file": "cassette_lid_v0_7_print.stl",
+      "triangles": 692,
+      "bounds_min_mm": [
+        -20.25,
+        -40.0,
+        0.0
+      ],
+      "bounds_max_mm": [
+        19.3,
+        40.0,
+        6.5
+      ],
+      "size_mm": [
+        39.55,
+        80.0,
+        6.5
+      ],
+      "signed_mesh_volume_mm3": 3413.86,
+      "edge_audit": {
+        "triangles": 692,
+        "unique_edges": 1038,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "exported_stl_audit": {
+        "binary_stl_size_valid": true,
+        "triangle_count": 692,
+        "finite_coordinates": true,
+        "degenerate_triangles": 0
+      },
+      "shell_overlap_connectivity": {
+        "closed_shell_components": 30,
+        "positive_aabb_overlap_graph_connected": true,
+        "unconnected_shell_components": 0
+      }
+    },
+    {
+      "file": "REFERENCE_closed_assembly_DO_NOT_PRINT.stl",
+      "triangles": 1080,
+      "bounds_min_mm": [
+        -20.25,
+        -40.0,
+        0.0
+      ],
+      "bounds_max_mm": [
+        19.3,
+        40.0,
+        28.0
+      ],
+      "size_mm": [
+        39.55,
+        80.0,
+        28.0
+      ],
+      "signed_mesh_volume_mm3": 22230.93,
+      "edge_audit": {
+        "triangles": 1080,
+        "unique_edges": 1620,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "exported_stl_audit": {
+        "binary_stl_size_valid": true,
+        "triangle_count": 1080,
+        "finite_coordinates": true,
+        "degenerate_triangles": 0
+      }
+    }
+  ]
+}

@@ -69,7 +69,7 @@ geometry for checked dimensions and exported-STL validation.
   stacked for a 14U engaged height.
 - Nominal modeled stack height, including the exposed top lip: **102.4 mm**.
   Nominal clearance below the measured 111.125 mm drawer ceiling: **8.725 mm**.
-- Each carrier is designed for six v0.6 cassettes in the reference 3 × 2
+- Each carrier is designed for six current smallest cassettes in the reference 3 × 2
   layout. The cassette support floor is at Z = 6.75 mm and the stacking
   engagement plane is at Z = 49.0 mm, leaving 14.25 mm modeled clearance above
   the 28.0 mm closed cassette envelope.
@@ -87,7 +87,7 @@ geometry for checked dimensions and exported-STL validation.
 
 ## Modular Cassette Family
 
-- The smallest v0.6 cassette is the current **1 × 1 cassette module** for
+- The smallest v0.7 cassette is the current **1 × 1 cassette module** for
   family planning; it is not one 42 mm Gridfinity cell.
 - Develop multiple cassette sizes for different part volumes.
 - Larger cassettes must occupy integer multiples of a consistent cassette
@@ -102,10 +102,11 @@ geometry for checked dimensions and exported-STL validation.
 - Optimize carrier footprint and cassette combinations together. Do not enlarge
   a cassette merely to align it with one 42 mm Gridfinity cell.
 
-## Canonical Smallest Cassette: v0.6
+## Canonical Smallest Cassette: v0.7
 
-Use v0.6 as the current baseline. Preserve these dimensions unless a new
-version explicitly documents a change:
+Use the v0.7 lid with the unchanged v0.5/v0.6 body as the current integration
+baseline. Preserve these dimensions unless a new version explicitly documents
+a change:
 
 | Feature | Dimension |
 |---|---:|
@@ -136,15 +137,17 @@ version explicitly documents a change:
 - Never design the glass as a press fit and never instruct the user to force a
   slide. Enclose and support all edges. Reject chipped or oversize glass.
 - Avoid 2 mm slides; the current lid is designed for no more than 1.2 mm glass.
-- The pane is installed from the underside and mechanically captured by a
-  removable printed retainer. It is fixed in the lid; it is not the moving lid.
+- The pane is end-loaded into continuous rails and positively blocked by an
+  integral PETG compliant shoulder. The shoulder returns behind the pane end; it
+  does not remain pressed against the glass face. The pane is fixed in the lid;
+  it is not the moving lid.
 - Optional clear polyester safety film may be applied to the parts-facing side
   to retain fragments while leaving the exposed top surface as scratch-resistant
   glass. Trim film so it does not change the fit.
 - Provide a flat solid area for **9 mm Brother TZe label tape**. The current
   smallest lid provides a 34 × 10 mm label zone.
 
-## Hinge: Required v0.6 Geometry
+## Hinge: Required v0.6 Geometry Retained in v0.7
 
 - The hinge is an original three-knuckle removable-pin design, not a copied or
   published tested hinge. Say so when provenance matters.
@@ -166,7 +169,7 @@ version explicitly documents a change:
   radial clearance to mating reliefs.
 - Use the current 2.45 mm rotational keep-out and validate opening through at
   least 120 degrees.
-- Each v0.6 lid knuckle requires a continuous, bed-supported root:
+- Each v0.7 lid knuckle requires the v0.6 continuous, bed-supported root:
   - Root begins at print Z = 0 and remains solid for the first 1.8 mm.
   - First knuckle material begins at approximately print Z = 0.55 mm.
   - Root extends 0.20 mm past the hinge axis.
@@ -178,7 +181,21 @@ version explicitly documents a change:
 - If a lid bore alone prints slightly tight, a 2.0 mm drill may be turned gently
   by hand. Do not power-drill printed knuckles.
 
-## Glass Retainer
+## Pane Capture
+
+- Current v0.7 integration geometry:
+  - 27.0 mm loading channel and 1.4 mm clear height.
+  - 23.0 mm top/visible opening and 24.0 mm opposite opening.
+  - 0.95/0.45 mm overlap per side on the measured 24.9 mm glass.
+  - 0.70 mm axial clearance for a 76.3 mm pane.
+  - Integral PETG tongue: 8.0 mm wide × 0.6 mm thick × 6.75 mm free length.
+  - Relaxed tongue face remains 0.20 mm clear of the pane plane.
+- Print the lid top/label-face down without internal support. Manually depress
+  the tongue during pane insertion/removal; never use the glass to cam it aside.
+- The v0.4 short coupon physically worked. The v0.7 complete lid is generated
+  but its perimeter-supported behavior remains physically unverified.
+
+Legacy v0.6 snap-retainer evidence:
 
 - Use a replaceable underside retainer with four chamfered lugs engaging a
   positive 0.35 mm-deep groove in the lid pocket wall.
@@ -242,19 +259,20 @@ version explicitly documents a change:
   ladder. Keep all variants for recalibration after a material, printer, nozzle,
   extrusion, or slicer-setting change; when recalibrating, test upward in order.
 - Do not force a retainer that requires levering against the glass.
-- PETG is preferred for a removable retainer because its rails must flex. ASA
-  may be useful for dimensional testing but is stiffer.
+- The legacy retainer ladder remains available through Git history for failure
+  comparison and recalibration evidence; it is not part of the current release.
 
 ## Materials and Print Assumptions
 
-- Support both ASA and PETG for body/lid prototypes. PETG remains the preferred
-  flexible-retainer material.
+- Support both ASA and PETG for the unchanged body. Use PETG for the v0.7 lid
+  because its integral pane latch is a physically tested PETG-specific feature.
 - Reasonable starting settings: 0.4 mm nozzle, 0.20 mm layers, four perimeters.
 - Retainers may use 0.16 or 0.20 mm layers so the 0.8 mm bezel divides evenly.
 - Keep seams away from hinge bores where possible.
 - Do not scale parts in the slicer to fix tolerances. Change named parametric
   dimensions and release a new version.
-- Do not generate support inside or beneath the v0.6 hinge.
+- Do not generate support inside the pane channel or inside/beneath the retained
+  v0.6 hinge geometry.
 
 ## Compatibility and Failure History
 
@@ -270,9 +288,13 @@ Do not regress to earlier geometries:
   deformed and required manual opening.
 - **v0.5:** enlarged only the body bore to 2.25 mm; the lid still had a tapered
   root that left much of each knuckle beginning as a floating cantilever.
-- **v0.6:** current baseline. Retains the v0.5 body bore and adds continuous,
+- **v0.6:** retained hinge baseline. Keeps the v0.5 body bore and adds continuous,
   bed-supported roots beneath both lid knuckles. The v0.6 lid paired with a
   printed v0.5 body has been physically verified as a functioning hinge.
+- **v0.7:** current full-lid integration article. Keeps the v0.6 hinge, body
+  latch, label zone, and envelope; replaces the failed snap retainer with the
+  physically successful end-loaded channel and 6.75 mm PETG compliant latch.
+  The complete lid remains physically unverified.
 
 Compatibility rules:
 
@@ -280,7 +302,8 @@ Compatibility rules:
 - A successful v0.5 body should be reused with the v0.6 lid; it does not need
   to be reprinted merely to change its version label.
 - The v0.6 body is geometrically equivalent to the v0.5 body.
-- Do not use v0.4 or v0.5 lids for the next test; use the v0.6 lid.
+- Next integration test: v0.7 lid + successful v0.5/v0.6 body. The generated
+  v0.7 body has identical triangle coordinates and does not require reprinting.
 - Grooved-lid retainers and glass remain reusable for controlled experiments
   when their measured fit is acceptable. The Firmest 0.45 retainer is the best
   v0.6 comparison sample but must not be described as adequate knockout
@@ -290,13 +313,16 @@ Compatibility rules:
 
 - Preserve the editable parametric Python generator, README, binary STLs,
   manifest, assembly reference, and preview images in each release.
-- Version every geometry change. Do not overwrite a physically tested revision.
+- Version every geometry change. The working release directory may replace old
+  generated artifacts after a Git checkpoint when the user explicitly chooses
+  Git as the revision history; never rewrite the Git history that preserves the
+  physically tested revision.
 - Record the user's material, slicer settings, measured dimensions, and physical
   outcome beside the revision that was tested.
 - Before printing a full body or lid, provide small hinge coupons reproducing
   the exact full-part attachment geometry and print orientation.
-- Before printing a full retainer/lid combination, provide a glass-pocket coupon
-  and clearly identifiable retainer-fit samples.
+- Before printing a full pane-capture lid, provide representative channel and
+  latch coupons unless the exact geometry has already passed physical coupons.
 - Validate the **exported STL**, not only source equations or an assembly render:
   - Binary STL triangle count and file integrity.
   - Zero boundary and zero non-manifold edges for each printable STL.

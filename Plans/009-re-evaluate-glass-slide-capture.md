@@ -1,6 +1,6 @@
 # Plan 009 — Re-evaluate glass slide capture and material options
 
-- Status: Executing — v0.3 passed; direct 75%-shorter v0.4 latch ready for test
+- Status: Executing — v0.7 complete lid ready for physical test
 - Depends on: No prerequisite for concept and coupon work; final carrier-envelope validation uses Plan 001 measurements
 - Created: 2026-08-27
 - Started: 2026-08-27
@@ -66,8 +66,9 @@ capture geometry.
   with the selected test geometry.
 - Existing snap retainers remain calibration evidence but are expected to be
   superseded for production containment.
-- Version every changed lid, retainer, end gate, spacer, or pane specification;
-  do not overwrite v0.6.
+- Version every changed geometry. At the user's direction, keep only the current
+  generated artifacts in the working cassette directory and use Git history to
+  recover the physically tested v0.6 release.
 
 ## Implementation steps and test prints
 
@@ -100,9 +101,11 @@ capture geometry.
 8. [ ] Apply the documented knockout/rollover protocol inside a protective
    enclosure. Compare escape, damage, and movement directly with the v0.6
    Firmest 0.45 baseline.
-9. [ ] Select the simplest positive-capture design that passes, then generate a
+9. [x] Select the simplest positive-capture design that passes, then generate a
    complete versioned lid and all required gates, spacers, or retainers.
-10. [ ] Audit every exported STL for integrity, topology, degenerates, floating
+   Selected the integral PETG compliant shoulder with no loose capture parts and
+   generated the complete v0.7 lid.
+10. [x] Audit every exported STL for integrity, topology, degenerates, floating
     parts, support requirements, glass clearances, hinge/latch sections, closed
     envelope, and carrier engagement-plane clearance.
 11. [ ] Print and assemble at least one complete lid with glass and one with the
@@ -299,6 +302,34 @@ and identify all lids or retainers that must be reprinted or retired.
 - Test actuation before inserting glass, then five inspected cycles before
   continuing to 25. Stop for whitening, creasing, cracking, permanent set,
   incomplete return, or root/frame damage.
+
+### Exported v0.7 complete-lid audit — 2026-08-27
+
+- Generated `cassette_lid_v0_7_print.stl` in the existing cassette release
+  directory and removed the superseded v0.6 generated artifacts at the user's
+  direction. Git retains the old release.
+- The v0.7 lid retains the 39.55 × 80.0 × 28.0 closed envelope, 23.0 × 58.5 mm
+  visible window, 34.0 × 10.0 mm label zone, 2.10 mm lid bores, continuous hinge
+  roots, existing body latch, and fingernail relief.
+- The pane channel is 27.0 mm wide × 1.4 mm clear with 23.0/24.0 mm openings,
+  0.95/0.45 mm overlap per side on the measured 24.9 mm glass, and 0.70 mm axial
+  clearance at the maximum intended 76.3 mm length.
+- The integrated PETG latch retains the 6.75 mm free length, 0.6 mm thickness,
+  and 0.20 mm relaxed face clearance. Its shoulder was moved close to the entry
+  edge to compact the successful mechanism within the 80.0 mm envelope.
+- Exported lid: 692 triangles, zero boundary edges, zero non-manifold edges,
+  zero degenerate triangles, finite coordinates, and valid binary size/count.
+  The body and non-print reference also pass the same exported-artifact checks.
+- The regenerated v0.7 body has 376 triangles with coordinate arrays identical
+  to the v0.6 body. All 352 generated lid hinge-shell triangles are present
+  unchanged in both the old v0.6 and new v0.7 exported lid STLs.
+- Actual exported-lid section intersections include the required main-channel
+  X stations at -13.0/-11.5/-11.0 and 12.0/12.5/14.0 mm and print-Z stations at
+  0.0, 0.6, 0.8, 2.2, and 3.0 mm. The top capture is bed-supported; only the
+  already coupon-tested 1.5 mm opposite ledges remain functional overhangs.
+- The lid must print top/label-face down in PETG without internal support. Full
+  pane loading, perimeter stiffness, hinge/body assembly, replacement cycles,
+  rollover, knockout behavior, and carrier clearance remain physical tests.
 
 ### Physical v0.4 result and integration decision
 

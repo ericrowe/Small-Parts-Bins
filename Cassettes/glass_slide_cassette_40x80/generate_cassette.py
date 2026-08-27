@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the v0.6 glass-slide small-parts cassette.
+"""Generate the current glass-slide small-parts cassette release.
 
 The STL generator itself uses only the Python standard library.  Matplotlib is
 used only when --preview is requested.
@@ -23,10 +23,15 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Iterable, Sequence
 
+HERE = Path(__file__).resolve().parent
+
 
 # ---------------------------------------------------------------------------
 # PARAMETERS
 # ---------------------------------------------------------------------------
+
+VERSION = "0.7"
+VERSION_TAG = "v0_7"
 
 # Cassette body.  The hinge sits mostly inside this nominal envelope; the
 # knuckle creates a 39.55 mm maximum width, documented in the manifest.
@@ -54,6 +59,29 @@ WINDOW_Y = -1.75
 MAX_GLASS_W = 26.30
 MAX_GLASS_D = 76.30
 MAX_GLASS_T = 1.20
+
+# v0.7 end-loaded pane capture. The top/visible face prints on the bed. The
+# assembled coordinates below are therefore the inverse of the tested coupon's
+# print Z: top capture 2.4..3.2, pane channel 1.0..2.4, and opposite ledges
+# 0.2..1.0. The 6.75 mm PETG tongue is unloaded 0.20 mm above the pane ceiling
+# in the assembled lid and moves outward through its top-face slot for service.
+PANE_CHANNEL_W = 27.00
+PANE_TOP_OPENING_W = 23.00
+PANE_BOTTOM_OPENING_W = 24.00
+PANE_CHANNEL_Z0 = 1.00
+PANE_CHANNEL_Z1 = 2.40
+PANE_BOTTOM_Z0 = 0.20
+PANE_TOP_Z1 = LID_H
+PANE_FAR_STOP_Y = 38.20
+PANE_ENTRY_Y = -40.00
+PANE_SHOULDER_Y0 = -39.80
+PANE_SHOULDER_Y1 = -38.80
+PANE_TONGUE_ROOT_Y = -33.05
+PANE_TONGUE_END_Y = -32.80
+PANE_TONGUE_W = 8.00
+PANE_TONGUE_H = 0.60
+PANE_FINGER_PAD_W = 12.00
+PANE_TONGUE_SLOT_Y1 = -32.95
 
 # The uninterrupted top surface above the window accepts a 9 mm TZe tape.
 LABEL_W = 34.00
@@ -501,7 +529,7 @@ def peaked_hinge_y(
 
 
 def build_body() -> Mesh:
-    out = Mesh("cassette_body_v0_6")
+    out = Mesh(f"cassette_body_{VERSION_TAG}")
     outer = chamfer_rect(BODY_W, BODY_D, BODY_CORNER)
     inner = chamfer_rect(
         BODY_W - 2 * BODY_WALL,
@@ -580,35 +608,70 @@ def build_body() -> Mesh:
 
 
 def build_lid_local() -> Mesh:
-    out = Mesh("cassette_lid_v0_6_local")
-    # Sixteen corresponding perimeter stations allow two local changes without
-    # a boolean engine: a full-height centre hinge notch and the shallow
-    # fingernail recess on the underside of the latch edge.
-    outer_lower = lid_outer_loop(finger_notched=True, hinge_bore_notched=True)
-    outer_upper = lid_outer_loop(finger_notched=False, hinge_bore_notched=False)
-    pocket = mapped_frame_loop(POCKET_W, POCKET_D, 0.55, POCKET_X, POCKET_Y)
-    pocket_groove = pocket_side_groove_loop()
-    window = mapped_frame_loop(WINDOW_W, WINDOW_D, 0.80, WINDOW_X, WINDOW_Y)
+    out = Mesh(f"cassette_lid_{VERSION_TAG}_local")
 
-    frame = Mesh("stepped_lid_frame")
-    _ring_face(frame, outer_lower, pocket, 0.0, up=False)
-    _loop_wall(frame, outer_lower, 0.0, FINGER_RELIEF_H, hole=False)
-    # Material above the latch-edge recess forms its graspable roof.
-    _ring_face(frame, outer_upper, outer_lower, FINGER_RELIEF_H, up=False)
-    _loop_wall(frame, outer_upper, FINGER_RELIEF_H, LID_H, hole=False)
+    # Top/visible frame, expressed in assembled coordinates. Closed overlapping
+    # prisms replace the old underside pocket and snap-retainer groove. The
+    # central entry slot leaves the compliant PETG tongue free on the build bed;
+    # the main 23 x 58.5 mm window and 34 x 10 mm label zone remain unchanged.
+    top_z0 = PANE_CHANNEL_Z1
+    top_z1 = PANE_TOP_Z1
+    window_y0 = WINDOW_Y - WINDOW_D / 2
+    window_y1 = WINDOW_Y + WINDOW_D / 2
+    window_x0 = WINDOW_X - WINDOW_W / 2
+    window_x1 = WINDOW_X + WINDOW_W / 2
+    slot_x0 = POCKET_X - PANE_FINGER_PAD_W / 2
+    slot_x1 = POCKET_X + PANE_FINGER_PAD_W / 2
 
-    # Positive retainer groove.  The lower shoulder arrests withdrawal; the
-    # upper shoulder prevents a loose bezel from migrating toward the glass.
-    _loop_wall(frame, pocket, 0.0, SNAP_GROOVE_Z0, hole=True)
-    _ring_face(frame, pocket_groove, pocket, SNAP_GROOVE_Z0, up=True)
-    _loop_wall(frame, pocket_groove, SNAP_GROOVE_Z0, SNAP_GROOVE_Z1, hole=True)
-    _ring_face(frame, pocket_groove, pocket, SNAP_GROOVE_Z1, up=False)
-    _loop_wall(frame, pocket, SNAP_GROOVE_Z1, POCKET_DEPTH, hole=True)
-    # Underside glass-support shoulder.
-    _ring_face(frame, pocket, window, POCKET_DEPTH, up=False)
-    _loop_wall(frame, window, POCKET_DEPTH, LID_H, hole=True)
-    _ring_face(frame, outer_upper, window, LID_H, up=True)
-    out.extend(frame.positive())
+    out.extend(box("top_entry_left", -16.20, slot_x0, -40.00, PANE_TONGUE_SLOT_Y1 + 0.10, top_z0, top_z1))
+    out.extend(box("top_entry_right", slot_x1, 17.30, -40.00, PANE_TONGUE_SLOT_Y1 + 0.10, top_z0, top_z1))
+    out.extend(box("top_entry_left_outer", -17.00, slot_x0, -38.05, PANE_TONGUE_SLOT_Y1 + 0.15, top_z0, top_z1))
+    out.extend(box("top_entry_right_outer", slot_x1, 19.30, -38.05, PANE_TONGUE_SLOT_Y1 + 0.15, top_z0, top_z1))
+    out.extend(box("top_tongue_root_band", -17.00, 19.30, PANE_TONGUE_ROOT_Y, window_y0 + 0.05, top_z0, top_z1))
+
+    # Main window side rails. The hinge-side centre segment preserves the v0.6
+    # rotational notch; end segments retain the verified knuckle-root overlap.
+    out.extend(box("top_window_left_lower", -17.00, window_x0, window_y0 - 0.05, HINGE_RELIEF_Y0, top_z0, top_z1))
+    out.extend(box("top_window_left_centre", -15.50, window_x0, HINGE_RELIEF_Y0 - 0.05, HINGE_RELIEF_Y1 + 0.05, top_z0, top_z1))
+    out.extend(box("top_window_left_upper", -17.00, window_x0, HINGE_RELIEF_Y1, window_y1 + 0.05, top_z0, top_z1))
+    out.extend(box("top_window_right", window_x1, 19.30, window_y0 - 0.05, window_y1 + 0.05, top_z0, top_z1))
+
+    # The unchanged solid label band also roofs the far end of the channel.
+    out.extend(box("top_label_band", -17.00, 19.30, window_y1, 38.05, top_z0, top_z1))
+    out.extend(box("top_label_chamfer_extension", LABEL_X - LABEL_W / 2, LABEL_X + LABEL_W / 2, 37.95, 38.55, top_z0, top_z1))
+    out.extend(box("top_far_end", -16.20, 17.30, 38.45, 40.00, top_z0, top_z1))
+
+    channel_x0 = POCKET_X - PANE_CHANNEL_W / 2
+    channel_x1 = POCKET_X + PANE_CHANNEL_W / 2
+    bottom_x0 = POCKET_X - PANE_BOTTOM_OPENING_W / 2
+    bottom_x1 = POCKET_X + PANE_BOTTOM_OPENING_W / 2
+
+    # Continuous side walls and 1.5 mm opposite ledges reproduce the passing
+    # v0.3/v0.4 channel and positively overlap the bed-supported top frame.
+    out.extend(box("pane_left_wall", -15.50, channel_x0, PANE_ENTRY_Y, 38.45, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_right_wall", channel_x1, 17.30, PANE_ENTRY_Y, 38.45, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_left_bottom_ledge", -15.50, bottom_x0, PANE_ENTRY_Y, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
+    out.extend(box("pane_right_bottom_ledge", bottom_x1, 17.30, PANE_ENTRY_Y, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
+    out.extend(box("pane_far_stop", channel_x0 - 0.05, channel_x1 + 0.05, PANE_FAR_STOP_Y, 39.50, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+
+    # Restore the v0.6 latch-edge perimeter while retaining its centred
+    # fingernail relief: 1.3 mm inset through the first 1.4 mm of assembled Z,
+    # with the full outer wall above it and on both uninterrupted end spans.
+    out.extend(box("right_outer_wall_lower_end", 17.25, 19.30, -38.05, -6.95, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("right_outer_wall_upper_end", 17.25, 19.30, 6.95, 38.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("right_finger_relief_inner_wall", 17.25, 18.00, -5.85, 5.85, 0.0, FINGER_RELIEF_H + 0.05))
+    out.extend(box("right_finger_relief_roof_wall", 17.25, 19.30, -7.05, 7.05, FINGER_RELIEF_H, PANE_CHANNEL_Z1 + 0.05))
+
+    # Directly integrate the physically successful v0.4 PETG tongue. In the
+    # relaxed state its lower face is 0.20 mm above the pane ceiling and the
+    # shoulder sits behind the trailing pane end rather than pressing on glass.
+    tongue_x0 = POCKET_X - PANE_TONGUE_W / 2
+    tongue_x1 = POCKET_X + PANE_TONGUE_W / 2
+    pad_x0 = POCKET_X - PANE_FINGER_PAD_W / 2
+    pad_x1 = POCKET_X + PANE_FINGER_PAD_W / 2
+    out.extend(box("pane_compliant_tongue", tongue_x0, tongue_x1, PANE_SHOULDER_Y0, PANE_TONGUE_END_Y, LID_H - PANE_TONGUE_H, LID_H))
+    out.extend(box("pane_latch_finger_pad", pad_x0, pad_x1, PANE_SHOULDER_Y0, PANE_SHOULDER_Y1 + 0.20, LID_H - PANE_TONGUE_H, LID_H))
+    out.extend(box("pane_positive_end_shoulder", tongue_x0, tongue_x1, PANE_SHOULDER_Y0, PANE_SHOULDER_Y1, PANE_CHANNEL_Z0, LID_H - PANE_TONGUE_H + 0.05))
 
     # Bed-supported roots for the two lid knuckles.  In v0.5 the upper frame
     # edge tapered from the hinge axis to the bore notch, so much of each
@@ -789,17 +852,17 @@ def build_hinge_test_lid_local() -> Mesh:
 
 
 def hinge_test_lid_print_orientation(lid: Mesh) -> Mesh:
-    rotated = lid.transformed(lambda p: (p[0], -p[1], LID_H - p[2]), "hinge_test_lid_v0_6_print")
-    return rotated.translated(0.0, 0.0, -rotated.bounds()[0][2], "hinge_test_lid_v0_6_print")
+    rotated = lid.transformed(lambda p: (p[0], -p[1], LID_H - p[2]), f"hinge_test_lid_{VERSION_TAG}_print")
+    return rotated.translated(0.0, 0.0, -rotated.bounds()[0][2], f"hinge_test_lid_{VERSION_TAG}_print")
 
 
 def lid_print_orientation(lid: Mesh) -> Mesh:
     """Place the label/top face on the build plate; hinge axis remains along Y."""
     # Rotate 180 degrees about X: y -> -y, z -> LID_H-z.  The descending snap
     # then prints upward.  Normalize the hinge's small lower extent to Z=0.
-    rotated = lid.transformed(lambda p: (p[0], -p[1], LID_H - p[2]), "cassette_lid_v0_6_print")
+    rotated = lid.transformed(lambda p: (p[0], -p[1], LID_H - p[2]), f"cassette_lid_{VERSION_TAG}_print")
     zmin = rotated.bounds()[0][2]
-    return rotated.translated(0.0, 0.0, -zmin, "cassette_lid_v0_6_print")
+    return rotated.translated(0.0, 0.0, -zmin, f"cassette_lid_{VERSION_TAG}_print")
 
 
 def combine(name: str, meshes: Iterable[Mesh]) -> Mesh:
@@ -834,9 +897,41 @@ def write_binary_stl(path: Path, mesh: Mesh) -> None:
             f.write(struct.pack("<12fH", *values, 0))
 
 
+def audit_exported_stl(path: Path) -> dict[str, object]:
+    """Re-read a binary STL and verify its encoded artifact, not just source mesh."""
+    data = path.read_bytes()
+    if len(data) < 84:
+        raise ValueError(f"truncated binary STL: {path}")
+    triangle_count = struct.unpack_from("<I", data, 80)[0]
+    if len(data) != 84 + 50 * triangle_count:
+        raise ValueError(f"binary STL size/count mismatch: {path}")
+    finite = True
+    degenerate = 0
+    for index in range(triangle_count):
+        values = struct.unpack_from("<12fH", data, 84 + 50 * index)
+        coords = values[3:12]
+        finite = finite and all(math.isfinite(value) for value in coords)
+        a, b, c = coords[0:3], coords[3:6], coords[6:9]
+        u = tuple(b[i] - a[i] for i in range(3))
+        v = tuple(c[i] - a[i] for i in range(3))
+        cross = (
+            u[1] * v[2] - u[2] * v[1],
+            u[2] * v[0] - u[0] * v[2],
+            u[0] * v[1] - u[1] * v[0],
+        )
+        if sum(value * value for value in cross) <= 1e-18:
+            degenerate += 1
+    return {
+        "binary_stl_size_valid": True,
+        "triangle_count": triangle_count,
+        "finite_coordinates": finite,
+        "degenerate_triangles": degenerate,
+    }
+
+
 def write_obj(path: Path, named_meshes: Sequence[tuple[str, Mesh]]) -> None:
     with path.open("w", encoding="utf-8", newline="\n") as f:
-        f.write("# Glass-slide cassette v0.6 assembly reference\n")
+        f.write(f"# Glass-slide cassette v{VERSION} assembly reference\n")
         index = 1
         for name, mesh in named_meshes:
             f.write(f"o {name}\n")
@@ -869,6 +964,67 @@ def edge_audit(mesh: Mesh, decimals: int = 5) -> dict[str, int]:
     }
 
 
+def shell_overlap_connectivity(mesh: Mesh, decimals: int = 5) -> dict[str, object]:
+    """Ensure every closed shell participates in a positive AABB-overlap graph."""
+    edge_to_triangles: dict[tuple[Vec3, Vec3], list[int]] = {}
+
+    def key(point: Vec3) -> Vec3:
+        return tuple(round(value, decimals) for value in point)  # type: ignore[return-value]
+
+    for index, triangle in enumerate(mesh.triangles):
+        points = [key(vertex) for vertex in triangle]
+        for i in range(3):
+            edge = tuple(sorted((points[i], points[(i + 1) % 3])))
+            edge_to_triangles.setdefault(edge, []).append(index)  # type: ignore[arg-type]
+    adjacency = [set() for _ in mesh.triangles]
+    for indices in edge_to_triangles.values():
+        for first in indices:
+            adjacency[first].update(index for index in indices if index != first)
+    components: list[list[int]] = []
+    visited: set[int] = set()
+    for start in range(len(mesh.triangles)):
+        if start in visited:
+            continue
+        stack = [start]
+        visited.add(start)
+        component: list[int] = []
+        while stack:
+            current = stack.pop()
+            component.append(current)
+            for neighbor in adjacency[current]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    stack.append(neighbor)
+        components.append(component)
+    bounds = []
+    for component in components:
+        points = [vertex for index in component for vertex in mesh.triangles[index]]
+        bounds.append((
+            tuple(min(point[axis] for point in points) for axis in range(3)),
+            tuple(max(point[axis] for point in points) for axis in range(3)),
+        ))
+    graph = [set() for _ in components]
+    for first, (lo_a, hi_a) in enumerate(bounds):
+        for second in range(first + 1, len(bounds)):
+            lo_b, hi_b = bounds[second]
+            if all(min(hi_a[axis], hi_b[axis]) - max(lo_a[axis], lo_b[axis]) > 1e-4 for axis in range(3)):
+                graph[first].add(second)
+                graph[second].add(first)
+    reached = {0} if components else set()
+    stack = list(reached)
+    while stack:
+        current = stack.pop()
+        for neighbor in graph[current]:
+            if neighbor not in reached:
+                reached.add(neighbor)
+                stack.append(neighbor)
+    return {
+        "closed_shell_components": len(components),
+        "positive_aabb_overlap_graph_connected": len(reached) == len(components),
+        "unconnected_shell_components": len(components) - len(reached),
+    }
+
+
 def mesh_record(mesh: Mesh, filename: str) -> dict[str, object]:
     lo, hi = mesh.bounds()
     return {
@@ -888,11 +1044,26 @@ def validate_design() -> dict[str, object]:
     hinge_lid_clear = HINGE_LID_RELIEF_X - (HINGE_X + HINGE_KEEP_OUT_R)
     finger_inner_x = BODY_W / 2 - FINGER_RELIEF_DEPTH
     latch_clear = finger_inner_x - 17.05
-    snap_seated_clear = SNAP_GROOVE_DEPTH - SNAP_INTERFERENCE
     finger_roof = LID_H - FINGER_RELIEF_H
     envelope_w = BODY_W / 2 - (HINGE_X - HINGE_OUTER_HALF_W)
     array_w = 3 * envelope_w + 2 * 0.40
     array_d = 2 * BODY_D + 0.40
+    pane_channel_h = PANE_CHANNEL_Z1 - PANE_CHANNEL_Z0
+    top_overlap_measured = (24.9 - PANE_TOP_OPENING_W) / 2
+    bottom_overlap_measured = (24.9 - PANE_BOTTOM_OPENING_W) / 2
+    pane_axial_clearance = PANE_FAR_STOP_Y - PANE_SHOULDER_Y1 - MAX_GLASS_D
+    pane_tongue_free_length = PANE_TONGUE_ROOT_Y - PANE_SHOULDER_Y0
+    pane_tongue_relaxed_gap = LID_H - PANE_TONGUE_H - PANE_CHANNEL_Z1
+    pane_tongue_strain = 6.0 * pane_channel_h * PANE_TONGUE_H / pane_tongue_free_length**2
+    pane_lateral_clearance = PANE_CHANNEL_W - MAX_GLASS_W
+    opposite_ledge_overhang = (PANE_CHANNEL_W - PANE_BOTTOM_OPENING_W) / 2
+    label_x0, label_x1 = LABEL_X - LABEL_W / 2, LABEL_X + LABEL_W / 2
+    label_y0, label_y1 = LABEL_Y - LABEL_D / 2, LABEL_Y + LABEL_D / 2
+    label_zone_fully_supported = (
+        label_x0 >= -16.50 and label_x1 <= 17.50
+        and label_y0 >= WINDOW_Y + WINDOW_D / 2
+        and label_y1 <= 38.55
+    )
 
     # The outer lower V must never grow outward faster than 45 degrees.  The
     # teardrop roof is exactly 45 degrees and contains the full filament pin.
@@ -1005,8 +1176,21 @@ def validate_design() -> dict[str, object]:
         "lid_root_sweep_checked_deg": [0, 120],
         "lid_root_sweep_sample_step_deg": root_sweep_step,
         "lid_root_body_collision_free": root_sweep_collision_free,
-        "snap_entry_interference_per_side_mm": SNAP_INTERFERENCE,
-        "snap_seated_clearance_per_side_mm": round(snap_seated_clear, 3),
+        "pane_loading_channel_width_mm": PANE_CHANNEL_W,
+        "pane_clear_channel_height_mm": round(pane_channel_h, 3),
+        "pane_top_capture_opening_mm": PANE_TOP_OPENING_W,
+        "pane_bottom_capture_opening_mm": PANE_BOTTOM_OPENING_W,
+        "pane_top_overlap_per_side_at_24_9_mm_mm": round(top_overlap_measured, 3),
+        "pane_bottom_overlap_per_side_at_24_9_mm_mm": round(bottom_overlap_measured, 3),
+        "pane_axial_clearance_at_76_3_mm_mm": round(pane_axial_clearance, 3),
+        "pane_lateral_clearance_at_26_3_mm_mm": round(pane_lateral_clearance, 3),
+        "opposite_ledge_functional_overhang_mm": round(opposite_ledge_overhang, 3),
+        "pane_tongue_free_length_mm": round(pane_tongue_free_length, 3),
+        "pane_tongue_thickness_mm": PANE_TONGUE_H,
+        "pane_tongue_relaxed_face_clearance_mm": round(pane_tongue_relaxed_gap, 3),
+        "pane_tongue_simple_beam_strain_estimate": round(pane_tongue_strain, 4),
+        "pane_capture_material": "PETG",
+        "label_zone_fully_supported": label_zone_fully_supported,
         "fingernail_relief_mm": [FINGER_RELIEF_W, FINGER_RELIEF_DEPTH, FINGER_RELIEF_H],
         "fingernail_roof_thickness_mm": round(finger_roof, 3),
         "fingernail_relief_to_latch_clearance_mm": round(latch_clear, 3),
@@ -1027,14 +1211,22 @@ def validate_design() -> dict[str, object]:
     assert lid_root_to_body_knuckle_axial_clearance >= 0.65
     assert lid_root_to_body_end_wall_axial_clearance >= 0.15 - 1e-9
     assert root_sweep_collision_free
-    assert snap_seated_clear >= 0.10
+    assert abs(pane_channel_h - 1.40) < 1e-9
+    assert top_overlap_measured >= 0.90
+    assert bottom_overlap_measured >= 0.40
+    assert pane_axial_clearance >= 0.50
+    assert pane_lateral_clearance >= 0.60
+    assert opposite_ledge_overhang <= 1.50 + 1e-9
+    assert abs(pane_tongue_free_length - 6.75) < 1e-9
+    assert pane_tongue_relaxed_gap >= 0.20 - 1e-9
+    assert label_zone_fully_supported
     assert finger_roof >= 1.60
     assert latch_clear >= 0.80
     assert array_w <= 120.30 and array_d <= 162.30
     return checks
 
 
-def render_preview(path: Path, body: Mesh, lid_local: Mesh, retainer: Mesh) -> None:
+def render_preview(path: Path, body: Mesh, lid_local: Mesh) -> None:
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
@@ -1061,8 +1253,7 @@ def render_preview(path: Path, body: Mesh, lid_local: Mesh, retainer: Mesh) -> N
     ax = axes[0]
     add_mesh(ax, body, "#d7dadc")
     add_mesh(ax, lid_local.translated(0, 0, BODY_H), "#9aa5ae")
-    add_mesh(ax, retainer.translated(0, 0, BODY_H + RETAINER_SEAT_FOR_MAX_GLASS), "#ef8a47")
-    add_mesh(ax, glass_mesh(BODY_H + POCKET_DEPTH - MAX_GLASS_T), "#78d6ea", 0.42, "#16778b")
+    add_mesh(ax, glass_mesh(BODY_H + PANE_CHANNEL_Z0), "#78d6ea", 0.42, "#16778b")
     # Paper label reference only.  The perimeter is also drawn explicitly
     # because Matplotlib's 3D transparency sorter can otherwise hide a thin
     # coplanar patch.
@@ -1084,13 +1275,12 @@ def render_preview(path: Path, body: Mesh, lid_local: Mesh, retainer: Mesh) -> N
     ax.set_ylim(-45, 45)
     ax.set_zlim(0, 39)
 
-    # Exploded view: body, retainer, glass, lid.
+    # Exploded view: body, pane, and the end-loaded lid; no loose retainer.
     ax = axes[1]
     add_mesh(ax, body, "#d7dadc")
-    add_mesh(ax, retainer.translated(0, 0, BODY_H + 9.0), "#ef8a47")
-    add_mesh(ax, glass_mesh(BODY_H + 13.0), "#78d6ea", 0.48, "#16778b")
-    add_mesh(ax, lid_local.translated(0, 0, BODY_H + 20.0), "#9aa5ae")
-    ax.set_title("Exploded underside assembly · bezel remains replaceable", pad=12, fontsize=10.5)
+    add_mesh(ax, glass_mesh(BODY_H + 12.0), "#78d6ea", 0.48, "#16778b")
+    add_mesh(ax, lid_local.translated(0, 0, BODY_H + 17.0), "#9aa5ae")
+    ax.set_title("Exploded assembly · pane end-loads without a loose retainer", pad=12, fontsize=10.5)
     ax.set_xlim(-26, 26)
     ax.set_ylim(-45, 45)
     ax.set_zlim(0, 54)
@@ -1103,7 +1293,7 @@ def render_preview(path: Path, body: Mesh, lid_local: Mesh, retainer: Mesh) -> N
         ax.set_zlabel("Z (mm)", labelpad=4)
         ax.grid(False)
         ax.set_facecolor("#f4f1ea")
-    fig.suptitle("Glass-slide small-parts cassette · prototype v0.6", fontsize=15, fontweight="bold", y=0.97)
+    fig.suptitle(f"Glass-slide small-parts cassette · prototype v{VERSION}", fontsize=15, fontweight="bold", y=0.97)
     fig.text(
         0.5,
         0.025,
@@ -1416,16 +1606,62 @@ def render_lid_support_sections(path: Path, lid_print: Mesh) -> None:
         axis.grid(alpha=0.22)
         axis.set_xlabel("X (mm)", fontsize=8.5)
     axes[0].set_ylabel("Print Z (mm)", fontsize=8.5)
-    fig.suptitle("Cassette v0.6 · actual lid STL sections show a continuous bed-supported hinge root", fontsize=12.5, fontweight="bold")
+    fig.suptitle(f"Cassette v{VERSION} · actual lid STL sections show the unchanged bed-supported hinge root", fontsize=12.5, fontweight="bold")
     fig.text(0.5, 0.02, "Orange line = build plate · root remains connected from Z = 0 through the first knuckle layer at Z = 0.55 mm", ha="center", fontsize=8.8, color="#37444d")
     fig.subplots_adjust(left=0.055, right=0.99, bottom=0.19, top=0.79, wspace=0.22)
     fig.savefig(path, bbox_inches="tight")
     plt.close(fig)
 
 
+def write_v07_preview_svg(path: Path) -> None:
+    path.write_text(f'''<svg xmlns="http://www.w3.org/2000/svg" width="980" height="520" viewBox="0 0 980 520">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#333"/></marker></defs>
+<rect width="100%" height="100%" fill="#f7f4ed"/><text x="28" y="34" font-family="sans-serif" font-size="21" font-weight="bold">Cassette v{VERSION} — end-loaded full lid</text>
+<g transform="translate(48 72)" font-family="sans-serif"><text x="0" y="0" font-size="15" font-weight="bold">Top view</text><rect x="0" y="18" width="193" height="400" rx="11" fill="#d8d1c2" stroke="#222" stroke-width="2"/><rect x="42" y="62" width="115" height="292" fill="#9ed5e5" stroke="#174c5b" stroke-width="2"/><rect x="13" y="357" width="170" height="50" fill="#f3df66" stroke="#8f7b20"/><text x="64" y="387" font-size="13">34 × 10 label</text><rect x="66" y="18" width="60" height="35" fill="#e7a84f" stroke="#6d4610"/><rect x="77" y="48" width="38" height="10" fill="#b04b3f"/><line x1="96" y1="-2" x2="96" y2="42" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/><text x="120" y="8" font-size="13">pane enters here</text><text x="52" y="445" font-size="13">Blue = installed glass</text></g>
+<g transform="translate(310 78)" font-family="sans-serif"><text x="0" y="0" font-size="15" font-weight="bold">Capture cross-section</text><path d="M0 185 L0 0 L60 0 L60 48 L40 48 L40 142 L82 142 L82 185 Z" fill="#d8d1c2" stroke="#222" stroke-width="2"/><path d="M270 185 L270 0 L210 0 L210 48 L230 48 L230 142 L188 142 L188 185 Z" fill="#d8d1c2" stroke="#222" stroke-width="2"/><rect x="47" y="67" width="176" height="58" fill="#9ed5e5" stroke="#174c5b"/><text x="102" y="101" font-size="14">glass pane</text><text x="0" y="220" font-size="13">27.0 mm loading channel · 1.4 mm clear height</text><text x="0" y="246" font-size="13">23.0 mm top opening · 24.0 mm opposite opening</text><text x="0" y="272" font-size="13">0.95 / 0.45 mm overlap per side on 24.9 mm glass</text></g>
+<g transform="translate(650 78)" font-family="sans-serif"><text x="0" y="0" font-size="15" font-weight="bold">Installed latch state</text><rect x="45" y="62" width="245" height="34" fill="#9ed5e5" stroke="#174c5b"/><path d="M28 145 L28 45 L45 45 L45 112 L37 112 L37 145 Z" fill="#b04b3f" stroke="#68251f"/><rect x="28" y="125" width="185" height="14" fill="#e7a84f" stroke="#6d4610"/><text x="80" y="165" font-size="13">6.75 mm PETG tongue</text><text x="58" y="116" font-size="12">0.20 mm relaxed gap</text><text x="0" y="205" font-size="13">Shoulder returns behind the pane end.</text><text x="0" y="231" font-size="13">It does not press on the glass face.</text><text x="0" y="275" font-size="15" font-weight="bold">Compatibility</text><text x="0" y="303" font-size="13">Reuse verified v0.5/v0.6 body.</text><text x="0" y="329" font-size="13">Reuse straight 1.75 mm hinge pin.</text><text x="0" y="355" font-size="13">Print lid top/label-face down.</text><text x="0" y="381" font-size="13">No internal slicer support.</text></g></svg>''')
+
+
+def write_v07_capture_section_svg(path: Path) -> None:
+    path.write_text(f'''<svg xmlns="http://www.w3.org/2000/svg" width="920" height="360" viewBox="0 0 920 360">
+<rect width="100%" height="100%" fill="#f7f4ed"/><text x="28" y="34" font-family="sans-serif" font-size="20" font-weight="bold">Cassette v{VERSION} — pane loading and positive end stop</text>
+<g transform="translate(45 88)" font-family="sans-serif"><rect x="0" y="0" width="790" height="130" fill="#d8d1c2" stroke="#222" stroke-width="2"/><rect x="82" y="38" width="665" height="45" fill="#9ed5e5" stroke="#174c5b"/><rect x="62" y="27" width="20" height="70" fill="#b04b3f" stroke="#68251f"/><rect x="62" y="102" width="68" height="12" fill="#e7a84f" stroke="#6d4610"/><rect x="747" y="24" width="18" height="78" fill="#777"/><text x="53" y="-14" font-size="13">entry</text><text x="704" y="-14" font-size="13">far stop</text><text x="310" y="66" font-size="15">maximum intended pane 76.3 mm</text><line x1="82" y1="145" x2="747" y2="145" stroke="#333"/><text x="315" y="168" font-size="13">0.70 mm nominal axial clearance</text><text x="0" y="210" font-size="13">Depress tongue outward, slide pane under the label band to the far stop, then release.</text><text x="0" y="237" font-size="13">The red shoulder rises behind the trailing edge and blocks withdrawal geometrically.</text></g></svg>''')
+
+
+def write_mesh_projection_svg(path: Path, mesh: Mesh) -> None:
+    """Write a dependency-free isometric preview of the actual exported mesh."""
+    def project(point: Vec3) -> Vec2:
+        x, y, z = point
+        return (0.82 * x - 0.34 * y, 0.24 * x + 0.46 * y - 2.6 * z)
+
+    projected = [(triangle, [project(point) for point in triangle]) for triangle in mesh.triangles]
+    xs = [point[0] for _, triangle in projected for point in triangle]
+    ys = [point[1] for _, triangle in projected for point in triangle]
+    width, height, margin = 920.0, 620.0, 35.0
+    scale = min((width - 2 * margin) / (max(xs) - min(xs)), (height - 2 * margin) / (max(ys) - min(ys)))
+
+    def screen(point: Vec2) -> Vec2:
+        return (margin + (point[0] - min(xs)) * scale, margin + (point[1] - min(ys)) * scale)
+
+    projected.sort(key=lambda item: sum(point[0] + point[1] + 0.5 * point[2] for point in item[0]) / 3)
+    polygons = []
+    for triangle, points in projected:
+        normal = _normal(triangle)
+        shade = int(max(125, min(225, 176 + 32 * normal[2] - 18 * normal[0])))
+        coords = " ".join(f"{x:.2f},{y:.2f}" for x, y in map(screen, points))
+        polygons.append(f'<polygon points="{coords}" fill="rgb({shade},{shade + 5},{min(240, shade + 10)})" stroke="#38444b" stroke-width="0.35"/>')
+    path.write_text(
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{int(width)}" height="{int(height)}" viewBox="0 0 {int(width)} {int(height)}">'
+        '<rect width="100%" height="100%" fill="#f7f4ed"/>'
+        f'<text x="20" y="25" font-family="sans-serif" font-size="17" font-weight="bold">Actual exported lid mesh — v{VERSION} supplied print orientation</text>'
+        + "".join(polygons)
+        + '</svg>'
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--out", type=Path, default=Path("build"), help="output directory")
+    parser.add_argument("--out", type=Path, default=HERE / "build", help="output directory")
     parser.add_argument("--preview", action="store_true", help="also render PNG previews (requires matplotlib)")
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
@@ -1433,97 +1669,74 @@ def main() -> None:
     body = build_body()
     lid_local = build_lid_local()
     lid_print = lid_print_orientation(lid_local)
-    retainers = [
-        build_retainer(interference, suffix)
-        for interference, suffix in zip(FIT_LADDER_INTERFERENCES, ("light", "nominal", "firm"))
-    ]
-    strong_retainers = [
-        build_retainer(interference, suffix)
-        for interference, suffix in zip(
-            STRONG_RETAINER_INTERFERENCES,
-            ("firm_plus_035", "firmer_040", "firmest_045"),
-        )
-    ]
-    retainer = retainers[1]
-    coupon = build_fit_coupon()
-    fit_clips = [
-        build_fit_clip(interference, index + 1)
-        for index, interference in enumerate(FIT_LADDER_INTERFERENCES)
-    ]
-    strong_fit_clips = [
-        build_fit_clip(interference, index + 4)
-        for index, interference in enumerate(STRONG_RETAINER_INTERFERENCES)
-    ]
-    hinge_test_body = build_hinge_test_body()
-    hinge_test_lid = hinge_test_lid_print_orientation(build_hinge_test_lid_local())
 
     closed_lid = lid_local.translated(0.0, 0.0, BODY_H, "closed_lid")
-    installed_retainer = retainer.translated(0.0, 0.0, BODY_H + RETAINER_SEAT_FOR_MAX_GLASS, "installed_retainer")
-    closed_reference = combine("REFERENCE_closed_assembly_DO_NOT_PRINT", [body, closed_lid, installed_retainer])
+    glass_local = box(
+        "glass_reference",
+        POCKET_X - MAX_GLASS_W / 2,
+        POCKET_X + MAX_GLASS_W / 2,
+        PANE_FAR_STOP_Y - MAX_GLASS_D,
+        PANE_FAR_STOP_Y,
+        PANE_CHANNEL_Z0,
+        PANE_CHANNEL_Z0 + MAX_GLASS_T,
+    )
+    installed_glass = glass_local.translated(0.0, 0.0, BODY_H, "installed_glass")
+    closed_reference = combine("REFERENCE_closed_assembly_DO_NOT_PRINT", [body, closed_lid, installed_glass])
     open_lid = rotate_about_hinge_open(lid_local, -108.0)
 
     files: list[tuple[str, Mesh]] = [
-        ("cassette_body_v0_6.stl", body),
-        ("cassette_lid_v0_6_print.stl", lid_print),
-        ("glass_retainer_light_v0_6.stl", retainers[0]),
-        ("glass_retainer_v0_6.stl", retainer),
-        ("glass_retainer_firm_v0_6.stl", retainers[2]),
-        ("glass_retainer_firm_plus_035_v0_6.stl", strong_retainers[0]),
-        ("glass_retainer_firmer_040_v0_6.stl", strong_retainers[1]),
-        ("glass_retainer_firmest_045_v0_6.stl", strong_retainers[2]),
-        ("glass_fit_coupon_v0_6.stl", coupon),
-        ("glass_snap_fit_clip_light_v0_6.stl", fit_clips[0]),
-        ("glass_snap_fit_clip_nominal_v0_6.stl", fit_clips[1]),
-        ("glass_snap_fit_clip_firm_v0_6.stl", fit_clips[2]),
-        ("glass_snap_fit_clip_firm_plus_035_v0_6.stl", strong_fit_clips[0]),
-        ("glass_snap_fit_clip_firmer_040_v0_6.stl", strong_fit_clips[1]),
-        ("glass_snap_fit_clip_firmest_045_v0_6.stl", strong_fit_clips[2]),
-        ("hinge_test_body_v0_6.stl", hinge_test_body),
-        ("hinge_test_lid_v0_6_print.stl", hinge_test_lid),
+        (f"cassette_body_{VERSION_TAG}.stl", body),
+        (f"cassette_lid_{VERSION_TAG}_print.stl", lid_print),
         ("REFERENCE_closed_assembly_DO_NOT_PRINT.stl", closed_reference),
     ]
     for filename, mesh in files:
         write_binary_stl(args.out / filename, mesh)
 
     write_obj(
-        args.out / "cassette_assembly_reference_v0_6.obj",
+        args.out / f"cassette_assembly_reference_{VERSION_TAG}.obj",
         [
             ("body", body),
             ("lid_open_108deg", open_lid),
-            ("retainer_installed", installed_retainer),
+            ("glass_reference_separated", glass_local.translated(0.0, 0.0, BODY_H + 9.0)),
         ],
     )
 
     manifest = {
         "design": "Glass-slide small-parts cassette",
-        "version": "0.6",
+        "version": VERSION,
         "units": "mm",
         "nominal_body_mm": [BODY_W, BODY_D, BODY_H],
         "closed_height_mm": BODY_H + LID_H,
         "maximum_printed_envelope_mm": [round(BODY_W / 2 - (HINGE_X - HINGE_OUTER_HALF_W), 3), BODY_D, BODY_H + LID_H],
         "maximum_intended_glass_mm": [MAX_GLASS_W, MAX_GLASS_D, MAX_GLASS_T],
-        "glass_pocket_mm": [POCKET_W, POCKET_D, POCKET_DEPTH],
+        "pane_channel_mm": [PANE_CHANNEL_W, PANE_FAR_STOP_Y - PANE_SHOULDER_Y1, PANE_CHANNEL_Z1 - PANE_CHANNEL_Z0],
         "clear_window_mm": [WINDOW_W, WINDOW_D],
         "label_zone_mm": [LABEL_W, LABEL_D],
         "functional_validation": validate_design(),
         "hinge_pin": "1.75 mm printer filament, cut 75 mm; body core 2.25 mm, lid cores 2.10 mm, all with 45-degree teardrop roofs",
         "hinge_attachment_note": "Lid rail clears its 2.10 mm bore by 0.15 mm in X and Z, and its bed-supported root overlaps the hinge axis by 0.20 mm across both lid-knuckle spans; body centre support stops 0.15 mm below the 2.25 mm bore.",
-        "recommended_material": "ASA or PETG for body/lid; PETG preferred for the removable snap retainer",
-        "retainer_note": "Four chamfered lugs engage a 0.35 mm pocket-wall groove. Original ladder: 0.10/0.20/0.30 mm per side. Added stronger retainers: 0.35/0.40/0.45 mm; the final two intentionally add 0.05/0.10 mm seated preload per side.",
-        "physical_retention_status": "Firmest 0.45 PETG was the best v0.6 fit-ladder sample, but subsequent handling found that the glass can still be knocked out easily. This capture is experimental and not accepted for production containment; Plan 009 will test positive end-loaded or alternative capture and multiple pane materials/thicknesses.",
+        "recommended_material": "PETG required for the integral pane latch; verified v0.5/v0.6 body remains reusable",
+        "pane_capture_note": "End-loaded 27.0 x 1.4 mm channel with 23.0/24.0 mm capture openings and a 6.75 mm integral PETG tongue. The shoulder returns behind the pane end and does not press on the glass face.",
+        "physical_retention_status": "Coupon v0.4 works physically. Full-lid v0.7 integration remains unverified.",
         "mesh_note": "Individual closed shells intentionally overlap at hinge/latch joins; modern slicers merge overlapping volumes.",
-        "files": [mesh_record(mesh, filename) for filename, mesh in files],
+        "files": [],
     }
-    with (args.out / "manifest_v0_6.json").open("w", encoding="utf-8", newline="\n") as f:
+    for filename, mesh in files:
+        record = mesh_record(mesh, filename)
+        record["exported_stl_audit"] = audit_exported_stl(args.out / filename)
+        if filename == f"cassette_lid_{VERSION_TAG}_print.stl":
+            connectivity = shell_overlap_connectivity(mesh)
+            record["shell_overlap_connectivity"] = connectivity
+            assert connectivity["positive_aabb_overlap_graph_connected"]
+        manifest["files"].append(record)
+    with (args.out / f"manifest_{VERSION_TAG}.json").open("w", encoding="utf-8", newline="\n") as f:
         json.dump(manifest, f, indent=2)
         f.write("\n")
 
     if args.preview:
-        render_preview(args.out / "cassette_preview_v0_6.png", body, lid_local, retainer)
-        render_section(args.out / "cassette_section_v0_6.png")
-        render_top_plan(args.out / "cassette_top_plan_v0_6.png")
-        render_functional_details(args.out / "cassette_functional_details_v0_6.png")
-        render_lid_support_sections(args.out / "cassette_lid_support_sections_v0_6.png", lid_print)
+        write_v07_preview_svg(args.out / f"cassette_preview_{VERSION_TAG}.svg")
+        write_v07_capture_section_svg(args.out / f"cassette_capture_section_{VERSION_TAG}.svg")
+        write_mesh_projection_svg(args.out / f"cassette_lid_mesh_preview_{VERSION_TAG}.svg", lid_print)
 
     print(json.dumps(manifest, indent=2))
 

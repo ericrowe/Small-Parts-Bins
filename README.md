@@ -57,12 +57,11 @@ levels visible through replaceable microscope-slide glass.
 
 ## Current status — 2026-08-27
 
-The smallest cassette baseline is v0.6 with a maximum closed envelope of
-39.55 × 80.0 × 28.0 mm. Its v0.6 lid has been physically verified with a v0.5
-body using straight 1.75 mm printer filament as the hinge pin, and the Firmest
-0.45 PETG glass retainer gave the best hold within the tested v0.6 fit ladder.
-Subsequent handling shows that the glass can still be knocked out easily, so
-that retainer is not accepted as a production capture method.
+The current full-lid integration article is v0.7 with the unchanged maximum
+closed envelope of 39.55 × 80.0 × 28.0 mm. It retains the physically verified
+v0.6 hinge geometry and works with the successful v0.5/v0.6 body and straight
+1.75 mm filament pin. Its end-loaded channel and shortened PETG latch passed as
+coupons, but the complete v0.7 lid still requires physical validation.
 
 Current in-work plans are [Plan 001](Plans/001-validate-14u-carrier-stack.md),
 physical validation of two identical 3 × 4 × 7U carriers, and
@@ -80,9 +79,9 @@ and loaded stack behavior remain provisional until both prints are tested.
 
 | Component | Current reference | Validation state |
 |---|---|---|
-| Smallest cassette | v0.6, 39.55 × 80.0 × 28.0 mm closed | Hinge verified; pane capture requires redesign |
+| Smallest cassette | v0.7 lid with unchanged v0.5/v0.6 body, 39.55 × 80.0 × 28.0 mm closed | Full lid ready to print; hinge inherited and coupon capture passed |
 | Window | Plain slide glass, maximum intended 26.3 × 76.3 × 1.2 mm | Measure each delivered batch |
-| Pane capture | Firmest 0.45 PETG retainer | Best v0.6 ladder fit, but inadequate knockout retention; redesign queued |
+| Pane capture | End-loaded 27.0 × 1.4 mm channel; integral 6.75 mm PETG latch | Coupons pass; full lid unverified |
 | Hinge pin | Straight 1.75 mm printer filament | Works well in the verified hinge pair |
 | Reference carrier | 3 × 4 × 7U, six cassettes | v0.1 physical test in progress |
 | Two-carrier stack | 14U, modeled 102.4 mm overall | Not yet physically verified |
@@ -135,6 +134,11 @@ is too flexible for a useful final handling assessment, Plan 009 now advances to
 a complete-lid integration print using the 6.75 mm latch. The verified v0.5/v0.6
 body and 1.75 mm hinge pin remain reusable.
 
+The complete lid is available in the current
+[`glass-slide cassette release`](Cassettes/glass_slide_cassette_40x80/) as
+`cassette_lid_v0_7_print.stl`. At the user's direction, that directory contains
+only the current generated release artifacts; Git preserves v0.6 history.
+
 New ideas belong in [IDEAS.md](IDEAS.md) and must remain under three sentences.
 See the [plan pipeline](Plans/README.md) for promotion, execution, Git checkpoint,
 validation, and dated archive rules.
@@ -160,7 +164,9 @@ validation, and dated archive rules.
 - Print exact functional coupons before committing material to complete parts.
 - Never scale parts in the slicer to correct tolerances; change named source
   dimensions and release a new version.
-- Never overwrite or delete a tested revision.
+- Preserve tested history through Git. A working release directory may replace
+  old generated artifacts after a checkpoint when the user explicitly chooses
+  Git rather than parallel copies as the revision store.
 - Keep modeled, printed, and physically verified claims clearly separated.
 - Treat all AI-assisted output as unverified until independently reviewed and
   validated against the actual exported artifact and physical print.
