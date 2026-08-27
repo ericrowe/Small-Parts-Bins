@@ -63,6 +63,28 @@ geometry for checked dimensions and exported-STL validation.
 - Carrier design must allow fingertip access or another simple removal feature
   without loading or prying against the glass.
 
+### Current 14U Carrier Test
+
+- The current vertical-layout test uses two identical **3 × 4 × 7U** carriers,
+  stacked for a 14U engaged height.
+- Nominal modeled stack height, including the exposed top lip: **102.4 mm**.
+  Nominal clearance below the measured 111.125 mm drawer ceiling: **8.725 mm**.
+- Each carrier is designed for six v0.6 cassettes in the reference 3 × 2
+  layout. The cassette support floor is at Z = 6.75 mm and the stacking
+  engagement plane is at Z = 49.0 mm, leaving 14.25 mm modeled clearance above
+  the 28.0 mm closed cassette envelope.
+- The central 22 mm openings in the long side walls are intentional fingertip
+  access openings for cassette removal without pushing or prying on the glass.
+  Their size and placement remain provisional.
+- Physical testing is in progress as of 2026-08-27. The first of two required
+  carriers is printing, with an estimated print time of approximately three
+  hours. The second identical carrier is still required for the stack test.
+- Do not treat carrier fit, throat clearance, stacking engagement, loaded
+  stability, or drawer clearance as physically verified until both carriers
+  have been printed and tested together while loaded.
+- Current carrier release:
+  `Carriers/carrier_3x4_14u_test/` version 0.1.
+
 ## Modular Cassette Family
 
 - The smallest v0.6 cassette is the current **1 × 1 cassette module** for
