@@ -28,3 +28,5 @@ the physical PETG print is authoritative. This result must not be generalized to
 PLA. Eye protection and glass containment remain required.
 
 Regenerate with `python3 generate_glass_capture_coupon.py`.
+
+![v0.4 shortened PETG latch](build/short_compliant_end_capture_preview_v0_4.svg)
