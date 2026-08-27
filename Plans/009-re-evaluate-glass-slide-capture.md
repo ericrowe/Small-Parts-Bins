@@ -1,6 +1,6 @@
 # Plan 009 — Re-evaluate glass slide capture and material options
 
-- Status: Executing — developing first capture coupons
+- Status: Executing — initial fits selected; developing exact-dimension mechanics coupon
 - Depends on: No prerequisite for concept and coupon work; final carrier-envelope validation uses Plan 001 measurements
 - Created: 2026-08-27
 - Started: 2026-08-27
@@ -90,6 +90,10 @@ capture geometry.
 6. [ ] Print coupons and first test them with dimensionally representative
    non-glass blanks. Reject fits that require forcing, sharp bending, prying, or
    dependence on friction alone.
+   Physical selection on 2026-08-27: the 2.05 mm pin bore and 1.4 mm pane
+   channel both work and meet requirements. Test material, pane identity,
+   measurements, and print settings were not reported, so the broader material
+   validation in Steps 2, 6, and 7 remains open.
 7. [ ] Test surviving coupons with measured glass and plastic panes. Evaluate
    insertion, positive end retention, rattle, bowing, removal, rail wear, edge
    protection, and repeatability across pane thicknesses.
@@ -154,6 +158,17 @@ envelope, carrier clearance, and specimen disposition.
   length clearance for a 76.3 mm pane after the 1.0 mm gate.
 - The full frame intentionally exceeds the 80.0 mm cassette depth. Envelope
   compaction is unvalidated and cannot begin until the mechanics pass.
+
+### Physical v0.1 ladder result — 2026-08-27
+
+- Selected transverse pin bore: 2.05 mm, the shortest ladder boss.
+- Selected pane-channel clear height: 1.4 mm.
+- Both were reported to work and meet the requirements.
+- The v0.1 full frame uses a 2.15 mm bore and 2.0 mm channel and is therefore
+  superseded before printing by an exact-dimension follow-up mechanics coupon.
+- Printer, material, slicer settings, pane identity, and measured pane dimensions
+  remain unreported; this result does not yet validate alternate pane materials,
+  the end gate, knockout retention, durability, or the final cassette envelope.
 
 ## Stop and rollback conditions
 

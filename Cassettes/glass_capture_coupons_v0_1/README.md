@@ -5,8 +5,14 @@ retainer. The leading concept loads the pane from one end into continuous roof
 rails. A printed end gate covers the exposed pane edge, and a transverse piece
 of 1.75 mm filament positively blocks the gate and pane from leaving the entry.
 
-This design has not been physically tested. Wear eye protection, contain all
-knockout tests, reject damaged glass, and never force a pane into a coupon.
+The fit ladders have now been physically tested far enough to select the 2.05 mm
+pin bore and 1.4 mm pane channel. Both smallest variants were reported to work
+and meet the requirements. The v0.1 full frame does not use those selected
+dimensions—it uses a 2.15 mm bore and 2.0 mm channel—so do not print it as the
+follow-up article. Use the next versioned mechanics coupon instead.
+
+Wear eye protection, contain all knockout tests, reject damaged glass, and never
+force a pane into a coupon.
 
 ## Before printing
 

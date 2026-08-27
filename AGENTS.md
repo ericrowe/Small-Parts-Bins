@@ -201,6 +201,12 @@ version explicitly documents a change:
   investigate positive pane capture, including an end-loaded slide with a
   removable mechanical end stop, and test both glass and transparent plastic
   pane options of different measured thicknesses.
+- Plan 009 v0.1 fit coupons physically selected the smallest tested variants:
+  a 2.05 mm transverse bore works with the intended 1.75 mm filament pin, and a
+  1.4 mm clear pane channel works and meets the reported requirements. Carry
+  those exact fits into the next mechanics coupon. The print material/settings
+  and measured pane dimensions were not reported, and the end gate, knockout
+  retention, alternate panes, and final lid remain unverified.
 - The existing firm retainer remains the lightest reference in the stronger
   ladder. Keep all variants for recalibration after a material, printer, nozzle,
   extrusion, or slicer-setting change; when recalibrating, test upward in order.

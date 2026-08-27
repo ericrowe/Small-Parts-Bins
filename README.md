@@ -105,8 +105,11 @@ Dependency-gated final dimensions remain provisional.
 
 Plan 009's first provisional print set is available in
 [`Cassettes/glass_capture_coupons_v0_1/`](Cassettes/glass_capture_coupons_v0_1/).
-It provides channel and pin-bore ladders before a full-length end-loaded mechanics
-coupon. No new capture method has yet been physically verified.
+Its smallest 2.05 mm pin bore and 1.4 mm pane channel both work and meet the
+reported requirements. Those selected fits will be carried into the next
+full-length end-loaded mechanics coupon. The positive end gate, knockout
+retention, alternate pane materials, and final cassette envelope remain
+unverified.
 
 New ideas belong in [IDEAS.md](IDEAS.md) and must remain under three sentences.
 See the [plan pipeline](Plans/README.md) for promotion, execution, Git checkpoint,
