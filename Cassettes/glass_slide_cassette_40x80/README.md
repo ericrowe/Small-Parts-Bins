@@ -10,7 +10,10 @@ Version 0.6 corrects the unsupported root visible in the v0.5 lid STL:
 - The v0.5 body-bore increase to 2.25 mm is retained without alteration.
 - The body, glass pocket, latch, and retainers are unchanged from v0.5.
 
-Print the small v0.6 lid hinge coupon before another full lid. The v0.5 body and selected retainer may be reused.
+Physical testing with PETG confirmed that the Firmest 0.45 retainer held the
+glass in place best. The hinge also works well with straight 1.75 mm printer
+filament as its removable pin. The tested v0.5 body may be reused with the v0.6
+lid, and the selected Firmest 0.45 retainer is the default for this print setup.
 
 ![Functional geometry](build/cassette_functional_details_v0_6.png)
 
@@ -77,7 +80,12 @@ The lid groove is 0.35 mm deep per side. The existing firm retainer is now the l
 | Firmer — new | 0.40 mm | 0.05 mm preload |
 | Firmest — new | 0.45 mm | 0.10 mm preload |
 
-Start with Firm+. The 0.40 and 0.45 mm versions intentionally flex the PETG rails after seating, so they should be tried in ascending order. Do not force a retainer that requires levering against the glass.
+The Firmest 0.45 retainer worked best in physical testing with PETG and is the
+selected full-size retainer for the current print setup. If the material,
+printer, nozzle, extrusion, or slicer settings change, recalibrate by testing
+the retainers upward in order. The 0.40 and 0.45 mm versions intentionally flex
+the PETG rails after seating. Do not force a retainer that requires levering
+against the glass.
 
 The glass is part of the installed stack and acts as the retainer's upper stop. A full retainer tested in an empty lid can move farther into the pocket and feel less positively located than it will with the correctly sized slide installed. Make the final choice with the glass present.
 
@@ -121,10 +129,13 @@ The package also contains the original light, nominal, and firm retainers, full 
 
 ## Lowest-cost validation order
 
-1. Print `hinge_test_lid_v0_6_print.stl` top-face-down as supplied and without hinge support. Confirm in the slicer that both knuckle roots begin on the same bed-supported rail.
-2. Pair it with the successful v0.5 body coupon or print `hinge_test_body_v0_6.stl`. Approximately 24 mm of straight 1.75 mm filament should pass without manual opening and the pair should rotate freely.
-3. Print `cassette_lid_v0_6_print.stl`. Reuse the successful v0.5 body, glass pane, and selected retainer.
-4. The body and retainer tests remain included for completeness but do not need to be repeated solely for this revision.
+Physical testing has verified that the v0.6 lid works with the v0.5 body using
+straight 1.75 mm printer filament as the hinge pin. The hinge operates well.
+The Firmest 0.45 PETG retainer also provided the best tested hold on the glass.
+
+The body, hinge coupons, and retainer-fit samples remain included for future
+recalibration, but they do not need to be repeated solely for v0.6 when using
+the same material and print setup.
 
 ## Print settings
 
