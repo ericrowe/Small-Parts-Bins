@@ -1,0 +1,33 @@
+# macOS and network/external-volume metadata
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+
+# Windows filesystem metadata
+Thumbs.db
+Desktop.ini
+
+# Python bytecode, caches, and local environments
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Editor and temporary files
+*.swp
+*.swo
+*~
+*.tmp
+*.temp
+
+# Local logs and coverage output
+*.log
+.coverage
+htmlcov/
+
+# Generated release assets under build/ are intentionally versioned.
