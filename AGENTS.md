@@ -313,6 +313,15 @@ Compatibility rules:
 
 - Preserve the editable parametric Python generator, README, binary STLs,
   manifest, assembly reference, and preview images in each release.
+- Build outputs belong strictly inside each component's folder (e.g.
+  `Cassettes/<name>/build/` or `Carriers/<name>/build/`), never at the top-level
+  repository root. Every parametric generator script must anchor its default
+  output directory to `Path(__file__).resolve().parent / "build"` so executing it
+  from any current working directory writes to the component's folder.
+- When rebuilding or iterating on a component in an active release directory
+  (such as `Cassettes/glass_slide_cassette_40x80/`), the generator must overwrite
+  the `build/` directory inside that folder. Clean up superseded generated
+  files in that folder and rely on Git history to preserve prior revisions.
 - Version every geometry change. The working release directory may replace old
   generated artifacts after a Git checkpoint when the user explicitly chooses
   Git as the revision history; never rewrite the Git history that preserves the
@@ -372,6 +381,8 @@ Compatibility rules:
 - Keep all dimensions in millimeters in source; include inch conversions only
   for user-supplied measurements such as the drawer height.
 - Preserve unrelated user changes and existing revision directories.
+- Never place or generate build directories at the top-level repository root;
+  all generated builds belong strictly in their component subdirectories.
 - Use Git checkpoints before and after substantive geometry changes.
 - Never delete or rewrite a tested release to make a new revision look clean.
 - Lead handoff notes with what changed, which old parts remain reusable, what
