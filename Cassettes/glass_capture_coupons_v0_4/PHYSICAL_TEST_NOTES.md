@@ -9,15 +9,15 @@
 
 ## Initial actuation
 
-- Force compared with v0.3:
-- Tongue clears pane path:
-- Returns fully after first actuation:
-- Whitening, crease, crack, or root damage:
-- Permanent set:
+- Force compared with v0.3: Overall print reported working
+- Tongue clears pane path: Passed
+- Returns fully after first actuation: Passed
+- Whitening, crease, crack, or root damage: None reported
+- Permanent set: None reported
 
 ## Capture and staged cycles
 
-- Positive capture passes:
+- Positive capture passes: Passed
 - Cycles completed, up to 5:
 - Root condition after each initial cycle:
 - Cycles completed, up to 25:
@@ -28,3 +28,13 @@
 
 Stop immediately for whitening, creasing, cracking, permanent set, incomplete
 return, frame damage, glass damage, or a need to force or pry the glass.
+
+## Physical result — reported after v0.4 print
+
+- Overall result: the print works.
+- The 6.75 mm straight PETG latch is accepted for integration into the next
+  full-lid test article.
+- The short coupon is too flexible to provide a useful evaluation of supported
+  stiffness or final handling. This is a coupon limitation, not a reported latch
+  or capture failure.
+- Detailed material product/settings and cycle count remain unreported.

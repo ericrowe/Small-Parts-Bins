@@ -230,8 +230,14 @@ version explicitly documents a change:
   changes only the straight free length from 27.0 to 6.75 mm. It remains a
   PETG-specific staged coupon; the user's experience indicates this 0.6 mm PETG
   feature will tolerate the motion despite the conservative beam calculation.
-  PLA is excluded. Do not carry v0.4 into a lid until actuation, full return,
-  root condition, positive retention, and up to 25 cycles are reported.
+  PLA is excluded. Actuation, full return, root condition, positive retention,
+  and cycle behavior remain required before production selection.
+- The v0.4 PETG print was subsequently reported to work. Its short coupon is too
+  flexible for a meaningful supported-stiffness evaluation, so the 6.75 mm latch
+  is approved for the next complete-lid test article. Reuse the verified
+  v0.5/v0.6 body and hinge pin. Preserve the v0.6 hinge, latch, label, envelope,
+  and top-face-down support-free print orientation while evaluating the new pane
+  capture within the full lid perimeter.
 - The existing firm retainer remains the lightest reference in the stronger
   ladder. Keep all variants for recalibration after a material, printer, nozzle,
   extrusion, or slicer-setting change; when recalibrating, test upward in order.

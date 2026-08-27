@@ -299,3 +299,20 @@ and identify all lids or retainers that must be reprinted or retired.
 - Test actuation before inserting glass, then five inspected cycles before
   continuing to 25. Stop for whitening, creasing, cracking, permanent set,
   incomplete return, or root/frame damage.
+
+### Physical v0.4 result and integration decision
+
+- The v0.4 print works. Accept the 6.75 mm straight PETG latch for the first
+  full-lid integration article.
+- The short coupon is too flexible for a meaningful final evaluation of stiffness
+  and handling. This is expected to change when the feature is supported by the
+  complete lid perimeter and must be verified rather than assumed.
+- Proceed to a new versioned complete lid, printed top/label-face down without
+  internal slicer support. Preserve the v0.6 hinge roots, 2.10 mm lid bores,
+  latch relationship, label zone, and 39.55 × 80.0 × 28.0 mm closed envelope.
+- Reuse the physically verified v0.5/v0.6 body and straight 1.75 mm hinge pin;
+  no body reprint is required solely for this glass-capture test.
+- The full lid must test perimeter-supported stiffness, pane insertion and
+  replacement, positive end capture, normal hinge/latch operation, glass
+  clearance, and carrier engagement-plane clearance before knockout testing.
+- Detailed PETG product/settings and v0.4 cycle count remain unreported.

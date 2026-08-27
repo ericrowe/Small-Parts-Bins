@@ -130,6 +130,11 @@ It preserves the successful v0.3 capture geometry and reduces only the straight
 free length from 27.0 to 6.75 mm. It is a PETG-specific test; PLA is excluded.
 Treat it as provisional until its return and cycle behavior are printed.
 
+The v0.4 PETG print was subsequently reported to work. Because the short coupon
+is too flexible for a useful final handling assessment, Plan 009 now advances to
+a complete-lid integration print using the 6.75 mm latch. The verified v0.5/v0.6
+body and 1.75 mm hinge pin remain reusable.
+
 New ideas belong in [IDEAS.md](IDEAS.md) and must remain under three sentences.
 See the [plan pipeline](Plans/README.md) for promotion, execution, Git checkpoint,
 validation, and dated archive rules.
