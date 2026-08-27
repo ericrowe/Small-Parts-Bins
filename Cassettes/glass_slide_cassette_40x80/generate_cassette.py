@@ -42,6 +42,8 @@ BODY_WALL = 2.00
 BODY_BOTTOM = 2.00
 BODY_CORNER = 2.00
 
+BODY_WALL_H = 27.20
+
 # Lid and glass.  The 27 x 76.8 pocket covers common nominal 25 x 75,
 # 25.4 x 76.2, and 26 x 76 mm plain microscope slides after measuring the
 # actual batch.  Maximum intended slide is stated separately because printed
@@ -81,7 +83,7 @@ PANE_TONGUE_END_Y = -32.00
 PANE_TONGUE_W = 8.00
 PANE_TONGUE_H = 0.80
 PANE_FINGER_PAD_W = 10.00
-PANE_SLOT_W = 13.00
+PANE_SLOT_W = 11.00
 PANE_TONGUE_SLOT_Y1 = -32.95
 
 # The uninterrupted top surface above the window accepts a 9 mm TZe tape.
@@ -133,10 +135,10 @@ HINGE_RELIEF_Y1 = HINGE_BODY_Y1 + HINGE_RELIEF_AXIAL_EXTRA
 HINGE_BODY_END_RELIEF_Y0 = -HINGE_LID_END - HINGE_RELIEF_AXIAL_EXTRA
 HINGE_BODY_END_RELIEF_Y1 = HINGE_LID_END + HINGE_RELIEF_AXIAL_EXTRA
 
-# Shallow underside opening aid on the latch edge.  The upper 1.8 mm of the
-# lid remains as a continuous grasping lip and the latch is not intersected.
+# Fingernail access on the latch edge: a subtle 1.3 mm relief in the lower
+# 1.4 mm of the lid wall provides a comfortable pry surface while preserving
+# a full-thickness 1.8 mm continuous roof above it.
 FINGER_RELIEF_W = 14.00
-FINGER_RELIEF_INNER_W = 11.60
 FINGER_RELIEF_DEPTH = 1.30
 FINGER_RELIEF_H = 1.40
 
@@ -144,7 +146,7 @@ FINGER_RELIEF_H = 1.40
 # The base remains undersize so the long side rails can bow inward during
 # insertion.  SNAP_INTERFERENCE controls entry force; the groove supplies the
 # positive withdrawal shoulder that was missing in v0.1.
-RETAINER_W = 26.70
+RETAINER_W = 26.60
 RETAINER_D = 76.40
 RETAINER_H = 0.80
 RETAINER_WINDOW_W = 22.50
@@ -165,12 +167,11 @@ FIT_LADDER_INTERFERENCES = (0.10, 0.20, 0.30)
 STRONG_RETAINER_INTERFERENCES = (0.35, 0.40, 0.45)
 RETAINER_SEAT_FOR_MAX_GLASS = POCKET_DEPTH - MAX_GLASS_T - RETAINER_H
 
-# Hidden auto-release snap.  It holds against accidental spills but is meant
-# to release when the right edge is lifted deliberately.
-LATCH_TONGUE_X0 = 15.55
+# Hidden auto-release snap: 1.20 mm cantilever beam with 0.65 mm undercut engagement
+LATCH_TONGUE_X0 = 15.20
 LATCH_TONGUE_X1 = 16.40
-LATCH_TONGUE_Y0 = -3.50
-LATCH_TONGUE_Y1 = 3.50
+LATCH_TONGUE_Y0 = -4.00
+LATCH_TONGUE_Y1 = 4.00
 LATCH_TONGUE_Z0 = -3.30
 LATCH_TONGUE_Z1 = 0.45
 
@@ -551,13 +552,12 @@ def build_body() -> Mesh:
 
     upper_z0 = HINGE_BODY_RELIEF_TOP - 0.05
     join = 0.05
-    # Straight walls, excluding the two relief spans in the left wall.
-    out.extend(box("body_upper_bottom_wall", outer[0][0] - join, outer[1][0] + join, -BODY_D / 2, inner[0][1], upper_z0, BODY_H))
-    out.extend(box("body_upper_right_wall", inner[2][0], BODY_W / 2, outer[2][1] - join, outer[3][1] + join, upper_z0, BODY_H))
-    out.extend(box("body_upper_top_wall", outer[5][0] - join, outer[4][0] + join, inner[4][1], BODY_D / 2, upper_z0, BODY_H))
-    # Stop the centre support below the pin passage.  In v0.3 this wall rose
-    # into the lower part of the body-knuckle bore; a slicer union could
-    # therefore block the filament even though the knuckle shell was valid.
+    # Straight walls: front, back, and right walls rise to BODY_WALL_H (27.20 mm)
+    # to meet the lid top frame flush at the split line.
+    out.extend(box("body_upper_bottom_wall", outer[0][0] - join, outer[1][0] + join, -BODY_D / 2, inner[0][1], upper_z0, BODY_WALL_H))
+    out.extend(box("body_upper_right_wall", inner[2][0], BODY_W / 2, outer[2][1] - join, outer[3][1] + join, upper_z0, BODY_WALL_H))
+    out.extend(box("body_upper_top_wall", outer[5][0] - join, outer[4][0] + join, inner[4][1], BODY_D / 2, upper_z0, BODY_WALL_H))
+    # Stop the centre support below the pin passage.
     out.extend(
         box(
             "body_upper_left_centre",
@@ -569,17 +569,17 @@ def build_body() -> Mesh:
             HINGE_BODY_SUPPORT_TOP,
         )
     )
+    # Left wall end spans stay at BODY_H (24.80 mm) to clear the rotating lid knuckles:
     out.extend(box("body_upper_left_lower_end", -BODY_W / 2, inner[7][0], outer[7][1] - join, HINGE_BODY_END_RELIEF_Y0, upper_z0, BODY_H))
     out.extend(box("body_upper_left_upper_end", -BODY_W / 2, inner[6][0], HINGE_BODY_END_RELIEF_Y1, outer[6][1] + join, upper_z0, BODY_H))
 
-    # Chamfered corner sectors.  The left sectors are clipped at the ends of
-    # the lid-knuckle reliefs so the barrels have axial as well as radial room.
+    # Chamfered corner sectors. Right corners rise to BODY_WALL_H; left sectors stay at BODY_H:
     lower_right = [outer[1], outer[2], inner[2], inner[1]]
     upper_right = [outer[3], outer[4], inner[4], inner[3]]
     lower_left = clip_polygon_y([outer[7], outer[0], inner[0], inner[7]], HINGE_BODY_END_RELIEF_Y0, keep_below=True)
     upper_left = clip_polygon_y([outer[5], outer[6], inner[6], inner[5]], HINGE_BODY_END_RELIEF_Y1, keep_below=False)
-    out.extend(prism("body_upper_lower_right_corner", lower_right, upper_z0, BODY_H))
-    out.extend(prism("body_upper_upper_right_corner", upper_right, upper_z0, BODY_H))
+    out.extend(prism("body_upper_lower_right_corner", lower_right, upper_z0, BODY_WALL_H))
+    out.extend(prism("body_upper_upper_right_corner", upper_right, upper_z0, BODY_WALL_H))
     out.extend(prism("body_upper_lower_left_corner", lower_left, upper_z0, BODY_H))
     out.extend(prism("body_upper_upper_left_corner", upper_left, upper_z0, BODY_H))
 
@@ -596,38 +596,54 @@ def build_body() -> Mesh:
         )
     )
 
-    # Low-profile catch on the inside of the right wall.  Both faces are
-    # ramped so the lid can snap closed and release under a deliberate lift.
+    # Reinforced catch on the inside of the right wall with 0.65 mm interference.
     catch_profile = [
-        (17.30, 22.30),
-        (16.65, 22.72),
-        (16.65, 23.08),
-        (17.30, 23.58),
+        (17.30, 21.70),
+        (16.55, 22.30),
+        (16.55, 22.65),
+        (17.30, 23.30),
     ]
-    out.extend(prism_y("body_snap_catch", catch_profile, -3.30, 3.30))
+    out.extend(prism_y("body_snap_catch", catch_profile, -4.00, 4.00))
     return out
 
 
 def build_lid_local() -> Mesh:
     out = Mesh(f"cassette_lid_{VERSION_TAG}_local")
 
-    # Top/visible frame, expressed in assembled coordinates. Closed overlapping
-    # prisms replace the old underside pocket and snap-retainer groove. The
-    # central entry slot leaves the compliant PETG tongue free on the build bed;
-    # the main 23 x 58.5 mm window and 34 x 10 mm label zone remain unchanged.
     top_z0 = PANE_CHANNEL_Z1
     top_z1 = PANE_TOP_Z1
     window_y0 = WINDOW_Y - WINDOW_D / 2
     window_y1 = WINDOW_Y + WINDOW_D / 2
     window_x0 = WINDOW_X - WINDOW_W / 2
     window_x1 = WINDOW_X + WINDOW_W / 2
-    slot_x0 = POCKET_X - PANE_SLOT_W / 2
-    slot_x1 = POCKET_X + PANE_SLOT_W / 2
 
-    out.extend(box("top_entry_left", -16.20, slot_x0, -40.00, PANE_TONGUE_SLOT_Y1 + 0.10, top_z0, top_z1))
-    out.extend(box("top_entry_right", slot_x1, 17.30, -40.00, PANE_TONGUE_SLOT_Y1 + 0.10, top_z0, top_z1))
-    out.extend(box("top_entry_left_outer", -17.00, slot_x0, -38.05, PANE_TONGUE_SLOT_Y1 + 0.15, top_z0, top_z1))
-    out.extend(box("top_entry_right_outer", slot_x1, 19.30, -38.05, PANE_TONGUE_SLOT_Y1 + 0.15, top_z0, top_z1))
+    # Compliant latch geometry
+    tongue_x0 = POCKET_X - PANE_TONGUE_W / 2
+    tongue_x1 = POCKET_X + PANE_TONGUE_W / 2
+    pad_x0 = POCKET_X - PANE_FINGER_PAD_W / 2
+    pad_x1 = POCKET_X + PANE_FINGER_PAD_W / 2
+
+    pad_gap = 0.50
+    tongue_gap = 0.50
+    pad_cut_x0 = pad_x0 - pad_gap       # -4.50 - 0.50 = -5.00
+    pad_cut_x1 = pad_x1 + pad_gap       #  5.50 + 0.50 =  6.00
+    tongue_cut_x0 = tongue_x0 - tongue_gap # -3.50 - 0.50 = -4.00
+    tongue_cut_x1 = tongue_x1 + tongue_gap #  4.50 + 0.50 =  5.00
+
+    # Top frame with tightened 0.50 mm perimeter gap around the compliant latch:
+    # 1. Entry frame around finger pad:
+    out.extend(box("top_entry_pad_left", -17.00, pad_cut_x0, -40.00, -37.20, top_z0, top_z1))
+    out.extend(box("top_entry_pad_right", pad_cut_x1, 19.30, -40.00, -37.20, top_z0, top_z1))
+
+    # 2. Entry frame around tongue:
+    out.extend(box("top_entry_tongue_left", -17.00, tongue_cut_x0, -37.25, -34.50, top_z0, top_z1))
+    out.extend(box("top_entry_tongue_right", tongue_cut_x1, 19.30, -37.25, -34.50, top_z0, top_z1))
+
+    # 3. Entry frame around gussets:
+    out.extend(box("top_entry_gusset_left", -17.00, pad_cut_x0, -34.55, PANE_TONGUE_ROOT_Y + 0.05, top_z0, top_z1))
+    out.extend(box("top_entry_gusset_right", pad_cut_x1, 19.30, -34.55, PANE_TONGUE_ROOT_Y + 0.05, top_z0, top_z1))
+
+    # 4. Tongue root crossbar:
     out.extend(box("top_tongue_root_band", -17.00, 19.30, PANE_TONGUE_ROOT_Y, window_y0 + 0.05, top_z0, top_z1))
 
     # Main window side rails. The hinge-side centre segment preserves the v0.6
@@ -655,21 +671,7 @@ def build_lid_local() -> Mesh:
     out.extend(box("pane_right_bottom_ledge", bottom_x1, 17.30, PANE_ENTRY_Y, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
     out.extend(box("pane_far_stop", channel_x0 - 0.05, channel_x1 + 0.05, PANE_FAR_STOP_Y, 39.50, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
 
-    # Restore the v0.6 latch-edge perimeter while retaining its centred
-    # fingernail relief: 1.3 mm inset through the first 1.4 mm of assembled Z,
-    # with the full outer wall above it and on both uninterrupted end spans.
-    out.extend(box("right_outer_wall_lower_end", 17.25, 19.30, -38.05, -6.95, 0.0, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("right_outer_wall_upper_end", 17.25, 19.30, 6.95, 38.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("right_finger_relief_inner_wall", 17.25, 18.00, -5.85, 5.85, 0.0, FINGER_RELIEF_H + 0.05))
-    out.extend(box("right_finger_relief_roof_wall", 17.25, 19.30, -7.05, 7.05, FINGER_RELIEF_H, PANE_CHANNEL_Z1 + 0.05))
-
-    # Directly integrate the physically successful v0.4 PETG tongue. In the
-    # relaxed state its lower face is 0.20 mm above the pane ceiling and the
-    # shoulder sits behind the trailing pane end rather than pressing on glass.
-    tongue_x0 = POCKET_X - PANE_TONGUE_W / 2
-    tongue_x1 = POCKET_X + PANE_TONGUE_W / 2
-    pad_x0 = POCKET_X - PANE_FINGER_PAD_W / 2
-    pad_x1 = POCKET_X + PANE_FINGER_PAD_W / 2
+    # Compliant tongue, finger pad, shoulder, and root gussets
     out.extend(box("pane_compliant_tongue", tongue_x0, tongue_x1, PANE_SHOULDER_Y0, PANE_TONGUE_END_Y, LID_H - PANE_TONGUE_H, LID_H))
     out.extend(box("pane_latch_finger_pad", pad_x0, pad_x1, PANE_SHOULDER_Y0, PANE_SHOULDER_Y1 + 0.20, LID_H - PANE_TONGUE_H, LID_H))
     out.extend(box("pane_positive_end_shoulder", tongue_x0, tongue_x1, PANE_SHOULDER_Y0, PANE_SHOULDER_Y1, PANE_CHANNEL_Z0, LID_H - PANE_TONGUE_H + 0.05))
@@ -690,13 +692,7 @@ def build_lid_local() -> Mesh:
         )
     )
 
-    # Bed-supported roots for the two lid knuckles.  In v0.5 the upper frame
-    # edge tapered from the hinge axis to the bore notch, so much of each
-    # knuckle first appeared 0.55 mm above the build plate as a detached
-    # cantilever.  These closed prisms begin on the lid's top face (the build
-    # plate in the supplied orientation), extend 0.20 mm past the pin axis,
-    # and overlap the frame by 0.05 mm.  Their lower assembled edge stays
-    # 0.15 mm above the pin bore.
+    # Bed-supported roots for the two lid knuckles.
     left_end = -HINGE_LID_END
     left_inner = HINGE_BODY_Y0 - HINGE_GAP
     right_inner = HINGE_BODY_Y1 + HINGE_GAP
@@ -728,7 +724,7 @@ def build_lid_local() -> Mesh:
     out.extend(peaked_hinge_y("lid_hinge_knuckle_a", HINGE_X, HINGE_Z_LOCAL, left_end, left_inner, print_up_sign=-1.0, bore_r=HINGE_LID_BORE_R))
     out.extend(peaked_hinge_y("lid_hinge_knuckle_b", HINGE_X, HINGE_Z_LOCAL, right_inner, right_end, print_up_sign=-1.0, bore_r=HINGE_LID_BORE_R))
 
-    # Flexible hidden tongue and shallow auto-release hook.
+    # Reinforced flexible tongue (1.20 mm thick) and hook with 0.65 mm interference.
     out.extend(
         box(
             "latch_tongue",
@@ -741,13 +737,13 @@ def build_lid_local() -> Mesh:
         )
     )
     hook_profile = [
-        (LATCH_TONGUE_X1 - 0.05, -3.28),
-        (16.98, -2.86),
-        (17.05, -2.55),
-        (16.92, -2.17),
-        (LATCH_TONGUE_X1 - 0.05, -1.72),
+        (LATCH_TONGUE_X1 - 0.05, -3.10),
+        (17.15, -2.65),
+        (17.20, -2.35),
+        (16.95, -2.00),
+        (LATCH_TONGUE_X1 - 0.05, -1.65),
     ]
-    out.extend(prism_y("latch_hook", hook_profile, -3.00, 3.00))
+    out.extend(prism_y("latch_hook", hook_profile, -3.80, 3.80))
     return out
 
 
@@ -1239,8 +1235,8 @@ def validate_design() -> dict[str, object]:
     assert pane_lateral_clearance >= 0.60
     assert opposite_ledge_overhang <= 1.50 + 1e-9
     assert abs(pane_tongue_free_length - 6.75) < 1e-9
-    assert pane_finger_pad_lateral_clearance >= 1.0
-    assert pane_tongue_lateral_clearance >= 1.0
+    assert pane_finger_pad_lateral_clearance >= 0.45
+    assert pane_tongue_lateral_clearance >= 0.45
     assert pane_tongue_relaxed_gap >= 0.0 - 1e-9
     assert label_zone_fully_supported
     assert finger_roof >= 1.60

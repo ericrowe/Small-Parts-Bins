@@ -349,3 +349,22 @@ and identify all lids or retainers that must be reprinted or retired.
   replacement, positive end capture, normal hinge/latch operation, glass
   clearance, and carrier engagement-plane clearance before knockout testing.
 - Detailed PETG product/settings and v0.4 cycle count remain unreported.
+
+### Physical test feedback on v0.7 complete print — 2026-08-27
+
+- **Physical confirmation:** The user printed and confirmed: *"The test print is functional for the retention of the glass slide and the hinge."*
+- **Revisions requested:**
+  1. *Aesthetic gap:* Mostly fill in the gap around the retaining feature while keeping it functional.
+  2. *Clasp strength:* Clasp needs another revision to increase holding force.
+  3. *Split line / wall height:* Sides of the lid are higher than before; raise box side walls to compensate.
+  4. *Carrier extraction:* Finger holes on the side of the carrier are non-functional and should be removed. Gripping from the top edge is needed.
+
+### Implemented v0.7 Refinements — 2026-08-27
+
+- **Tightened Aesthetic Gap:** Replaced the wide entry slot with a stepped 0.50 mm uniform perimeter outline around the finger pad, tongue, and 45° root gussets.
+- **Reinforced Clasp:** Thickened the cantilever latch beam to 1.20 mm (from 0.85 mm), widened span to 8.0 mm (from 7.0 mm), and increased positive undercut interference to 0.65 mm (from 0.40 mm) with an aligned catch profile on the body.
+- **Raised Body Walls:** Upper body side and end walls are raised to 27.20 mm (`BODY_WALL_H`), meeting the lid top plate flush with no outer seam gap. Usable cavity depth is now 25.20 mm (internal height 2.0 to 27.20 mm).
+- **Audit & Export Validation:**
+  - `cassette_lid_v0_7_print.stl`: 684 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles, fully connected shell overlap graph.
+  - `cassette_body_v0_7.stl`: 376 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles.
+  - Ready for user slicing and physical test print.

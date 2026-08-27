@@ -75,8 +75,8 @@
     "opposite_ledge_functional_overhang_mm": 1.5,
     "pane_tongue_free_length_mm": 6.75,
     "pane_tongue_thickness_mm": 0.8,
-    "pane_finger_pad_lateral_clearance_mm": 1.5,
-    "pane_tongue_lateral_clearance_mm": 2.5,
+    "pane_finger_pad_lateral_clearance_mm": 0.5,
+    "pane_tongue_lateral_clearance_mm": 1.5,
     "pane_tongue_relaxed_face_clearance_mm": 0.0,
     "pane_tongue_simple_beam_strain_estimate": 0.1475,
     "pane_capture_material": "PETG",
@@ -118,7 +118,7 @@
         80.0,
         27.45
       ],
-      "signed_mesh_volume_mm3": 16409.03,
+      "signed_mesh_volume_mm3": 17131.37,
       "edge_audit": {
         "triangles": 376,
         "unique_edges": 564,
@@ -134,7 +134,7 @@
     },
     {
       "file": "cassette_lid_v0_7_print.stl",
-      "triangles": 708,
+      "triangles": 684,
       "bounds_min_mm": [
         -20.25,
         -40.0,
@@ -150,28 +150,28 @@
         80.0,
         6.5
       ],
-      "signed_mesh_volume_mm3": 3421.67,
+      "signed_mesh_volume_mm3": 3014.6,
       "edge_audit": {
-        "triangles": 708,
-        "unique_edges": 1062,
+        "triangles": 684,
+        "unique_edges": 1026,
         "boundary_edges": 0,
         "nonmanifold_edges": 0
       },
       "exported_stl_audit": {
         "binary_stl_size_valid": true,
-        "triangle_count": 708,
+        "triangle_count": 684,
         "finite_coordinates": true,
         "degenerate_triangles": 0
       },
       "shell_overlap_connectivity": {
-        "closed_shell_components": 32,
+        "closed_shell_components": 30,
         "positive_aabb_overlap_graph_connected": true,
         "unconnected_shell_components": 0
       }
     },
     {
       "file": "REFERENCE_closed_assembly_DO_NOT_PRINT.stl",
-      "triangles": 1096,
+      "triangles": 1072,
       "bounds_min_mm": [
         -20.25,
         -40.0,
@@ -187,16 +187,16 @@
         80.0,
         28.0
       ],
-      "signed_mesh_volume_mm3": 22238.73,
+      "signed_mesh_volume_mm3": 22553.99,
       "edge_audit": {
-        "triangles": 1096,
-        "unique_edges": 1644,
+        "triangles": 1072,
+        "unique_edges": 1608,
         "boundary_edges": 0,
         "nonmanifold_edges": 0
       },
       "exported_stl_audit": {
         "binary_stl_size_valid": true,
-        "triangle_count": 1096,
+        "triangle_count": 1072,
         "finite_coordinates": true,
         "degenerate_triangles": 0
       }
