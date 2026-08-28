@@ -601,6 +601,12 @@ def build_body() -> Mesh:
         (17.30, BODY_H - 1.22),
     ]
     out.extend(prism_y("body_snap_catch", catch_profile, -4.00, 4.00))
+
+    # Ergonomic tactile end pinch ribs
+    for z_rib in [27.5, 29.2, 30.9]:
+        out.extend(box("body_front_grip_rib", -7.0, 7.0, -BODY_D / 2 - 0.40, -BODY_D / 2 + join, z_rib, z_rib + 0.90))
+        out.extend(box("body_back_grip_rib", -7.0, 7.0, BODY_D / 2 - join, BODY_D / 2 + 0.40, z_rib, z_rib + 0.90))
+
     return out
 
 
@@ -689,6 +695,11 @@ def build_divided_body() -> Mesh:
         (17.30, BODY_H - 1.22),
     ]
     out.extend(prism_y("body_snap_catch", catch_profile, -4.00, 4.00))
+
+    # 10. Ergonomic tactile end pinch ribs
+    for z_rib in [27.5, 29.2, 30.9]:
+        out.extend(box("divided_front_grip_rib", -7.0, 7.0, -BODY_D / 2 - 0.40, -BODY_D / 2 + join, z_rib, z_rib + 0.90))
+        out.extend(box("divided_back_grip_rib", -7.0, 7.0, BODY_D / 2 - join, BODY_D / 2 + 0.40, z_rib, z_rib + 0.90))
 
     return out
 
