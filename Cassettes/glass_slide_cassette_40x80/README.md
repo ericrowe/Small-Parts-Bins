@@ -1,17 +1,17 @@
 # Glass-slide small-parts cassette — prototype v0.8 (Optimized Height)
 
 Version 0.8 implements the vertical height optimization established in **Plan 002**.
-It increases the closed cassette envelope to **$39.55 \times 80.0 \times 41.0\text{ mm}$**
-(body height $37.80\text{ mm}$, lid height $3.20\text{ mm}$), providing **$35.80\text{ mm}$ of
-usable internal cavity depth** (+57% internal volume increase over the v0.7 baseline)
-while maintaining a clean **$1.25\text{ mm}$ safety margin** below the 7U carrier
-stacking engagement plane ($Z = 49.00\text{ mm}$, cassette floor $Z = 6.75\text{ mm}$).
+It increases the closed cassette envelope to **$39.55 \times 80.0 \times 36.0\text{ mm}$**
+(body height $32.80\text{ mm}$, lid height $3.20\text{ mm}$), providing **$30.80\text{ mm}$ of
+usable internal cavity depth** (+35.1% internal volume increase over the v0.7 baseline)
+while maintaining a safe **$1.50\text{ mm}$ clearance margin** below the upper carrier
+tray's bottom Gridfinity feet (lowest foot surface at $Z = 44.25\text{ mm}$, cassette floor at $Z = 6.75\text{ mm}$).
 
 Key features:
-1. **Optimized Usable Depth:** $35.80\text{ mm}$ internal cavity depth with $2.0\text{ mm}$ solid floor.
+1. **Optimized Usable Depth:** $30.80\text{ mm}$ internal cavity depth with $2.0\text{ mm}$ solid floor.
 2. **Backwards Compatibility:** Retains the physically verified v0.7 lid geometry, positive end-loaded glass retention channel, 6.75 mm compliant PETG latch, and 3-knuckle peaked filament hinge.
-3. **Aligned Split-Line Clasp:** Reinforced closure catch on the body wall is located at $Z = 35.30\text{--}36.58\text{ mm}$ with $0.65\text{ mm}$ undercut interference.
-4. **Stacked Tray Non-Interference:** When loaded inside a 3 × 4 × 7U carrier tray, an upper carrier tray seats completely on the stacking lip with $1.25\text{ mm}$ clearance above the closed cassette lid.
+3. **Aligned Split-Line Clasp:** Reinforced closure catch on the body wall is located at $Z = 30.30\text{--}31.58\text{ mm}$ with $0.65\text{ mm}$ undercut interference.
+4. **Stacked Tray Non-Interference:** When loaded inside a 3 × 4 × 7U carrier tray, an upper carrier tray seats completely on the stacking lip with $1.50\text{ mm}$ clearance below its Gridfinity feet to the closed cassette lid.
 
 ![Full-lid overview](build/cassette_preview_v0_8.svg)
 
@@ -54,7 +54,7 @@ behind the trailing pane edge and blocks withdrawal. It must not remain pressed
 against the glass face, and the glass must not be used to cam the latch aside.
 
 The 23.0 × 58.5 mm visible window and 34.0 × 10.0 mm label zone are unchanged.
-The full closed envelope is **39.55 × 80.0 × 41.0 mm**.
+The full closed envelope is **39.55 × 80.0 × 36.0 mm**.
 
 ## Hinge and Clasp Features
 

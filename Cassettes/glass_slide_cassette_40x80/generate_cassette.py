@@ -37,7 +37,7 @@ VERSION_TAG = "v0_8"
 # knuckle creates a 39.55 mm maximum width, documented in the manifest.
 BODY_W = 38.60
 BODY_D = 80.00
-BODY_H = 37.80
+BODY_H = 32.80
 BODY_WALL = 2.00
 BODY_BOTTOM = 2.00
 BODY_CORNER = 2.00

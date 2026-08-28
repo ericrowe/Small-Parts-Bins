@@ -84,21 +84,23 @@ the 14U drawer stack, or practical handling clearance.
 
 ## Validation record
 
-### Vertical Tolerance Budget — 2026-08-27
+### Vertical Tolerance Budget & Upper Tray Foot Clearance — 2026-08-28
 
 - **Measured Drawer Ceiling:** $111.125\text{ mm}$ ($4\text{ }^3/_8\text{ in}$).
 - **14U Stack Engagement Height (Two 7U carriers):** $49.00 + 53.40 = 102.40\text{ mm}$.
 - **Stack-to-Drawer Ceiling Margin:** $111.125 - 102.40 = 8.725\text{ mm}$.
-- **Carrier Internal Vertical Cavity:** Carrier support floor at $Z = 6.75\text{ mm}$, stacking plane at $Z = 49.00\text{ mm} \rightarrow$ total theoretical envelope $= 42.25\text{ mm}$.
-- **Selected Closed Cassette Height:** $\mathbf{41.00\text{ mm}}$ (`BODY_H = 37.80 mm`, `LID_H = 3.20 mm`).
-- **Internal Usable Cavity Depth:** $\mathbf{35.80\text{ mm}}$ ($2.0\text{ mm}$ floor) vs. baseline $22.80\text{ mm}$ (+57% capacity increase).
-- **Stacking Non-Interference Buffer:** $42.25 - 41.00 = \mathbf{1.25\text{ mm}}$ safety clearance below the upper carrier bottom grid (accounting for $0.15\text{ mm}$ label tape and print tolerances).
+- **Carrier Internal Vertical Cavity:** Carrier support floor at $Z = 6.75\text{ mm}$, stacking plane at $Z = 49.00\text{ mm}$.
+- **Upper Tray Gridfinity Feet Protrusion:** The $3 \times 4$ array of feet extends $4.75\text{ mm}$ downward below the $49.00\text{ mm}$ lip shelf into the lower tray's throat cavity $\rightarrow$ lowest surface of upper tray sits at $Z = 44.25\text{ mm}$.
+- **Total Usable Internal Space:** $44.25\text{ mm} - 6.75\text{ mm} = \mathbf{37.50\text{ mm}}$.
+- **Selected Closed Cassette Height:** $\mathbf{36.00\text{ mm}}$ (`BODY_H = 32.80 mm`, `LID_H = 3.20 mm`).
+- **Internal Usable Cavity Depth:** $\mathbf{30.80\text{ mm}}$ ($2.0\text{ mm}$ floor) vs. baseline $22.80\text{ mm}$ (+35.1% capacity increase).
+- **Stacking Non-Interference Buffer:** $37.50 - 36.00 = \mathbf{1.50\text{ mm}}$ safe clearance below the upper carrier feet (accounting for $0.15\text{ mm}$ label tape and print layer variations).
 
-### Exported v0.8 STL Audit — 2026-08-27
+### Exported v0.8 STL Audit — 2026-08-28
 
-- `cassette_body_v0_8.stl`: $39.55 \times 80.0 \times 40.45\text{ mm}$, 376 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles, finite coordinates.
+- `cassette_body_v0_8.stl`: $39.55 \times 80.0 \times 35.45\text{ mm}$ (nominal $38.6 \times 80.0 \times 32.8\text{ mm}$), 376 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles, finite coordinates.
 - `cassette_lid_v0_8_print.stl`: $39.55 \times 80.0 \times 6.5\text{ mm}$, 780 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles, fully connected shell overlap graph.
-- `REFERENCE_closed_assembly_DO_NOT_PRINT.stl`: $39.55 \times 80.0 \times 41.0\text{ mm}$, 1168 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles.
+- `REFERENCE_closed_assembly_DO_NOT_PRINT.stl`: $39.55 \times 80.0 \times 36.0\text{ mm}$, 1168 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles.
 - Ready for physical test print and carrier stacking verification.
 
 ## Stop and rollback conditions

@@ -5,13 +5,13 @@
   "nominal_body_mm": [
     38.6,
     80.0,
-    37.8
+    32.8
   ],
-  "closed_height_mm": 41.0,
+  "closed_height_mm": 36.0,
   "maximum_printed_envelope_mm": [
     39.55,
     80.0,
-    41.0
+    36.0
   ],
   "maximum_intended_glass_mm": [
     26.3,
@@ -111,14 +111,14 @@
       "bounds_max_mm": [
         19.3,
         40.0,
-        40.45
+        35.45
       ],
       "size_mm": [
         39.55,
         80.0,
-        40.45
+        35.45
       ],
-      "signed_mesh_volume_mm3": 22291.64,
+      "signed_mesh_volume_mm3": 20029.64,
       "edge_audit": {
         "triangles": 376,
         "unique_edges": 564,
@@ -180,14 +180,14 @@
       "bounds_max_mm": [
         19.3,
         40.0,
-        41.0
+        36.0
       ],
       "size_mm": [
         39.55,
         80.0,
-        41.0
+        36.0
       ],
-      "signed_mesh_volume_mm3": 28160.87,
+      "signed_mesh_volume_mm3": 25898.87,
       "edge_audit": {
         "triangles": 1168,
         "unique_edges": 1752,
