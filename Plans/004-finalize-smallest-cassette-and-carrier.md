@@ -25,6 +25,8 @@ production candidate for the smallest cassette module and its six-cassette 3 × 
   requiring tools or loading/prying against the glass.
 - Keep all cassette features, including grab ribs and pulls, below the carrier
   stacking engagement plane.
+- Address outside hinge overhang geometry to ensure clean printability, minimal droop, and proper inter-cassette packing clearance.
+- Remove legacy corner overhangs / step blocks at the ends of the hinge side of the body and lid.
 - Preserve the standard Gridfinity base/lip interface and 2.0 mm minimum carrier
   walls.
 - Maintain visible glass and labels when the drawer is open.
@@ -47,8 +49,7 @@ production candidate for the smallest cassette module and its six-cassette 3 × 
 
 1. [ ] Reconcile the authoritative dimensions and physical results from Plans
    001–003 into one release parameter table.
-2. [ ] Review source geometry for accidental deviations in Gridfinity profile,
-   cassette envelope, hinge, latch, pocket, label, divider, and removal access.
+2. [ ] Review source geometry and redesign the hinge outside overhang for clean support-free printability, remove legacy corner overhang ledges at the hinge ends, and verify pocket, label, divider, and removal access.
 3. [ ] Design and evaluate cassette grab/removal features (e.g. pinch ribs, end
    recesses, or graspable rims) ensuring positive finger purchase from tight
    carrier throats without contacting the glass.

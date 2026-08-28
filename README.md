@@ -108,7 +108,6 @@ with dedicated grab/removal features and complete test prints.
 | ![v0.8 Body](docs/images/cassette_body_v0_8_multiview.png) | **v0.8 Cassette Body:** $38.6 \times 80.0 \times 32.8\text{ mm}$, $30.8\text{ mm}$ cavity depth, $2.0\text{ mm}$ floor. |
 | ![v0.8 Lid](docs/images/cassette_lid_v0_8_multiview.png) | **v0.8 / v0.7 Transverse Lid:** End-loaded $27.0 \times 1.4\text{ mm}$ channel, compliant PETG latch. |
 | ![Carrier Tray](docs/images/carrier_3x4_7u_multiview.png) | **3 × 4 × 7U Carrier:** Holds 6 modular cassettes with solid $2.6\text{ mm}$ walls. |
-| ![Divided Body](docs/images/divider_coupon_multiview.png) | **Plan 003 Removable Dividers:** $1.40\text{ mm}$ slot width, $0.60\text{ mm}$ wall/floor channels. |
 
 ## Current reference configuration
 
