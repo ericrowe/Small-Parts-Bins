@@ -313,6 +313,23 @@ Compatibility rules:
 - The v0.7 body adds an aligned catch profile for the reinforced clasp and is backwards compatible with earlier lids.
 - Grooved-lid retainers and glass remain historical calibration evidence; the positive-capture v0.7 lid is the active production baseline.
 
+## Human and AI Roles in Development
+
+This project uses an iterative Human-in-the-Loop (HITL) rapid prototyping and physical validation workflow. Responsibilities are clearly divided:
+
+### Role of the Human Collaborator
+1. **Strategic Direction & Requirements:** Defines product vision, physical boundaries (e.g. measured drawer heights, hardware capacity, slide dimensions), and sets/approves plan priorities.
+2. **Fabrication & Machine Operation:** Manages slicing (e.g. Bambu Studio), chooses materials (PETG, ASA, PLA), configures print settings (temperatures, perimeters, layer heights), and operates the 3D printer.
+3. **Physical Assembly & Caliper Measurement:** Performs all physical assembly (hinge pin insertion, glass loading, tray stacking) and measures actual physical prints and hardware batches with calipers.
+4. **Tactile & Ergonomic Evaluation:** Tests real-world usability, finger purchase/pinch room, latch actuation stiffness, snap holding force, and cassette extraction ease from packed carrier trays.
+5. **Authoritative Ground-Truth Adjudication:** Acts as the binding authority on physical reality. When physical print observations or hardware interactions contradict modeled assumptions (e.g. upper tray foot protrusion, slide dropout, or bed adhesion peeling), the Human's physical findings govern all subsequent geometry revisions.
+
+### Role of the AI Agent
+1. **Parametric Modeling & Code Generation:** Writes and maintains clean, editable Python scripts that generate watertight, support-free printable STL meshes anchored to component directories.
+2. **Mesh Auditing & Mathematical Rigor:** Verifies binary integrity, manifoldness (0 boundary edges, 0 non-manifold edges), coordinate finiteness, shell connectivity, and computes vertical/lateral tolerance budgets.
+3. **Task Pipeline & Plan Management:** Maintains the structured plan queue, priorities table, checklists, and dependency gates under `Plans/`.
+4. **Continuous Documentation Synchronization:** Ensures that all repository documentation (top-level `README.md`, component READMEs, manifests, physical-test notes, and active plan files) is reviewed and kept 100% current with every commit.
+
 ## Design and Validation Workflow
 
 - Preserve the editable parametric Python generator, README, binary STLs,

@@ -55,6 +55,22 @@ levels visible through replaceable microscope-slide glass.
 - Treat exported-STL audits and physical prints—not visual plausibility—as the
   authority for functional geometry.
 
+## Human and AI Roles in Development
+
+This project uses an iterative Human-in-the-Loop (HITL) engineering methodology. Responsibilities are clearly divided:
+
+- **Human Collaborator:**
+  - **Strategic Direction & Requirements:** Defines project goals, physical boundaries (e.g. drawer depth, glass sizes, hardware volumes), and prioritizes/approves plans.
+  - **Fabrication & Machine Operation:** Manages slicer setup, material selection (PETG, ASA, PLA), print profiles, and printer execution.
+  - **Ground-Truth Physical Validation:** Performs assembly, caliper measurements, tactile/ergonomic evaluation (grasp ease, latch tension), and real-world failure testing (stacking fit, rollover, drops).
+  - **Authoritative Adjudication:** Physical observations are binding. When prints contradict CAD or mathematical models, the human's findings govern all redesigns.
+
+- **AI Coding Agent:**
+  - **Parametric CAD Generation:** Maintains editable Python mesh generators producing support-free printable STL files.
+  - **Automated Geometry Auditing:** Audits STL meshes for 0 boundary edges, 0 non-manifold edges, finite coordinates, and shell connectivity.
+  - **Tolerance Budgeting & Pipeline Management:** Tracks stack calculations, clearance budgets, and structured plans in `Plans/`.
+  - **Continuous Documentation Integrity:** Reviews and updates all READMEs, manifests, and test notes with every commit.
+
 ## Current status — 2026-08-28
 
 The working cassette release is **v0.8 (Optimized Height)** with a closed envelope
