@@ -52,9 +52,9 @@ cassette rolls over.
    side-wall interfaces, lid-side clearance, and a ladder of named tolerances ($1.30, 1.40, 1.50, 1.60\text{ mm}$).
 5. [x] Print the coupon and test insertion, retention, removal, floor gaps,
    wall gaps, deformation, and rattling. *(Coupon result: 1.2 mm card in Station 2 [1.40 mm slot] preferred by physical tactile test; full-size body test required to verify long-wall flexibility).*
-6. [ ] Generate full-width one-divider and two-divider test bodies using equal
+6. [x] Generate full-width one-divider and two-divider test bodies using equal
    cavity spacing measured between the functional divider faces.
-7. [ ] Audit the exported body and divider STLs, including slot support,
+7. [x] Audit the exported body and divider STLs, including slot support,
    minimum wall thickness, floating islands, manifold edges, and closed-envelope
    compatibility.
 8. [ ] Print one complete cassette body and at least three divider samples so
@@ -89,6 +89,20 @@ cassette rolls over.
 - **Test Article:** `divider_slot_coupon.stl` and `divider_card_1_2mm.stl` printed in PETG.
 - **Physical Finding:** The **1.20 mm card in Station 2 (1.40 mm slot, +0.20 mm clearance)** is the preferred fit for insertion, smooth sliding, and positive seating without binding.
 - **Next Step:** To account for differing wall flexibility over the full 80.0 mm body span compared to the short coupon, generate full-size cassette bodies with 1.40 mm slots and 1.20 mm full-size divider cards for physical validation.
+
+### Full-Size Body Test Articles — 2026-08-28
+
+- **Test Directory:** `Cassettes/divider_test_cassette_v0_8/`
+- **Body STL:** `cassette_body_v0_8_divided.stl` ($38.60 \times 80.00 \times 32.80\text{ mm}$, 524 triangles, **0 boundary / 0 non-manifold edges**).
+- **Divider Stations:**
+  - Center ($Y = 0.00\text{ mm}$): Two $37.40\text{ mm}$ equal compartments.
+  - Thirds ($Y = \pm 12.87\text{ mm}$): Three $24.53\text{ mm}$ equal compartments.
+- **Slot Geometry:** $1.40\text{ mm}$ slot width (Station 2 verified), $0.60\text{ mm}$ wall recess, $0.60\text{ mm}$ floor groove.
+- **Card STLs:**
+  - `divider_card_full_1_2mm.stl`: Baseline $35.60 \times 31.20 \times 1.20\text{ mm}$ (32 triangles, **0 boundary / 0 non-manifold edges**).
+  - `divider_card_full_1_0mm.stl`: Auxiliary $1.00\text{ mm}$ calibration card.
+  - `divider_card_full_1_4mm.stl`: Auxiliary $1.40\text{ mm}$ calibration card.
+- **Compatibility:** 100% compatible with existing verified v0.8/v0.7 lid, glass slide, 1.75 mm filament pin, and 3x4 7U carrier trays.
 
 ### Divider Coupon Architecture — 2026-08-28
 

@@ -1,0 +1,44 @@
+{
+  "version": "0.8-divided",
+  "parameters": {
+    "body_outer": [
+      38.6,
+      80.0,
+      32.8
+    ],
+    "cavity_usable": [
+      34.6,
+      76.0,
+      30.799999999999997
+    ],
+    "slot_width": 1.4,
+    "slot_recess": 0.6,
+    "floor_groove_depth": 0.6,
+    "slot_stations_y": [
+      0.0,
+      -12.87,
+      12.87
+    ],
+    "card_baseline": [
+      35.6,
+      31.2,
+      1.2
+    ]
+  },
+  "audits": {
+    "cassette_body_v0_8_divided.stl": {
+      "triangles": 524,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_triangles": 0,
+      "finite_coordinates": true
+    },
+    "divider_card_full_1_2mm.stl": {
+      "triangles": 32,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_triangles": 0,
+      "finite_coordinates": true
+    }
+  }
+}
