@@ -147,8 +147,6 @@ validation, and dated archive rules.
 - [`Plans/`](Plans/) — in-work plans, the prioritized queue, templates, checker,
   and completed-plan archive.
 - [`IDEAS.md`](IDEAS.md) — concise unprocessed project ideas.
-- `Trays/` — reserved for future tray-related work not represented by the
-  current carrier release.
 
 ## Working rules
 
