@@ -1,33 +1,28 @@
-# Glass-slide small-parts cassette — prototype v0.7
+# Glass-slide small-parts cassette — prototype v0.8 (Optimized Height)
 
-Version 0.7 integrates the physically validated Plan 009 end-loaded pane channel
-and shortened compliant PETG latch. Following physical test feedback confirming
-that the retention of the glass slide and hinge is functional, this revision
-incorporates four key refinements:
-1. **Aesthetic Gap Refinement:** The large entry opening has been tightened to a
-   uniform 0.50 mm perimeter outline matching the finger pad, compliant tongue,
-   and root gussets.
-2. **Reinforced Clasp:** The closure snap has been significantly strengthened with
-   a 1.20 mm thick cantilever tongue (up from 0.85 mm), 8.0 mm wide engagement span,
-   and 0.65 mm positive undercut interference (up from 0.40 mm).
-3. **Continuous Split-Line Outer Walls:** The body rim is at standard Z = 24.80 mm,
-   and the lid has complete 3.20 mm outer perimeter walls extending down to local
-   Z = 0.00 (assembled Z = 24.80 mm) on all outer corners and edges. The hanging
-   pane channel clears the internal cavity, ensuring the lid rests squarely on the
-   body rim and the hinge knuckle bores align with concentric precision at Z = 25.00 mm.
-4. **Carrier Removal Ergonomics:** Outer carrier walls are solid; finger pinch
-   extraction is facilitated via the top edge.
+Version 0.8 implements the vertical height optimization established in **Plan 002**.
+It increases the closed cassette envelope to **$39.55 \times 80.0 \times 41.0\text{ mm}$**
+(body height $37.80\text{ mm}$, lid height $3.20\text{ mm}$), providing **$35.80\text{ mm}$ of
+usable internal cavity depth** (+57% internal volume increase over the v0.7 baseline)
+while maintaining a clean **$1.25\text{ mm}$ safety margin** below the 7U carrier
+stacking engagement plane ($Z = 49.00\text{ mm}$, cassette floor $Z = 6.75\text{ mm}$).
 
-![Full-lid overview](build/cassette_preview_v0_7.svg)
+Key features:
+1. **Optimized Usable Depth:** $35.80\text{ mm}$ internal cavity depth with $2.0\text{ mm}$ solid floor.
+2. **Backwards Compatibility:** Retains the physically verified v0.7 lid geometry, positive end-loaded glass retention channel, 6.75 mm compliant PETG latch, and 3-knuckle peaked filament hinge.
+3. **Aligned Split-Line Clasp:** Reinforced closure catch on the body wall is located at $Z = 35.30\text{--}36.58\text{ mm}$ with $0.65\text{ mm}$ undercut interference.
+4. **Stacked Tray Non-Interference:** When loaded inside a 3 × 4 × 7U carrier tray, an upper carrier tray seats completely on the stacking lip with $1.25\text{ mm}$ clearance above the closed cassette lid.
 
-![Pane loading and end stop](build/cassette_capture_section_v0_7.svg)
+![Full-lid overview](build/cassette_preview_v0_8.svg)
 
-![Actual exported lid mesh](build/cassette_lid_mesh_preview_v0_7.svg)
+![Pane loading and end stop](build/cassette_capture_section_v0_8.svg)
+
+![Actual exported lid mesh](build/cassette_lid_mesh_preview_v0_8.svg)
 
 ## Print these files
 
-- `build/cassette_lid_v0_7_print.stl` (print top/label-face down in PETG)
-- `build/cassette_body_v0_7.stl` (print upright in PETG or ASA; previous v0.5/v0.6 bodies remain reusable with identical Z=24.80 mm rim)
+- `build/cassette_body_v0_8.stl` (print upright in PETG or ASA)
+- `build/cassette_lid_v0_8_print.stl` (print top/label-face down in PETG; identical geometry to v0.7 lid, so existing v0.7 lids are 100% reusable)
 
 Print both parts exactly as supplied without internal support. A 0.4 mm nozzle,
 0.20 mm layers, and four perimeters remain reasonable starting settings. Keep the
@@ -59,7 +54,7 @@ behind the trailing pane edge and blocks withdrawal. It must not remain pressed
 against the glass face, and the glass must not be used to cam the latch aside.
 
 The 23.0 × 58.5 mm visible window and 34.0 × 10.0 mm label zone are unchanged.
-The full closed envelope remains 39.55 × 80.0 × 28.0 mm.
+The full closed envelope is **39.55 × 80.0 × 41.0 mm**.
 
 ## Hinge and Clasp Features
 
@@ -73,30 +68,19 @@ The full closed envelope remains 39.55 × 80.0 × 28.0 mm.
 
 ## Assembly and test order
 
-1. Inspect the printed pane channel, opposite ledges, tongue root, hinge roots,
-   and bores. Stop for cracks, incomplete tongue return, or obstructive sag.
-2. With the lid held clear of the work surface, depress the pane tongue manually.
-   Insert only an undamaged, measured pane; never force or pry the glass.
-3. Slide the pane to the far stop, release the tongue, and confirm the shoulder
-   returns fully behind the pane without touching its face.
-4. Gently pull the pane toward the entry. Positive shoulder engagement—not
-   friction—must prevent withdrawal.
-5. Assemble the lid to the body with approximately 75 mm of straight 1.75 mm
-   filament. Verify hinge motion through at least 120 degrees and positive body-latch closure.
-6. Evaluate perimeter-supported lid stiffness, glass rattle/bowing, latch access,
-   label clearance, and glass replacement for 25 cycles.
-7. Only after those checks pass, test loaded rollover and the documented knockout
-   comparison inside a protective enclosure.
-
-Wear eye protection and contain the specimen during rollover or impact work.
-Reject chipped, cracked, scratched, or oversize glass immediately.
+1. Inspect the printed body, pane channel, opposite ledges, tongue root, hinge roots,
+   and bores.
+2. Insert pane into lid by depressing compliant tongue manually. Slide pane to far stop and release.
+3. Assemble the lid to the body with approximately 75 mm of straight 1.75 mm filament.
+4. Verify smooth hinge rotation through at least 120 degrees and positive clasp closure.
+5. Place cassette inside a 3 × 4 carrier tray and stack a second carrier tray on top to confirm full seating without contact.
 
 ## Export validation
 
-The binary v0.7 lid contains 780 triangles and the v0.7 body contains 376 triangles,
+The binary v0.8 lid contains 780 triangles and the v0.8 body contains 376 triangles,
 each reporting zero boundary edges, zero non-manifold edges, zero degenerate triangles,
 and finite coordinates. Their binary sizes and encoded triangle counts were re-read after
-export. The body, lid, and reference assembly retain the 39.55 × 80.0 × 28.0 maximum closed envelope.
+export. The body, lid, and reference assembly retain the 39.55 × 80.0 × 41.0 mm maximum closed envelope.
 
 Regenerate all current artifacts with:
 

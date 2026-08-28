@@ -30,14 +30,14 @@ HERE = Path(__file__).resolve().parent
 # PARAMETERS
 # ---------------------------------------------------------------------------
 
-VERSION = "0.7"
-VERSION_TAG = "v0_7"
+VERSION = "0.8"
+VERSION_TAG = "v0_8"
 
 # Cassette body.  The hinge sits mostly inside this nominal envelope; the
 # knuckle creates a 39.55 mm maximum width, documented in the manifest.
 BODY_W = 38.60
 BODY_D = 80.00
-BODY_H = 24.80
+BODY_H = 37.80
 BODY_WALL = 2.00
 BODY_BOTTOM = 2.00
 BODY_CORNER = 2.00
@@ -595,10 +595,10 @@ def build_body() -> Mesh:
 
     # Reinforced catch on the inside of the right wall with 0.65 mm interference.
     catch_profile = [
-        (17.30, 22.30),
-        (16.55, 22.72),
-        (16.55, 23.08),
-        (17.30, 23.58),
+        (17.30, BODY_H - 2.50),
+        (16.55, BODY_H - 2.08),
+        (16.55, BODY_H - 1.72),
+        (17.30, BODY_H - 1.22),
     ]
     out.extend(prism_y("body_snap_catch", catch_profile, -4.00, 4.00))
     return out
@@ -1326,7 +1326,7 @@ def render_preview(path: Path, body: Mesh, lid_local: Mesh) -> None:
     fig.text(
         0.5,
         0.025,
-        "Body 38.6 × 80 × 24.8 mm · closed height 28 mm · accepts measured slides up to 26.3 × 76.3 × 1.2 mm",
+        f"Body {BODY_W} × {BODY_D} × {BODY_H} mm · closed height {BODY_H + LID_H} mm · accepts measured slides up to {MAX_GLASS_W} × {MAX_GLASS_D} × {MAX_GLASS_T} mm",
         ha="center",
         fontsize=9.5,
         color="#37444d",

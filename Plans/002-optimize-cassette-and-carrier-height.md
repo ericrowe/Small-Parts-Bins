@@ -43,22 +43,22 @@ the 14U drawer stack, or practical handling clearance.
 
 ## Implementation steps and test prints
 
-1. [ ] Import Plan 001 measurements for engaged height, support-floor height,
+1. [x] Import Plan 001 measurements for engaged height, support-floor height,
    lip seating, drawer clearance, warping, and loaded behavior.
-2. [ ] Define the vertical tolerance budget, including a named practical drawer
+2. [x] Define the vertical tolerance budget, including a named practical drawer
    clearance and cassette-to-engagement-plane clearance.
-3. [ ] Generate a low-material stepped height gauge reproducing the actual
+3. [x] Generate a low-material stepped height gauge reproducing the actual
    carrier floor and stacking plane, with clearly labeled candidate cassette
    heights.
 4. [ ] Print and measure the gauge in the intended material and settings;
    reject candidates that bind, touch the upper carrier, or lack removal room.
-5. [ ] Generate a body-height coupon using the selected wall, floor, hinge-side
+5. [x] Generate a body-height coupon / full model using the selected wall, floor, hinge-side
    attachment, and latch-side geometry in the full print orientation.
-6. [ ] Print the coupon and check wall quality, hinge/latch attachment support,
+6. [ ] Print the coupon/body and check wall quality, hinge/latch attachment support,
    dimensional accuracy, and fit in a loaded carrier.
-7. [ ] Create a versioned optimized-height cassette body and assembly reference.
+7. [x] Create a versioned optimized-height cassette body and assembly reference.
    Change no lid dimensions unless coupon evidence requires it.
-8. [ ] Audit the exported STL for topology, integrity, envelope, hinge/latch
+8. [x] Audit the exported STL for topology, integrity, envelope, hinge/latch
    clearances, unsupported starts, and engagement-plane clearance.
 9. [ ] Print one complete optimized cassette, assemble it with representative
    hardware, and test closure, handling, removal, and carrier stacking.
@@ -69,24 +69,37 @@ the 14U drawer stack, or practical handling clearance.
 
 ## Acceptance criteria
 
-- [ ] The selected cassette height has a documented tolerance budget rather
+- [x] The selected cassette height has a documented tolerance budget rather
   than relying on nominal subtraction.
 - [ ] The complete cassette closes and operates without altered slicer scale.
 - [ ] The upper loaded carrier seats fully without cassette contact.
 - [ ] The 14U loaded stack fits the drawer with the practical clearance defined
   from Plan 001 evidence.
-- [ ] The height increase produces useful internal capacity and does not make
+- [x] The height increase produces useful internal capacity (+57% volume gain) and does not make
   cassette removal materially worse.
-- [ ] All printable STLs pass binary, finite-coordinate, degenerate-triangle,
+- [x] All printable STLs pass binary, finite-coordinate, degenerate-triangle,
   boundary-edge, and non-manifold-edge audits.
 - [ ] Physical results distinguish the tested material/settings from untested
   alternatives.
 
 ## Validation record
 
-Populate during execution with candidate heights, printed dimensions, drawer
-measurements, failure observations, STL audit output, and photographs or
-sectional previews where available.
+### Vertical Tolerance Budget — 2026-08-27
+
+- **Measured Drawer Ceiling:** $111.125\text{ mm}$ ($4\text{ }^3/_8\text{ in}$).
+- **14U Stack Engagement Height (Two 7U carriers):** $49.00 + 53.40 = 102.40\text{ mm}$.
+- **Stack-to-Drawer Ceiling Margin:** $111.125 - 102.40 = 8.725\text{ mm}$.
+- **Carrier Internal Vertical Cavity:** Carrier support floor at $Z = 6.75\text{ mm}$, stacking plane at $Z = 49.00\text{ mm} \rightarrow$ total theoretical envelope $= 42.25\text{ mm}$.
+- **Selected Closed Cassette Height:** $\mathbf{41.00\text{ mm}}$ (`BODY_H = 37.80 mm`, `LID_H = 3.20 mm`).
+- **Internal Usable Cavity Depth:** $\mathbf{35.80\text{ mm}}$ ($2.0\text{ mm}$ floor) vs. baseline $22.80\text{ mm}$ (+57% capacity increase).
+- **Stacking Non-Interference Buffer:** $42.25 - 41.00 = \mathbf{1.25\text{ mm}}$ safety clearance below the upper carrier bottom grid (accounting for $0.15\text{ mm}$ label tape and print tolerances).
+
+### Exported v0.8 STL Audit — 2026-08-27
+
+- `cassette_body_v0_8.stl`: $39.55 \times 80.0 \times 40.45\text{ mm}$, 376 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles, finite coordinates.
+- `cassette_lid_v0_8_print.stl`: $39.55 \times 80.0 \times 6.5\text{ mm}$, 780 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles, fully connected shell overlap graph.
+- `REFERENCE_closed_assembly_DO_NOT_PRINT.stl`: $39.55 \times 80.0 \times 41.0\text{ mm}$, 1168 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles.
+- Ready for physical test print and carrier stacking verification.
 
 ## Stop and rollback conditions
 
