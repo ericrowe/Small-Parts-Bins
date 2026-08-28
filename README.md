@@ -93,9 +93,9 @@ $1.40\text{ mm}$ recessed side-wall channels and floor groove with a thickened $
 left wall providing $+0.65\text{ mm}$ unobstructed vertical drop-in clearance past the hinge knuckle,
 and two stations at $Y = \pm 12.87\text{ mm}$ creating three equal $24.53\text{ mm}$ compartments.
 
-The active in-work plan is **[Plan 004](Plans/004-finalize-smallest-cassette-and-carrier.md)**:
-finalize the smallest cassette and six-cassette 3 × 4 carrier into a production release candidate
-with dedicated grab/removal features and complete test prints.
+The active queued plan is **[Plan 010](Plans/Queued/010-re-evaluate-cassette-closure-latch.md)**
+(Priority 1): re-evaluate and redesign the cassette closure latch to prevent disengagement
+caused by front-wall outward deflection when removable dividers are installed.
 
 ![Small-Parts Cassette v0.8 Exploded Assembly](docs/images/cassette_v0_8_exploded_assembly.png)
 
@@ -114,7 +114,7 @@ with dedicated grab/removal features and complete test prints.
 | Component | Current reference | Validation state |
 |---|---|---|
 | Optimized cassette | v0.8 ($39.55 \times 80.0 \times 36.0\text{ mm}$ closed; $32.8\text{ mm}$ body) | **Physically verified** (Plan 002 complete) |
-| Removable dividers | $1.40\text{ mm}$ slot channels, $1.20\text{ mm}$ card, 3 equal compartments | **Physically verified** (Plan 003 complete) |
+| Removable dividers | $1.40\text{ mm}$ slot channels, $1.20\text{ mm}$ card, 3 equal compartments | **Physically verified** (Plan 003 complete; latch re-evaluation pending in Plan 010) |
 | Low-profile baseline | v0.7 ($39.55 \times 80.0 \times 28.0\text{ mm}$ closed; $24.8\text{ mm}$ body) | Physically verified; hinge, capture, clasp, and split line pass |
 | Window | Plain slide glass, maximum intended 26.3 × 76.3 × 1.2 mm | Measure each delivered batch |
 | Pane capture | End-loaded 27.0 × 1.4 mm channel; integral 6.75 mm PETG latch | Physically verified (Plan 009 complete) |
@@ -126,13 +126,13 @@ with dedicated grab/removal features and complete test prints.
 ## Development sequence
 
 Multiple plans may be in work when their current steps are independent or one is
-waiting for a physical print. Plan 004 is currently in work. Plans 005–008
-are fully developed in [`Plans/Queued/`](Plans/Queued/) and cover larger cassettes,
+waiting for a physical print. Plans 010 and 005–008
+are fully developed in [`Plans/Queued/`](Plans/Queued/) and cover latch re-evaluation, larger cassettes,
 mixed-layout carriers, durability/material testing, and the production baseline.
 
 The authoritative queue order and its rationale exist only in
-[`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). Plans 001, 002, 003, and 009 are completed and
-archived in [`Plans/Completed/`](Plans/Completed/). Next queued plan is Plan 005.
+[`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). Plans 001, 002, 003, 004, and 009 are completed and
+archived in [`Plans/Completed/`](Plans/Completed/). Next queued plan is Plan 010.
 
 The active cassette release is available in
 [`Cassettes/glass_slide_cassette_40x80/`](Cassettes/glass_slide_cassette_40x80/) as

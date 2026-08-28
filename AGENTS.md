@@ -275,6 +275,7 @@ Legacy v0.6 snap-retainer evidence:
   - Two stations at thirds ($Y = \pm 12.87\text{ mm}$) divide the cavity into three equal **$24.53\text{ mm}$** compartments.
   - The center slot is omitted from the smallest cassette to avoid crowding the central closure clasp ($Y \in [-4.0, +4.0\text{ mm}]$) and because it is redundant with the thirds stations. Larger cassette dividers will be addressed in Plan 005.
 - **Divider Card Standard:** $33.30\text{ mm}$ width $\times 31.20\text{ mm}$ height $\times 1.20\text{ mm}$ thickness with $10 \times 1.5\text{ mm}$ top extraction notch and $0.6\text{ mm}$ bottom corner lead-in chamfers ($0.20\text{ mm}$ lid clearance).
+- **Divider Insertion & Front-Wall Flex Finding (2026-08-28):** Physical testing revealed that inserting divider cards creates slight outward lateral deflection on the front (latch-side) body wall, reducing the $0.65\text{ mm}$ clasp undercut overlap enough that the closure latch fails to hold closed. Plan 004 is closed, and **Plan 010 (Re-evaluate Cassette Closure Latch)** is prioritized at Priority 1 to resolve the latch architecture.
 
 ## Materials and Print Assumptions
 
