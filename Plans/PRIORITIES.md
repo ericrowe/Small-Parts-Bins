@@ -37,15 +37,13 @@ explicitly provisional.
 
 | Priority | Plan | Reason |
 |---:|---|---|
-| 1 | 002 — Optimize cassette and carrier height | Establishes the shared vertical envelope after the lid/capture interface is known. |
-| 2 | 003 — Develop optional cassette dividers | Adds the requested small-part partitions after the final internal height and lid interface are available. |
-| 3 | 004 — Finalize the smallest cassette and carrier | Integrates the verified carrier, glass capture, height, and divider work into the smallest production candidate. |
-| 4 | 005 — Develop the larger cassette family | Extends the verified smallest interfaces without propagating unresolved geometry. |
-| 5 | 006 — Develop mixed-layout carriers | Requires physical envelopes from the completed cassette family. |
-| 6 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
-| 7 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
+| 1 | 003 — Develop optional cassette dividers | Adds the requested small-part partitions after the final internal height and lid interface are available. |
+| 2 | 004 — Finalize the smallest cassette and carrier | Integrates the verified carrier, glass capture, height, grab features, and divider work into the smallest production candidate. |
+| 3 | 005 — Develop the larger cassette family | Extends the verified smallest interfaces without propagating unresolved geometry. |
+| 4 | 006 — Develop mixed-layout carriers | Requires physical envelopes from the completed cassette family. |
+| 5 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
+| 6 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
 
-Plan 001 is currently in work, waiting on physical carrier prints for the 14U
-stack and drawer-clearance test. Plan 009 is completed with the v0.7 positive
-end-loaded pane capture mechanism and strengthened closure clasp physically verified.
-The next queued plan is Plan 002.
+Plans 001 and 002 are currently in work. Plan 001 is validating the 14U carrier
+stack, while Plan 002 establishes the vertical tolerance budget and optimizes
+cassette body height for maximum internal capacity. The next queued plan is Plan 003.

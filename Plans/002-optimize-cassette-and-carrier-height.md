@@ -1,11 +1,11 @@
 # Plan 002 — Optimize cassette and carrier height
 
-- Status: Queued
+- Status: Executing
 - Depends on: Plan 001 physical measurements and Plan 009 verified lid/capture envelope
 - Created: 2026-08-27
-- Started: Not started
+- Started: 2026-08-27
 - Completed: Not completed
-- Git start: Not committed
+- Git start: `e13dfba`
 - Git completion: Not completed
 
 ## Outcome
