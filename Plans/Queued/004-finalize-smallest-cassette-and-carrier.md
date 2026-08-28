@@ -11,15 +11,20 @@
 ## Outcome
 
 Combine the verified carrier, optimized height, divider system, hinge, latch,
-glass retention, label, and removal features into the production candidate for
-the smallest cassette module and its six-cassette 3 × 4 carrier.
+glass retention, label, and dedicated cassette grab/removal features into the
+production candidate for the smallest cassette module and its six-cassette 3 × 4 carrier.
 
 ## Requirements
 
 - Preserve all binding dimensions selected by Plans 001–003.
 - Provide zero-, one-, and two-divider cassette configurations without changing
   the closed external envelope.
-- Keep all cassette features below the carrier stacking engagement plane.
+- Implement positive grab features (such as tactile pinch ribs, recessed end
+  grips, or edge-grasping features on the cassette ends/rim) to facilitate
+  grasping and lifting cassettes from tightly packed carrier trays without
+  requiring tools or loading/prying against the glass.
+- Keep all cassette features, including grab ribs and pulls, below the carrier
+  stacking engagement plane.
 - Preserve the standard Gridfinity base/lip interface and 2.0 mm minimum carrier
   walls.
 - Maintain visible glass and labels when the drawer is open.
@@ -44,31 +49,36 @@ the smallest cassette module and its six-cassette 3 × 4 carrier.
    001–003 into one release parameter table.
 2. [ ] Review source geometry for accidental deviations in Gridfinity profile,
    cassette envelope, hinge, latch, pocket, label, divider, and removal access.
-3. [ ] Generate exact final hinge, divider, glass-pocket, throat, and stacking
-   coupons from the production source revision.
-4. [ ] Print the coupons in the intended production settings and confirm they
-   reproduce the accepted fits before committing to the full set.
-5. [ ] Generate the versioned cassette and carrier release with source,
+3. [ ] Design and evaluate cassette grab/removal features (e.g. pinch ribs, end
+   recesses, or graspable rims) ensuring positive finger purchase from tight
+   carrier throats without contacting the glass.
+4. [ ] Generate exact final hinge, divider, grab-feature, glass-pocket, throat,
+   and stacking coupons from the production source revision.
+5. [ ] Print the coupons in the intended production settings and confirm they
+   reproduce the accepted fits and grip ergonomics before committing to the full set.
+6. [ ] Generate the versioned cassette and carrier release with source,
    printable STLs, assembly references, manifests, previews, and instructions.
-6. [ ] Audit every exported STL for binary integrity, topology, coordinates,
+7. [ ] Audit every exported STL for binary integrity, topology, coordinates,
    degenerate faces, islands, sectional hinge/divider clearance, envelope,
    carrier packing, and stack sweep/contact.
-7. [ ] Print enough parts for six complete cassettes with a deliberate mix of
+8. [ ] Print enough parts for six complete cassettes with a deliberate mix of
    zero-, one-, and two-divider configurations.
-8. [ ] Print or reuse two physically compatible carriers and load six cassettes
+9. [ ] Print or reuse two physically compatible carriers and load six cassettes
    in each for the complete 14U test.
-9. [ ] Test every cassette's glass retention, hinge, latch, divider retention,
-   opening access, and carrier insertion/removal.
-10. [ ] Stack the two loaded carriers, measure drawer clearance at multiple
+10. [ ] Test every cassette's glass retention, hinge, latch, divider retention,
+    opening access, grab-feature extraction ergonomics, and carrier insertion/removal.
+11. [ ] Stack the two loaded carriers, measure drawer clearance at multiple
     positions, and perform normal handling and controlled tip-over tests.
-11. [ ] Repeat representative cassette removal, hinge, latch, and divider cycles
-    to expose assembly or tolerance outliers.
-12. [ ] Record the verified configuration, rejected parts, reusable older parts,
+12. [ ] Repeat representative cassette removal from middle and edge carrier
+    positions, hinge, latch, and divider cycles to expose assembly or tolerance outliers.
+13. [ ] Record the verified configuration, rejected parts, reusable older parts,
     print settings, measurements, and remaining limitations.
 
 ## Acceptance criteria
 
 - [ ] Six cassettes fit each carrier without binding or glass loading.
+- [ ] Grab features allow easy, reliable individual extraction from any carrier
+  position (including tightly packed inner slots) without tool use or glass contact.
 - [ ] All tested divider configurations remain functional and preserve equal
   compartment spacing.
 - [ ] Every cassette remains closed during the controlled carrier test.
