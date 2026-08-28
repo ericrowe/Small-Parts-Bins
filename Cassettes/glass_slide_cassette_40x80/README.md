@@ -10,9 +10,11 @@ incorporates four key refinements:
 2. **Reinforced Clasp:** The closure snap has been significantly strengthened with
    a 1.20 mm thick cantilever tongue (up from 0.85 mm), 8.0 mm wide engagement span,
    and 0.65 mm positive undercut interference (up from 0.40 mm).
-3. **Flush Split-Line Body Walls:** Upper body side and end walls are raised to
-   27.20 mm to meet the lid's top plate flush with no exterior gap, increasing
-   usable internal cavity depth to 25.20 mm while keeping the 28.0 mm closed ceiling.
+3. **Continuous Split-Line Outer Walls:** The body rim is at standard Z = 24.80 mm,
+   and the lid has complete 3.20 mm outer perimeter walls extending down to local
+   Z = 0.00 (assembled Z = 24.80 mm) on all outer corners and edges. The hanging
+   pane channel clears the internal cavity, ensuring the lid rests squarely on the
+   body rim and the hinge knuckle bores align with concentric precision at Z = 25.00 mm.
 4. **Carrier Removal Ergonomics:** Outer carrier walls are solid; finger pinch
    extraction is facilitated via the top edge.
 
@@ -25,7 +27,7 @@ incorporates four key refinements:
 ## Print these files
 
 - `build/cassette_lid_v0_7_print.stl` (print top/label-face down in PETG)
-- `build/cassette_body_v0_7.stl` (print upright in PETG or ASA to benefit from the raised 27.20 mm walls and reinforced catch)
+- `build/cassette_body_v0_7.stl` (print upright in PETG or ASA; previous v0.5/v0.6 bodies remain reusable with identical Z=24.80 mm rim)
 
 Print both parts exactly as supplied without internal support. A 0.4 mm nozzle,
 0.20 mm layers, and four perimeters remain reasonable starting settings. Keep the
@@ -91,7 +93,7 @@ Reject chipped, cracked, scratched, or oversize glass immediately.
 
 ## Export validation
 
-The binary v0.7 lid contains 684 triangles and the v0.7 body contains 376 triangles,
+The binary v0.7 lid contains 780 triangles and the v0.7 body contains 376 triangles,
 each reporting zero boundary edges, zero non-manifold edges, zero degenerate triangles,
 and finite coordinates. Their binary sizes and encoded triangle counts were re-read after
 export. The body, lid, and reference assembly retain the 39.55 × 80.0 × 28.0 maximum closed envelope.

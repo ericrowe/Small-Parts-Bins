@@ -42,8 +42,6 @@ BODY_WALL = 2.00
 BODY_BOTTOM = 2.00
 BODY_CORNER = 2.00
 
-BODY_WALL_H = 27.20
-
 # Lid and glass.  The 27 x 76.8 pocket covers common nominal 25 x 75,
 # 25.4 x 76.2, and 26 x 76 mm plain microscope slides after measuring the
 # actual batch.  Maximum intended slide is stated separately because printed
@@ -552,11 +550,10 @@ def build_body() -> Mesh:
 
     upper_z0 = HINGE_BODY_RELIEF_TOP - 0.05
     join = 0.05
-    # Straight walls: front, back, and right walls rise to BODY_WALL_H (27.20 mm)
-    # to meet the lid top frame flush at the split line.
-    out.extend(box("body_upper_bottom_wall", outer[0][0] - join, outer[1][0] + join, -BODY_D / 2, inner[0][1], upper_z0, BODY_WALL_H))
-    out.extend(box("body_upper_right_wall", inner[2][0], BODY_W / 2, outer[2][1] - join, outer[3][1] + join, upper_z0, BODY_WALL_H))
-    out.extend(box("body_upper_top_wall", outer[5][0] - join, outer[4][0] + join, inner[4][1], BODY_D / 2, upper_z0, BODY_WALL_H))
+    # Straight walls ending at the split plane BODY_H (24.80 mm)
+    out.extend(box("body_upper_bottom_wall", outer[0][0] - join, outer[1][0] + join, -BODY_D / 2, inner[0][1], upper_z0, BODY_H))
+    out.extend(box("body_upper_right_wall", inner[2][0], BODY_W / 2, outer[2][1] - join, outer[3][1] + join, upper_z0, BODY_H))
+    out.extend(box("body_upper_top_wall", outer[5][0] - join, outer[4][0] + join, inner[4][1], BODY_D / 2, upper_z0, BODY_H))
     # Stop the centre support below the pin passage.
     out.extend(
         box(
@@ -573,13 +570,13 @@ def build_body() -> Mesh:
     out.extend(box("body_upper_left_lower_end", -BODY_W / 2, inner[7][0], outer[7][1] - join, HINGE_BODY_END_RELIEF_Y0, upper_z0, BODY_H))
     out.extend(box("body_upper_left_upper_end", -BODY_W / 2, inner[6][0], HINGE_BODY_END_RELIEF_Y1, outer[6][1] + join, upper_z0, BODY_H))
 
-    # Chamfered corner sectors. Right corners rise to BODY_WALL_H; left sectors stay at BODY_H:
+    # Chamfered corner sectors ending at BODY_H (24.80 mm):
     lower_right = [outer[1], outer[2], inner[2], inner[1]]
     upper_right = [outer[3], outer[4], inner[4], inner[3]]
     lower_left = clip_polygon_y([outer[7], outer[0], inner[0], inner[7]], HINGE_BODY_END_RELIEF_Y0, keep_below=True)
     upper_left = clip_polygon_y([outer[5], outer[6], inner[6], inner[5]], HINGE_BODY_END_RELIEF_Y1, keep_below=False)
-    out.extend(prism("body_upper_lower_right_corner", lower_right, upper_z0, BODY_WALL_H))
-    out.extend(prism("body_upper_upper_right_corner", upper_right, upper_z0, BODY_WALL_H))
+    out.extend(prism("body_upper_lower_right_corner", lower_right, upper_z0, BODY_H))
+    out.extend(prism("body_upper_upper_right_corner", upper_right, upper_z0, BODY_H))
     out.extend(prism("body_upper_lower_left_corner", lower_left, upper_z0, BODY_H))
     out.extend(prism("body_upper_upper_left_corner", upper_left, upper_z0, BODY_H))
 
@@ -598,10 +595,10 @@ def build_body() -> Mesh:
 
     # Reinforced catch on the inside of the right wall with 0.65 mm interference.
     catch_profile = [
-        (17.30, 21.70),
-        (16.55, 22.30),
-        (16.55, 22.65),
-        (17.30, 23.30),
+        (17.30, 22.30),
+        (16.55, 22.72),
+        (16.55, 23.08),
+        (17.30, 23.58),
     ]
     out.extend(prism_y("body_snap_catch", catch_profile, -4.00, 4.00))
     return out
@@ -670,6 +667,19 @@ def build_lid_local() -> Mesh:
     out.extend(box("pane_left_bottom_ledge", -15.50, bottom_x0, PANE_ENTRY_Y, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
     out.extend(box("pane_right_bottom_ledge", bottom_x1, 17.30, PANE_ENTRY_Y, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
     out.extend(box("pane_far_stop", channel_x0 - 0.05, channel_x1 + 0.05, PANE_FAR_STOP_Y, 39.50, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+
+    # Outer side walls of the lid meeting the body rim at local Z = 0.00:
+    # Right outer wall with fingernail relief:
+    out.extend(box("right_outer_wall_lower_end", 17.25, 19.30, -38.05, -6.95, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("right_outer_wall_upper_end", 17.25, 19.30, 6.95, 38.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("right_finger_relief_inner_wall", 17.25, 18.00, -5.85, 5.85, 0.0, FINGER_RELIEF_H + 0.05))
+    out.extend(box("right_finger_relief_roof_wall", 17.25, 19.30, -7.05, 7.05, FINGER_RELIEF_H, PANE_CHANNEL_Z1 + 0.05))
+
+    # Outer wall corners on far and entry ends:
+    out.extend(box("top_far_end_left_outer", -17.00, -13.00, 38.00, 40.00, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("top_far_end_right_outer", 14.00, 19.30, 38.00, 40.00, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("top_entry_left_outer", -17.00, -13.00, -40.00, -38.00, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("top_entry_right_outer", 14.00, 19.30, -40.00, -38.00, 0.0, PANE_CHANNEL_Z1 + 0.05))
 
     # Compliant tongue, finger pad, shoulder, and root gussets
     out.extend(box("pane_compliant_tongue", tongue_x0, tongue_x1, PANE_SHOULDER_Y0, PANE_TONGUE_END_Y, LID_H - PANE_TONGUE_H, LID_H))

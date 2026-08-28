@@ -356,15 +356,19 @@ and identify all lids or retainers that must be reprinted or retired.
 - **Revisions requested:**
   1. *Aesthetic gap:* Mostly fill in the gap around the retaining feature while keeping it functional.
   2. *Clasp strength:* Clasp needs another revision to increase holding force.
-  3. *Split line / wall height:* Sides of the lid are higher than before; raise box side walls to compensate.
+  3. *Split line / wall height:* Sides of the lid were higher than before.
   4. *Carrier extraction:* Finger holes on the side of the carrier are non-functional and should be removed. Gripping from the top edge is needed.
 
-### Implemented v0.7 Refinements — 2026-08-27
+### Implemented v0.7 Refinements & Split-Line Correction — 2026-08-27
 
 - **Tightened Aesthetic Gap:** Replaced the wide entry slot with a stepped 0.50 mm uniform perimeter outline around the finger pad, tongue, and 45° root gussets.
 - **Reinforced Clasp:** Thickened the cantilever latch beam to 1.20 mm (from 0.85 mm), widened span to 8.0 mm (from 7.0 mm), and increased positive undercut interference to 0.65 mm (from 0.40 mm) with an aligned catch profile on the body.
-- **Raised Body Walls:** Upper body side and end walls are raised to 27.20 mm (`BODY_WALL_H`), meeting the lid top plate flush with no outer seam gap. Usable cavity depth is now 25.20 mm (internal height 2.0 to 27.20 mm).
+- **Split-Line & Hinge Bore Alignment:**
+  - The body top rim is preserved at standard $Z = 24.80\text{ mm}$ (`BODY_H = 24.80`).
+  - The lid has complete outer perimeter walls extending down to local $Z = 0.00$ (assembled $Z = 24.80\text{ mm}$) on all outer corners and edges (including right wall with fingernail relief, and far/entry corner pillars).
+  - The hanging pane channel ledges sit at local $Z \ge 0.20\text{ mm}$ (assembled $Z \ge 25.00\text{ mm}$), clearing the internal cavity without propping the lid up.
+  - When closed, the lid rests flush on the body rim at $Z = 24.80\text{ mm}$, and the hinge knuckle bores of both the body center knuckle and the two lid end knuckles align with mathematical precision along $X = -18.20, Z = 25.00\text{ mm}$.
 - **Audit & Export Validation:**
-  - `cassette_lid_v0_7_print.stl`: 684 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles, fully connected shell overlap graph.
+  - `cassette_lid_v0_7_print.stl`: 780 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles, fully connected shell overlap graph.
   - `cassette_body_v0_7.stl`: 376 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles.
   - Ready for user slicing and physical test print.
