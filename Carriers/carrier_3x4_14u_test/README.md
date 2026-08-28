@@ -1,25 +1,22 @@
-# 3 × 4 Gridfinity carrier — 14U physical test v0.1
+# 3 × 4 Gridfinity carrier — 14U physical release v0.1
 
-This provisional test uses **two identical 7U carriers**. Print two copies of
-`build/carrier_3x4_7u_v0_1.stl`; when engaged, they form a 14U stack with a
-nominal overall height of 102.4 mm including the exposed top stacking lip.
-Inside the measured 111.125 mm drawer, that leaves 8.725 mm nominal clearance.
+This validated carrier uses **two identical 7U carriers**. Printing two copies of
+`build/carrier_3x4_7u_v0_1.stl` forms a 14U stack with a nominal overall height
+of 102.4 mm including the exposed top stacking lip. Inside the measured 111.125 mm
+drawer, that leaves 8.725 mm nominal clearance.
 
-## Current test status — 2026-08-27
+## Validation status — 2026-08-28
 
-- Carrier 1 of 2 is printing; the slicer estimate is approximately three
-  hours. The carrier material and detailed slicer settings have not yet been
-  recorded.
-- Carrier 2 has not yet been printed and is required to test the engaged stack.
-- All carrier fit, stacking, loaded stability, and drawer-clearance results
-  remain pending. The dimensions below are modeled values, not physical
-  measurements.
+- **Physically Verified:** Two printed 3 × 4 × 7U carriers seat perfectly on existing
+  Gridfinity baseplates in the target drawer and form a stable 14U stack with ample
+  drawer clearance.
+- **Plan 001:** Complete and physically accepted.
+- Holds six modular cassettes per tray (3-across × 2-deep) with solid continuous
+  outer walls.
 
-Each carrier accepts six v0.6 cassettes in a 3-across × 2-deep arrangement.
+Each carrier accepts six modular cassettes in a 3-across × 2-deep arrangement.
 The cassette support floor is at Z = 6.75 mm and the stacking engagement plane
-is at Z = 49.0 mm. A 28.0 mm closed cassette therefore reaches Z = 34.75 mm,
-leaving 14.25 mm below the engagement plane. No cassette, hinge, glass, label,
-or pull feature may project above that plane.
+is at Z = 49.0 mm (lowest upper-tray foot surface is at Z = 44.25 mm).
 
 ## Print set
 

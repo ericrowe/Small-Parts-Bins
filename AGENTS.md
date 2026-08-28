@@ -63,27 +63,24 @@ geometry for checked dimensions and exported-STL validation.
 - Carrier design must allow fingertip access or another simple removal feature
   without loading or prying against the glass.
 
-### Current 14U Carrier Test
+### Physically Verified 14U Carrier Architecture
 
-- The current vertical-layout test uses two identical **3 × 4 × 7U** carriers,
+- The vertical-layout architecture uses two identical **3 × 4 × 7U** carriers,
   stacked for a 14U engaged height.
-- Nominal modeled stack height, including the exposed top lip: **102.4 mm**.
+- Total modeled stack height, including the exposed top lip: **102.4 mm**.
   Nominal clearance below the measured 111.125 mm drawer ceiling: **8.725 mm**.
-- Each carrier is designed for six current smallest cassettes in the reference 3 × 2
-  layout. The cassette support floor is at Z = 6.75 mm and the stacking
-  engagement plane is at Z = 49.0 mm, leaving 14.25 mm modeled clearance above
-  the 28.0 mm closed cassette envelope.
-- The central 22 mm openings in the long side walls are intentional fingertip
-  access openings for cassette removal without pushing or prying on the glass.
-  Their size and placement remain provisional.
-- Physical testing is in progress as of 2026-08-27. The first of two required
-  carriers is printing, with an estimated print time of approximately three
-  hours. The second identical carrier is still required for the stack test.
-- Do not treat carrier fit, throat clearance, stacking engagement, loaded
-  stability, or drawer clearance as physically verified until both carriers
-  have been printed and tested together while loaded.
-- Current carrier release:
-  `Carriers/carrier_3x4_14u_test/` version 0.1.
+- **Physically Verified (2026-08-28):** Both 7U carrier trays have been printed in PETG,
+  installed into existing Gridfinity baseplates in the target drawer, and tested for
+  stacking and clearance. The 14U stack fits with ample clearance and stable engagement
+  ([Plan 001](Plans/Completed/2026-08-28-001-validate-14u-carrier-stack.md)).
+- Each carrier holds six modular cassettes in the reference 3 × 2 layout.
+- The cassette support floor is at Z = 6.75 mm and the stacking engagement shelf is at
+  Z = 49.0 mm.
+- **Upper Tray Foot Clearance Constraint:** The upper tray's $3 \times 4$ array of Gridfinity
+  feet extends $4.75\text{ mm}$ downward below the Z = 49.0 mm lip shelf into the lower tray's
+  internal cavity (lowest upper foot surface sits at $Z = 44.25\text{ mm}$).
+- Total usable height inside a loaded lower carrier: $44.25 - 6.75 = \mathbf{37.50\text{ mm}}$.
+- Standard carrier release: `Carriers/carrier_3x4_14u_test/` version 0.1.
 
 ## Modular Cassette Family
 

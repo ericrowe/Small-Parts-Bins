@@ -73,6 +73,11 @@ This project uses an iterative Human-in-the-Loop (HITL) engineering methodology.
 
 ## Current status — 2026-08-28
 
+The 14U vertical carrier stack architecture has been **physically verified**
+([Plan 001](Plans/Completed/2026-08-28-001-validate-14u-carrier-stack.md)): two 3 × 4 × 7U
+carrier trays seat onto standard Gridfinity baseplates in the target drawer with ample
+clearance below the 111.125 mm drawer ceiling.
+
 The working cassette release is **v0.8 (Optimized Height)** with a closed envelope
 of **$39.55 \times 80.0 \times 36.0\text{ mm}$** (body height $32.80\text{ mm}$, lid height $3.20\text{ mm}$),
 providing **$30.80\text{ mm}$ of usable internal depth** (+35.1% capacity increase over
@@ -81,9 +86,8 @@ below the upper carrier tray's downward-protruding Gridfinity feet ($Z = 44.25\t
 while retaining full backwards compatibility with the physically verified v0.7 lid,
 glass slide channel, 6.75 mm compliant PETG latch, and 3-knuckle filament hinge.
 
-Current in-work plans are:
-- **[Plan 001](Plans/001-validate-14u-carrier-stack.md):** Physical validation of two identical 3 × 4 × 7U carriers in a 14U stack inside the 111.125 mm drawer.
-- **[Plan 002](Plans/002-optimize-cassette-and-carrier-height.md):** Physical validation of the 36.0 mm optimized cassette height and upper tray foot clearance.
+The active in-work plan is **[Plan 002](Plans/002-optimize-cassette-and-carrier-height.md)**:
+physical validation of the 36.0 mm optimized cassette height and upper tray foot clearance.
 
 ## Current reference configuration
 
@@ -94,21 +98,21 @@ Current in-work plans are:
 | Window | Plain slide glass, maximum intended 26.3 × 76.3 × 1.2 mm | Measure each delivered batch |
 | Pane capture | End-loaded 27.0 × 1.4 mm channel; integral 6.75 mm PETG latch | Physically verified (Plan 009 complete) |
 | Hinge pin | Straight 1.75 mm printer filament | Works well in the verified hinge pair |
-| Reference carrier | 3 × 4 × 7U, six cassettes | v0.1 physical test in progress |
-| Two-carrier stack | 14U, modeled 102.4 mm overall | Not yet physically verified |
+| Reference carrier | 3 × 4 × 7U, six cassettes | **Physically verified** (Plan 001 complete) |
+| Two-carrier stack | 14U, modeled 102.4 mm overall | **Physically verified** in target drawer (Plan 001 complete) |
 | Drawer ceiling | 111.125 mm | Measured absolute ceiling |
 
 ## Development sequence
 
 Multiple plans may be in work when their current steps are independent or one is
-waiting for a physical print. Plans 001 and 002 are currently in work. Plans 003–008
+waiting for a physical print. Plan 002 is currently in work. Plans 003–008
 are fully developed in [`Plans/Queued/`](Plans/Queued/) and cover cassette
 dividers, finalization of the smallest system, larger cassettes, mixed-layout
 carriers, durability/material testing, and the production baseline.
 
 The authoritative queue order and its rationale exist only in
-[`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). Plan 009 was completed and moved
-to [`Plans/Completed/`](Plans/Completed/). Next queued plan is Plan 003.
+[`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). Plans 001 and 009 are completed and
+archived in [`Plans/Completed/`](Plans/Completed/). Next queued plan is Plan 003.
 
 The active cassette release is available in
 [`Cassettes/glass_slide_cassette_40x80/`](Cassettes/glass_slide_cassette_40x80/) as

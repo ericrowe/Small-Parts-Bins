@@ -33,7 +33,7 @@ plan may be activated alongside higher-ranked work when its current steps are
 independent, capacity is available, and all dependency-gated decisions remain
 explicitly provisional.
 
-## Current order — 2026-08-27
+## Current order — 2026-08-28
 
 | Priority | Plan | Reason |
 |---:|---|---|
@@ -44,6 +44,6 @@ explicitly provisional.
 | 5 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
 | 6 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
 
-Plans 001 and 002 are currently in work. Plan 001 is validating the 14U carrier
-stack, while Plan 002 establishes the vertical tolerance budget and optimizes
+Plan 001 (14U carrier stack validation) is completed and archived. Plan 002 is
+currently active, establishing the vertical tolerance budget and optimizing
 cassette body height for maximum internal capacity. The next queued plan is Plan 003.

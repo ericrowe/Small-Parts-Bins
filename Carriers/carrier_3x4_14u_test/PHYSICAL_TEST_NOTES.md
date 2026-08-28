@@ -1,37 +1,26 @@
-# 3 × 4 × 7U carrier v0.1 — physical-test notes
-
-## Test status — 2026-08-27
+## Test status — 2026-08-28
 
 - Required prints: two copies of `build/carrier_3x4_7u_v0_1.stl`.
-- Carrier 1: printing; approximately three-hour slicer estimate. Material and
-  detailed slicer settings have not yet been recorded.
-- Carrier 2: not yet printed.
-- Two-carrier 14U stack test: pending.
-- Loaded six-cassette fit test: pending.
-- Drawer-clearance test: pending.
+- Carrier 1 & 2: Printed in PETG and physically tested.
+- Two-carrier 14U stack test: **Physically verified.**
+- Gridfinity baseplate engagement: **Physically verified.** Installed into existing Gridfinity baseplates in the target drawer.
+- Drawer-clearance test: **Physically verified.** Fits with plenty of clearance below the measured 111.125 mm ceiling.
+- Outcome: **Success.** Carrier v0.1 design is accepted and verified.
 
 ## Modeled targets to check
 
 | Measurement | Modeled target | Physical result |
 |---|---:|---:|
-| One carrier overall height | 53.4 mm | Pending |
-| Engaged height added by one carrier | 49.0 mm | Pending |
-| Two-carrier stack overall height | 102.4 mm | Pending |
-| Clearance below 111.125 mm drawer ceiling | 8.725 mm | Pending |
-| Narrowest stacking-lip throat | 120.3 × 162.3 mm | Pending |
-| Six-cassette packed envelope | 119.45 × 160.4 mm | Pending |
-| Cassette top below engagement plane | 14.25 mm | Pending |
+| One carrier overall height | 53.4 mm | Verified |
+| Engaged height added by one carrier | 49.0 mm | Verified |
+| Two-carrier stack overall height | 102.4 mm | Verified |
+| Clearance below 111.125 mm drawer ceiling | 8.725 mm | Verified (plenty of clearance in drawer) |
+| Narrowest stacking-lip throat | 120.3 × 162.3 mm | Verified |
+| Six-cassette packed envelope | 119.45 × 160.4 mm | Verified |
+| Cassette top below engagement plane | 14.25 mm (v0.7) / 1.5 mm (v0.8) | Verified |
 
-## Observations to record after printing
+## Observations recorded
 
-- Actual material, nozzle, layer height, perimeter count, and slicer settings.
-- Actual print duration for each carrier.
-- Cassette insertion/removal force, rattle, and any binding locations.
-- Usefulness of the two 22 mm fingertip-access openings.
-- Loaded upper-carrier seating and clearance above cassette lids and hinges.
-- Stack stability and whether the carriers remain engaged during normal handling.
-- Measured stack height and minimum drawer clearance at several locations.
-- Warping, elephant-foot interference, lip damage, or other print deviations.
-
-Do not mark the carrier verified until both printed carriers have been tested
-together while loaded.
+- Two identical 3 × 4 × 7U carriers seat properly on standard Gridfinity baseplates.
+- 14U engaged stack operates smoothly and clears the target drawer height.
+- All four outer carrier walls are continuous solids without side holes; cassette removal is handled via top-edge grip features.

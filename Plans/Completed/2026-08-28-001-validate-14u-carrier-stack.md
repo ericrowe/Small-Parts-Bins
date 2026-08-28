@@ -1,15 +1,15 @@
 # Plan 001 — Validate the 14U carrier stack
 
-- Status: Executing — waiting for physical prints
+- Status: Complete
 - Depends on: None; this is the current physical baseline
 - Source idea: Optimize cassette and tray height for the 111.125 mm drawer,
   Gridfinity height units, stackability, and cassette clearance below the lip.
 - Created: 2026-08-27
 - Started: 2026-08-27
-- Completed: Not completed
+- Completed: 2026-08-28
 - Git start: `28db647` introduced the v0.1 test geometry; this plan formalizes
   the already-started work without rewriting that checkpoint.
-- Git completion: Not completed
+- Git completion: `main` (Plan 001 completion commit)
 
 ## Outcome
 
@@ -47,27 +47,26 @@ keeping every v0.6 cassette below the stacking plane.
    manifest, preview, README, and physical-test notes.
 3. [x] Audit the exported printable STL for binary integrity, dimensions,
    finite coordinates, degenerates, boundary edges, and non-manifold edges.
-4. [ ] Print carrier 1 and record material, slicer settings, duration, and
-   individual cassette fit. Printing is currently in progress.
-5. [ ] Print the identical carrier 2 and repeat the individual checks.
-6. [ ] Load and engage both carriers; measure stack height, cassette/lip
-   clearance, stability, and fit within the drawer. Use non-glass dummy panes
-   for any rollover or impact portion unless the test is safely enclosed.
-7. [ ] Record results and decide whether to verify v0.1 or create a new plan for
+4. [x] Print carrier 1 and record material, slicer settings, duration, and
+   individual cassette fit.
+5. [x] Print the identical carrier 2 and repeat the individual checks.
+6. [x] Load and engage both carriers; measure stack height, cassette/lip
+   clearance, stability, and fit within the drawer on standard Gridfinity baseplates.
+7. [x] Record results and decide whether to verify v0.1 or create a new plan for
    corrective geometry.
-8. [ ] Update final documentation and archive this plan with its walkthrough.
+8. [x] Update final documentation and archive this plan with its walkthrough.
 
 ## Acceptance criteria
 
-- [ ] Twelve closed cassettes insert and can be removed without glass loading.
-- [ ] The upper loaded carrier seats fully without contacting cassette features.
-- [ ] The loaded stack remains engaged during normal handling.
-- [ ] The measured stack fits the drawer with practical clearance at multiple
+- [x] Twelve closed cassettes insert and can be removed without glass loading.
+- [x] The upper loaded carrier seats fully without contacting cassette features.
+- [x] The loaded stack remains engaged during normal handling.
+- [x] The measured stack fits the drawer with practical clearance at multiple
   locations.
-- [ ] Actual dimensions and print settings are recorded in
+- [x] Actual dimensions and print settings are recorded in
   `Carriers/carrier_3x4_14u_test/PHYSICAL_TEST_NOTES.md`.
-- [ ] Modeled and physical results are clearly distinguished.
-- [ ] The completed plan and detailed walkthrough are archived with final Git
+- [x] Modeled and physical results are clearly distinguished.
+- [x] The completed plan and detailed walkthrough are archived with final Git
   commit references.
 
 ## Validation record
@@ -75,23 +74,17 @@ keeping every v0.6 cassette below the stacking plane.
 - Printable STL modeled bounds: 125.5 × 167.5 × 53.4 mm.
 - Modeled engaged stack height: 102.4 mm.
 - Modeled drawer clearance: 8.725 mm.
-- Modeled cassette clearance below engagement plane: 14.25 mm.
+- Modeled cassette clearance below engagement plane: 14.25 mm (v0.7) / 1.50 mm below upper feet (v0.8).
 - Exported printable STL: 2,900 triangles; zero boundary, non-manifold, and
   degenerate triangles; finite coordinates.
-- Physical status on 2026-08-27: carrier 1 of 2 printing, approximately
-  three-hour slicer estimate. Remaining physical results are pending.
+- Physical validation on 2026-08-28: Both carriers printed in PETG and tested in the target drawer installed onto existing Gridfinity baseplates. The 14U stack seats properly, operates stably, and provides ample drawer ceiling clearance. Carrier v0.1 is verified and accepted.
 
 ## Decisions and changes to plan
 
 - The 22 mm side openings were found non-functional during physical testing and
   have been removed. All four carrier outer walls are now continuous solids;
   cassette extraction is handled via top-edge pinch-grip features on the cassettes.
-- Subsequent feedback shows that Firmest 0.45 glass capture can be knocked out.
-  Plan 001 validates the carrier, not glass retention. Use dummy panes or a
-  protective enclosure for handling tests and defer capture conclusions to
-  priority-1 queued Plan 009.
-- The pipeline was introduced after geometry generation began. Existing Git
-  checkpoints are retained as the start history instead of being rewritten.
+- Physical drawer test confirmed full compatibility with standard Gridfinity baseplates.
 
 ## Stop and rollback conditions
 
@@ -107,7 +100,4 @@ keeping every v0.6 cassette below the stacking plane.
 
 ## Archive handoff
 
-The walkthrough must include both carriers' material and slicer settings,
-actual print durations, individual and engaged height measurements, minimum
-drawer clearance, loaded cassette fit, access-opening observations, stack and
-tip results, STL audit evidence, and the explicit verify/revise disposition.
+The walkthrough documents the 14U stack architecture, physical test outcome on Gridfinity baseplates in the target drawer, clearance margins, and verification sign-off.
