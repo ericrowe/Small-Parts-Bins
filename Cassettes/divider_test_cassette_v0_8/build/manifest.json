@@ -7,27 +7,26 @@
       32.8
     ],
     "cavity_usable": [
-      34.6,
+      32.3,
       76.0,
       30.799999999999997
     ],
+    "left_wall_thickness": 4.300000000000001,
+    "right_wall_thickness": 2.0,
     "slot_width": 1.4,
     "slot_recess": 0.6,
     "floor_groove_depth": 0.6,
     "slot_stations_y": [
-      0.0,
+      8.5,
       -12.87,
       12.87
     ],
     "card_baseline": [
-      35.6,
+      33.3,
       31.2,
       1.2
     ],
-    "hinge_relief_notch": [
-      2.5,
-      3.5
-    ]
+    "hinge_vertical_drop_clearance": -0.6499999999999986
   },
   "audits": {
     "cassette_body_v0_8_divided.stl": {
