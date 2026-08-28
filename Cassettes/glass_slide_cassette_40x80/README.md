@@ -13,11 +13,11 @@ Key features:
 3. **Aligned Split-Line Clasp:** Reinforced closure catch on the body wall is located at $Z = 30.30\text{--}31.58\text{ mm}$ with $0.65\text{ mm}$ undercut interference.
 4. **Stacked Tray Non-Interference:** When loaded inside a 3 × 4 × 7U carrier tray, an upper carrier tray seats completely on the stacking lip with $1.50\text{ mm}$ clearance below its Gridfinity feet to the closed cassette lid.
 
-![Full-lid overview](build/cassette_preview_v0_8.svg)
+![Exploded Assembly](build/cassette_v0_8_exploded_assembly.png)
 
-![Pane loading and end stop](build/cassette_capture_section_v0_8.svg)
+![v0.8 Body 3D Multi-View](build/cassette_body_v0_8_multiview.png)
 
-![Actual exported lid mesh](build/cassette_lid_mesh_preview_v0_8.svg)
+![v0.8 Lid 3D Multi-View](build/cassette_lid_v0_8_multiview.png)
 
 ## Print these files
 

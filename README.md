@@ -90,6 +90,19 @@ The physically verified v0.7 lid, glass slide channel, 6.75 mm compliant PETG la
 The active in-work plan is **[Plan 003](Plans/003-develop-optional-cassette-dividers.md)**:
 develop optional removable cassette dividers for 1-, 2-, or 3-compartment configurations.
 
+![Small-Parts Cassette v0.8 Exploded Assembly](docs/images/cassette_v0_8_exploded_assembly.png)
+
+## 3D System Architecture & Model Gallery
+
+![14U Carrier Stack & Tolerance Budget](docs/images/carrier_3x4_14u_stack.png)
+
+| Component 3D Drawing | Description |
+|---|---|
+| ![v0.8 Body](docs/images/cassette_body_v0_8_multiview.png) | **v0.8 Cassette Body:** $38.6 \times 80.0 \times 32.8\text{ mm}$, $30.8\text{ mm}$ cavity depth, $2.0\text{ mm}$ floor. |
+| ![v0.8 Lid](docs/images/cassette_lid_v0_8_multiview.png) | **v0.8 / v0.7 Transverse Lid:** End-loaded $27.0 \times 1.4\text{ mm}$ channel, compliant PETG latch. |
+| ![Carrier Tray](docs/images/carrier_3x4_7u_multiview.png) | **3 × 4 × 7U Carrier:** Holds 6 modular cassettes with solid $2.6\text{ mm}$ walls. |
+| ![Divider Coupon](docs/images/divider_coupon_multiview.png) | **Plan 003 Divider Coupon:** 4-station slot tolerance ladder ($1.3\text{--}1.6\text{ mm}$). |
+
 ## Current reference configuration
 
 | Component | Current reference | Validation state |

@@ -47,10 +47,8 @@ cassettes themselves, avoiding holes in the carrier perimeter.
 Record the outcome in `PHYSICAL_TEST_NOTES.md` before changing the carrier
 geometry or releasing a new revision.
 
-This release is a physical-fit prototype. Its Gridfinity profile, nominal
-120.3 × 162.3 mm throat, 14U drawer result, and access openings remain
-provisional until the printed test is reported.
+![14U Carrier Stack & Tolerance Budget](build/carrier_3x4_14u_stack.png)
 
-![14U test layout and height section](build/carrier_14u_test_preview_v0_1.svg)
+![3x4 Carrier Tray 3D Multi-View](build/carrier_3x4_7u_multiview.png)
 
 Regenerate with `python3 generate_carrier.py`.

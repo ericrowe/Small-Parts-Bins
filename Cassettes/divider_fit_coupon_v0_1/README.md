@@ -14,7 +14,7 @@ for removable cassette dividers before updating the full-size cassette body.
   - **Station 3 ($Y = +4.0\text{ mm}$):** $1.50\text{ mm}$ slot width ($+0.30\text{ mm}$ nominal clearance)
   - **Station 4 ($Y = +12.0\text{ mm}$):** $1.60\text{ mm}$ slot width ($+0.40\text{ mm}$ nominal clearance)
 
-![Divider coupon preview](build/divider_coupon_preview_v0_1.svg)
+![Divider coupon preview](build/divider_coupon_multiview.png)
 
 ## Print these files
 
