@@ -47,19 +47,19 @@ production candidate for the smallest cassette module and its six-cassette 3 × 
 
 ## Implementation steps and test prints
 
-1. [x] Reconcile the authoritative dimensions and physical results from Plans
+1. [ ] Reconcile the authoritative dimensions and physical results from Plans
    001–003 into one release parameter table.
-2. [x] Review source geometry and redesign the hinge outside overhang for clean support-free printability, remove legacy corner overhang ledges at the hinge ends, and verify pocket, label, divider, and removal access.
-3. [x] Design and evaluate cassette grab/removal features (e.g. pinch ribs, end
+2. [ ] Review source geometry and redesign the hinge outside overhang for clean support-free printability, remove legacy corner overhang ledges at the hinge ends, and verify pocket, label, divider, and removal access.
+3. [ ] Design and evaluate cassette grab/removal features (e.g. pinch ribs, end
    recesses, or graspable rims) ensuring positive finger purchase from tight
    carrier throats without contacting the glass.
 4. [ ] Generate exact final hinge, divider, grab-feature, glass-pocket, throat,
    and stacking coupons from the production source revision.
 5. [ ] Print the coupons in the intended production settings and confirm they
    reproduce the accepted fits and grip ergonomics before committing to the full set.
-6. [x] Generate the versioned cassette and carrier release with source,
+6. [ ] Generate the versioned cassette and carrier release with source,
    printable STLs, assembly references, manifests, previews, and instructions.
-7. [x] Audit every exported STL for binary integrity, topology, coordinates,
+7. [ ] Audit every exported STL for binary integrity, topology, coordinates,
    degenerate faces, islands, sectional hinge/divider clearance, envelope,
    carrier packing, and stack sweep/contact.
 8. [ ] Print enough parts for six complete cassettes with a deliberate mix of
