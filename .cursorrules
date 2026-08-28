@@ -1,0 +1,7 @@
+# Cursor AI Rules
+# Refer to AGENTS.md for binding architecture, constraints, and workflow roles.
+
+- Always follow the guidelines and constraints defined in `AGENTS.md`.
+- Validate all tasks against `Plans/` and run `python3 Plans/check_pipeline.py`.
+- For 3D meshes, enforce 0 boundary edges and 0 non-manifold edges using `python3 .agents/skills/mesh-auditor/scripts/audit_stl.py`.
+- Ensure continuous documentation review with every commit and synchronize with `git push origin main`.

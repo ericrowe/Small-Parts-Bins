@@ -146,6 +146,8 @@ validation, and dated archive rules.
 
 - [`AGENTS.md`](AGENTS.md) — binding dimensions, physical findings, validation
   rules, compatibility history, and repository working agreements.
+- [`.agents/`](.agents/) — modular agent customization directory containing `skills/` (e.g. `mesh-auditor`, `cad-renderer`, `plan-pipeline`, `hardware-prototyper`) and `plugins/`.
+- [`CLAUDE.md`](CLAUDE.md) / [`.cursorrules`](.cursorrules) — cross-tool compatibility entry points for Claude Code, Cursor, and Copilot.
 - [`Cassettes/`](Cassettes/) — cassette generators, printable releases,
   manifests, previews, and assembly references.
 - [`Carriers/`](Carriers/) — carrier generators, printable tests, manifests,

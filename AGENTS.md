@@ -424,6 +424,11 @@ All repository documentation—including top-level `README.md`, component README
 - **Top-level `README.md`:** Must accurately reflect the active prototype revision in "Current status", active/in-work plans, component reference configuration tables, and file links (e.g. updating from v0.7 to v0.8 when a component envelope or height optimization changes).
 - **Component READMEs and manifests:** Must accurately describe the current working dimensions, part versions, STL triangle counts, and compatibility notes.
 - **Active plan documents:** Check off completed steps, record physical measurements, and maintain validation logs as work progresses.
+- **Progressive Disclosure Skills (`.agents/skills/`):** Deep operational runbooks and helper scripts are encapsulated into modular skills:
+  - `mesh-auditor`: `.agents/skills/mesh-auditor/scripts/audit_stl.py` for automated binary STL manifold/boundary audits.
+  - `cad-renderer`: `.agents/skills/cad-renderer/scripts/render_multiview.py` for headless 3D multi-views.
+  - `plan-pipeline`: `.agents/skills/plan-pipeline/` for plan management and `Plans/check_pipeline.py`.
+  - `hardware-prototyper`: `.agents/skills/hardware-prototyper/` for physical coupon calibration ladders.
 - **Remote Synchronization:** Push commits to the remote tracking branch (`git push origin main`) with each milestone to keep offsite GitHub storage in sync. The user's GitHub Personal Access Token (PAT) has a limited lifespan; if a push fails due to token expiry or authentication failure, notify the user promptly so they can refresh it.
 - **Never leave superseded version numbers, stale filenames, or outdated dimensions unrefreshed when committing changes.**
 
