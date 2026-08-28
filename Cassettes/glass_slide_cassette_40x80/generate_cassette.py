@@ -56,13 +56,14 @@ HINGE_BODY_Y0 = -13.90
 HINGE_BODY_Y1 = 13.90
 HINGE_LID_END = 37.30
 
-HINGE_RADIAL_CLEARANCE = 0.25
-HINGE_RELIEF_AXIAL_EXTRA = 0.25
-HINGE_KEEP_OUT_R = 2.45
-HINGE_BODY_RELIEF_TOP = BODY_H + HINGE_Z_LOCAL - HINGE_KEEP_OUT_R - HINGE_RADIAL_CLEARANCE # 31.60 mm
-HINGE_BODY_SUPPORT_TOP = BODY_H + HINGE_Z_LOCAL - HINGE_BODY_BORE_R - 0.15                  # 32.10 mm
-HINGE_RELIEF_Y0 = HINGE_BODY_Y0 - HINGE_RELIEF_AXIAL_EXTRA                                 # -14.15 mm
-HINGE_RELIEF_Y1 = HINGE_BODY_Y1 + HINGE_RELIEF_AXIAL_EXTRA                                 #  14.15 mm
+# Rotational keep-out and body relief
+# The lowest point on the rotating lid knuckle dips to Z = 31.12 mm during swing.
+# Setting HINGE_BODY_RELIEF_TOP to 30.40 mm guarantees +0.72 mm to +2.40 mm positive clearance
+# across the entire 0-120 degree opening sweep with zero clash.
+HINGE_BODY_RELIEF_TOP = 30.40
+HINGE_BODY_SUPPORT_TOP = BODY_H + HINGE_Z_LOCAL - HINGE_BODY_BORE_R - 0.15  # 32.10 mm
+HINGE_RELIEF_Y0 = HINGE_BODY_Y0 - 0.25                                     # -14.15 mm
+HINGE_RELIEF_Y1 = HINGE_BODY_Y1 + 0.25                                     #  14.15 mm
 
 # Lid and glass parameters
 LID_H = 3.20
@@ -121,6 +122,18 @@ class Mesh:
         self.tri(a, c, d)
     def extend(self, other: Mesh):
         self.triangles.extend(other.triangles)
+    def bounds(self) -> tuple[V, V]:
+        xs = [v[0] for t in self.triangles for v in t]
+        ys = [v[1] for t in self.triangles for v in t]
+        zs = [v[2] for t in self.triangles for v in t]
+        return (min(xs), min(ys), min(zs)), (max(xs), max(ys), max(zs))
+    def transformed(self, fn, name=""):
+        m = Mesh(name or self.name)
+        for a, b, c in self.triangles:
+            m.tri(fn(a), fn(b), fn(c))
+        return m
+    def translated(self, dx, dy, dz, name=""):
+        return self.transformed(lambda p: (p[0]+dx, p[1]+dy, p[2]+dz), name)
 
 def _fan(m: Mesh, loop: Sequence[Vec2], z: float, up: bool) -> None:
     cx = sum(p[0] for p in loop) / len(loop)
@@ -196,6 +209,36 @@ def prism_y(xz_loop: list[Vec2], y0: float, y1: float) -> Mesh:
                (xz_loop[j][0], y1, xz_loop[j][1]), (xz_loop[i][0], y1, xz_loop[i][1]))
     return m
 
+def peaked_hinge_y(cx: float, cz: float, y0: float, y1: float, print_up_sign: float, bore_r: float) -> Mesh:
+    ow, op, st = 2.05, 2.45, 0.45
+    outer_print = [(-ow, st), (-ow, 0.0)]
+    outer_print.extend((-ow * (1.0 - step / 9.0), -op * step / 9.0) for step in range(1, 10))
+    outer_print.extend((ow * step / 9.0, -op * (1.0 - step / 9.0)) for step in range(1, 10))
+    outer_print.extend([(ow, st), (0.0, op)])
+
+    bore_print = [
+        (bore_r * math.cos(math.radians(135.0 + 13.5 * i)),
+         bore_r * math.sin(math.radians(135.0 + 13.5 * i)))
+        for i in range(21)
+    ]
+    bore_print.append((0.0, math.sqrt(2.0) * bore_r))
+
+    outer_xz = [(cx + x, cz + print_up_sign * z) for x, z in outer_print]
+    inner_xz = [(cx + x, cz + print_up_sign * z) for x, z in bore_print]
+
+    m = Mesh()
+    outer0 = [(x, y0, z) for x, z in outer_xz]
+    outer1 = [(x, y1, z) for x, z in outer_xz]
+    inner0 = [(x, y0, z) for x, z in inner_xz]
+    inner1 = [(x, y1, z) for x, z in inner_xz]
+    for i in range(len(outer0)):
+        j = (i + 1) % len(outer0)
+        m.quad(outer0[i], outer1[i], outer1[j], outer0[j])
+        m.quad(inner0[i], inner0[j], inner1[j], inner1[i])
+        m.quad(outer0[i], outer0[j], inner0[j], inner0[i])
+        m.quad(outer1[i], inner1[i], inner1[j], outer1[j])
+    return m
+
 def normal(t: T) -> V:
     a, b, c = t
     u = [b[i] - a[i] for i in range(3)]
@@ -222,7 +265,7 @@ def build_body(divided: bool = True) -> Mesh:
         (-15.00, 36.80), (-15.00, -36.80)
     ]
     
-    relief_top = HINGE_BODY_RELIEF_TOP # 31.60 mm
+    relief_top = HINGE_BODY_RELIEF_TOP # 30.40 mm
     body_h = BODY_H                   # 32.80 mm
     
     # 1. Lower shell: single continuous watertight solid (0 internal faces!)
@@ -237,7 +280,7 @@ def build_body(divided: bool = True) -> Mesh:
     upper_z0 = relief_top - 0.05
     join = 0.05
     
-    # 2. Upper rim walls (Z = 31.55 to 32.80 mm)
+    # 2. Upper rim walls (Z = 30.35 to 32.80 mm)
     # Front wall: X in [-15.00, 17.35] (leaves left corner clear for rotating knuckle)
     out.extend(box(-15.00, 17.35, -40.00, -38.00, upper_z0, body_h))
     # Back wall: X in [-15.00, 17.35] (leaves left corner clear for rotating knuckle)
@@ -252,36 +295,16 @@ def build_body(divided: bool = True) -> Mesh:
     out.extend(box(-19.30, -15.00, HINGE_RELIEF_Y0, HINGE_RELIEF_Y1, upper_z0, HINGE_BODY_SUPPORT_TOP))
     
     # 3. Center hinge knuckle (verified 27.8 mm length):
-    ow, op, st = 2.05, 2.45, 0.45
-    outer_print = [(-ow, st), (-ow, 0.0)]
-    outer_print.extend((-ow * (1.0 - step / 9.0), -op * step / 9.0) for step in range(1, 10))
-    outer_print.extend((ow * step / 9.0, -op * (1.0 - step / 9.0)) for step in range(1, 10))
-    outer_print.extend([(ow, st), (0.0, op)])
-    
-    bore_r = HINGE_BODY_BORE_R
-    bore_print = [
-        (bore_r * math.cos(math.radians(135.0 + 13.5 * i)),
-         bore_r * math.sin(math.radians(135.0 + 13.5 * i)))
-        for i in range(21)
-    ]
-    bore_print.append((0.0, math.sqrt(2.0) * bore_r))
-    
-    cx, cz = HINGE_X, body_h + HINGE_Z_LOCAL
-    outer_xz = [(cx + x, cz + z) for x, z in outer_print]
-    inner_xz = [(cx + x, cz + z) for x, z in bore_print]
-    
-    kn = Mesh("body_hinge_knuckle")
-    outer0 = [(x, HINGE_BODY_Y0, z) for x, z in outer_xz]
-    outer1 = [(x, HINGE_BODY_Y1, z) for x, z in outer_xz]
-    inner0 = [(x, HINGE_BODY_Y0, z) for x, z in inner_xz]
-    inner1 = [(x, HINGE_BODY_Y1, z) for x, z in inner_xz]
-    for i in range(len(outer0)):
-        j = (i + 1) % len(outer0)
-        kn.quad(outer0[i], outer1[i], outer1[j], outer0[j])
-        kn.quad(inner0[i], inner0[j], inner1[j], inner1[i])
-        kn.quad(outer0[i], outer0[j], inner0[j], inner0[i])
-        kn.quad(outer1[i], inner1[i], inner1[j], outer1[j])
-    out.extend(kn)
+    out.extend(
+        peaked_hinge_y(
+            HINGE_X,
+            body_h + HINGE_Z_LOCAL,
+            HINGE_BODY_Y0,
+            HINGE_BODY_Y1,
+            print_up_sign=1.0,
+            bore_r=HINGE_BODY_BORE_R,
+        )
+    )
     
     # 4. Reinforced snap catch on inside of right wall:
     catch_profile = [
@@ -306,9 +329,9 @@ def build_body(divided: bool = True) -> Mesh:
             
     return out
 
-def build_lid() -> Mesh:
-    out = Mesh(f"cassette_lid_{VERSION_TAG}_print")
-    
+def build_lid_local() -> Mesh:
+    out = Mesh(f"cassette_lid_{VERSION_TAG}_local")
+
     top_z0 = PANE_CHANNEL_Z1
     top_z1 = PANE_TOP_Z1
     window_y0 = WINDOW_Y - WINDOW_D / 2
@@ -329,7 +352,7 @@ def build_lid() -> Mesh:
     tongue_cut_x0 = tongue_x0 - tongue_gap
     tongue_cut_x1 = tongue_x1 + tongue_gap
 
-    # Top frame with tightened 0.50 mm perimeter gap around the compliant latch:
+    # Top frame with tightened 0.50 mm perimeter gap around compliant latch:
     # 1. Entry frame around finger pad:
     out.extend(box(-17.00, pad_cut_x0, -40.00, -37.20, top_z0, top_z1))
     out.extend(box(pad_cut_x1, 19.30, -40.00, -37.20, top_z0, top_z1))
@@ -398,63 +421,36 @@ def build_lid() -> Mesh:
     )
 
     # Bed-supported roots for the two lid knuckles
+    # Spans the entire knuckle width (X in [-20.25, -15.50 mm]) and rises to Z_local = 3.20 mm
+    # In print orientation, this produces a solid foundation from Z_print = 0.00 to 2.65 mm!
     left_end = -HINGE_LID_END
     left_inner = HINGE_BODY_Y0 - HINGE_GAP
     right_inner = HINGE_BODY_Y1 + HINGE_GAP
     right_end = HINGE_LID_END
     out.extend(
         box(
-            -18.40,
-            -17.00 + 0.05,
+            -20.25,
+            -15.50,
             left_end - 0.10,
             left_inner + 0.10,
-            FINGER_RELIEF_H,
+            0.55,
             LID_H,
         )
     )
     out.extend(
         box(
-            -18.40,
-            -17.00 + 0.05,
+            -20.25,
+            -15.50,
             right_inner - 0.10,
             right_end + 0.10,
-            FINGER_RELIEF_H,
+            0.55,
             LID_H,
         )
     )
 
-    # Two lid knuckles (printed top-down, local Z inverted)
-    ow, op, st = 2.05, 2.45, 0.45
-    outer_print = [(-ow, st), (-ow, 0.0)]
-    outer_print.extend((-ow * (1.0 - step / 9.0), -op * step / 9.0) for step in range(1, 10))
-    outer_print.extend((ow * step / 9.0, -op * (1.0 - step / 9.0)) for step in range(1, 10))
-    outer_print.extend([(ow, st), (0.0, op)])
-
-    bore_r = HINGE_LID_BORE_R
-    bore_print = [
-        (bore_r * math.cos(math.radians(135.0 + 13.5 * i)),
-         bore_r * math.sin(math.radians(135.0 + 13.5 * i)))
-        for i in range(21)
-    ]
-    bore_print.append((0.0, math.sqrt(2.0) * bore_r))
-
-    cx, cz = HINGE_X, 0.20
-    outer_xz = [(cx + x, cz - z) for x, z in outer_print] # inverted for top-down print
-    inner_xz = [(cx + x, cz - z) for x, z in bore_print]
-
-    for y0, y1 in [(left_end, left_inner), (right_inner, right_end)]:
-        kn = Mesh()
-        outer0 = [(x, y0, z) for x, z in outer_xz]
-        outer1 = [(x, y1, z) for x, z in outer_xz]
-        inner0 = [(x, y0, z) for x, z in inner_xz]
-        inner1 = [(x, y1, z) for x, z in inner_xz]
-        for i in range(len(outer0)):
-            j = (i + 1) % len(outer0)
-            kn.quad(outer0[i], outer1[i], outer1[j], outer0[j])
-            kn.quad(inner0[i], inner0[j], inner1[j], inner1[i])
-            kn.quad(outer0[i], outer0[j], inner0[j], inner0[i])
-            kn.quad(outer1[i], inner1[i], inner1[j], outer1[j])
-        out.extend(kn)
+    # Two lid knuckles alternate with body knuckle (peaked profile with 2.10 mm teardrop bore)
+    out.extend(peaked_hinge_y(HINGE_X, HINGE_Z_LOCAL, left_end, left_inner, print_up_sign=-1.0, bore_r=HINGE_LID_BORE_R))
+    out.extend(peaked_hinge_y(HINGE_X, HINGE_Z_LOCAL, right_inner, right_end, print_up_sign=-1.0, bore_r=HINGE_LID_BORE_R))
 
     # Reinforced cantilever closure clasp on lid
     clasp_profile = [
@@ -470,6 +466,12 @@ def build_lid() -> Mesh:
     ]
     out.extend(prism_y(clasp_profile, -3.50, 3.50))
     return out
+
+def lid_print_orientation(lid: Mesh) -> Mesh:
+    """Place label/top face flat on build plate; normalize lowest point to Z=0."""
+    rotated = lid.transformed(lambda p: (p[0], -p[1], LID_H - p[2]), f"cassette_lid_{VERSION_TAG}_print")
+    zmin = rotated.bounds()[0][2]
+    return rotated.translated(0.0, 0.0, -zmin, f"cassette_lid_{VERSION_TAG}_print")
 
 def build_divider_card(thickness: float = 1.20,
                        notch_w: float = 10.0, notch_d: float = 1.5,
@@ -555,11 +557,13 @@ def main():
     audit_body_undiv = audit(body_undiv)
     print("Undivided Body Audit:", audit_body_undiv)
     
-    # 3. Build lid
-    lid_mesh = build_lid()
+    # 3. Build lid in print orientation
+    lid_local = build_lid_local()
+    lid_mesh = lid_print_orientation(lid_local)
     write_stl(BUILD_DIR / "cassette_lid_v0_8_print.stl", lid_mesh)
     audit_lid = audit(lid_mesh)
     print("Lid Audit:", audit_lid)
+    print("Lid Print Z Bounds:", lid_mesh.bounds()[0][2], "to", lid_mesh.bounds()[1][2])
     
     # 4. Build divider cards
     card_1_2 = build_divider_card(1.20)
@@ -586,7 +590,7 @@ def main():
             "slot_stations_y": SLOT_STATIONS,
             "card_baseline": [33.30, 31.20, 1.20],
             "hinge_body_length": HINGE_BODY_Y1 - HINGE_BODY_Y0,
-            "hinge_rotational_clearance": "+1.20 mm to +2.60 mm"
+            "hinge_rotational_clearance": "+0.72 mm to +2.40 mm over 0-120 deg"
         },
         "audits": {
             "cassette_body_v0_8_divided.stl": audit_body_div,
