@@ -39,7 +39,7 @@ cassette rolls over.
   and carrier remain reusable.
 - Retain an undivided configuration with the largest practical continuous
   cavity.
-- Existing v0.6 bodies remain valid undivided cassettes even if they cannot
+- Existing v0.6/v0.8 bodies remain valid undivided cassettes even if they cannot
   accept the new removable dividers.
 
 ## Implementation steps and test prints
@@ -50,8 +50,8 @@ cassette rolls over.
 3. [x] Compare locating concepts (recessed wall channels and floor groove selected to maintain smooth cavity walls when dividers are omitted).
 4. [x] Generate a compact divider-fit coupon containing the real floor, both
    side-wall interfaces, lid-side clearance, and a ladder of named tolerances ($1.30, 1.40, 1.50, 1.60\text{ mm}$).
-5. [ ] Print the coupon and test insertion, retention, removal, floor gaps,
-   wall gaps, deformation, and rattling.
+5. [x] Print the coupon and test insertion, retention, removal, floor gaps,
+   wall gaps, deformation, and rattling. *(Coupon result: 1.2 mm card in Station 2 [1.40 mm slot] preferred by physical tactile test; full-size body test required to verify long-wall flexibility).*
 6. [ ] Generate full-width one-divider and two-divider test bodies using equal
    cavity spacing measured between the functional divider faces.
 7. [ ] Audit the exported body and divider STLs, including slot support,
@@ -84,12 +84,18 @@ cassette rolls over.
 
 ## Validation record
 
+### Physical Divider Coupon Fit Test — 2026-08-28
+
+- **Test Article:** `divider_slot_coupon.stl` and `divider_card_1_2mm.stl` printed in PETG.
+- **Physical Finding:** The **1.20 mm card in Station 2 (1.40 mm slot, +0.20 mm clearance)** is the preferred fit for insertion, smooth sliding, and positive seating without binding.
+- **Next Step:** To account for differing wall flexibility over the full 80.0 mm body span compared to the short coupon, generate full-size cassette bodies with 1.40 mm slots and 1.20 mm full-size divider cards for physical validation.
+
 ### Divider Coupon Architecture — 2026-08-28
 
 - **Coupon Directory:** `Cassettes/divider_fit_coupon_v0_1/`
 - **Slot Width Ladder (on 1.20 mm test card):**
   - Station 1 ($Y = -12.0\text{ mm}$): $1.30\text{ mm}$ slot width ($+0.10\text{ mm}$ clearance)
-  - Station 2 ($Y = -4.0\text{ mm}$): $1.40\text{ mm}$ slot width ($+0.20\text{ mm}$ clearance)
+  - Station 2 ($Y = -4.0\text{ mm}$): $1.40\text{ mm}$ slot width ($+0.20\text{ mm}$ clearance) — **PHYSICALLY SELECTED**
   - Station 3 ($Y = +4.0\text{ mm}$): $1.50\text{ mm}$ slot width ($+0.30\text{ mm}$ clearance)
   - Station 4 ($Y = +12.0\text{ mm}$): $1.60\text{ mm}$ slot width ($+0.40\text{ mm}$ clearance)
 - **Recess Depths:** $0.60\text{ mm}$ into left and right walls ($1.40\text{ mm}$ remaining outer wall); $0.60\text{ mm}$ floor groove ($1.40\text{ mm}$ solid bottom floor).
@@ -98,17 +104,3 @@ cassette rolls over.
   - `divider_card_1_2mm.stl`: 24 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles.
   - `divider_card_1_0mm.stl`: 24 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles.
   - `divider_card_1_4mm.stl`: 24 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles.
-transfer counts, and wear after repeated removal.
-
-## Stop and rollback conditions
-
-- Reject any interface that depends on the lid or glass to force a warped
-  divider into position.
-- Fall back to a larger controlled clearance if a tight fit creates body stress,
-  poor cleaning access, or inconsistent installation.
-
-## Archive handoff
-
-The walkthrough must document the divider interface, equal-spacing method,
-selected fit, tested transfer behavior, installation instructions, compatible
-cassette revisions, and how the interface should extend to larger sizes.

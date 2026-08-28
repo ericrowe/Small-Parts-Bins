@@ -265,7 +265,11 @@ Legacy v0.6 snap-retainer evidence:
   extrusion, or slicer-setting change; when recalibrating, test upward in order.
 - Do not force a retainer that requires levering against the glass.
 - The legacy retainer ladder remains available through Git history for failure
-  comparison and recalibration evidence; it is not part of the current release.
+## Removable Dividers: Plan 003 Geometry
+
+- The divider interface uses vertical wall channels and a continuous bottom floor groove to locate removable divider cards without reducing usable cavity volume when omitted.
+- **Physical Coupon Validation (2026-08-28):** The 1.20 mm test card in Station 2 (1.40 mm slot width, +0.20 mm total clearance, 0.60 mm wall recess, 0.60 mm floor groove) provides the preferred tactile slide fit without binding or excessive wobble.
+- Full-length 80.0 mm body prints are required to test long-wall flexibility before freezing the production divider standard.
 
 ## Materials and Print Assumptions
 
