@@ -1,0 +1,78 @@
+{
+  "design": "Plan 003 Cassette Divider Fit Coupon",
+  "version": "0.1",
+  "stations": [
+    {
+      "station": "1",
+      "y_center_mm": -12.0,
+      "slot_width_mm": 1.3,
+      "nominal_clearance_mm": 0.1
+    },
+    {
+      "station": "2",
+      "y_center_mm": -4.0,
+      "slot_width_mm": 1.4,
+      "nominal_clearance_mm": 0.2
+    },
+    {
+      "station": "3",
+      "y_center_mm": 4.0,
+      "slot_width_mm": 1.5,
+      "nominal_clearance_mm": 0.3
+    },
+    {
+      "station": "4",
+      "y_center_mm": 12.0,
+      "slot_width_mm": 1.6,
+      "nominal_clearance_mm": 0.4
+    }
+  ],
+  "test_dividers": [
+    {
+      "file": "divider_card_1_2mm.stl",
+      "thickness_mm": 1.2,
+      "width_mm": 35.5,
+      "height_mm": 17.5,
+      "audit": {
+        "triangles": 24,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "degenerate_triangles": 0,
+        "finite_coordinates": true
+      }
+    },
+    {
+      "file": "divider_card_1_0mm.stl",
+      "thickness_mm": 1.0,
+      "width_mm": 35.5,
+      "height_mm": 17.5,
+      "audit": {
+        "triangles": 24,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "degenerate_triangles": 0,
+        "finite_coordinates": true
+      }
+    },
+    {
+      "file": "divider_card_1_4mm.stl",
+      "thickness_mm": 1.4,
+      "width_mm": 35.5,
+      "height_mm": 17.5,
+      "audit": {
+        "triangles": 24,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "degenerate_triangles": 0,
+        "finite_coordinates": true
+      }
+    }
+  ],
+  "coupon_audit": {
+    "triangles": 240,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "degenerate_triangles": 0,
+    "finite_coordinates": true
+  }
+}

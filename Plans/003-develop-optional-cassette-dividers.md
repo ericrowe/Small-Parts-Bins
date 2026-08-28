@@ -44,14 +44,12 @@ cassette rolls over.
 
 ## Implementation steps and test prints
 
-1. [ ] Measure the Plan 002 printed cavity and closed lid-to-floor relationship
-   at the proposed divider stations.
+1. [x] Measure the Plan 002 printed cavity ($34.60\text{ mm}$ width, $76.00\text{ mm}$ length, $30.80\text{ mm}$ usable depth) and closed lid-to-floor relationship at the proposed divider stations.
 2. [ ] Select representative small test parts and record their dimensions so
    rollover results are reproducible.
-3. [ ] Compare locating concepts such as shallow floor sockets, wall grooves,
-   or flexible end features against printability, cleanability, and lost volume.
-4. [ ] Generate a compact divider-fit coupon containing the real floor, both
-   side-wall interfaces, lid-side clearance, and a ladder of named tolerances.
+3. [x] Compare locating concepts (recessed wall channels and floor groove selected to maintain smooth cavity walls when dividers are omitted).
+4. [x] Generate a compact divider-fit coupon containing the real floor, both
+   side-wall interfaces, lid-side clearance, and a ladder of named tolerances ($1.30, 1.40, 1.50, 1.60\text{ mm}$).
 5. [ ] Print the coupon and test insertion, retention, removal, floor gaps,
    wall gaps, deformation, and rattling.
 6. [ ] Generate full-width one-divider and two-divider test bodies using equal
@@ -86,8 +84,20 @@ cassette rolls over.
 
 ## Validation record
 
-Record material, nozzle, layers, measured divider/slot dimensions, insertion
-force observations, rollover cycle count, test-part dimensions and counts,
+### Divider Coupon Architecture — 2026-08-28
+
+- **Coupon Directory:** `Cassettes/divider_fit_coupon_v0_1/`
+- **Slot Width Ladder (on 1.20 mm test card):**
+  - Station 1 ($Y = -12.0\text{ mm}$): $1.30\text{ mm}$ slot width ($+0.10\text{ mm}$ clearance)
+  - Station 2 ($Y = -4.0\text{ mm}$): $1.40\text{ mm}$ slot width ($+0.20\text{ mm}$ clearance)
+  - Station 3 ($Y = +4.0\text{ mm}$): $1.50\text{ mm}$ slot width ($+0.30\text{ mm}$ clearance)
+  - Station 4 ($Y = +12.0\text{ mm}$): $1.60\text{ mm}$ slot width ($+0.40\text{ mm}$ clearance)
+- **Recess Depths:** $0.60\text{ mm}$ into left and right walls ($1.40\text{ mm}$ remaining outer wall); $0.60\text{ mm}$ floor groove ($1.40\text{ mm}$ solid bottom floor).
+- **STL Audits:**
+  - `divider_slot_coupon.stl`: 240 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles.
+  - `divider_card_1_2mm.stl`: 24 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles.
+  - `divider_card_1_0mm.stl`: 24 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles.
+  - `divider_card_1_4mm.stl`: 24 triangles, 0 boundary edges, 0 non-manifold edges, 0 degenerate triangles.
 transfer counts, and wear after repeated removal.
 
 ## Stop and rollback conditions
