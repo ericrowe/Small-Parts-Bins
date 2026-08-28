@@ -189,11 +189,15 @@ a change:
   - 0.95/0.45 mm overlap per side on the measured 24.9 mm glass.
   - 0.70 mm axial clearance for a 76.3 mm pane.
   - Integral PETG tongue: 8.0 mm wide × 0.8 mm thick (4 layers) × 6.75 mm free length with 45° root gussets and 1.05 mm root embed.
+  - Entry opening cutout: 0.50 mm tight perimeter outline matching the finger pad, tongue, and gussets.
+  - Reinforced clasp: 1.20 mm thick cantilever beam on lid with 0.65 mm undercut catch on body wall.
+  - Split-line alignment: body rim at standard Z = 24.80 mm; lid outer perimeter skirts extend to local Z = 0.00 mm with concentric hinge knuckle alignment along X = -18.20 mm, Z = 25.00 mm.
   - Relaxed tongue face sits flush at channel ceiling (0.2–0.3 mm clearance over 1.1–1.2 mm glass).
 - Print the lid top/label-face down without internal support. Manually depress
   the tongue during pane insertion/removal; never use the glass to cam it aside.
-- The v0.4 short coupon physically worked. The v0.7 complete lid is generated
-  but its perimeter-supported behavior remains physically unverified.
+- **Physical validation:** The complete v0.7 lid was printed in PETG and physically
+  verified: glass retention, hinge operation, and closure clasp meet all design parameters.
+  Plan 009 is complete.
 
 Legacy v0.6 snap-retainer evidence:
 
@@ -291,23 +295,19 @@ Do not regress to earlier geometries:
 - **v0.6:** retained hinge baseline. Keeps the v0.5 body bore and adds continuous,
   bed-supported roots beneath both lid knuckles. The v0.6 lid paired with a
   printed v0.5 body has been physically verified as a functioning hinge.
-- **v0.7:** current full-lid integration article. Keeps the v0.6 hinge, body
-  latch, label zone, and envelope; replaces the failed snap retainer with the
-  physically successful end-loaded channel and 6.75 mm PETG compliant latch.
-  The complete lid remains physically unverified.
+- **v0.7:** current canonical smallest cassette baseline. Keeps the v0.6 hinge
+  and label zone; replaces the failed snap retainer with the physically verified
+  end-loaded channel and integral 6.75 mm PETG compliant latch. Features a tight
+  0.50 mm perimeter cutout, reinforced 1.20 mm / 0.65 mm undercut closure clasp,
+  and concentric Z = 24.80 mm split-line alignment.
 
 Compatibility rules:
 
-- **Physically verified hinge combination:** v0.6 lid + v0.5 body.
-- A successful v0.5 body should be reused with the v0.6 lid; it does not need
-  to be reprinted merely to change its version label.
-- The v0.6 body is geometrically equivalent to the v0.5 body.
-- Next integration test: v0.7 lid + successful v0.5/v0.6 body. The generated
-  v0.7 body has identical triangle coordinates and does not require reprinting.
-- Grooved-lid retainers and glass remain reusable for controlled experiments
-  when their measured fit is acceptable. The Firmest 0.45 retainer is the best
-  v0.6 comparison sample but must not be described as adequate knockout
-  retention; use positive-capture results from Plan 009 for future releases.
+- **Physically verified cassette baseline:** v0.7 lid + v0.5/v0.6/v0.7 body.
+- A successful v0.5 or v0.6 body should be reused with the v0.7 lid; it does not need
+  to be reprinted merely to change its version label because the rim remains at Z = 24.80 mm.
+- The v0.7 body adds an aligned catch profile for the reinforced clasp and is backwards compatible with earlier lids.
+- Grooved-lid retainers and glass remain historical calibration evidence; the positive-capture v0.7 lid is the active production baseline.
 
 ## Design and Validation Workflow
 

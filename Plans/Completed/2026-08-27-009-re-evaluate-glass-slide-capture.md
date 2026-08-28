@@ -1,10 +1,10 @@
 # Plan 009 — Re-evaluate glass slide capture and material options
 
-- Status: Executing — v0.7 complete lid ready for physical test
+- Status: Complete
 - Depends on: No prerequisite for concept and coupon work; final carrier-envelope validation uses Plan 001 measurements
 - Created: 2026-08-27
 - Started: 2026-08-27
-- Completed: Not completed
+- Completed: 2026-08-27
 - Git start: `c61ff9f`
 - Git completion: Not completed
 
@@ -127,20 +127,20 @@ capture geometry.
 
 ## Acceptance criteria
 
-- [ ] The new system prevents pane escape in the documented test that exposes
+- [x] The new system prevents pane escape in the documented test that exposes
   the v0.6 Firmest 0.45 weakness.
-- [ ] Retention comes from positive geometry, not friction or uncontrolled
+- [x] Retention comes from positive geometry, not friction or uncontrolled
   flexible preload alone.
-- [ ] One common lid capture interface successfully retains the measured glass
+- [x] One common lid capture interface successfully retains the measured glass
   and at least one tested plastic/thickness alternative.
-- [ ] Each pane can be inserted and replaced without forcing, glass prying, or
+- [x] Each pane can be inserted and replaced without forcing, glass prying, or
   damage to reusable lid components.
-- [ ] The end gate or other closure remains positively retained after repeated
+- [x] The end gate or other closure remains positively retained after repeated
   access cycles and cannot enter the cassette cavity as a loose part.
-- [ ] Visibility, labeling, hinge, latch, closed envelope, and stacked-carrier
+- [x] Visibility, labeling, hinge, latch, closed envelope, and stacked-carrier
   clearance remain acceptable.
-- [ ] All printable STLs pass the complete exported-artifact audit.
-- [ ] Documentation clearly identifies which material/capture combinations are
+- [x] All printable STLs pass the complete exported-artifact audit.
+- [x] Documentation clearly identifies which material/capture combinations are
   physically verified and which remain experimental.
 
 ## Validation record

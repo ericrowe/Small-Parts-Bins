@@ -57,31 +57,31 @@ levels visible through replaceable microscope-slide glass.
 
 ## Current status — 2026-08-27
 
-The current full-lid integration article is v0.7 with the unchanged maximum
+The canonical smallest cassette baseline is v0.7 with the unchanged maximum
 closed envelope of 39.55 × 80.0 × 28.0 mm. It retains the physically verified
-v0.6 hinge geometry and works with the successful v0.5/v0.6 body and straight
-1.75 mm filament pin. Its end-loaded channel and shortened PETG latch passed as
-coupons, but the complete v0.7 lid still requires physical validation.
+v0.6 hinge geometry and works with the successful v0.5/v0.6/v0.7 body and straight
+1.75 mm filament pin. The end-loaded pane capture channel, integral 6.75 mm
+compliant PETG latch, tight 0.50 mm perimeter cutout, reinforced closure clasp,
+and concentric Z = 24.80 mm split line are physically verified and complete
+([Plan 009](Plans/Completed/2026-08-27-009-re-evaluate-glass-slide-capture.md)).
 
-Current in-work plans are [Plan 001](Plans/001-validate-14u-carrier-stack.md),
-physical validation of two identical 3 × 4 × 7U carriers, and
-[Plan 009](Plans/009-re-evaluate-glass-slide-capture.md), development of a
-positive, replaceable pane-capture method. The modeled carrier
+The active in-work plan is [Plan 001](Plans/001-validate-14u-carrier-stack.md),
+physical validation of two identical 3 × 4 × 7U carriers. The modeled carrier
 stack height is 102.4 mm, leaving 8.725 mm nominal clearance below the drawer
 ceiling. Carrier 1 of 2 is currently recorded as printing; carrier 2 and all
 loaded stack, throat, stability, and drawer-clearance results remain pending.
 
 Nothing about carrier v0.1 should yet be treated as physically verified. Its
-dimensions, Gridfinity engagement, 22 mm side access openings, six-cassette fit,
-and loaded stack behavior remain provisional until both prints are tested.
+dimensions, Gridfinity engagement, six-cassette fit, and loaded stack behavior
+remain provisional until both prints are tested.
 
 ## Current reference configuration
 
 | Component | Current reference | Validation state |
 |---|---|---|
-| Smallest cassette | v0.7 lid with unchanged v0.5/v0.6 body, 39.55 × 80.0 × 28.0 mm closed | Full lid ready to print; hinge inherited and coupon capture passed |
+| Smallest cassette | v0.7 lid with v0.5/v0.6/v0.7 body, 39.55 × 80.0 × 28.0 mm closed | Physically verified; hinge, capture, clasp, and split line pass |
 | Window | Plain slide glass, maximum intended 26.3 × 76.3 × 1.2 mm | Measure each delivered batch |
-| Pane capture | End-loaded 27.0 × 1.4 mm channel; integral 6.75 mm PETG latch | Coupons pass; full lid unverified |
+| Pane capture | End-loaded 27.0 × 1.4 mm channel; integral 6.75 mm PETG latch | Physically verified (Plan 009 complete) |
 | Hinge pin | Straight 1.75 mm printer filament | Works well in the verified hinge pair |
 | Reference carrier | 3 × 4 × 7U, six cassettes | v0.1 physical test in progress |
 | Two-carrier stack | 14U, modeled 102.4 mm overall | Not yet physically verified |
@@ -90,49 +90,14 @@ and loaded stack behavior remain provisional until both prints are tested.
 ## Development sequence
 
 Multiple plans may be in work when their current steps are independent or one is
-waiting for a physical print. Plans 002–009 are fully developed in
+waiting for a physical print. Plans 002–008 are fully developed in
 [`Plans/Queued/`](Plans/Queued/) and cover height optimization, cassette
 dividers, finalization of the smallest system, larger cassettes, mixed-layout
-carriers, durability/material testing, the production baseline, and a priority-1
-re-evaluation of glass capture and alternative transparent pane materials.
+carriers, durability/material testing, and the production baseline.
 
 The authoritative queue order and its rationale exist only in
-[`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). Plan 009 is now in work alongside
-Plan 001 because the observed glass-knockout weakness is a safety and containment
-issue and its coupons require much less printer time than the carrier articles.
-Dependency-gated final dimensions remain provisional.
-
-Plan 009's first provisional print set is available in
-[`Cassettes/glass_capture_coupons_v0_1/`](Cassettes/glass_capture_coupons_v0_1/).
-Its smallest 2.05 mm pin bore and 1.4 mm pane channel both work and meet the
-reported requirements. Those selected fits will be carried into the next
-full-length end-loaded mechanics coupon, now available in
-[`Cassettes/glass_capture_coupons_v0_2/`](Cassettes/glass_capture_coupons_v0_2/).
-The positive end gate, knockout
-retention, alternate pane materials, and final cassette envelope remain
-unverified.
-
-The glass used in the v0.2 mechanics test measures 24.9 mm wide and can fall
-through the 25.1 mm capture opening. The next comparison will retain the 27.0 mm
-loading channel for wider alternate panes while testing a 23.0 mm opening and an
-integral compliant end latch.
-
-That comparison is available as the short
-[`v0.3 compliant end-capture coupon`](Cassettes/glass_capture_coupons_v0_3/).
-It prints top-face down, has no separate gate or pin, and was physically reported
-to work in all tested respects. A compact follow-up was initially expected to
-use a folded flexure because of the strain predicted for a straight reduction.
-
-At the user's direction, that direct reduction is now available as the
-[`v0.4 short compliant-latch coupon`](Cassettes/glass_capture_coupons_v0_4/).
-It preserves the successful v0.3 capture geometry and reduces only the straight
-free length from 27.0 to 6.75 mm. It is a PETG-specific test; PLA is excluded.
-Treat it as provisional until its return and cycle behavior are printed.
-
-The v0.4 PETG print was subsequently reported to work. Because the short coupon
-is too flexible for a useful final handling assessment, Plan 009 now advances to
-a complete-lid integration print using the 6.75 mm latch. The verified v0.5/v0.6
-body and 1.75 mm hinge pin remain reusable.
+[`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). Plan 009 was completed and moved
+to [`Plans/Completed/`](Plans/Completed/). Next queued plan is Plan 002.
 
 The complete lid is available in the current
 [`glass-slide cassette release`](Cassettes/glass_slide_cassette_40x80/) as

@@ -45,7 +45,7 @@ explicitly provisional.
 | 6 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
 | 7 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
 
-Plans 001 and 009 are currently in work. Plan 001 is waiting on long carrier
-prints while Plan 009 develops shorter glass-capture test articles. Provisional
-Plan 003 divider concept work remains eligible to start concurrently; all final
-geometry remains gated by the dependencies stated in the plan documents.
+Plan 001 is currently in work, waiting on physical carrier prints for the 14U
+stack and drawer-clearance test. Plan 009 is completed with the v0.7 positive
+end-loaded pane capture mechanism and strengthened closure clasp physically verified.
+The next queued plan is Plan 002.
