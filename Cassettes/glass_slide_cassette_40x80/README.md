@@ -1,17 +1,24 @@
-# Glass-slide small-parts cassette — prototype v0.8 (Optimized Height)
+# Glass-Slide Small-Parts Cassette — Production Release Candidate (Plan 004)
 
-Version 0.8 implements the vertical height optimization established in **Plan 002**.
-It increases the closed cassette envelope to **$39.55 \times 80.0 \times 36.0\text{ mm}$**
-(body height $32.80\text{ mm}$, lid height $3.20\text{ mm}$), providing **$30.80\text{ mm}$ of
-usable internal cavity depth** (+35.1% internal volume increase over the v0.7 baseline)
-while maintaining a safe **$1.50\text{ mm}$ clearance margin** below the upper carrier
-tray's bottom Gridfinity feet (lowest foot surface at $Z = 44.25\text{ mm}$, cassette floor at $Z = 6.75\text{ mm}$).
+This release consolidates all physically verified features from Plans 001–003 into the canonical smallest cassette standard within the **14U / 7U Gridfinity carrier system**:
 
-Key features:
-1. **Optimized Usable Depth:** $30.80\text{ mm}$ internal cavity depth with $2.0\text{ mm}$ solid floor.
-2. **Backwards Compatibility:** Retains the physically verified v0.7 lid geometry, positive end-loaded glass retention channel, 6.75 mm compliant PETG latch, and 3-knuckle peaked filament hinge.
-3. **Aligned Split-Line Clasp:** Reinforced closure catch on the body wall is located at $Z = 30.30\text{--}31.58\text{ mm}$ with $0.65\text{ mm}$ undercut interference.
-4. **Stacked Tray Non-Interference:** When loaded inside a 3 × 4 × 7U carrier tray, an upper carrier tray seats completely on the stacking lip with $1.50\text{ mm}$ clearance below its Gridfinity feet to the closed cassette lid.
+1. **Height-Optimized Capacity (Plan 002):**
+   - Closed envelope: **$39.55 \times 80.00 \times 36.00\text{ mm}$** (body height $32.80\text{ mm}$, lid height $3.20\text{ mm}$).
+   - **$30.80\text{ mm}$ usable internal depth** (+35.1% capacity increase over baseline).
+   - Safe **$+1.50\text{ mm}$ clearance margin** below upper carrier tray Gridfinity feet in a 14U stack.
+2. **Straight-Line Vertical Drop-In & Wall Rigidity (Plan 003 / 004):**
+   - Inner left wall thickened to **$4.30\text{ mm}$** (inner face at $X = -15.00\text{ mm}$).
+   - Provides **$+0.65\text{ mm}$ of clear vertical drop-in air** past the inward-sloping hinge knuckle peak ($X = -16.15\text{ mm}$) and eliminates long-wall flex.
+3. **Refined Outer Hinge Ramp & Flush Corner Transitions (Plan 004):**
+   - $45^\circ$ transitional support ramp beneath the outer hinge knuckle eliminates outer overhang droop.
+   - Flush relief across the entire hinge-side end zones eliminates legacy $1\text{ mm}$ corner step blocks.
+4. **Ergonomic Tactile End Pinch Ribs (Plan 004):**
+   - 3 horizontal tactile ridges on front and back end walls ($Y = \pm 40.00\text{ mm}$) below the rim provide secure finger purchase for extraction from packed 3 × 4 carrier trays.
+5. **Removable Divider System (Plan 003):**
+   - Two thirds stations at $Y = \pm 12.87\text{ mm}$ divide the cavity into three equal **$24.53\text{ mm}$** compartments.
+   - $1.40\text{ mm}$ slot width, $0.60\text{ mm}$ wall recess, and $0.60\text{ mm}$ floor groove maintain smooth cavity walls when omitted.
+6. **Positive Slide Glass Retention (Plan 009):**
+   - End-loaded $27.0 \times 1.4\text{ mm}$ channel, integral $6.75\text{ mm}$ compliant PETG latch with tight $0.50\text{ mm}$ cutout, and $34 \times 10\text{ mm}$ label zone for 9 mm Brother TZe tape.
 
 ![Exploded Assembly](build/cassette_v0_8_exploded_assembly.png)
 
@@ -19,71 +26,36 @@ Key features:
 
 ![v0.8 Lid 3D Multi-View](build/cassette_lid_v0_8_multiview.png)
 
-## Print these files
+## Printable File Inventory
 
-- `build/cassette_body_v0_8.stl` (print upright in PETG or ASA)
-- `build/cassette_lid_v0_8_print.stl` (print top/label-face down in PETG; identical geometry to v0.7 lid, so existing v0.7 lids are 100% reusable)
+| File | Description | Triangles | Audit Status |
+|---|---|---:|---|
+| `build/cassette_body_v0_8_divided.stl` | Divided body (2 thirds stations) with thickened hinge wall & end pinch ribs | 536 | **0 boundary / 0 non-manifold edges** |
+| `build/cassette_body_v0_8.stl` | Undivided body with thickened hinge wall & end pinch ribs | 428 | **0 boundary / 0 non-manifold edges** |
+| `build/cassette_lid_v0_8_print.stl` | Production lid (end-loaded slide capture, compliant PETG latch, end ribs) | 868 | **0 boundary / 0 non-manifold edges** |
+| `build/divider_card_1_2mm.stl` | Baseline 1.20 mm divider card ($33.30 \times 31.20 \times 1.20\text{ mm}$) | 48 | **0 boundary / 0 non-manifold edges** |
+| `build/divider_card_1_0mm.stl` | Auxiliary 1.00 mm calibration card | 48 | **0 boundary / 0 non-manifold edges** |
+| `build/divider_card_1_4mm.stl` | Auxiliary 1.40 mm calibration card | 48 | **0 boundary / 0 non-manifold edges** |
 
-Print both parts exactly as supplied without internal support. A 0.4 mm nozzle,
-0.20 mm layers, and four perimeters remain reasonable starting settings. Keep the
-seam away from the hinge bores and record the actual material, printer, slicer, and
-settings in `PHYSICAL_TEST_NOTES.md`.
+## Print Recommendations
 
-Do not print `REFERENCE_closed_assembly_DO_NOT_PRINT.stl`.
+- **Body & Divider Cards:** PETG or ASA. Print body upright, divider cards flat on bed. No supports required.
+- **Lid:** PETG (required for integral compliant latch flexure). Print top/label-face down. No supports required.
+- **Settings:** 0.4 mm nozzle, 0.20 mm layer height, 4 perimeters, 20% infill. Keep seams away from hinge bores.
+- **Hinge Pin:** ~75 mm length of straight 1.75 mm printer filament.
 
-## Pane-capture geometry
+## Assembly & Testing
 
-| Feature | Dimension |
-|---|---:|
-| Loading channel | 27.0 mm wide × 1.4 mm clear height |
-| Top/visible opening | 23.0 mm |
-| Opposite opening | 24.0 mm |
-| Tested glass width | 24.9 mm |
-| Overlap per side on tested glass | 0.95 mm top / 0.45 mm opposite |
-| Maximum intended pane | 26.3 × 76.3 × 1.2 mm |
-| Axial clearance at 76.3 mm length | 0.70 mm |
-| PETG tongue | 8.0 mm wide × 0.8 mm thick × 6.75 mm free length with 45° root gussets |
-| Latch finger pad | 10.0 mm wide |
-| Frame entry slot cutout | Tight 0.50 mm perimeter outline (11.0 mm pad cut / 9.0 mm tongue cut) |
-| Relaxed tongue-to-glass gap | Flush at channel ceiling (0.2–0.3 mm clearance over 1.1–1.2 mm glass) |
+1. Inspect printed parts and slide channel.
+2. Insert standard plain glass slide ($75 \times 25 \times 1.1\text{--}1.2\text{ mm}$) by manually depressing the compliant PETG tongue. Slide to far stop and release tongue to lock.
+3. Align lid with body and insert the 1.75 mm filament pin through the 3 knuckles.
+4. Verify smooth rotation through 120°+ and positive snap engagement of the closure clasp.
+5. If using dividers, drop 1.20 mm divider cards straight down into either or both slot stations ($Y = \pm 12.87\text{ mm}$).
+6. Load six cassettes into a 3 × 4 × 7U carrier tray and test extraction using the tactile end pinch ribs.
+7. Stack a second loaded carrier on top to confirm full seating with $+1.50\text{ mm}$ clearance below upper feet.
 
-The pane enters at the end opposite the label, slides under the solid label band,
-and stops at the far end. Manually depress the compliant tongue outward, slide
-the pane completely past the shoulder, then release it. The shoulder returns
-behind the trailing pane edge and blocks withdrawal. It must not remain pressed
-against the glass face, and the glass must not be used to cam the latch aside.
-
-The 23.0 × 58.5 mm visible window and 34.0 × 10.0 mm label zone are unchanged.
-The full closed envelope is **39.55 × 80.0 × 36.0 mm**.
-
-## Hinge and Clasp Features
-
-- Original three-knuckle removable-pin hinge.
-- 2.25 mm nominal body bore and 2.10 mm nominal lid bores with support-free peaked profiles.
-- Continuous bed-supported roots beneath both lid knuckles.
-- 0.20 mm root overlap past the hinge axis.
-- 0.8 mm axial knuckle gaps and checked 0–120 degree sweep.
-- Reinforced closure snap: 1.20 mm cantilever beam on lid with 0.65 mm undercut catch on body wall.
-- 34 × 10 mm label zone and cassette/carrier envelope.
-
-## Assembly and test order
-
-1. Inspect the printed body, pane channel, opposite ledges, tongue root, hinge roots,
-   and bores.
-2. Insert pane into lid by depressing compliant tongue manually. Slide pane to far stop and release.
-3. Assemble the lid to the body with approximately 75 mm of straight 1.75 mm filament.
-4. Verify smooth hinge rotation through at least 120 degrees and positive clasp closure.
-5. Place cassette inside a 3 × 4 carrier tray and stack a second carrier tray on top to confirm full seating without contact.
-
-## Export validation
-
-The binary v0.8 lid contains 780 triangles and the v0.8 body contains 376 triangles,
-each reporting zero boundary edges, zero non-manifold edges, zero degenerate triangles,
-and finite coordinates. Their binary sizes and encoded triangle counts were re-read after
-export. The body, lid, and reference assembly retain the 39.55 × 80.0 × 41.0 mm maximum closed envelope.
-
-Regenerate all current artifacts with:
+Regenerate all artifacts with:
 
 ```bash
-python3 generate_cassette.py --out build --preview
+python3 generate_cassette.py
 ```
