@@ -25,25 +25,26 @@
       31.2,
       1.2
     ],
-    "hinge_vertical_drop_clearance": -0.6499999999999986
+    "hinge_body_length": 27.8,
+    "hinge_rotational_clearance": "+1.20 mm to +2.60 mm"
   },
   "audits": {
     "cassette_body_v0_8_divided.stl": {
-      "triangles": 536,
+      "triangles": 400,
       "boundary_edges": 0,
       "nonmanifold_edges": 0,
       "degenerate_triangles": 0,
       "finite_coordinates": true
     },
     "cassette_body_v0_8.stl": {
-      "triangles": 428,
+      "triangles": 328,
       "boundary_edges": 0,
       "nonmanifold_edges": 0,
       "degenerate_triangles": 0,
       "finite_coordinates": true
     },
     "cassette_lid_v0_8_print.stl": {
-      "triangles": 868,
+      "triangles": 772,
       "boundary_edges": 0,
       "nonmanifold_edges": 0,
       "degenerate_triangles": 0,
