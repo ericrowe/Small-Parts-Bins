@@ -94,12 +94,13 @@ cassette rolls over.
 
 - **Test Directory:** `Cassettes/divider_test_cassette_v0_8/`
 - **Body STL:** `cassette_body_v0_8_divided.stl` ($38.60 \times 80.00 \times 32.80\text{ mm}$, 524 triangles, **0 boundary / 0 non-manifold edges**).
+- **Thickened Left Hinge Wall ($4.30\text{ mm}$):** Inner face at $X = -15.00\text{ mm}$, providing **$+0.65\text{ mm}$ of clear vertical drop-in clearance** past the inward peak of the hinge knuckle ($X = -16.15\text{ mm}$) and increasing long-wall rigidity.
 - **Divider Stations:**
-  - Center ($Y = 0.00\text{ mm}$): Two $37.40\text{ mm}$ equal compartments.
-  - Thirds ($Y = \pm 12.87\text{ mm}$): Three $24.53\text{ mm}$ equal compartments.
+  - Offset 1-divider station ($Y = +8.50\text{ mm}$): Shifted clear of the central closure clasp ($Y \in [-4.0, +4.0\text{ mm}]$) and fingernail opening zone; creates $45.80\text{ mm}$ and $28.80\text{ mm}$ compartments.
+  - Thirds stations ($Y = \pm 12.87\text{ mm}$): Three $24.53\text{ mm}$ equal compartments.
 - **Slot Geometry:** $1.40\text{ mm}$ slot width (Station 2 verified), $0.60\text{ mm}$ wall recess, $0.60\text{ mm}$ floor groove.
 - **Card STLs:**
-  - `divider_card_full_1_2mm.stl`: Baseline $35.60 \times 31.20 \times 1.20\text{ mm}$ (32 triangles, **0 boundary / 0 non-manifold edges**).
+  - `divider_card_full_1_2mm.stl`: Baseline $33.30 \times 31.20 \times 1.20\text{ mm}$ (48 triangles, **0 boundary / 0 non-manifold edges**).
   - `divider_card_full_1_0mm.stl`: Auxiliary $1.00\text{ mm}$ calibration card.
   - `divider_card_full_1_4mm.stl`: Auxiliary $1.40\text{ mm}$ calibration card.
 - **Compatibility:** 100% compatible with existing verified v0.8/v0.7 lid, glass slide, 1.75 mm filament pin, and 3x4 7U carrier trays.

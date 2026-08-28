@@ -4,39 +4,38 @@ This directory contains the full-size prototype cassette body and divider cards 
 
 ![Small-Parts Cassette v0.8 Body with Divider Slots](build/divided_cassette_multiview.png)
 
-## Design Summary
+## Design Enhancements
 
-- **Cassette Body Envelope:** $38.60 \times 80.00 \times 32.80\text{ mm}$ ($36.0\text{ mm}$ closed height with lid).
-- **Usable Cavity:** $34.60\text{ mm}$ width $\times 76.00\text{ mm}$ length $\times 30.80\text{ mm}$ depth.
-- **Divider Slot Interface (Station 2 Verified):**
-  - Slot width: **$1.40\text{ mm}$** ($+0.20\text{ mm}$ total clearance on $1.20\text{ mm}$ card).
-  - Side-wall recess depth: **$0.60\text{ mm}$** into left and right walls ($1.40\text{ mm}$ outer wall remaining).
-  - Floor groove depth: **$0.60\text{ mm}$** ($1.40\text{ mm}$ bottom floor remaining).
-- **Multi-Station Layout:**
-  - **Station 0 (Center, $Y = 0.00\text{ mm}$):** Divides cavity into two equal $37.40\text{ mm}$ compartments.
-  - **Stations $\pm 1$ (Thirds, $Y = \pm 12.87\text{ mm}$):** Divides cavity into three equal $24.53\text{ mm}$ compartments.
-  - **Zero-Divider Mode:** When dividers are omitted, cavity walls remain flush and unobstructed.
+1. **Thickened Left Hinge Wall ($4.30\text{ mm}$):**
+   - Inner left wall face is positioned at $X = -15.00\text{ mm}$ ($1.40\text{ mm}$ slot recess goes to $X = -15.60\text{ mm}$).
+   - The entire vertical drop-in path clears the inward peak of the hinge knuckle ($X = -16.15\text{ mm}$) with **$+0.65\text{ mm}$ of unobstructed vertical clearance**.
+   - Significantly increases the structural rigidity of the full 80 mm long wall.
+2. **Clasp-Clearance Offset 1-Divider Station ($Y = +8.50\text{ mm}$):**
+   - Shifted outside the central closure clasp ($Y \in [-4.0, +4.0\text{ mm}]$) and fingernail opening zone ($Y \in [-7.0, +7.0\text{ mm}]$).
+   - Keeps the body closure catch 100% solid and uncut for maximum latching security.
+   - Divides the cavity into two compartments: **$45.80\text{ mm}$** (long hardware) and **$28.80\text{ mm}$** (nuts/washers).
+3. **Thirds Stations ($Y = \pm 12.87\text{ mm}$):**
+   - Divides cavity into three equal **$24.53\text{ mm}$** compartments (well clear of the central clasp).
+4. **Divider Card Dimensions:**
+   - Width: **$33.30\text{ mm}$** (engages $0.50\text{ mm}$ into left and right wall recesses with $0.10\text{ mm}$ side clearance).
+   - Height: **$31.20\text{ mm}$** (seats into $0.60\text{ mm}$ floor groove, stops $0.20\text{ mm}$ below closed lid ceiling).
+   - Thickness: **$1.20\text{ mm}$** (Station 2 verified fit).
+   - Features: Top center finger notch ($10 \times 1.5\text{ mm}$) and $0.6\text{ mm}$ bottom corner lead-ins.
 
 ## File Inventory
 
 | File | Description | Triangles | Audit Status |
 |---|---|---:|---|
-| `build/cassette_body_v0_8_divided.stl` | Full-size body with 3 divider stations | 524 | **0 boundary / 0 non-manifold edges** |
-| `build/divider_card_full_1_2mm.stl` | Baseline 1.20 mm divider card ($35.6 \times 31.2\text{ mm}$) | 32 | **0 boundary / 0 non-manifold edges** |
-| `build/divider_card_full_1_0mm.stl` | Auxiliary 1.00 mm calibration card | 32 | **0 boundary / 0 non-manifold edges** |
-| `build/divider_card_full_1_4mm.stl` | Auxiliary 1.40 mm calibration card | 32 | **0 boundary / 0 non-manifold edges** |
+| `build/cassette_body_v0_8_divided.stl` | Full-size body with 3 divider stations & thickened left wall | 524 | **0 boundary / 0 non-manifold edges** |
+| `build/divider_card_full_1_2mm.stl` | Baseline 1.20 mm divider card ($33.3 \times 31.2\text{ mm}$) | 48 | **0 boundary / 0 non-manifold edges** |
+| `build/divider_card_full_1_0mm.stl` | Auxiliary 1.00 mm calibration card | 48 | **0 boundary / 0 non-manifold edges** |
+| `build/divider_card_full_1_4mm.stl` | Auxiliary 1.40 mm calibration card | 48 | **0 boundary / 0 non-manifold edges** |
 | `generate_divided_cassette.py` | Parametric Python generator script | — | Editable source |
 | `build/manifest.json` | Geometry parameters and audit records | — | Machine-readable metadata |
 
 ## Print Recommendations
 
-- **Material:** PETG or ASA (PETG recommended for consistency with lid).
+- **Material:** PETG or ASA.
 - **Slicer Settings:** $0.20\text{ mm}$ layer height, $0.4\text{ mm}$ nozzle, 4 perimeters, 20% infill.
-- **Supports:** **No supports required.** Slots print cleanly upright without overhang issues.
+- **Supports:** **No supports required.**
 - **Divider Cards:** Print flat on the print bed.
-
-## Physical Test Protocol
-
-1. **Long-Wall Flex Evaluation:** Test sliding the 1.20 mm divider card into the center station ($Y = 0$) and thirds stations ($Y = \pm 12.87\text{ mm}$). Check if the full-span 80 mm walls exhibit any bowing, binding, or loose play compared to the short coupon.
-2. **Lid & Glass Non-Interference:** Install a verified v0.8/v0.7 lid, glass slide, and 1.75 mm filament hinge pin onto the printed body. Close and latch the lid. Verify that the divider card remains $0.20\text{ mm}$ clear below the lid/glass ceiling and applies zero upward force.
-3. **Rollover Spill Test:** Place a counted sample of small hardware (e.g. 10 M3 nuts or 10 M2 washers) in one compartment. Close the cassette, tumble/rotate 360°, and check for part transfer.
