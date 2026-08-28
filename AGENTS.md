@@ -424,7 +424,7 @@ All repository documentation—including top-level `README.md`, component README
 - **Top-level `README.md`:** Must accurately reflect the active prototype revision in "Current status", active/in-work plans, component reference configuration tables, and file links (e.g. updating from v0.7 to v0.8 when a component envelope or height optimization changes).
 - **Component READMEs and manifests:** Must accurately describe the current working dimensions, part versions, STL triangle counts, and compatibility notes.
 - **Active plan documents:** Check off completed steps, record physical measurements, and maintain validation logs as work progresses.
-- **Remote Synchronization:** Push commits to the remote tracking branch (`git push origin main`) with each milestone to keep offsite GitHub storage in sync.
+- **Remote Synchronization:** Push commits to the remote tracking branch (`git push origin main`) with each milestone to keep offsite GitHub storage in sync. The user's GitHub Personal Access Token (PAT) has a limited lifespan; if a push fails due to token expiry or authentication failure, notify the user promptly so they can refresh it.
 - **Never leave superseded version numbers, stale filenames, or outdated dimensions unrefreshed when committing changes.**
 
 ### Required Documentation Updates Before Every Plan Completion
