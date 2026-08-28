@@ -9,7 +9,7 @@
   ],
   "closed_height_mm": 36.0,
   "maximum_printed_envelope_mm": [
-    39.55,
+    39.75,
     80.0,
     36.0
   ],
@@ -40,7 +40,7 @@
     ],
     "hinge_axial_gap_between_knuckles_mm": 0.8,
     "hinge_profile": "pointed outer underside and 45-degree teardrop bore roof",
-    "hinge_outer_lower_run_over_rise": 0.837,
+    "hinge_outer_lower_run_over_rise": 0.833,
     "hinge_bore_roof_run_over_rise": 1.0,
     "body_hinge_nominal_core_diameter_mm": 2.25,
     "lid_hinge_nominal_core_diameter_mm": 2.1,
@@ -52,9 +52,9 @@
     "lid_attachment_to_bore_x_clearance_mm": 0.15,
     "lid_attachment_to_bore_z_clearance_mm": 0.15,
     "lid_knuckle_root_overlap_mm": 0.2,
-    "lid_knuckle_first_print_height_mm": 0.55,
+    "lid_knuckle_first_print_height_mm": 0.3,
     "bed_supported_lid_root_height_mm": 1.8,
-    "supported_height_above_knuckle_start_mm": 1.25,
+    "supported_height_above_knuckle_start_mm": 1.5,
     "lid_root_overlap_beyond_each_knuckle_end_mm": 0.1,
     "lid_root_to_body_knuckle_axial_clearance_mm": 0.7,
     "lid_root_to_body_end_wall_axial_clearance_mm": 0.15,
@@ -89,7 +89,7 @@
     "fingernail_roof_thickness_mm": 1.8,
     "fingernail_relief_to_latch_clearance_mm": 0.95,
     "future_3_by_2_array_with_0_4_gaps_mm": [
-      119.45,
+      120.05,
       160.4
     ]
   },
@@ -104,21 +104,21 @@
       "file": "cassette_body_v0_8_divided.stl",
       "triangles": 452,
       "bounds_min_mm": [
-        -20.25,
+        -20.45,
         -40.0,
         0.0
       ],
       "bounds_max_mm": [
         19.3,
         40.0,
-        35.45
+        35.7
       ],
       "size_mm": [
-        39.55,
+        39.75,
         80.0,
-        35.45
+        35.7
       ],
-      "signed_mesh_volume_mm3": 25714.93,
+      "signed_mesh_volume_mm3": 25746.0,
       "edge_audit": {
         "triangles": 452,
         "unique_edges": 678,
@@ -136,21 +136,21 @@
       "file": "cassette_body_v0_8.stl",
       "triangles": 376,
       "bounds_min_mm": [
-        -20.25,
+        -20.45,
         -40.0,
         0.0
       ],
       "bounds_max_mm": [
         19.3,
         40.0,
-        35.45
+        35.7
       ],
       "size_mm": [
-        39.55,
+        39.75,
         80.0,
-        35.45
+        35.7
       ],
-      "signed_mesh_volume_mm3": 20029.64,
+      "signed_mesh_volume_mm3": 20091.12,
       "edge_audit": {
         "triangles": 376,
         "unique_edges": 564,
@@ -168,7 +168,7 @@
       "file": "cassette_lid_v0_8_print.stl",
       "triangles": 780,
       "bounds_min_mm": [
-        -20.25,
+        -20.45,
         -40.0,
         0.0
       ],
@@ -178,11 +178,11 @@
         6.5
       ],
       "size_mm": [
-        39.55,
+        39.75,
         80.0,
         6.5
       ],
-      "signed_mesh_volume_mm3": 3461.21,
+      "signed_mesh_volume_mm3": 3596.02,
       "edge_audit": {
         "triangles": 780,
         "unique_edges": 1170,
@@ -301,7 +301,7 @@
       "file": "REFERENCE_closed_assembly_DO_NOT_PRINT.stl",
       "triangles": 1168,
       "bounds_min_mm": [
-        -20.25,
+        -20.45,
         -40.0,
         0.0
       ],
@@ -311,11 +311,11 @@
         36.0
       ],
       "size_mm": [
-        39.55,
+        39.75,
         80.0,
         36.0
       ],
-      "signed_mesh_volume_mm3": 25898.87,
+      "signed_mesh_volume_mm3": 26095.17,
       "edge_audit": {
         "triangles": 1168,
         "unique_edges": 1752,

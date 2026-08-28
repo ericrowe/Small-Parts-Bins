@@ -96,9 +96,9 @@ LABEL_Y = 33.50
 # a pointed/45-degree outer underside so neither half needs internal support.
 HINGE_X = -18.20
 HINGE_Z_LOCAL = 0.20
-HINGE_OUTER_HALF_W = 2.05
-HINGE_OUTER_POINT = 2.45
-HINGE_OUTER_SIDE_TOP = 0.45
+HINGE_OUTER_HALF_W = 2.25
+HINGE_OUTER_POINT = 2.70
+HINGE_OUTER_SIDE_TOP = 0.80
 # The body knuckle is a longer, less-supported horizontal feature and printed
 # slightly tighter than the two lid knuckles.  Keep the v0.5 body adjustment:
 # 2.25 mm nominal diameter on the body and 2.10 mm on the lid.
