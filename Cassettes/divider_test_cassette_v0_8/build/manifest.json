@@ -17,7 +17,6 @@
     "slot_recess": 0.6,
     "floor_groove_depth": 0.6,
     "slot_stations_y": [
-      8.5,
       -12.87,
       12.87
     ],
@@ -30,7 +29,7 @@
   },
   "audits": {
     "cassette_body_v0_8_divided.stl": {
-      "triangles": 524,
+      "triangles": 476,
       "boundary_edges": 0,
       "nonmanifold_edges": 0,
       "degenerate_triangles": 0,

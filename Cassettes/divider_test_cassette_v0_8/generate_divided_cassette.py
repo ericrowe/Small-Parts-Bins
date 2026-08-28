@@ -36,10 +36,8 @@ SLOT_RECESS = 0.60
 FLOOR_GROOVE_D = 0.60
 OV = 0.05
 
-# Slot Stations along Y:
-# 1. Offset 1-divider station at Y = +8.50 mm (clears central clasp and fingernail zone [-7.0, +7.0])
-# 2. 2-divider stations at Y = -12.87 mm and Y = +12.87 mm (3 equal compartments)
-SLOT_STATIONS = [8.50, -12.87, 12.87]
+# Two divider stations at thirds: Y = -12.87 mm and Y = +12.87 mm (creates 3 equal 24.53 mm compartments)
+SLOT_STATIONS = [-12.87, 12.87]
 
 # Hinge parameters (identical to verified v0.8 / v0.6)
 HINGE_X = -18.20
@@ -231,18 +229,11 @@ def build_divider_card(thickness: float = 1.20,
                        bottom_chamfer: float = 0.6) -> Mesh:
     m = Mesh(f"divider_card_{thickness:.1f}mm")
     
-    # Card boundaries:
-    # Left edge: INNER_X_LEFT - (SLOT_RECESS - 0.10) = -15.00 - 0.50 = -15.50 mm
-    # Right edge: INNER_X_RIGHT + (SLOT_RECESS - 0.10) = +17.30 + 0.50 = +17.80 mm
-    # Total card width = 17.80 - (-15.50) = 33.30 mm (leaves 0.10 mm side clearance in slot)
-    # Bottom: Z = 0 (seats in 1.40 mm floor groove, 0.60 mm deep)
-    # Top: Z = 31.20 mm (leaves 0.20 mm lid clearance below Z = 32.80 mm)
     x_left = INNER_X_LEFT - 0.50   # -15.50 mm
     x_right = INNER_X_RIGHT + 0.50 # +17.80 mm
     z_top = 31.20
     ht = thickness / 2.0
     
-    # 2D contour in XZ plane (standing upright):
     pts_xz = [
         (x_left + bottom_chamfer, 0.0),
         (x_right - bottom_chamfer, 0.0),

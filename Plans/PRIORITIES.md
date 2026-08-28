@@ -37,12 +37,12 @@ explicitly provisional.
 
 | Priority | Plan | Reason |
 |---:|---|---|
-| 1 | 004 — Finalize the smallest cassette and carrier | Integrates the verified carrier, glass capture, height, grab features, and divider work into the smallest production candidate. |
-| 2 | 005 — Develop the larger cassette family | Extends the verified smallest interfaces without propagating unresolved geometry. |
-| 3 | 006 — Develop mixed-layout carriers | Requires physical envelopes from the completed cassette family. |
-| 4 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
-| 5 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
+| 1 | 005 — Develop the larger cassette family | Extends the verified smallest interfaces without propagating unresolved geometry. |
+| 2 | 006 — Develop mixed-layout carriers | Requires physical envelopes from the completed cassette family. |
+| 3 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
+| 4 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
 
-Plans 001 (14U carrier stack validation) and 002 (cassette height optimization)
-are completed and archived. Plan 003 (develop optional cassette dividers) is
-currently active. The next queued plan is Plan 004.
+Plans 001 (14U carrier stack validation), 002 (cassette height optimization),
+and 003 (removable cassette dividers) are completed and archived. Plan 004
+(finalize the smallest cassette and six-cassette carrier) is currently active.
+The next queued plan is Plan 005.

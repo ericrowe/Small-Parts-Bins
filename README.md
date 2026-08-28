@@ -87,8 +87,15 @@ clearance below the upper carrier tray's downward-protruding Gridfinity feet ($Z
 The physically verified v0.7 lid, glass slide channel, 6.75 mm compliant PETG latch, and
 3-knuckle filament hinge are 100% reusable.
 
-The active in-work plan is **[Plan 003](Plans/003-develop-optional-cassette-dividers.md)**:
-develop optional removable cassette dividers for 1-, 2-, or 3-compartment configurations.
+The removable divider system is **physically verified**
+([Plan 003](Plans/Completed/2026-08-28-003-develop-optional-cassette-dividers.md)):
+$1.40\text{ mm}$ recessed side-wall channels and floor groove with a thickened $4.30\text{ mm}$
+left wall providing $+0.65\text{ mm}$ unobstructed vertical drop-in clearance past the hinge knuckle,
+and two stations at $Y = \pm 12.87\text{ mm}$ creating three equal $24.53\text{ mm}$ compartments.
+
+The active in-work plan is **[Plan 004](Plans/004-finalize-smallest-cassette-and-carrier.md)**:
+finalize the smallest cassette and six-cassette 3 × 4 carrier into a production release candidate
+with dedicated grab/removal features and complete test prints.
 
 ![Small-Parts Cassette v0.8 Exploded Assembly](docs/images/cassette_v0_8_exploded_assembly.png)
 
@@ -101,13 +108,14 @@ develop optional removable cassette dividers for 1-, 2-, or 3-compartment config
 | ![v0.8 Body](docs/images/cassette_body_v0_8_multiview.png) | **v0.8 Cassette Body:** $38.6 \times 80.0 \times 32.8\text{ mm}$, $30.8\text{ mm}$ cavity depth, $2.0\text{ mm}$ floor. |
 | ![v0.8 Lid](docs/images/cassette_lid_v0_8_multiview.png) | **v0.8 / v0.7 Transverse Lid:** End-loaded $27.0 \times 1.4\text{ mm}$ channel, compliant PETG latch. |
 | ![Carrier Tray](docs/images/carrier_3x4_7u_multiview.png) | **3 × 4 × 7U Carrier:** Holds 6 modular cassettes with solid $2.6\text{ mm}$ walls. |
-| ![Divider Coupon](docs/images/divider_coupon_multiview.png) | **Plan 003 Divider Coupon:** 4-station slot tolerance ladder ($1.3\text{--}1.6\text{ mm}$). |
+| ![Divided Body](docs/images/divider_coupon_multiview.png) | **Plan 003 Removable Dividers:** $1.40\text{ mm}$ slot width, $0.60\text{ mm}$ wall/floor channels. |
 
 ## Current reference configuration
 
 | Component | Current reference | Validation state |
 |---|---|---|
 | Optimized cassette | v0.8 ($39.55 \times 80.0 \times 36.0\text{ mm}$ closed; $32.8\text{ mm}$ body) | **Physically verified** (Plan 002 complete) |
+| Removable dividers | $1.40\text{ mm}$ slot channels, $1.20\text{ mm}$ card, 3 equal compartments | **Physically verified** (Plan 003 complete) |
 | Low-profile baseline | v0.7 ($39.55 \times 80.0 \times 28.0\text{ mm}$ closed; $24.8\text{ mm}$ body) | Physically verified; hinge, capture, clasp, and split line pass |
 | Window | Plain slide glass, maximum intended 26.3 × 76.3 × 1.2 mm | Measure each delivered batch |
 | Pane capture | End-loaded 27.0 × 1.4 mm channel; integral 6.75 mm PETG latch | Physically verified (Plan 009 complete) |
@@ -119,14 +127,13 @@ develop optional removable cassette dividers for 1-, 2-, or 3-compartment config
 ## Development sequence
 
 Multiple plans may be in work when their current steps are independent or one is
-waiting for a physical print. Plan 003 is currently in work. Plans 004–008
-are fully developed in [`Plans/Queued/`](Plans/Queued/) and cover finalizing the
-smallest cassette with grab features, larger cassettes, mixed-layout carriers,
-durability/material testing, and the production baseline.
+waiting for a physical print. Plan 004 is currently in work. Plans 005–008
+are fully developed in [`Plans/Queued/`](Plans/Queued/) and cover larger cassettes,
+mixed-layout carriers, durability/material testing, and the production baseline.
 
 The authoritative queue order and its rationale exist only in
-[`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). Plans 001, 002, and 009 are completed and
-archived in [`Plans/Completed/`](Plans/Completed/). Next queued plan is Plan 004.
+[`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). Plans 001, 002, 003, and 009 are completed and
+archived in [`Plans/Completed/`](Plans/Completed/). Next queued plan is Plan 005.
 
 The active cassette release is available in
 [`Cassettes/glass_slide_cassette_40x80/`](Cassettes/glass_slide_cassette_40x80/) as

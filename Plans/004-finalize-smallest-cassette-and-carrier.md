@@ -1,11 +1,11 @@
 # Plan 004 — Finalize the smallest cassette and six-cassette carrier
 
-- Status: Queued
+- Status: Executing
 - Depends on: Plans 001–003 and 009 completed and physically accepted
 - Created: 2026-08-27
-- Started: Not started
+- Started: 2026-08-28
 - Completed: Not completed
-- Git start: Not committed
+- Git start: `main` (activating Plan 004)
 - Git completion: Not completed
 
 ## Outcome
