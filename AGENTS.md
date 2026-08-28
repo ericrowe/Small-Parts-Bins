@@ -424,6 +424,7 @@ All repository documentation—including top-level `README.md`, component README
 - **Top-level `README.md`:** Must accurately reflect the active prototype revision in "Current status", active/in-work plans, component reference configuration tables, and file links (e.g. updating from v0.7 to v0.8 when a component envelope or height optimization changes).
 - **Component READMEs and manifests:** Must accurately describe the current working dimensions, part versions, STL triangle counts, and compatibility notes.
 - **Active plan documents:** Check off completed steps, record physical measurements, and maintain validation logs as work progresses.
+- **Remote Synchronization:** Push commits to the remote tracking branch (`git push origin main`) with each milestone to keep offsite GitHub storage in sync.
 - **Never leave superseded version numbers, stale filenames, or outdated dimensions unrefreshed when committing changes.**
 
 ### Required Documentation Updates Before Every Plan Completion
@@ -453,10 +454,12 @@ review and update every applicable item below. An item may be recorded as
 9. **Source comments and generated previews/references:** named parameters,
    orientations, diagrams, and assembly references consistent with the release.
 10. **Compatibility tables or notes:** reusable earlier parts, incompatible or
-   superseded parts, and every required reprint.
+    superseded parts, and every required reprint.
 11. **Completed archive pair:** the dated completed-plan file and matching dated
     `-walkthrough.md` containing the detailed implementation and validation
     narrative.
+12. **Remote Synchronization (`git push`):** Push all completed commits to the remote
+    repository (`git push origin main`) so GitHub offsite storage remains 100% current.
 
 Run `python3 Plans/check_pipeline.py`, verify the exported artifacts required by
 the plan, and make the final plan-numbered Git checkpoint only after this
