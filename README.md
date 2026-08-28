@@ -55,31 +55,26 @@ levels visible through replaceable microscope-slide glass.
 - Treat exported-STL audits and physical prints—not visual plausibility—as the
   authority for functional geometry.
 
-## Current status — 2026-08-27
+## Current status — 2026-08-28
 
-The canonical smallest cassette baseline is v0.7 with the unchanged maximum
-closed envelope of 39.55 × 80.0 × 28.0 mm. It retains the physically verified
-v0.6 hinge geometry and works with the successful v0.5/v0.6/v0.7 body and straight
-1.75 mm filament pin. The end-loaded pane capture channel, integral 6.75 mm
-compliant PETG latch, tight 0.50 mm perimeter cutout, reinforced closure clasp,
-and concentric Z = 24.80 mm split line are physically verified and complete
-([Plan 009](Plans/Completed/2026-08-27-009-re-evaluate-glass-slide-capture.md)).
+The working cassette release is **v0.8 (Optimized Height)** with a closed envelope
+of **$39.55 \times 80.0 \times 36.0\text{ mm}$** (body height $32.80\text{ mm}$, lid height $3.20\text{ mm}$),
+providing **$30.80\text{ mm}$ of usable internal depth** (+35.1% capacity increase over
+the verified $28.0\text{ mm}$ v0.7 baseline). It preserves a safe **$1.50\text{ mm}$ clearance margin**
+below the upper carrier tray's downward-protruding Gridfinity feet ($Z = 44.25\text{ mm}$, lowest foot surface)
+while retaining full backwards compatibility with the physically verified v0.7 lid,
+glass slide channel, 6.75 mm compliant PETG latch, and 3-knuckle filament hinge.
 
-The active in-work plan is [Plan 001](Plans/001-validate-14u-carrier-stack.md),
-physical validation of two identical 3 × 4 × 7U carriers. The modeled carrier
-stack height is 102.4 mm, leaving 8.725 mm nominal clearance below the drawer
-ceiling. Carrier 1 of 2 is currently recorded as printing; carrier 2 and all
-loaded stack, throat, stability, and drawer-clearance results remain pending.
-
-Nothing about carrier v0.1 should yet be treated as physically verified. Its
-dimensions, Gridfinity engagement, six-cassette fit, and loaded stack behavior
-remain provisional until both prints are tested.
+Current in-work plans are:
+- **[Plan 001](Plans/001-validate-14u-carrier-stack.md):** Physical validation of two identical 3 × 4 × 7U carriers in a 14U stack inside the 111.125 mm drawer.
+- **[Plan 002](Plans/002-optimize-cassette-and-carrier-height.md):** Physical validation of the 36.0 mm optimized cassette height and upper tray foot clearance.
 
 ## Current reference configuration
 
 | Component | Current reference | Validation state |
 |---|---|---|
-| Smallest cassette | v0.7 lid with v0.5/v0.6/v0.7 body, 39.55 × 80.0 × 28.0 mm closed | Physically verified; hinge, capture, clasp, and split line pass |
+| Optimized cassette | v0.8 ($39.55 \times 80.0 \times 36.0\text{ mm}$ closed; $32.8\text{ mm}$ body) | Active Plan 002 test candidate; STLs pass all mesh audits |
+| Low-profile baseline | v0.7 ($39.55 \times 80.0 \times 28.0\text{ mm}$ closed; $24.8\text{ mm}$ body) | Physically verified; hinge, capture, clasp, and split line pass |
 | Window | Plain slide glass, maximum intended 26.3 × 76.3 × 1.2 mm | Measure each delivered batch |
 | Pane capture | End-loaded 27.0 × 1.4 mm channel; integral 6.75 mm PETG latch | Physically verified (Plan 009 complete) |
 | Hinge pin | Straight 1.75 mm printer filament | Works well in the verified hinge pair |
@@ -90,19 +85,18 @@ remain provisional until both prints are tested.
 ## Development sequence
 
 Multiple plans may be in work when their current steps are independent or one is
-waiting for a physical print. Plans 002–008 are fully developed in
-[`Plans/Queued/`](Plans/Queued/) and cover height optimization, cassette
+waiting for a physical print. Plans 001 and 002 are currently in work. Plans 003–008
+are fully developed in [`Plans/Queued/`](Plans/Queued/) and cover cassette
 dividers, finalization of the smallest system, larger cassettes, mixed-layout
 carriers, durability/material testing, and the production baseline.
 
 The authoritative queue order and its rationale exist only in
 [`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). Plan 009 was completed and moved
-to [`Plans/Completed/`](Plans/Completed/). Next queued plan is Plan 002.
+to [`Plans/Completed/`](Plans/Completed/). Next queued plan is Plan 003.
 
-The complete lid is available in the current
-[`glass-slide cassette release`](Cassettes/glass_slide_cassette_40x80/) as
-`cassette_lid_v0_7_print.stl`. At the user's direction, that directory contains
-only the current generated release artifacts; Git preserves v0.6 history.
+The active cassette release is available in
+[`Cassettes/glass_slide_cassette_40x80/`](Cassettes/glass_slide_cassette_40x80/) as
+`cassette_body_v0_8.stl` and `cassette_lid_v0_8_print.stl`.
 
 New ideas belong in [IDEAS.md](IDEAS.md) and must remain under three sentences.
 See the [plan pipeline](Plans/README.md) for promotion, execution, Git checkpoint,

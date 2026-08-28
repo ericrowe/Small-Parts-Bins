@@ -102,26 +102,30 @@ geometry for checked dimensions and exported-STL validation.
 - Optimize carrier footprint and cassette combinations together. Do not enlarge
   a cassette merely to align it with one 42 mm Gridfinity cell.
 
-## Canonical Smallest Cassette: v0.7
+## Canonical Smallest Cassette: v0.7 Baseline & v0.8 Height Optimization
 
-Use the v0.7 lid with the unchanged v0.5/v0.6 body as the current integration
-baseline. Preserve these dimensions unless a new version explicitly documents
-a change:
+The physically verified low-profile baseline is **v0.7** ($28.0\text{ mm}$ closed height).
+The active height-optimized candidate under **Plan 002** is **v0.8** ($36.0\text{ mm}$ closed height),
+which expands usable cavity depth by +35.1% while maintaining $1.50\text{ mm}$ clearance below
+the upper carrier tray's Gridfinity feet ($Z = 44.25\text{ mm}$, lowest foot surface).
 
-| Feature | Dimension |
-|---|---:|
-| Nominal body | 38.6 × 80.0 × 24.8 mm |
-| Maximum closed envelope, including hinge | 39.55 × 80.0 × 28.0 mm |
-| Body wall and floor | 2.0 mm |
-| Internal cavity before hinge/latch intrusion | 34.6 × 76.0 × 22.8 mm |
-| Glass pocket | 27.0 × 76.8 × 2.3 mm deep |
-| Maximum intended measured slide | 26.3 × 76.3 × 1.2 mm |
-| Visible window | 23.0 × 58.5 mm |
-| Solid label zone | 34.0 × 10.0 mm |
-| Glass recess below printed top | 0.9 mm |
+| Feature | v0.7 Baseline | v0.8 Optimized Height |
+|---|---:|---:|
+| Nominal body | 38.6 × 80.0 × 24.8 mm | 38.6 × 80.0 × 32.8 mm |
+| Maximum closed envelope, including hinge | 39.55 × 80.0 × 28.0 mm | 39.55 × 80.0 × 36.0 mm |
+| Body wall and floor | 2.0 mm | 2.0 mm |
+| Internal cavity before hinge/latch intrusion | 34.6 × 76.0 × 22.8 mm | 34.6 × 76.0 × 30.8 mm |
+| Glass pocket / channel | 27.0 × 76.8 × 1.4 mm clear | 27.0 × 76.8 × 1.4 mm clear |
+| Maximum intended measured slide | 26.3 × 76.3 × 1.2 mm | 26.3 × 76.3 × 1.2 mm |
+| Visible window | 23.0 × 58.5 mm | 23.0 × 58.5 mm |
+| Solid label zone | 34.0 × 10.0 mm | 34.0 × 10.0 mm |
+| Stacking clearance below upper tray feet ($Z = 44.25$) | +9.50 mm | +1.50 mm |
 
 - The hinge runs along one long side and the positive latch is on the opposite
   long side.
+- The lid is 100% interchangeable between v0.7 and v0.8: the 3.20 mm lid top plate,
+  27.0 × 1.4 mm end-loaded glass channel, 6.75 mm compliant PETG latch, and peaked
+  3-knuckle filament hinge are identical.
 - The lid has a centered fingernail opening relief at the latch edge:
   approximately 14.0 mm wide × 1.3 mm deep × 1.4 mm high.
 - Preserve approximately 1.8 mm of roof above the fingernail relief and at
@@ -390,6 +394,14 @@ Compatibility rules:
 - Do not silently change the Gridfinity interface, 2.0 mm minimum carrier wall,
   glass standard, cassette sub-grid, drawer ceiling, hinge pin, or label format.
 - Mark untested future cassette sizes and carrier features as provisional.
+
+### Continuous Documentation Review and Updates With Every Commit
+
+All repository documentation—including top-level `README.md`, component READMEs, manifests, physical-test notes, and active plan files—must be reviewed with every commit and updated whenever relevant changes occur. Do not force unnecessary edits, but ensure that no out-of-date or contradictory information resides in the repository:
+- **Top-level `README.md`:** Must accurately reflect the active prototype revision in "Current status", active/in-work plans, component reference configuration tables, and file links (e.g. updating from v0.7 to v0.8 when a component envelope or height optimization changes).
+- **Component READMEs and manifests:** Must accurately describe the current working dimensions, part versions, STL triangle counts, and compatibility notes.
+- **Active plan documents:** Check off completed steps, record physical measurements, and maintain validation logs as work progresses.
+- **Never leave superseded version numbers, stale filenames, or outdated dimensions unrefreshed when committing changes.**
 
 ### Required Documentation Updates Before Every Plan Completion
 
