@@ -101,8 +101,8 @@ geometry for checked dimensions and exported-STL validation.
 
 ## Canonical Smallest Cassette: v0.7 Baseline & v0.8 Height Optimization
 
-The physically verified low-profile baseline is **v0.7** ($28.0\text{ mm}$ closed height).
-The active height-optimized candidate under **Plan 002** is **v0.8** ($36.0\text{ mm}$ closed height),
+The physically verified baseline height is **v0.7** ($28.0\text{ mm}$ closed height).
+The physically verified height-optimized standard (**Plan 002**) is **v0.8** ($36.0\text{ mm}$ closed height),
 which expands usable cavity depth by +35.1% while maintaining $1.50\text{ mm}$ clearance below
 the upper carrier tray's Gridfinity feet ($Z = 44.25\text{ mm}$, lowest foot surface).
 

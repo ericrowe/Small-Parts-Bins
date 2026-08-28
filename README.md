@@ -78,22 +78,23 @@ The 14U vertical carrier stack architecture has been **physically verified**
 carrier trays seat onto standard Gridfinity baseplates in the target drawer with ample
 clearance below the 111.125 mm drawer ceiling.
 
-The working cassette release is **v0.8 (Optimized Height)** with a closed envelope
-of **$39.55 \times 80.0 \times 36.0\text{ mm}$** (body height $32.80\text{ mm}$, lid height $3.20\text{ mm}$),
-providing **$30.80\text{ mm}$ of usable internal depth** (+35.1% capacity increase over
-the verified $28.0\text{ mm}$ v0.7 baseline). It preserves a safe **$1.50\text{ mm}$ clearance margin**
-below the upper carrier tray's downward-protruding Gridfinity feet ($Z = 44.25\text{ mm}$, lowest foot surface)
-while retaining full backwards compatibility with the physically verified v0.7 lid,
-glass slide channel, 6.75 mm compliant PETG latch, and 3-knuckle filament hinge.
+The height-optimized cassette standard is **physically verified** as **v0.8**
+([Plan 002](Plans/Completed/2026-08-28-002-optimize-cassette-and-carrier-height.md)):
+closed envelope of **$39.55 \times 80.0 \times 36.0\text{ mm}$** (body height $32.80\text{ mm}$,
+lid height $3.20\text{ mm}$), providing **$30.80\text{ mm}$ of usable internal depth**
+(+35.1% capacity increase over the $28.0\text{ mm}$ baseline) and tested non-interference
+clearance below the upper carrier tray's downward-protruding Gridfinity feet ($Z = 44.25\text{ mm}$).
+The physically verified v0.7 lid, glass slide channel, 6.75 mm compliant PETG latch, and
+3-knuckle filament hinge are 100% reusable.
 
-The active in-work plan is **[Plan 002](Plans/002-optimize-cassette-and-carrier-height.md)**:
-physical validation of the 36.0 mm optimized cassette height and upper tray foot clearance.
+The active in-work plan is **[Plan 003](Plans/003-develop-optional-cassette-dividers.md)**:
+develop optional removable cassette dividers for 1-, 2-, or 3-compartment configurations.
 
 ## Current reference configuration
 
 | Component | Current reference | Validation state |
 |---|---|---|
-| Optimized cassette | v0.8 ($39.55 \times 80.0 \times 36.0\text{ mm}$ closed; $32.8\text{ mm}$ body) | Active Plan 002 test candidate; STLs pass all mesh audits |
+| Optimized cassette | v0.8 ($39.55 \times 80.0 \times 36.0\text{ mm}$ closed; $32.8\text{ mm}$ body) | **Physically verified** (Plan 002 complete) |
 | Low-profile baseline | v0.7 ($39.55 \times 80.0 \times 28.0\text{ mm}$ closed; $24.8\text{ mm}$ body) | Physically verified; hinge, capture, clasp, and split line pass |
 | Window | Plain slide glass, maximum intended 26.3 × 76.3 × 1.2 mm | Measure each delivered batch |
 | Pane capture | End-loaded 27.0 × 1.4 mm channel; integral 6.75 mm PETG latch | Physically verified (Plan 009 complete) |
@@ -105,14 +106,14 @@ physical validation of the 36.0 mm optimized cassette height and upper tray foot
 ## Development sequence
 
 Multiple plans may be in work when their current steps are independent or one is
-waiting for a physical print. Plan 002 is currently in work. Plans 003–008
-are fully developed in [`Plans/Queued/`](Plans/Queued/) and cover cassette
-dividers, finalization of the smallest system, larger cassettes, mixed-layout
-carriers, durability/material testing, and the production baseline.
+waiting for a physical print. Plan 003 is currently in work. Plans 004–008
+are fully developed in [`Plans/Queued/`](Plans/Queued/) and cover finalizing the
+smallest cassette with grab features, larger cassettes, mixed-layout carriers,
+durability/material testing, and the production baseline.
 
 The authoritative queue order and its rationale exist only in
-[`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). Plans 001 and 009 are completed and
-archived in [`Plans/Completed/`](Plans/Completed/). Next queued plan is Plan 003.
+[`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). Plans 001, 002, and 009 are completed and
+archived in [`Plans/Completed/`](Plans/Completed/). Next queued plan is Plan 004.
 
 The active cassette release is available in
 [`Cassettes/glass_slide_cassette_40x80/`](Cassettes/glass_slide_cassette_40x80/) as

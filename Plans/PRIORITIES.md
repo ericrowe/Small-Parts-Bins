@@ -37,13 +37,12 @@ explicitly provisional.
 
 | Priority | Plan | Reason |
 |---:|---|---|
-| 1 | 003 — Develop optional cassette dividers | Adds the requested small-part partitions after the final internal height and lid interface are available. |
-| 2 | 004 — Finalize the smallest cassette and carrier | Integrates the verified carrier, glass capture, height, grab features, and divider work into the smallest production candidate. |
-| 3 | 005 — Develop the larger cassette family | Extends the verified smallest interfaces without propagating unresolved geometry. |
-| 4 | 006 — Develop mixed-layout carriers | Requires physical envelopes from the completed cassette family. |
-| 5 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
-| 6 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
+| 1 | 004 — Finalize the smallest cassette and carrier | Integrates the verified carrier, glass capture, height, grab features, and divider work into the smallest production candidate. |
+| 2 | 005 — Develop the larger cassette family | Extends the verified smallest interfaces without propagating unresolved geometry. |
+| 3 | 006 — Develop mixed-layout carriers | Requires physical envelopes from the completed cassette family. |
+| 4 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
+| 5 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
 
-Plan 001 (14U carrier stack validation) is completed and archived. Plan 002 is
-currently active, establishing the vertical tolerance budget and optimizing
-cassette body height for maximum internal capacity. The next queued plan is Plan 003.
+Plans 001 (14U carrier stack validation) and 002 (cassette height optimization)
+are completed and archived. Plan 003 (develop optional cassette dividers) is
+currently active. The next queued plan is Plan 004.
