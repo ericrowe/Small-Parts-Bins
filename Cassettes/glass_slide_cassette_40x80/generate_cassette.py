@@ -165,9 +165,9 @@ FIT_LADDER_INTERFERENCES = (0.10, 0.20, 0.30)
 STRONG_RETAINER_INTERFERENCES = (0.35, 0.40, 0.45)
 RETAINER_SEAT_FOR_MAX_GLASS = POCKET_DEPTH - MAX_GLASS_T - RETAINER_H
 
-# Hidden auto-release snap: 1.20 mm cantilever beam with 0.65 mm undercut engagement
-LATCH_TONGUE_X0 = 15.20
-LATCH_TONGUE_X1 = 16.40
+# Hidden auto-release snap: 1.25 mm cantilever beam with 0.85 mm undercut engagement
+LATCH_TONGUE_X0 = 15.10
+LATCH_TONGUE_X1 = 16.35
 LATCH_TONGUE_Y0 = -4.00
 LATCH_TONGUE_Y1 = 4.00
 LATCH_TONGUE_Z0 = -3.30
@@ -593,12 +593,12 @@ def build_body() -> Mesh:
         )
     )
 
-    # Reinforced catch on the inside of the right wall with 0.65 mm interference.
+    # Reinforced catch on the inside of the right wall with 0.85 mm undercut.
     catch_profile = [
-        (17.30, BODY_H - 2.50),
-        (16.55, BODY_H - 2.08),
-        (16.55, BODY_H - 1.72),
-        (17.30, BODY_H - 1.22),
+        (17.30, BODY_H - 2.60),
+        (16.45, BODY_H - 2.10),
+        (16.45, BODY_H - 1.70),
+        (17.30, BODY_H - 1.15),
     ]
     out.extend(prism_y("body_snap_catch", catch_profile, -4.00, 4.00))
 
@@ -618,7 +618,10 @@ def build_divided_body() -> Mesh:
     c = BODY_CORNER
     relief_top = HINGE_BODY_RELIEF_TOP
     slot_w = 1.40
-    slot_recess = 0.60
+    slot_recess_left = 1.20   # Left slot bottom at lx - 1.20 = -16.20 mm
+    slot_recess_right = 0.60  # Right slot bottom at rx + 0.60 = +17.90 mm
+    ridge_proj = 0.80         # Inward flanking ridge on right wall from rx (17.30) to 16.50 mm
+    ridge_w = 1.50            # Width of flanking ridge along Y
     floor_groove_d = 0.60
     slot_stations = [-12.87, 12.87]
     join = 0.05
@@ -628,14 +631,14 @@ def build_divided_body() -> Mesh:
     outer = chamfer_rect(BODY_W, BODY_D, BODY_CORNER)
     out.extend(prism("divided_base_floor", outer, 0.00, z_floor))
 
-    # 2. Outer left wall: X in [-hx, lx - slot_recess], Z in [z_floor - join, relief_top]
-    out.extend(box("divided_outer_left_wall", -hx, lx - slot_recess + join, -hy + c - join, hy - c + join, z_floor - join, relief_top + join))
-    out.extend(box("divided_upper_left_centre", -hx, lx - slot_recess + join, HINGE_RELIEF_Y0, HINGE_RELIEF_Y1, relief_top, HINGE_BODY_SUPPORT_TOP))
-    out.extend(box("divided_upper_left_lower_end", -hx, lx - slot_recess + join, -hy + c - join, HINGE_BODY_END_RELIEF_Y0, relief_top, BODY_H))
-    out.extend(box("divided_upper_left_upper_end", -hx, lx - slot_recess + join, HINGE_BODY_END_RELIEF_Y1, hy - c + join, relief_top, BODY_H))
+    # 2. Outer left wall: X in [-hx, lx - slot_recess_left], Z in [z_floor - join, relief_top]
+    out.extend(box("divided_outer_left_wall", -hx, lx - slot_recess_left + join, -hy + c - join, hy - c + join, z_floor - join, relief_top + join))
+    out.extend(box("divided_upper_left_centre", -hx, lx - slot_recess_left + join, HINGE_RELIEF_Y0, HINGE_RELIEF_Y1, relief_top, HINGE_BODY_SUPPORT_TOP))
+    out.extend(box("divided_upper_left_lower_end", -hx, lx - slot_recess_left + join, -hy + c - join, HINGE_BODY_END_RELIEF_Y0, relief_top, BODY_H))
+    out.extend(box("divided_upper_left_upper_end", -hx, lx - slot_recess_left + join, HINGE_BODY_END_RELIEF_Y1, hy - c + join, relief_top, BODY_H))
 
-    # 3. Outer right wall: X in [rx + slot_recess, hx], Z in [z_floor - join, BODY_H]
-    out.extend(box("divided_outer_right_wall", rx + slot_recess - join, hx, -hy + c - join, hy - c + join, z_floor - join, BODY_H))
+    # 3. Outer right wall: X in [rx + slot_recess_right, hx], Z in [z_floor - join, BODY_H]
+    out.extend(box("divided_outer_right_wall", rx + slot_recess_right - join, hx, -hy + c - join, hy - c + join, z_floor - join, BODY_H))
 
     # 4. Front wall: Y in [-hy, -iy]
     out.extend(box("divided_front_wall", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, BODY_H))
@@ -664,17 +667,30 @@ def build_divided_body() -> Mesh:
         # Floor slab between slots (Z in [1.40, 2.00]):
         out.extend(box(f"div_floor_{idx}", lx - join, rx + join, y0 - join, y1 + join, z_floor - join, BODY_BOTTOM + join))
 
-        # Left inner wall segment between slots (X in [lx - slot_recess, lx]):
-        out.extend(box(f"div_left_wall_{idx}", lx - slot_recess - join, lx, y0 - join, y1 + join, z_floor - join, relief_top + join))
+        # Left inner wall segment between slots (X in [lx - slot_recess_left, lx]):
+        out.extend(box(f"div_left_wall_{idx}", lx - slot_recess_left - join, lx, y0 - join, y1 + join, z_floor - join, relief_top + join))
         if y1 <= HINGE_BODY_END_RELIEF_Y0 or y0 >= HINGE_BODY_END_RELIEF_Y1:
-            out.extend(box(f"div_left_upper_end_{idx}", lx - slot_recess - join, lx, y0 - join, y1 + join, relief_top, BODY_H))
+            out.extend(box(f"div_left_upper_end_{idx}", lx - slot_recess_left - join, lx, y0 - join, y1 + join, relief_top, BODY_H))
         elif y0 >= HINGE_RELIEF_Y0 and y1 <= HINGE_RELIEF_Y1:
-            out.extend(box(f"div_left_upper_centre_{idx}", lx - slot_recess - join, lx, y0 - join, y1 + join, relief_top, HINGE_BODY_SUPPORT_TOP))
+            out.extend(box(f"div_left_upper_centre_{idx}", lx - slot_recess_left - join, lx, y0 - join, y1 + join, relief_top, HINGE_BODY_SUPPORT_TOP))
 
-        # Right inner wall segment between slots (X in [rx, rx + slot_recess]):
-        out.extend(box(f"div_right_wall_{idx}", rx, rx + slot_recess + join, y0 - join, y1 + join, z_floor - join, BODY_H))
+        # Right inner wall segment between slots (X in [rx, rx + slot_recess_right]):
+        out.extend(box(f"div_right_wall_{idx}", rx, rx + slot_recess_right + join, y0 - join, y1 + join, z_floor - join, BODY_H))
 
-    # 8. Centre hinge knuckle
+    # 8. Internal flanking ridges on the right wall:
+    for cy in slot_stations:
+        # Lower ridge (along -Y from slot)
+        ry0_a, ry1_a = cy - slot_w / 2 - ridge_w, cy - slot_w / 2
+        out.extend(box(f"ridge_lower_{cy}", rx - ridge_proj, rx + join, ry0_a, ry1_a + join, z_floor - join, BODY_H - 1.50 + join))
+        chamfer_pts = [(rx - ridge_proj, BODY_H - 1.50), (rx, BODY_H), (rx, BODY_H - 1.50)]
+        out.extend(prism_y(f"ridge_lead_lower_{cy}", chamfer_pts, ry0_a, ry1_a + join))
+
+        # Upper ridge (along +Y from slot)
+        ry0_b, ry1_b = cy + slot_w / 2, cy + slot_w / 2 + ridge_w
+        out.extend(box(f"ridge_upper_{cy}", rx - ridge_proj, rx + join, ry0_b - join, ry1_b, z_floor - join, BODY_H - 1.50 + join))
+        out.extend(prism_y(f"ridge_lead_upper_{cy}", chamfer_pts, ry0_b - join, ry1_b))
+
+    # 9. Centre hinge knuckle
     out.extend(
         peaked_hinge_y(
             "body_hinge_knuckle",
@@ -687,16 +703,16 @@ def build_divided_body() -> Mesh:
         )
     )
 
-    # 9. Closure catch
+    # 10. Reinforced catch on the inside of the right wall with 0.85 mm undercut.
     catch_profile = [
-        (17.30, BODY_H - 2.50),
-        (16.55, BODY_H - 2.08),
-        (16.55, BODY_H - 1.72),
-        (17.30, BODY_H - 1.22),
+        (17.30, BODY_H - 2.60),
+        (16.45, BODY_H - 2.10),
+        (16.45, BODY_H - 1.70),
+        (17.30, BODY_H - 1.15),
     ]
     out.extend(prism_y("body_snap_catch", catch_profile, -4.00, 4.00))
 
-    # 10. Ergonomic tactile end pinch ribs
+    # 11. Ergonomic tactile end pinch ribs
     for z_rib in [27.5, 29.2, 30.9]:
         out.extend(box("divided_front_grip_rib", -7.0, 7.0, -BODY_D / 2 - 0.40, -BODY_D / 2 + join, z_rib, z_rib + 0.90))
         out.extend(box("divided_back_grip_rib", -7.0, 7.0, BODY_D / 2 - join, BODY_D / 2 + 0.40, z_rib, z_rib + 0.90))
@@ -706,9 +722,12 @@ def build_divided_body() -> Mesh:
 
 def build_divider_card(thickness: float = 1.20,
                        notch_w: float = 10.0, notch_d: float = 1.5,
-                       bottom_chamfer: float = 0.6) -> Mesh:
-    x_left = -15.00 - 0.50   # -15.50 mm
-    x_right = 17.30 + 0.50  # +17.80 mm (total width = 33.30 mm)
+                       bottom_chamfer: float = 0.8) -> Mesh:
+    x_left = -15.60   # Left edge seated inside left slot (recess -16.20 mm)
+    x_right = 17.40   # Right edge seated inside right slot (recess +17.90 mm)
+    # Total card width = 17.40 - (-15.60) = 33.00 mm
+    # Channel bottom distance = 17.90 - (-16.20) = 34.10 mm (+1.10 mm float clearance)
+    # Channel lip distance = 16.50 - (-15.00) = 31.50 mm (+1.50 mm positive capture overlap)
     z_top = 31.20
     ht = thickness / 2.0
 
@@ -859,7 +878,7 @@ def build_lid_local() -> Mesh:
     out.extend(peaked_hinge_y("lid_hinge_knuckle_a", HINGE_X, HINGE_Z_LOCAL, left_end, left_inner, print_up_sign=-1.0, bore_r=HINGE_LID_BORE_R))
     out.extend(peaked_hinge_y("lid_hinge_knuckle_b", HINGE_X, HINGE_Z_LOCAL, right_inner, right_end, print_up_sign=-1.0, bore_r=HINGE_LID_BORE_R))
 
-    # Reinforced flexible tongue (1.20 mm thick) and hook with 0.65 mm interference.
+    # Reinforced flexible tongue (1.25 mm thick) and hook with 0.85 mm undercut interference.
     out.extend(
         box(
             "latch_tongue",
@@ -872,11 +891,11 @@ def build_lid_local() -> Mesh:
         )
     )
     hook_profile = [
-        (LATCH_TONGUE_X1 - 0.05, -3.10),
-        (17.15, -2.65),
-        (17.20, -2.35),
-        (16.95, -2.00),
-        (LATCH_TONGUE_X1 - 0.05, -1.65),
+        (LATCH_TONGUE_X1 - 0.05, -3.15),
+        (17.25, -2.65),
+        (17.30, -2.35),
+        (17.00, -1.95),
+        (LATCH_TONGUE_X1 - 0.05, -1.60),
     ]
     out.extend(prism_y("latch_hook", hook_profile, -3.80, 3.80))
     return out

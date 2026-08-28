@@ -102,7 +102,7 @@
   "files": [
     {
       "file": "cassette_body_v0_8_divided.stl",
-      "triangles": 524,
+      "triangles": 604,
       "bounds_min_mm": [
         -20.45,
         -40.4,
@@ -118,16 +118,16 @@
         80.8,
         35.7
       ],
-      "signed_mesh_volume_mm3": 25780.02,
+      "signed_mesh_volume_mm3": 25892.83,
       "edge_audit": {
-        "triangles": 524,
-        "unique_edges": 786,
+        "triangles": 604,
+        "unique_edges": 906,
         "boundary_edges": 0,
         "nonmanifold_edges": 0
       },
       "exported_stl_audit": {
         "binary_stl_size_valid": true,
-        "triangle_count": 524,
+        "triangle_count": 604,
         "finite_coordinates": true,
         "degenerate_triangles": 0
       }
@@ -150,7 +150,7 @@
         80.8,
         35.7
       ],
-      "signed_mesh_volume_mm3": 20125.14,
+      "signed_mesh_volume_mm3": 20126.51,
       "edge_audit": {
         "triangles": 448,
         "unique_edges": 672,
@@ -182,7 +182,7 @@
         80.0,
         6.5
       ],
-      "signed_mesh_volume_mm3": 3596.02,
+      "signed_mesh_volume_mm3": 3599.09,
       "edge_audit": {
         "triangles": 780,
         "unique_edges": 1170,
@@ -205,21 +205,21 @@
       "file": "divider_card_1_2mm.stl",
       "triangles": 44,
       "bounds_min_mm": [
-        -15.5,
+        -15.6,
         -0.6,
         0.0
       ],
       "bounds_max_mm": [
-        17.8,
+        17.4,
         0.6,
         31.2
       ],
       "size_mm": [
-        33.3,
+        33.0,
         1.2,
         31.2
       ],
-      "signed_mesh_volume_mm3": 1231.62,
+      "signed_mesh_volume_mm3": 1220.05,
       "edge_audit": {
         "triangles": 44,
         "unique_edges": 66,
@@ -237,21 +237,21 @@
       "file": "divider_card_1_0mm.stl",
       "triangles": 44,
       "bounds_min_mm": [
-        -15.5,
+        -15.6,
         -0.5,
         0.0
       ],
       "bounds_max_mm": [
-        17.8,
+        17.4,
         0.5,
         31.2
       ],
       "size_mm": [
-        33.3,
+        33.0,
         1.0,
         31.2
       ],
-      "signed_mesh_volume_mm3": 1026.35,
+      "signed_mesh_volume_mm3": 1016.71,
       "edge_audit": {
         "triangles": 44,
         "unique_edges": 66,
@@ -269,21 +269,21 @@
       "file": "divider_card_1_4mm.stl",
       "triangles": 44,
       "bounds_min_mm": [
-        -15.5,
+        -15.6,
         -0.7,
         0.0
       ],
       "bounds_max_mm": [
-        17.8,
+        17.4,
         0.7,
         31.2
       ],
       "size_mm": [
-        33.3,
+        33.0,
         1.4,
         31.2
       ],
-      "signed_mesh_volume_mm3": 1436.89,
+      "signed_mesh_volume_mm3": 1423.39,
       "edge_audit": {
         "triangles": 44,
         "unique_edges": 66,
@@ -315,7 +315,7 @@
         80.8,
         36.0
       ],
-      "signed_mesh_volume_mm3": 26129.19,
+      "signed_mesh_volume_mm3": 26133.63,
       "edge_audit": {
         "triangles": 1240,
         "unique_edges": 1860,
