@@ -606,55 +606,69 @@ def build_body() -> Mesh:
 
 def build_divided_body() -> Mesh:
     out = Mesh(f"cassette_body_{VERSION_TAG}_divided")
-    outer = chamfer_rect(BODY_W, BODY_D, BODY_CORNER)
-    # Thickened left wall at X = -15.00 mm (4.30 mm thickness)
-    inner = [
-        (-13.80, -38.00), (16.30, -38.00),
-        (17.30, -37.00), (17.30, 37.00),
-        (16.30, 38.00), (-13.80, 38.00),
-        (-15.00, 36.80), (-15.00, -36.80),
-    ]
-
+    hx, hy = BODY_W / 2, BODY_D / 2
+    lx, rx = -15.00, 17.30
+    iy = 38.00
+    c = BODY_CORNER
     relief_top = HINGE_BODY_RELIEF_TOP
-    shell = Mesh("body_lower_shell_divided")
-    _fan(shell, outer, 0.0, up=False)
-    _loop_wall(shell, outer, 0.0, relief_top, hole=False)
-    _fan(shell, inner, BODY_BOTTOM, up=True)
-    _loop_wall(shell, inner, BODY_BOTTOM, relief_top, hole=True)
-    _ring_face(shell, outer, inner, relief_top, up=True)
-    out.extend(shell.positive())
-
-    upper_z0 = relief_top - 0.05
+    slot_w = 1.40
+    slot_recess = 0.60
+    floor_groove_d = 0.60
+    slot_stations = [-12.87, 12.87]
     join = 0.05
-    # Straight walls ending at split plane BODY_H
-    out.extend(box("body_upper_bottom_wall", outer[0][0] - join, outer[1][0] + join, -BODY_D / 2, inner[0][1], upper_z0, BODY_H))
-    out.extend(box("body_upper_right_wall", inner[2][0], BODY_W / 2, outer[2][1] - join, outer[3][1] + join, upper_z0, BODY_H))
-    out.extend(box("body_upper_top_wall", outer[5][0] - join, outer[4][0] + join, inner[4][1], BODY_D / 2, upper_z0, BODY_H))
-    out.extend(
-        box(
-            "body_upper_left_centre",
-            -BODY_W / 2,
-            inner[7][0],
-            HINGE_RELIEF_Y0,
-            HINGE_RELIEF_Y1,
-            upper_z0,
-            HINGE_BODY_SUPPORT_TOP,
-        )
-    )
-    out.extend(box("body_upper_left_lower_end", -BODY_W / 2, inner[7][0], outer[7][1] - join, HINGE_BODY_END_RELIEF_Y0, upper_z0, BODY_H))
-    out.extend(box("body_upper_left_upper_end", -BODY_W / 2, inner[6][0], HINGE_BODY_END_RELIEF_Y1, outer[6][1] + join, upper_z0, BODY_H))
+    z_floor = BODY_BOTTOM - floor_groove_d
 
-    # Chamfered corner sectors ending at BODY_H:
-    lower_right = [outer[1], outer[2], inner[2], inner[1]]
-    upper_right = [outer[3], outer[4], inner[4], inner[3]]
-    lower_left = clip_polygon_y([outer[7], outer[0], inner[0], inner[7]], HINGE_BODY_END_RELIEF_Y0, keep_below=True)
-    upper_left = clip_polygon_y([outer[5], outer[6], inner[6], inner[5]], HINGE_BODY_END_RELIEF_Y1, keep_below=False)
-    out.extend(prism("body_upper_lower_right_corner", lower_right, upper_z0, BODY_H))
-    out.extend(prism("body_upper_upper_right_corner", upper_right, upper_z0, BODY_H))
-    out.extend(prism("body_upper_lower_left_corner", lower_left, upper_z0, BODY_H))
-    out.extend(prism("body_upper_upper_left_corner", upper_left, upper_z0, BODY_H))
+    # 1. Base floor slab: Z in [0, z_floor] = [0, 1.40]
+    outer = chamfer_rect(BODY_W, BODY_D, BODY_CORNER)
+    out.extend(prism("divided_base_floor", outer, 0.00, z_floor))
 
-    # Centre hinge knuckle
+    # 2. Outer left wall: X in [-hx, lx - slot_recess], Z in [z_floor - join, relief_top]
+    out.extend(box("divided_outer_left_wall", -hx, lx - slot_recess + join, -hy + c - join, hy - c + join, z_floor - join, relief_top + join))
+    out.extend(box("divided_upper_left_centre", -hx, lx - slot_recess + join, HINGE_RELIEF_Y0, HINGE_RELIEF_Y1, relief_top, HINGE_BODY_SUPPORT_TOP))
+    out.extend(box("divided_upper_left_lower_end", -hx, lx - slot_recess + join, -hy + c - join, HINGE_BODY_END_RELIEF_Y0, relief_top, BODY_H))
+    out.extend(box("divided_upper_left_upper_end", -hx, lx - slot_recess + join, HINGE_BODY_END_RELIEF_Y1, hy - c + join, relief_top, BODY_H))
+
+    # 3. Outer right wall: X in [rx + slot_recess, hx], Z in [z_floor - join, BODY_H]
+    out.extend(box("divided_outer_right_wall", rx + slot_recess - join, hx, -hy + c - join, hy - c + join, z_floor - join, BODY_H))
+
+    # 4. Front wall: Y in [-hy, -iy]
+    out.extend(box("divided_front_wall", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, BODY_H))
+
+    # 5. Back wall: Y in [iy, hy]
+    out.extend(box("divided_back_wall", -hx + c - join, hx - c + join, iy - join, hy, z_floor - join, BODY_H))
+
+    # 6. Outer corner chamfers
+    lower_right = [outer[1], outer[2], (hx - c, -hy + c)]
+    upper_right = [outer[3], outer[4], (hx - c, hy - c)]
+    lower_left = [outer[7], outer[0], (-hx + c, -hy + c)]
+    upper_left = [outer[5], outer[6], (-hx + c, hy - c)]
+    out.extend(prism("corner_lr", lower_right, z_floor - join, BODY_H))
+    out.extend(prism("corner_ur", upper_right, z_floor - join, BODY_H))
+    out.extend(prism("corner_ll", lower_left, z_floor - join, BODY_H))
+    out.extend(prism("corner_ul", upper_left, z_floor - join, BODY_H))
+
+    # 7. Between-slot cavity segments:
+    y_points = [-iy]
+    for cy in sorted(slot_stations):
+        y_points.extend([cy - slot_w / 2, cy + slot_w / 2])
+    y_points.append(iy)
+
+    for idx in range(0, len(y_points) - 1, 2):
+        y0, y1 = y_points[idx], y_points[idx + 1]
+        # Floor slab between slots (Z in [1.40, 2.00]):
+        out.extend(box(f"div_floor_{idx}", lx - join, rx + join, y0 - join, y1 + join, z_floor - join, BODY_BOTTOM + join))
+
+        # Left inner wall segment between slots (X in [lx - slot_recess, lx]):
+        out.extend(box(f"div_left_wall_{idx}", lx - slot_recess - join, lx, y0 - join, y1 + join, z_floor - join, relief_top + join))
+        if y1 <= HINGE_BODY_END_RELIEF_Y0 or y0 >= HINGE_BODY_END_RELIEF_Y1:
+            out.extend(box(f"div_left_upper_end_{idx}", lx - slot_recess - join, lx, y0 - join, y1 + join, relief_top, BODY_H))
+        elif y0 >= HINGE_RELIEF_Y0 and y1 <= HINGE_RELIEF_Y1:
+            out.extend(box(f"div_left_upper_centre_{idx}", lx - slot_recess - join, lx, y0 - join, y1 + join, relief_top, HINGE_BODY_SUPPORT_TOP))
+
+        # Right inner wall segment between slots (X in [rx, rx + slot_recess]):
+        out.extend(box(f"div_right_wall_{idx}", rx, rx + slot_recess + join, y0 - join, y1 + join, z_floor - join, BODY_H))
+
+    # 8. Centre hinge knuckle
     out.extend(
         peaked_hinge_y(
             "body_hinge_knuckle",
@@ -667,7 +681,7 @@ def build_divided_body() -> Mesh:
         )
     )
 
-    # Closure catch
+    # 9. Closure catch
     catch_profile = [
         (17.30, BODY_H - 2.50),
         (16.55, BODY_H - 2.08),
@@ -675,18 +689,6 @@ def build_divided_body() -> Mesh:
         (17.30, BODY_H - 1.22),
     ]
     out.extend(prism_y("body_snap_catch", catch_profile, -4.00, 4.00))
-
-    # Divider slots at thirds: Y = +-12.87 mm
-    slot_w = 1.40
-    slot_recess = 0.60
-    floor_groove_d = 0.60
-    slot_stations = [-12.87, 12.87]
-    for cy in slot_stations:
-        y0 = cy - slot_w / 2
-        y1 = cy + slot_w / 2
-        out.extend(box("slot_left_wall", -15.00 - slot_recess, -15.00 + join, y0, y1, BODY_BOTTOM, relief_top))
-        out.extend(box("slot_right_wall", 17.30 - join, 17.30 + slot_recess, y0, y1, BODY_BOTTOM, BODY_H))
-        out.extend(box("slot_floor_groove", -15.00 - slot_recess, 17.30 + slot_recess, y0, y1, BODY_BOTTOM - floor_groove_d, BODY_BOTTOM + join))
 
     return out
 

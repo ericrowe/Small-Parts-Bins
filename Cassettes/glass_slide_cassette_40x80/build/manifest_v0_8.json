@@ -102,7 +102,7 @@
   "files": [
     {
       "file": "cassette_body_v0_8_divided.stl",
-      "triangles": 448,
+      "triangles": 452,
       "bounds_min_mm": [
         -20.25,
         -40.0,
@@ -118,16 +118,16 @@
         80.0,
         35.45
       ],
-      "signed_mesh_volume_mm3": 25277.0,
+      "signed_mesh_volume_mm3": 25714.93,
       "edge_audit": {
-        "triangles": 448,
-        "unique_edges": 672,
+        "triangles": 452,
+        "unique_edges": 678,
         "boundary_edges": 0,
         "nonmanifold_edges": 0
       },
       "exported_stl_audit": {
         "binary_stl_size_valid": true,
-        "triangle_count": 448,
+        "triangle_count": 452,
         "finite_coordinates": true,
         "degenerate_triangles": 0
       }
