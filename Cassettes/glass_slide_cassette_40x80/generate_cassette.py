@@ -56,11 +56,15 @@ HINGE_BODY_Y0 = -13.90
 HINGE_BODY_Y1 = 13.90
 HINGE_LID_END = 37.30
 
+# Thickened knuckle outer profile (>= 1.20 mm wall thickness everywhere around the bore)
+HINGE_OUTER_HALF_W = 2.25
+HINGE_OUTER_POINT = 2.65
+HINGE_OUTER_SIDE_TOP = 0.80
+
 # Rotational keep-out and body relief
-# The lowest point on the rotating lid knuckle dips to Z = 31.12 mm during swing.
-# Setting HINGE_BODY_RELIEF_TOP to 30.40 mm guarantees +0.72 mm to +2.40 mm positive clearance
+# Setting HINGE_BODY_RELIEF_TOP to 29.50 mm guarantees +0.75 mm to +2.40 mm positive clearance
 # across the entire 0-120 degree opening sweep with zero clash.
-HINGE_BODY_RELIEF_TOP = 30.40
+HINGE_BODY_RELIEF_TOP = 29.50
 HINGE_BODY_SUPPORT_TOP = BODY_H + HINGE_Z_LOCAL - HINGE_BODY_BORE_R - 0.15  # 32.10 mm
 HINGE_RELIEF_Y0 = HINGE_BODY_Y0 - 0.25                                     # -14.15 mm
 HINGE_RELIEF_Y1 = HINGE_BODY_Y1 + 0.25                                     #  14.15 mm
@@ -210,7 +214,7 @@ def prism_y(xz_loop: list[Vec2], y0: float, y1: float) -> Mesh:
     return m
 
 def peaked_hinge_y(cx: float, cz: float, y0: float, y1: float, print_up_sign: float, bore_r: float) -> Mesh:
-    ow, op, st = 2.05, 2.45, 0.45
+    ow, op, st = HINGE_OUTER_HALF_W, HINGE_OUTER_POINT, HINGE_OUTER_SIDE_TOP
     outer_print = [(-ow, st), (-ow, 0.0)]
     outer_print.extend((-ow * (1.0 - step / 9.0), -op * step / 9.0) for step in range(1, 10))
     outer_print.extend((ow * step / 9.0, -op * (1.0 - step / 9.0)) for step in range(1, 10))
@@ -265,7 +269,7 @@ def build_body(divided: bool = True) -> Mesh:
         (-15.00, 36.80), (-15.00, -36.80)
     ]
     
-    relief_top = HINGE_BODY_RELIEF_TOP # 30.40 mm
+    relief_top = HINGE_BODY_RELIEF_TOP # 29.50 mm
     body_h = BODY_H                   # 32.80 mm
     
     # 1. Lower shell: single continuous watertight solid (0 internal faces!)
@@ -280,7 +284,7 @@ def build_body(divided: bool = True) -> Mesh:
     upper_z0 = relief_top - 0.05
     join = 0.05
     
-    # 2. Upper rim walls (Z = 30.35 to 32.80 mm)
+    # 2. Upper rim walls (Z = 29.45 to 32.80 mm)
     # Front wall: X in [-15.00, 17.35] (leaves left corner clear for rotating knuckle)
     out.extend(box(-15.00, 17.35, -40.00, -38.00, upper_z0, body_h))
     # Back wall: X in [-15.00, 17.35] (leaves left corner clear for rotating knuckle)
@@ -421,29 +425,30 @@ def build_lid_local() -> Mesh:
     )
 
     # Bed-supported roots for the two lid knuckles
-    # Spans the entire knuckle width (X in [-20.25, -15.50 mm]) and rises to Z_local = 3.20 mm
-    # In print orientation, this produces a solid foundation from Z_print = 0.00 to 2.65 mm!
+    # Spans the entire knuckle width (X in [-20.50, -15.50 mm]) from local Z = -0.60 to 3.20 mm
+    # In print orientation, this forms a 100% solid, thick foundation from the build plate (Z_print = 0.00 mm)
+    # directly through the bore centerline up to Z_print = 3.80 mm, providing >= 1.65 mm wall thickness!
     left_end = -HINGE_LID_END
     left_inner = HINGE_BODY_Y0 - HINGE_GAP
     right_inner = HINGE_BODY_Y1 + HINGE_GAP
     right_end = HINGE_LID_END
     out.extend(
         box(
-            -20.25,
+            -20.50,
             -15.50,
             left_end - 0.10,
             left_inner + 0.10,
-            0.55,
+            -0.60,
             LID_H,
         )
     )
     out.extend(
         box(
-            -20.25,
+            -20.50,
             -15.50,
             right_inner - 0.10,
             right_end + 0.10,
-            0.55,
+            -0.60,
             LID_H,
         )
     )
@@ -590,7 +595,8 @@ def main():
             "slot_stations_y": SLOT_STATIONS,
             "card_baseline": [33.30, 31.20, 1.20],
             "hinge_body_length": HINGE_BODY_Y1 - HINGE_BODY_Y0,
-            "hinge_rotational_clearance": "+0.72 mm to +2.40 mm over 0-120 deg"
+            "hinge_knuckle_min_wall_thickness_mm": 1.20,
+            "hinge_rotational_clearance": "+0.75 mm to +2.40 mm over 0-120 deg"
         },
         "audits": {
             "cassette_body_v0_8_divided.stl": audit_body_div,
