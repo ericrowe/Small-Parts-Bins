@@ -101,6 +101,38 @@
   "mesh_note": "Individual closed shells intentionally overlap at hinge/latch joins; modern slicers merge overlapping volumes.",
   "files": [
     {
+      "file": "cassette_body_v0_8_divided.stl",
+      "triangles": 448,
+      "bounds_min_mm": [
+        -20.25,
+        -40.0,
+        0.0
+      ],
+      "bounds_max_mm": [
+        19.3,
+        40.0,
+        35.45
+      ],
+      "size_mm": [
+        39.55,
+        80.0,
+        35.45
+      ],
+      "signed_mesh_volume_mm3": 25277.0,
+      "edge_audit": {
+        "triangles": 448,
+        "unique_edges": 672,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "exported_stl_audit": {
+        "binary_stl_size_valid": true,
+        "triangle_count": 448,
+        "finite_coordinates": true,
+        "degenerate_triangles": 0
+      }
+    },
+    {
       "file": "cassette_body_v0_8.stl",
       "triangles": 376,
       "bounds_min_mm": [
@@ -167,6 +199,102 @@
         "closed_shell_components": 38,
         "positive_aabb_overlap_graph_connected": true,
         "unconnected_shell_components": 0
+      }
+    },
+    {
+      "file": "divider_card_1_2mm.stl",
+      "triangles": 44,
+      "bounds_min_mm": [
+        -15.5,
+        -0.6,
+        0.0
+      ],
+      "bounds_max_mm": [
+        17.8,
+        0.6,
+        31.2
+      ],
+      "size_mm": [
+        33.3,
+        1.2,
+        31.2
+      ],
+      "signed_mesh_volume_mm3": 1231.62,
+      "edge_audit": {
+        "triangles": 44,
+        "unique_edges": 66,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "exported_stl_audit": {
+        "binary_stl_size_valid": true,
+        "triangle_count": 44,
+        "finite_coordinates": true,
+        "degenerate_triangles": 0
+      }
+    },
+    {
+      "file": "divider_card_1_0mm.stl",
+      "triangles": 44,
+      "bounds_min_mm": [
+        -15.5,
+        -0.5,
+        0.0
+      ],
+      "bounds_max_mm": [
+        17.8,
+        0.5,
+        31.2
+      ],
+      "size_mm": [
+        33.3,
+        1.0,
+        31.2
+      ],
+      "signed_mesh_volume_mm3": 1026.35,
+      "edge_audit": {
+        "triangles": 44,
+        "unique_edges": 66,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "exported_stl_audit": {
+        "binary_stl_size_valid": true,
+        "triangle_count": 44,
+        "finite_coordinates": true,
+        "degenerate_triangles": 0
+      }
+    },
+    {
+      "file": "divider_card_1_4mm.stl",
+      "triangles": 44,
+      "bounds_min_mm": [
+        -15.5,
+        -0.7,
+        0.0
+      ],
+      "bounds_max_mm": [
+        17.8,
+        0.7,
+        31.2
+      ],
+      "size_mm": [
+        33.3,
+        1.4,
+        31.2
+      ],
+      "signed_mesh_volume_mm3": 1436.89,
+      "edge_audit": {
+        "triangles": 44,
+        "unique_edges": 66,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0
+      },
+      "exported_stl_audit": {
+        "binary_stl_size_valid": true,
+        "triangle_count": 44,
+        "finite_coordinates": true,
+        "degenerate_triangles": 0
       }
     },
     {

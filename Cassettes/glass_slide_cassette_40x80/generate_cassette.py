@@ -604,6 +604,118 @@ def build_body() -> Mesh:
     return out
 
 
+def build_divided_body() -> Mesh:
+    out = Mesh(f"cassette_body_{VERSION_TAG}_divided")
+    outer = chamfer_rect(BODY_W, BODY_D, BODY_CORNER)
+    # Thickened left wall at X = -15.00 mm (4.30 mm thickness)
+    inner = [
+        (-13.80, -38.00), (16.30, -38.00),
+        (17.30, -37.00), (17.30, 37.00),
+        (16.30, 38.00), (-13.80, 38.00),
+        (-15.00, 36.80), (-15.00, -36.80),
+    ]
+
+    relief_top = HINGE_BODY_RELIEF_TOP
+    shell = Mesh("body_lower_shell_divided")
+    _fan(shell, outer, 0.0, up=False)
+    _loop_wall(shell, outer, 0.0, relief_top, hole=False)
+    _fan(shell, inner, BODY_BOTTOM, up=True)
+    _loop_wall(shell, inner, BODY_BOTTOM, relief_top, hole=True)
+    _ring_face(shell, outer, inner, relief_top, up=True)
+    out.extend(shell.positive())
+
+    upper_z0 = relief_top - 0.05
+    join = 0.05
+    # Straight walls ending at split plane BODY_H
+    out.extend(box("body_upper_bottom_wall", outer[0][0] - join, outer[1][0] + join, -BODY_D / 2, inner[0][1], upper_z0, BODY_H))
+    out.extend(box("body_upper_right_wall", inner[2][0], BODY_W / 2, outer[2][1] - join, outer[3][1] + join, upper_z0, BODY_H))
+    out.extend(box("body_upper_top_wall", outer[5][0] - join, outer[4][0] + join, inner[4][1], BODY_D / 2, upper_z0, BODY_H))
+    out.extend(
+        box(
+            "body_upper_left_centre",
+            -BODY_W / 2,
+            inner[7][0],
+            HINGE_RELIEF_Y0,
+            HINGE_RELIEF_Y1,
+            upper_z0,
+            HINGE_BODY_SUPPORT_TOP,
+        )
+    )
+    out.extend(box("body_upper_left_lower_end", -BODY_W / 2, inner[7][0], outer[7][1] - join, HINGE_BODY_END_RELIEF_Y0, upper_z0, BODY_H))
+    out.extend(box("body_upper_left_upper_end", -BODY_W / 2, inner[6][0], HINGE_BODY_END_RELIEF_Y1, outer[6][1] + join, upper_z0, BODY_H))
+
+    # Chamfered corner sectors ending at BODY_H:
+    lower_right = [outer[1], outer[2], inner[2], inner[1]]
+    upper_right = [outer[3], outer[4], inner[4], inner[3]]
+    lower_left = clip_polygon_y([outer[7], outer[0], inner[0], inner[7]], HINGE_BODY_END_RELIEF_Y0, keep_below=True)
+    upper_left = clip_polygon_y([outer[5], outer[6], inner[6], inner[5]], HINGE_BODY_END_RELIEF_Y1, keep_below=False)
+    out.extend(prism("body_upper_lower_right_corner", lower_right, upper_z0, BODY_H))
+    out.extend(prism("body_upper_upper_right_corner", upper_right, upper_z0, BODY_H))
+    out.extend(prism("body_upper_lower_left_corner", lower_left, upper_z0, BODY_H))
+    out.extend(prism("body_upper_upper_left_corner", upper_left, upper_z0, BODY_H))
+
+    # Centre hinge knuckle
+    out.extend(
+        peaked_hinge_y(
+            "body_hinge_knuckle",
+            HINGE_X,
+            BODY_H + HINGE_Z_LOCAL,
+            HINGE_BODY_Y0,
+            HINGE_BODY_Y1,
+            print_up_sign=1.0,
+            bore_r=HINGE_BODY_BORE_R,
+        )
+    )
+
+    # Closure catch
+    catch_profile = [
+        (17.30, BODY_H - 2.50),
+        (16.55, BODY_H - 2.08),
+        (16.55, BODY_H - 1.72),
+        (17.30, BODY_H - 1.22),
+    ]
+    out.extend(prism_y("body_snap_catch", catch_profile, -4.00, 4.00))
+
+    # Divider slots at thirds: Y = +-12.87 mm
+    slot_w = 1.40
+    slot_recess = 0.60
+    floor_groove_d = 0.60
+    slot_stations = [-12.87, 12.87]
+    for cy in slot_stations:
+        y0 = cy - slot_w / 2
+        y1 = cy + slot_w / 2
+        out.extend(box("slot_left_wall", -15.00 - slot_recess, -15.00 + join, y0, y1, BODY_BOTTOM, relief_top))
+        out.extend(box("slot_right_wall", 17.30 - join, 17.30 + slot_recess, y0, y1, BODY_BOTTOM, BODY_H))
+        out.extend(box("slot_floor_groove", -15.00 - slot_recess, 17.30 + slot_recess, y0, y1, BODY_BOTTOM - floor_groove_d, BODY_BOTTOM + join))
+
+    return out
+
+
+def build_divider_card(thickness: float = 1.20,
+                       notch_w: float = 10.0, notch_d: float = 1.5,
+                       bottom_chamfer: float = 0.6) -> Mesh:
+    x_left = -15.00 - 0.50   # -15.50 mm
+    x_right = 17.30 + 0.50  # +17.80 mm (total width = 33.30 mm)
+    z_top = 31.20
+    ht = thickness / 2.0
+
+    pts_xz = [
+        (x_left + bottom_chamfer, 0.0),
+        (x_right - bottom_chamfer, 0.0),
+        (x_right, bottom_chamfer),
+        (x_right, z_top - 1.0),
+        (x_right - 1.0, z_top),
+        (notch_w / 2.0, z_top),
+        (notch_w / 4.0, z_top - notch_d),
+        (-notch_w / 4.0, z_top - notch_d),
+        (-notch_w / 2.0, z_top),
+        (x_left + 1.0, z_top),
+        (x_left, z_top - 1.0),
+        (x_left, bottom_chamfer),
+    ]
+    return prism_y(f"divider_card_{thickness:.1f}mm", pts_xz, -ht, ht)
+
+
 def build_lid_local() -> Mesh:
     out = Mesh(f"cassette_lid_{VERSION_TAG}_local")
 
@@ -1696,8 +1808,12 @@ def main() -> None:
     args.out.mkdir(parents=True, exist_ok=True)
 
     body = build_body()
+    body_divided = build_divided_body()
     lid_local = build_lid_local()
     lid_print = lid_print_orientation(lid_local)
+    card_1_2 = build_divider_card(1.20)
+    card_1_0 = build_divider_card(1.00)
+    card_1_4 = build_divider_card(1.40)
 
     closed_lid = lid_local.translated(0.0, 0.0, BODY_H, "closed_lid")
     glass_local = box(
@@ -1714,8 +1830,12 @@ def main() -> None:
     open_lid = rotate_about_hinge_open(lid_local, -108.0)
 
     files: list[tuple[str, Mesh]] = [
+        (f"cassette_body_{VERSION_TAG}_divided.stl", body_divided),
         (f"cassette_body_{VERSION_TAG}.stl", body),
         (f"cassette_lid_{VERSION_TAG}_print.stl", lid_print),
+        ("divider_card_1_2mm.stl", card_1_2),
+        ("divider_card_1_0mm.stl", card_1_0),
+        ("divider_card_1_4mm.stl", card_1_4),
         ("REFERENCE_closed_assembly_DO_NOT_PRINT.stl", closed_reference),
     ]
     for filename, mesh in files:
