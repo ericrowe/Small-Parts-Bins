@@ -23,6 +23,10 @@
       35.6,
       31.2,
       1.2
+    ],
+    "hinge_relief_notch": [
+      2.5,
+      3.5
     ]
   },
   "audits": {
@@ -34,7 +38,7 @@
       "finite_coordinates": true
     },
     "divider_card_full_1_2mm.stl": {
-      "triangles": 32,
+      "triangles": 48,
       "boundary_edges": 0,
       "nonmanifold_edges": 0,
       "degenerate_triangles": 0,

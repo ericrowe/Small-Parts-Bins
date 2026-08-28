@@ -218,21 +218,35 @@ def build_divided_body() -> Mesh:
     
     return m
 
-def build_divider_card(width: float, height: float, thickness: float, notch_w=10.0, notch_d=1.5) -> Mesh:
+def build_divider_card(width: float = 35.60, height: float = 31.20, thickness: float = 1.20,
+                       notch_w: float = 10.0, notch_d: float = 1.5,
+                       hinge_relief_w: float = 2.5, hinge_relief_h: float = 3.5,
+                       bottom_chamfer: float = 0.6) -> Mesh:
     m = Mesh(f"divider_card_{thickness:.1f}mm")
     hw, hd, ht = width / 2.0, height, thickness / 2.0
+    
+    # 2D contour in XZ plane (standing upright):
+    # -hw is left (hinge side), +hw is right (latch side)
+    # Z = 0 is bottom (seats in floor groove), Z = hd is top (31.20 mm)
     pts_xz = [
-        (-hw, 0.0),
-        (hw, 0.0),
-        (hw, hd),
+        (-hw + bottom_chamfer, 0.0),
+        (hw - bottom_chamfer, 0.0),
+        (hw, bottom_chamfer),
+        (hw, hd - 1.0),
+        (hw - 1.0, hd),
         (notch_w / 2.0, hd),
         (notch_w / 4.0, hd - notch_d),
         (-notch_w / 4.0, hd - notch_d),
         (-notch_w / 2.0, hd),
-        (-hw, hd)
+        (-hw + hinge_relief_w, hd),
+        (-hw, hd - hinge_relief_h),
+        (-hw, bottom_chamfer),
     ]
-    for i in range(len(pts_xz)):
-        j = (i + 1) % len(pts_xz)
+    
+    c_pt = (0.0, 0.0, hd / 2.0)
+    n = len(pts_xz)
+    for i in range(n):
+        j = (i + 1) % n
         p0 = (pts_xz[i][0], -ht, pts_xz[i][1])
         p1 = (pts_xz[j][0], -ht, pts_xz[j][1])
         m.tri((0.0, -ht, hd / 2.0), p0, p1)
@@ -306,7 +320,8 @@ def main():
             "slot_recess": SLOT_RECESS,
             "floor_groove_depth": FLOOR_GROOVE_D,
             "slot_stations_y": SLOT_STATIONS,
-            "card_baseline": [35.60, 31.20, 1.20]
+            "card_baseline": [35.60, 31.20, 1.20],
+            "hinge_relief_notch": [2.50, 3.50]
         },
         "audits": {
             "cassette_body_v0_8_divided.stl": audit_body,
