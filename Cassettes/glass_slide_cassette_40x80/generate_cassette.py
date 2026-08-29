@@ -46,7 +46,7 @@ BODY_CORNER = 2.00
 # 25.4 x 76.2, and 26 x 76 mm plain microscope slides after measuring the
 # actual batch.  Maximum intended slide is stated separately because printed
 # clearances are printer-dependent.
-LID_H = 3.20
+LID_H = 3.60
 POCKET_W = 27.00
 POCKET_D = 76.80
 POCKET_X = 0.50
@@ -60,11 +60,10 @@ MAX_GLASS_W = 26.30
 MAX_GLASS_D = 76.30
 MAX_GLASS_T = 1.20
 
-# v0.7 end-loaded pane capture. The top/visible face prints on the bed. The
-# assembled coordinates below are therefore the inverse of the tested coupon's
-# print Z: top capture 2.4..3.2, pane channel 1.0..2.4, and opposite ledges
-# 0.2..1.0. The 6.75 mm PETG tongue is unloaded 0.20 mm above the pane ceiling
-# in the assembled lid and moves outward through its top-face slot for service.
+# v0.7/v0.8 end-loaded pane capture. The top/visible face prints on the bed.
+# Lid top frame and compliant tongue are 1.20 mm solid PETG (6 layers) for high
+# peel/tear strength off PEI beds. The tongue is unloaded flush at the 2.40 mm
+# channel ceiling in the assembled lid and deflects outward for slide service.
 PANE_CHANNEL_W = 27.00
 PANE_TOP_OPENING_W = 23.00
 PANE_BOTTOM_OPENING_W = 24.00
@@ -79,7 +78,7 @@ PANE_SHOULDER_Y1 = -38.80
 PANE_TONGUE_ROOT_Y = -33.05
 PANE_TONGUE_END_Y = -32.00
 PANE_TONGUE_W = 8.00
-PANE_TONGUE_H = 0.80
+PANE_TONGUE_H = 1.20
 PANE_FINGER_PAD_W = 10.00
 PANE_SLOT_W = 11.00
 PANE_TONGUE_SLOT_Y1 = -32.95
@@ -825,14 +824,14 @@ def build_lid_local() -> Mesh:
     out.extend(box("top_entry_left_outer", -17.00, -13.00, -40.00, -38.00, 0.0, PANE_CHANNEL_Z1 + 0.05))
     out.extend(box("top_entry_right_outer", 14.00, 19.30, -40.00, -38.00, 0.0, PANE_CHANNEL_Z1 + 0.05))
 
-    # Compliant tongue, finger pad, shoulder, and root gussets
+    # Compliant tongue, finger pad, shoulder, and reinforced 3D root gussets
     out.extend(box("pane_compliant_tongue", tongue_x0, tongue_x1, PANE_SHOULDER_Y0, PANE_TONGUE_END_Y, LID_H - PANE_TONGUE_H, LID_H))
     out.extend(box("pane_latch_finger_pad", pad_x0, pad_x1, PANE_SHOULDER_Y0, PANE_SHOULDER_Y1 + 0.20, LID_H - PANE_TONGUE_H, LID_H))
     out.extend(box("pane_positive_end_shoulder", tongue_x0, tongue_x1, PANE_SHOULDER_Y0, PANE_SHOULDER_Y1, PANE_CHANNEL_Z0, LID_H - PANE_TONGUE_H + 0.05))
     out.extend(
         prism(
             "pane_tongue_root_gusset_left",
-            [(tongue_x0 - 1.50, PANE_TONGUE_ROOT_Y + 0.10), (tongue_x0 + 0.10, PANE_TONGUE_ROOT_Y + 0.10), (tongue_x0 + 0.10, PANE_TONGUE_ROOT_Y - 1.50)],
+            [(tongue_x0 - 2.50, PANE_TONGUE_ROOT_Y + 0.10), (tongue_x0 + 0.10, PANE_TONGUE_ROOT_Y + 0.10), (tongue_x0 + 0.10, PANE_TONGUE_ROOT_Y - 2.00)],
             LID_H - PANE_TONGUE_H,
             LID_H,
         )
@@ -840,7 +839,7 @@ def build_lid_local() -> Mesh:
     out.extend(
         prism(
             "pane_tongue_root_gusset_right",
-            [(tongue_x1 - 0.10, PANE_TONGUE_ROOT_Y + 0.10), (tongue_x1 + 1.50, PANE_TONGUE_ROOT_Y + 0.10), (tongue_x1 - 0.10, PANE_TONGUE_ROOT_Y - 1.50)],
+            [(tongue_x1 - 0.10, PANE_TONGUE_ROOT_Y + 0.10), (tongue_x1 + 2.50, PANE_TONGUE_ROOT_Y + 0.10), (tongue_x1 - 0.10, PANE_TONGUE_ROOT_Y - 2.00)],
             LID_H - PANE_TONGUE_H,
             LID_H,
         )

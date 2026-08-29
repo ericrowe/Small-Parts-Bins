@@ -7,11 +7,11 @@
     80.0,
     32.8
   ],
-  "closed_height_mm": 36.0,
+  "closed_height_mm": 36.4,
   "maximum_printed_envelope_mm": [
     39.75,
     80.0,
-    36.0
+    36.4
   ],
   "maximum_intended_glass_mm": [
     26.3,
@@ -52,8 +52,8 @@
     "lid_attachment_to_bore_x_clearance_mm": 0.15,
     "lid_attachment_to_bore_z_clearance_mm": 0.15,
     "lid_knuckle_root_overlap_mm": 0.2,
-    "lid_knuckle_first_print_height_mm": 0.3,
-    "bed_supported_lid_root_height_mm": 1.8,
+    "lid_knuckle_first_print_height_mm": 0.7,
+    "bed_supported_lid_root_height_mm": 2.2,
     "supported_height_above_knuckle_start_mm": 1.5,
     "lid_root_overlap_beyond_each_knuckle_end_mm": 0.1,
     "lid_root_to_body_knuckle_axial_clearance_mm": 0.7,
@@ -74,11 +74,11 @@
     "pane_lateral_clearance_at_26_3_mm_mm": 0.7,
     "opposite_ledge_functional_overhang_mm": 1.5,
     "pane_tongue_free_length_mm": 6.75,
-    "pane_tongue_thickness_mm": 0.8,
+    "pane_tongue_thickness_mm": 1.2,
     "pane_finger_pad_lateral_clearance_mm": 0.5,
     "pane_tongue_lateral_clearance_mm": 1.5,
     "pane_tongue_relaxed_face_clearance_mm": 0.0,
-    "pane_tongue_simple_beam_strain_estimate": 0.1475,
+    "pane_tongue_simple_beam_strain_estimate": 0.2212,
     "pane_capture_material": "PETG",
     "label_zone_fully_supported": true,
     "fingernail_relief_mm": [
@@ -86,7 +86,7 @@
       1.3,
       1.4
     ],
-    "fingernail_roof_thickness_mm": 1.8,
+    "fingernail_roof_thickness_mm": 2.2,
     "fingernail_relief_to_latch_clearance_mm": 0.95,
     "future_3_by_2_array_with_0_4_gaps_mm": [
       120.05,
@@ -175,14 +175,14 @@
       "bounds_max_mm": [
         19.3,
         40.0,
-        6.5
+        6.9
       ],
       "size_mm": [
         39.75,
         80.0,
-        6.5
+        6.9
       ],
-      "signed_mesh_volume_mm3": 3599.09,
+      "signed_mesh_volume_mm3": 4241.41,
       "edge_audit": {
         "triangles": 780,
         "unique_edges": 1170,
@@ -308,14 +308,14 @@
       "bounds_max_mm": [
         19.3,
         40.4,
-        36.0
+        36.4
       ],
       "size_mm": [
         39.75,
         80.8,
-        36.0
+        36.4
       ],
-      "signed_mesh_volume_mm3": 26133.63,
+      "signed_mesh_volume_mm3": 26775.95,
       "edge_audit": {
         "triangles": 1240,
         "unique_edges": 1860,
