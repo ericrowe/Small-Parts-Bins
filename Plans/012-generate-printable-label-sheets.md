@@ -1,11 +1,11 @@
 # Plan 012 — Generate printable label sheets
 
-- Status: Queued
+- Status: In Work
 - Depends on: Baseline cassette lid geometry ($34 \times 10\text{ mm}$ label zone)
 - Created: 2026-08-29
-- Started: Not started
+- Started: 2026-08-29
 - Completed: Not completed
-- Git start: Not committed
+- Git start: `3e2091f`
 - Git completion: Not completed
 
 ## Outcome

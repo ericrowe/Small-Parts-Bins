@@ -275,7 +275,25 @@ Legacy v0.6 snap-retainer evidence:
   - Two stations at thirds ($Y = \pm 12.87\text{ mm}$) divide the cavity into three equal **$24.53\text{ mm}$** compartments.
   - The center slot is omitted from the smallest cassette to avoid crowding the central closure clasp ($Y \in [-4.0, +4.0\text{ mm}]$) and because it is redundant with the thirds stations. Larger cassette dividers will be addressed in Plan 005.
 - **Divider Card Standard:** $33.30\text{ mm}$ width $\times 31.20\text{ mm}$ height $\times 1.20\text{ mm}$ thickness with $10 \times 1.5\text{ mm}$ top extraction notch and $0.6\text{ mm}$ bottom corner lead-in chamfers ($0.20\text{ mm}$ lid clearance).
-- **Divider Insertion & Front-Wall Flex Finding (2026-08-28):** Physical testing revealed that inserting divider cards creates slight outward lateral deflection on the front (latch-side) body wall, reducing the $0.65\text{ mm}$ clasp undercut overlap enough that the closure latch fails to hold closed. Plan 004 is closed, and **Plan 010 (Re-evaluate Cassette Closure Latch)** is prioritized at Priority 1 to resolve the latch architecture.
+- **Divider Insertion & Front-Wall Flex Finding (2026-08-28):** Physical testing revealed that inserting divider cards creates slight outward lateral deflection on the front (latch-side) body wall, reducing the $0.65\text{ mm}$ clasp undercut overlap enough that the closure latch fails to hold closed. Plan 004 is closed, and **Plan 010 (Re-evaluate Cassette Closure Latch)** resolved the latch architecture with internal flanking ridges and an enhanced $0.85\text{ mm}$ clasp catch.
+
+## Cassette Extraction Pull Tab: Physically Verified Standard (Plan 011)
+
+- The cassette extraction feature provides effortless one-handed vertical finger extraction directly from above out of closely packed 3 × 4 Gridfinity carrier trays (0.4 mm inter-cassette gaps) inside open drawers.
+- **Monolithic Reinforced Boss Keyway on Front Wall:**
+  - $13.00\text{ mm}$ wide solid boss ($Y \in [15.00, 28.00\text{ mm}]$) on the inside of the front body wall.
+  - Solid $2.50\text{ mm}$ thick sidewalls ($X \in [14.80, 17.80\text{ mm}]$) flanking the dovetail slot with $45^\circ$ lead-in chamfers to the cavity wall.
+  - $1.50\text{ mm}$ solid outer wall behind the slot ($X \in [17.80, 19.30\text{ mm}]$).
+  - Continuous support-free $45^\circ$ under-shelf lead-in taper sloping from $(14.80, 17.80\text{ mm})$ down to $(17.30, 15.30\text{ mm})$, eliminating floating overhangs.
+- **Physically Verified Fit Standard (+0.10 mm clearance):**
+  - Male dovetail shank: $7.80\text{ mm}$ base width, $5.80\text{ mm}$ throat neck, $2.80\text{ mm}$ thickness, $15.05\text{ mm}$ height.
+  - **Physical Print Validation (2026-08-29):** Printed in PETG flat on its back face (~1 min print) and tested in the printed body. The $+0.10\text{ mm}$ fit variant (`pull_tab_v0_8.stl`) slides firmly into the dovetail keyway, locks securely against the bottom floor stop, and eliminates wobble while remaining removable.
+- **Lid Sloppy Clearance Cutaway:**
+  - $15.00\text{ mm}$ wide full-depth through-notch ($Y \in [14.00, 29.00\text{ mm}]$, $X \in [14.50, 19.30\text{ mm}]$, $Z \in [0.00, 3.60\text{ mm}]$).
+  - Provides $+2.0\text{ mm}$ clear air on each side of the $11.0\text{ mm}$ pull tab grip fin.
+  - **Physical Print Validation (2026-08-29):** The lid closes, swings freely through 120°, and positively latches with zero rubbing or binding against the installed pull tab ([Plan 011](Plans/Completed/2026-08-29-011-develop-cassette-removal-features.md)).
+- **Stacking Clearance:**
+  - Pull tab apex sits at $Z = 40.40\text{ mm}$ (carrier $Z = 47.15\text{ mm}$), located in the upper tray's central inter-foot clearance valley (ceiling $Z = 49.00\text{ mm}$), preserving **$+1.85\text{ mm}$ of clear vertical air** below loaded upper trays.
 
 ## Materials and Print Assumptions
 

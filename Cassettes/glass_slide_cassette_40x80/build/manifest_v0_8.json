@@ -212,14 +212,14 @@
       "bounds_max_mm": [
         5.5,
         22.6,
-        2.7
+        2.8
       ],
       "size_mm": [
         11.0,
         22.6,
-        2.7
+        2.8
       ],
-      "signed_mesh_volume_mm3": 451.85,
+      "signed_mesh_volume_mm3": 472.82,
       "edge_audit": {
         "triangles": 68,
         "unique_edges": 102,
@@ -475,7 +475,7 @@
         80.8,
         40.4
       ],
-      "signed_mesh_volume_mm3": 32903.95,
+      "signed_mesh_volume_mm3": 32924.92,
       "edge_audit": {
         "triangles": 1680,
         "unique_edges": 2520,

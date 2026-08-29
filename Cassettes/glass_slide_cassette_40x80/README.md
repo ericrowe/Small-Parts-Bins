@@ -9,8 +9,8 @@ tray's bottom Gridfinity feet (lowest foot surface at $Z = 44.25\text{ mm}$, cas
 
 Key features:
 1. **Optimized Usable Depth:** $30.80\text{ mm}$ internal cavity depth with $2.0\text{ mm}$ solid floor.
-2. **Body-Anchored Vertical Dovetail Pull Tab (`pull_tab_v0_8.stl`):** A $15.0\text{ mm}$ tall male dovetail shank slides vertically into a matching keyway molded into the front/right body wall ($Y \in [17.50, 25.50\text{ mm}]$). The upper ergonomic grip fin ($11.0\text{ mm}$ wide $\times 4.0\text{ mm}$ raised above lid) provides deep concave finger purchase scoops for effortless vertical one-handed extraction straight out of packed carrier trays in open drawers.
-3. **Matching Lid Perimeter Cutaway & Restored Solid Label Roof:** The lid's front perimeter skirt has a clean clearance notch ($Y \in [15.50, 27.50\text{ mm}]$) leaving a safe $1.50\text{ mm}$ solid plastic barrier protecting the internal glass channel. The rear roof of the lid is 100% solid and flat for the $34 \times 10\text{ mm}$ label.
+2. **Body-Anchored Vertical Dovetail Pull Tab (`pull_tab_v0_8.stl`):** A $15.0\text{ mm}$ tall male dovetail shank slides vertically into a monolithic reinforced boss keyway on the front/right body wall ($Y \in [15.00, 28.00\text{ mm}]$). Sized at the physically verified **$+0.10\text{ mm}$ fit standard** ($7.80\text{ mm}$ base, $5.80\text{ mm}$ neck, $2.80\text{ mm}$ thickness), it slides firmly and locks against the $45^\circ$ lead-in bottom floor stop. The upper ergonomic grip fin ($11.0\text{ mm}$ wide $\times 4.0\text{ mm}$ raised above lid) provides deep concave finger purchase scoops for effortless vertical one-handed extraction straight out of packed carrier trays in open drawers.
+3. **Matching Lid Perimeter Cutaway & Restored Solid Label Roof:** The lid's front perimeter skirt features an enlarged **$15.00\text{ mm}$ through-cutout** ($Y \in [14.00, 29.00\text{ mm}]$, $X \in [14.50, 19.30\text{ mm}]$) providing $+2.0\text{ mm}$ of clear air on all sides around the pull tab, allowing the lid to swing freely and latch securely with zero binding. The rear roof of the lid remains 100% solid and flat for the $34 \times 10\text{ mm}$ label.
 4. **Reinforced $1.20\text{ mm}$ Compliant Glass Clip:** The compliant tongue and solid roof frame are $1.20\text{ mm}$ (6 solid layers in PETG, +125% stronger) with widened $2.5\text{ mm}$ 3D root gussets, eliminating bed-peel root tear failures upon removing prints from PEI build plates while maintaining smooth manual slide service.
 5. **Internal Flanking Ridges (Plan 010):** Vertical ridges projecting $+0.80\text{ mm}$ into the cavity ($1.50\text{ mm}$ wide along Y) flank the divider slots on the front wall. They create deep $1.40\text{–}1.60\text{ mm}$ guide channels ($3.00\text{ mm}$ total engagement across the cavity) and brace the front wall span down from $80\text{ mm}$ to $22.6\text{ mm}$ around the center latch.
 6. **Loose-Fit Gravity Drop-In Dividers:** $33.00\text{ mm}$ wide divider cards provide **$+1.10\text{ mm}$ of lateral float clearance** across the $34.10\text{ mm}$ channel bottom span, completely eliminating outward wall wedging while maintaining $\ge 0.75\text{ mm}$ of positive capture overlap past the channel lips.
@@ -24,10 +24,10 @@ Key features:
 
 ## Print these files
 
-- `build/cassette_body_v0_8_divided.stl` (divided body with front-wall dovetail keyway and $0.85\text{ mm}$ catch; print upright in PETG or ASA)
+- `build/cassette_body_v0_8_divided.stl` (divided body with reinforced front-wall dovetail boss keyway, $45^\circ$ under-shelf lead-in, and $0.85\text{ mm}$ catch; print upright in PETG or ASA)
 - `build/cassette_body_v0_8.stl` (undivided body with dovetail keyway; print upright in PETG or ASA)
-- `build/cassette_lid_v0_8_print.stl` (lid with pull-tab clearance cutaway & $1.20\text{ mm}$ reinforced clip; print top/label-face down in PETG)
-- `build/pull_tab_v0_8.stl` (ergonomic rigid pull tab; print flat on side in PETG, ~2 min print)
+- `build/cassette_lid_v0_8_print.stl` (lid with $15.0\text{ mm}$ pull-tab clearance cutaway & $1.20\text{ mm}$ reinforced clip; print top/label-face down in PETG)
+- `build/pull_tab_v0_8.stl` (ergonomic rigid pull tab with physically verified $+0.10\text{ mm}$ fit; print flat on back face in PETG, ~1 min print)
 - `build/divider_card_1_2mm.stl` (baseline $33.00 \times 31.20 \times 1.20\text{ mm}$ divider card with top extraction notch and lead-in chamfers)
 
 Print all parts exactly as supplied without internal support. A 0.4 mm nozzle,

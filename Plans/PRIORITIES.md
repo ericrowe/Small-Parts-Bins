@@ -37,13 +37,12 @@ explicitly provisional.
 
 | Priority | Plan | Reason |
 |---:|---|---|
-| 1 | 012 — Generate printable label sheets | Establishes automated color-coded technical label generator for laser printing and Cricut cut. |
-| 2 | 005 — Develop the larger cassette family | Extends the verified smallest interfaces without propagating unresolved geometry. |
-| 3 | 006 — Develop mixed-layout carriers | Requires physical envelopes from the completed cassette family. |
-| 4 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
-| 5 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
+| 1 | 005 — Develop the larger cassette family | Extends the verified smallest interfaces without propagating unresolved geometry. |
+| 2 | 006 — Develop mixed-layout carriers | Requires physical envelopes from the completed cassette family. |
+| 3 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
+| 4 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
 
 Plans 001 (14U carrier stack validation), 002 (cassette height optimization),
 003 (removable cassette dividers), 004 (smallest cassette & carrier finalization),
-and 010 (closure latch re-evaluation & clip reinforcement) are completed and archived.
-Plan 011 (cassette removal features) is currently active in execution. The next queued plan is Plan 012.
+010 (closure latch re-evaluation & clip reinforcement), and 011 (cassette removal features) are completed and archived.
+Plan 012 (generate printable label sheets) is currently active in execution. The next queued plan is Plan 005.
