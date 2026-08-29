@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Generate experimental sliding pull tab prototype models for the 40x80 cassette.
 
-This script creates an experimental sliding pull tab variant that extends vertically
-upon lifting to provide an elongated finger handle and retracts flush under gravity
-when released.
+This script creates an experimental sliding pull tab variant featuring a Two-Stage
+Capture mechanism:
+  - Stage 1: Continuous 24.8 mm vertical guide column preventing forward/backward tilt
+  - Stage 2: Solid internal top stop shelf and bottom foot preventing pull-out while
+    providing a 15.0 mm upward extension stroke upon lifting.
 
 The canonical baseline cassette models (generate_cassette.py) remain unchanged.
 """
@@ -11,33 +13,33 @@ The canonical baseline cassette models (generate_cassette.py) remain unchanged.
 from __future__ import annotations
 import argparse
 from pathlib import Path
-import math
 
 from generate_cassette import (
-    Mesh, box, prism, prism_y, chamfer_rect, clip_polygon_y, combine, write_binary_stl, write_obj,
-    BODY_W, BODY_D, BODY_H, BODY_BOTTOM, BODY_WALL, BODY_CORNER,
+    Mesh, box, prism, prism_y, chamfer_rect, combine, write_binary_stl,
+    BODY_W, BODY_D, BODY_H, BODY_BOTTOM, BODY_CORNER,
     HINGE_BODY_RELIEF_TOP, HINGE_RELIEF_Y0, HINGE_RELIEF_Y1,
     HINGE_BODY_END_RELIEF_Y0, HINGE_BODY_END_RELIEF_Y1, HINGE_BODY_SUPPORT_TOP,
     HINGE_X, HINGE_BODY_Y0, HINGE_BODY_Y1, HINGE_BODY_BORE_R, HINGE_Z_LOCAL,
-    peaked_hinge_y, build_lid_local, lid_print_orientation, build_divider_card
+    peaked_hinge_y, build_lid_local, lid_print_orientation
 )
 
 PROTOTYPE_DIR = Path(__file__).resolve().parent / "build"
 
 
-def build_sliding_boss_keyway(name_prefix: str) -> Mesh:
-    """Build the full-height internal sliding track boss with top retaining stop collar."""
-    m = Mesh(f"{name_prefix}_sliding_keyway_boss")
-    z_floor = 3.00
-    z_stop = 27.50
+def build_two_stage_sliding_boss(name_prefix: str) -> Mesh:
+    """Build the Two-Stage internal sliding track boss with Stage 1 guide lips and Stage 2 top stop."""
+    m = Mesh(f"{name_prefix}_two_stage_boss")
+    z_floor = 2.50
+    z_entry_top = 8.00
+    z_stop = 31.00
     z_top = BODY_H
     join = 0.05
 
-    # 1. 45° Lead-in under-shelf taper (Z in [1.50, 3.00 mm]):
+    # 1. 45° Lead-in under-shelf taper (Z in [1.00, 2.50 mm]):
     under_shelf_xz = [
         (14.80, z_floor + join),
         (17.30 + join, z_floor + join),
-        (17.30 + join, 1.50),
+        (17.30 + join, 1.00),
     ]
     m.extend(prism_y(f"{name_prefix}_under_shelf", under_shelf_xz, 15.00, 28.00))
 
@@ -54,22 +56,25 @@ def build_sliding_boss_keyway(name_prefix: str) -> Mesh:
     chamfer_upper = [(14.80, 26.50), (17.30, 28.00), (17.80, 28.00), (17.80, 26.50)]
     m.extend(prism(f"{name_prefix}_upper_chamfer", chamfer_upper, z_floor, z_top))
 
-    # 5. Continuous front retaining lips (X in [14.80, 15.80 mm]):
+    # 5. Stage 1 Front Retaining Lips (Z in [8.00, 32.80 mm]):
+    # Solid 24.8 mm tall vertical guide column keeping the tab rigidly upright and preventing forward tilt
     lip_lower = [(14.80, 17.50), (14.80, 18.50), (15.80, 17.50)]
     lip_upper = [(14.80, 25.50), (15.80, 25.50), (14.80, 24.50)]
-    m.extend(prism(f"{name_prefix}_lip_lower", lip_lower, z_floor, z_top))
-    m.extend(prism(f"{name_prefix}_lip_upper", lip_upper, z_floor, z_top))
+    m.extend(prism(f"{name_prefix}_lip_lower", lip_lower, z_entry_top, z_top))
+    m.extend(prism(f"{name_prefix}_lip_upper", lip_upper, z_entry_top, z_top))
 
-    # 6. Top Stop Internal Catch Lugs (narrowing internal base from 8.00 to 6.80 mm at top collar):
-    lug_lower = [(15.80, 17.50), (17.80, 17.50), (17.80, 18.20), (15.80, 18.20)]
-    lug_upper = [(15.80, 24.80), (17.80, 24.80), (17.80, 25.50), (15.80, 25.50)]
-    m.extend(prism(f"{name_prefix}_top_stop_lower", lug_lower, z_stop, z_top))
-    m.extend(prism(f"{name_prefix}_top_stop_upper", lug_upper, z_stop, z_top))
+    # 6. Stage 2 Solid Top Stop Roof Shoulders (Z in [31.00, 32.80 mm]):
+    # Narrowing internal base from 8.00 to 6.60 mm at the top collar to form solid mechanical stop
+    stop_lower = [(15.80, 17.50), (17.80, 17.50), (17.80, 18.30), (15.80, 18.30)]
+    stop_upper = [(15.80, 24.70), (17.80, 24.70), (17.80, 25.50), (15.80, 25.50)]
+    m.extend(prism(f"{name_prefix}_top_stop_l", stop_lower, z_stop, z_top))
+    m.extend(prism(f"{name_prefix}_top_stop_u", stop_upper, z_stop, z_top))
+
     return m
 
 
 def build_prototype_body_divided() -> Mesh:
-    """Build the divided cassette body with the full-height internal sliding track."""
+    """Build the divided cassette body with the Two-Stage internal sliding track."""
     out = Mesh("prototype_body_divided_sliding_tab")
     hx = BODY_W / 2
     hy = BODY_D / 2
@@ -101,7 +106,7 @@ def build_prototype_body_divided() -> Mesh:
     # 3. Outer right wall: split around keyway boss at Y in [15.00, 28.00 mm]
     out.extend(box("div_outer_right_lower", rx + slot_recess_right - join, hx, -hy + c - join, 15.00 + join, z_floor - join, BODY_H))
     out.extend(box("div_outer_right_upper", rx + slot_recess_right - join, hx, 28.00 - join, hy - c + join, z_floor - join, BODY_H))
-    out.extend(box("div_outer_right_boss_sub", rx + slot_recess_right - join, hx, 15.00 - join, 28.00 + join, z_floor - join, 3.00 + join))
+    out.extend(box("div_outer_right_boss_sub", rx + slot_recess_right - join, hx, 15.00 - join, 28.00 + join, z_floor - join, 2.50 + join))
 
     # 4. Front & Back walls:
     out.extend(box("divided_front_wall", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, BODY_H))
@@ -137,30 +142,22 @@ def build_prototype_body_divided() -> Mesh:
         else:
             if y0 < 15.00:
                 out.extend(box(f"div_right_wall_{idx}_pre", rx, rx + slot_recess_right + join, y0 - join, 15.00 + join, z_floor - join, BODY_H))
-            out.extend(box(f"div_right_wall_{idx}_boss_sub", rx, rx + slot_recess_right + join, 15.00 - join, 28.00 + join, z_floor - join, 3.00 + join))
+            out.extend(box(f"div_right_wall_{idx}_boss_sub", rx, rx + slot_recess_right + join, 15.00 - join, 28.00 + join, z_floor - join, 2.50 + join))
             if y1 > 28.00:
                 out.extend(box(f"div_right_wall_{idx}_post", rx, rx + slot_recess_right + join, 28.00 - join, y1 + join, z_floor - join, BODY_H))
 
     # 7. Internal Flanking Ridges (Plan 010):
     for cy in slot_stations:
-        y_slot_start = cy - slot_w / 2
-        y_slot_end = cy + slot_w / 2
-        out.extend(box(f"ridge_lower_{cy:.2f}", rx - ridge_proj, rx + join, y_slot_start - ridge_w, y_slot_start + join, BODY_BOTTOM, BODY_H))
-        out.extend(box(f"ridge_upper_{cy:.2f}", rx - ridge_proj, rx + join, y_slot_end - join, y_slot_end + ridge_w, BODY_BOTTOM, BODY_H))
+        ry0_a, ry1_a = cy - slot_w / 2 - ridge_w, cy - slot_w / 2
+        out.extend(box(f"ridge_lower_{cy}", rx - ridge_proj, rx + join, ry0_a, ry1_a + join, z_floor - join, BODY_H - 1.50 + join))
+        chamfer_pts = [(rx - ridge_proj, BODY_H - 1.50), (rx, BODY_H), (rx, BODY_H - 1.50)]
+        out.extend(prism_y(f"ridge_lead_lower_{cy}", chamfer_pts, ry0_a, ry1_a + join))
 
-    # 8. Add Sliding Boss Keyway:
-    out.extend(build_sliding_boss_keyway("divided_sliding"))
+        ry0_b, ry1_b = cy + slot_w / 2, cy + slot_w / 2 + ridge_w
+        out.extend(box(f"ridge_upper_{cy}", rx - ridge_proj, rx + join, ry0_b - join, ry1_b, z_floor - join, BODY_H - 1.50 + join))
+        out.extend(prism_y(f"ridge_lead_upper_{cy}", chamfer_pts, ry0_b - join, ry1_b))
 
-    # 9. Reinforced Closure Catch (0.85 mm):
-    latch_z_base = BODY_H - 1.60
-    catch_profile_xz = [
-        (19.30, latch_z_base),
-        (20.15, latch_z_base),
-        (19.30, BODY_H),
-    ]
-    out.extend(prism_y("body_closure_catch_sliding", catch_profile_xz, -4.00, 4.00))
-
-    # 10. Hinge centre knuckle:
+    # 8. Centre hinge knuckle:
     out.extend(
         peaked_hinge_y(
             "body_centre_knuckle",
@@ -172,123 +169,107 @@ def build_prototype_body_divided() -> Mesh:
             bore_r=HINGE_BODY_BORE_R,
         )
     )
+
+    # 9. Correct INWARD Closure Catch on the inside of the front wall (0.85 mm undercut):
+    catch_profile = [
+        (17.30, BODY_H - 2.60),
+        (16.45, BODY_H - 2.10),
+        (16.45, BODY_H - 1.70),
+        (17.30, BODY_H - 1.15),
+    ]
+    out.extend(prism_y("body_snap_catch", catch_profile, -4.00, 4.00))
+
+    # 10. Add Two-Stage Sliding Boss Keyway:
+    out.extend(build_two_stage_sliding_boss("divided_sliding"))
+
     return out
 
 
-def build_prototype_sliding_tab(clearance_delta: float = 0.0, suffix: str = "") -> Mesh:
-    """Build the sliding pull tab with compliant cantilever snap legs and ergonomic grip head."""
+def build_two_stage_sliding_tab(clearance_delta: float = 0.0, suffix: str = "") -> Mesh:
+    """Build the solid two-stage sliding pull tab with solid bottom stop foot and ergonomic grip head."""
     name = f"prototype_sliding_tab{suffix}"
     m = Mesh(name)
     neck_x = 15.10 + clearance_delta / 2
     back_x = 17.50 - clearance_delta / 2
     flank_x = 16.10
-    base_y = 3.30 - clearance_delta
-    neck_y = 2.70 - clearance_delta
-    barb_y = 3.85 - clearance_delta
+    neck_y = 2.90 - clearance_delta
+    main_base_y = 3.25 - clearance_delta
+    foot_base_y = 3.90 - clearance_delta
     join = 0.05
 
-    # 1. Main upper shank body (Z in [8.00, 32.80]):
+    # 1. Stage 2 Solid Bottom Retention Foot (Z in [0.00, 4.00 mm]):
+    foot_xy = [
+        (neck_x, -neck_y),
+        (neck_x, neck_y),
+        (flank_x, foot_base_y),
+        (back_x, foot_base_y),
+        (back_x, -foot_base_y),
+        (flank_x, -foot_base_y),
+    ]
+    m.extend(prism(f"tab_foot{suffix}", foot_xy, 0.00, 4.00 + join))
+
+    # 2. Stage 1 Solid Guide Shank (Z in [4.00, 27.40 mm]):
     shank_xy = [
         (neck_x, -neck_y),
         (neck_x, neck_y),
-        (flank_x, base_y),
-        (back_x, base_y),
-        (back_x, -base_y),
-        (flank_x, -base_y),
+        (flank_x, main_base_y),
+        (back_x, main_base_y),
+        (back_x, -main_base_y),
+        (flank_x, -main_base_y),
     ]
-    m.extend(prism(f"shank_main{suffix}", shank_xy, 8.00, 32.80 + join))
+    m.extend(prism(f"tab_shank{suffix}", shank_xy, 4.00, 27.40 + join))
 
-    # 2. Lower compliant snap legs (Z in [3.50, 8.05]):
-    # Left leg:
-    leg_l = [
-        (neck_x, -neck_y),
-        (neck_x, -0.80),
-        (back_x, -0.80),
-        (back_x, -barb_y),
-        (flank_x, -barb_y),
-    ]
-    m.extend(prism(f"leg_lower_l{suffix}", leg_l, 4.50, 8.05))
-
-    # Left leg bottom lead-in taper (Z in [3.50, 4.55]):
-    leg_l_tip = [
-        (neck_x, -neck_y),
-        (neck_x, -0.80),
-        (back_x, -0.80),
-        (back_x, -base_y),
-        (flank_x, -base_y),
-    ]
-    m.extend(prism(f"leg_tip_l{suffix}", leg_l_tip, 3.50, 4.55))
-
-    # Right leg:
-    leg_r = [
-        (neck_x, 0.80),
-        (neck_x, neck_y),
-        (flank_x, barb_y),
-        (back_x, barb_y),
-        (back_x, 0.80),
-    ]
-    m.extend(prism(f"leg_lower_r{suffix}", leg_r, 4.50, 8.05))
-
-    # Right leg bottom lead-in taper:
-    leg_r_tip = [
-        (neck_x, 0.80),
-        (neck_x, neck_y),
-        (flank_x, base_y),
-        (back_x, base_y),
-        (back_x, 0.80),
-    ]
-    m.extend(prism(f"leg_tip_r{suffix}", leg_r_tip, 3.50, 4.55))
-
-    # 3. Ergonomic Grip Head (Z in [32.80, 40.40]):
+    # 3. Ergonomic Grip Head (Z in [27.40, 35.00 mm]):
     head_xz = [
-        (neck_x, 32.80),
-        (back_x, 32.80),
-        (back_x, 40.40),
-        (16.00, 40.40),
-        (15.60, 40.00),
-        (16.80, 37.80),
-        (16.00, 36.40),
+        (neck_x, 27.40),
+        (back_x, 27.40),
+        (back_x, 35.00),
+        (16.00, 35.00),
+        (15.60, 34.60),
+        (16.80, 32.40),
+        (16.00, 31.00),
     ]
-    m.extend(prism_y(f"grip_head{suffix}", head_xz, -5.50, 5.50))
-    m.extend(box(f"rib1{suffix}", 16.00, 16.50, -4.50, 4.50, 37.00, 37.60))
-    m.extend(box(f"rib2{suffix}", 16.00, 16.50, -4.50, 4.50, 38.30, 38.90))
+    m.extend(prism_y(f"tab_head{suffix}", head_xz, -5.50, 5.50))
+    m.extend(box(f"tab_rib1{suffix}", 16.00, 16.50, -4.50, 4.50, 31.60, 32.20))
+    m.extend(box(f"tab_rib2{suffix}", 16.00, 16.50, -4.50, 4.50, 32.90, 33.50))
 
     # Rotate flat to print on back face directly on build plate:
-    rot = m.transformed(lambda p: (p[1], p[2] - 3.50, back_x - p[0]), name).positive()
+    rot = m.transformed(lambda p: (p[1], p[2], back_x - p[0]), name).positive()
     zmin = rot.bounds()[0][2]
     return rot.translated(0.0, 0.0, -zmin, name).positive()
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate sliding pull tab prototype models")
+    parser = argparse.ArgumentParser(description="Generate two-stage sliding pull tab prototype models")
     parser.add_argument("--out", type=Path, default=PROTOTYPE_DIR)
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
 
     body = build_prototype_body_divided()
-    tab_standard = build_prototype_sliding_tab(0.0, "")
-    tab_loose = build_prototype_sliding_tab(0.15, "_loose")
-    tab_firm = build_prototype_sliding_tab(-0.10, "_firm")
+    tab_standard = build_two_stage_sliding_tab(0.0, "")
+    tab_loose = build_two_stage_sliding_tab(0.15, "_loose")
+    tab_firm = build_two_stage_sliding_tab(-0.10, "_firm")
     lid = build_lid_local()
 
-    # Create reference assemblies in lowered and lifted states:
-    tab_local_m = Mesh("tab_in_body")
+    # Reference assembly in lowered (seated) and lifted (extended) positions:
     neck_x = 15.10
     back_x = 17.50
     flank_x = 16.10
-    base_y = 3.30
-    neck_y = 2.70
-    barb_y = 3.85
-    shank_xy = [(neck_x, -neck_y), (neck_x, neck_y), (flank_x, base_y), (back_x, base_y), (back_x, -base_y), (flank_x, -base_y)]
-    tab_local_m.extend(prism("s", shank_xy, 8.0, 32.85))
-    leg_l = [(neck_x, -neck_y), (neck_x, -0.80), (back_x, -0.80), (back_x, -barb_y), (flank_x, -barb_y)]
-    tab_local_m.extend(prism("ll", leg_l, 3.50, 8.05))
-    leg_r = [(neck_x, 0.80), (neck_x, neck_y), (flank_x, barb_y), (back_x, barb_y), (back_x, 0.80)]
-    tab_local_m.extend(prism("lr", leg_r, 3.50, 8.05))
-    head_xz = [(neck_x, 32.80), (back_x, 32.80), (back_x, 40.40), (16.00, 40.40), (15.60, 40.00), (16.80, 37.80), (16.00, 36.40)]
+    neck_y = 2.90
+    main_base_y = 3.25
+    foot_base_y = 3.90
+    join = 0.05
+
+    tab_local_m = Mesh("tab_in_body")
+    foot_xy = [(neck_x, -neck_y), (neck_x, neck_y), (flank_x, foot_base_y), (back_x, foot_base_y), (back_x, -foot_base_y), (flank_x, -foot_base_y)]
+    tab_local_m.extend(prism("f", foot_xy, 0.00, 4.00 + join))
+    shank_xy = [(neck_x, -neck_y), (neck_x, neck_y), (flank_x, main_base_y), (back_x, main_base_y), (back_x, -main_base_y), (flank_x, -main_base_y)]
+    tab_local_m.extend(prism("s", shank_xy, 4.00, 27.40 + join))
+    head_xz = [(neck_x, 27.40), (back_x, 27.40), (back_x, 35.00), (16.00, 35.00), (15.60, 34.60), (16.80, 32.40), (16.00, 31.00)]
     tab_local_m.extend(prism_y("h", head_xz, -5.50, 5.50))
-    tab_lowered = tab_local_m.translated(0.0, 21.50, 0.0, "tab_lowered")
-    tab_lifted = tab_local_m.translated(0.0, 21.50, 19.0, "tab_lifted")
+
+    tab_lowered = tab_local_m.translated(0.0, 21.50, 5.40, "tab_lowered")
+    tab_lifted = tab_local_m.translated(0.0, 21.50, 20.40, "tab_lifted")
     closed_lid = lid.translated(0.0, 0.0, BODY_H, "closed_lid")
 
     ref_lowered = combine("REFERENCE_sliding_tab_lowered_DO_NOT_PRINT", [body, closed_lid, tab_lowered])
