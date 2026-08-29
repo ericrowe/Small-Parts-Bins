@@ -551,23 +551,34 @@ def peaked_hinge_y(
 
 
 def build_body_boss_keyway(name_prefix: str) -> Mesh:
-    """Build the monolithic reinforced boss and dovetail keyway on the right/front body wall."""
+    """Build the monolithic reinforced boss and dovetail keyway on the right/front body wall with a 45° support-free bottom lead-in."""
     m = Mesh(f"{name_prefix}_keyway_boss")
     z0 = 17.80
     z1 = BODY_H
     join = 0.05
-    # 1. Solid bottom floor stop slab (Z in [16.00, 17.80 mm]):
-    m.extend(box(f"{name_prefix}_keyway_floor_stop", 14.80, 19.30, 15.00, 28.00, 16.00, z0 + join))
+    z_lead_bottom = z0 - (17.30 - 14.80)  # 15.30 mm
+
+    # 1. 45° Lead-in under-shelf taper (Z in [15.30, 17.80 mm]):
+    under_shelf_profile_xz = [
+        (14.80, z0 + join),
+        (17.30 + join, z0 + join),
+        (17.30 + join, z_lead_bottom),
+    ]
+    m.extend(prism_y(f"{name_prefix}_keyway_under_shelf", under_shelf_profile_xz, 15.00, 28.00))
+
     # 2. Solid 1.50 mm outer back wall (X in [17.80, 19.30 mm]):
     m.extend(box(f"{name_prefix}_keyway_back_wall", 17.80 - join, 19.30, 15.00, 28.00, z0, z1))
+
     # 3. Solid lower sidewall flank with 45° cavity lead-in chamfer (Y in [15.00, 17.50 mm]):
     m.extend(box(f"{name_prefix}_keyway_lower_sidewall", 14.80, 17.80 + join, 16.50 - join, 17.50 + join, z0, z1))
     chamfer_lower = [(17.30, 15.00), (14.80, 16.50), (17.80, 16.50), (17.80, 15.00)]
     m.extend(prism(f"{name_prefix}_keyway_lower_chamfer", chamfer_lower, z0, z1))
+
     # 4. Solid upper sidewall flank with 45° cavity lead-in chamfer (Y in [25.50, 28.00 mm]):
     m.extend(box(f"{name_prefix}_keyway_upper_sidewall", 14.80, 17.80 + join, 25.50 - join, 26.50 + join, z0, z1))
     chamfer_upper = [(14.80, 26.50), (17.30, 28.00), (17.80, 28.00), (17.80, 26.50)]
     m.extend(prism(f"{name_prefix}_keyway_upper_chamfer", chamfer_upper, z0, z1))
+
     # 5. Robust dovetail retaining lips (X in [14.80, 15.80 mm]):
     lip_lower = [(14.80, 17.50), (14.80, 18.50), (15.80, 17.50)]
     lip_upper = [(14.80, 25.50), (15.80, 25.50), (14.80, 24.50)]
@@ -603,7 +614,6 @@ def build_body() -> Mesh:
     # Right wall split around dovetail keyway boss at Y in [15.00, 28.00 mm]:
     out.extend(box("body_upper_right_lower", inner[2][0], BODY_W / 2, outer[2][1] - join, 15.00 + join, upper_z0, BODY_H))
     out.extend(box("body_upper_right_upper", inner[2][0], BODY_W / 2, 28.00 - join, outer[3][1] + join, upper_z0, BODY_H))
-    out.extend(box("body_upper_right_boss_sub", inner[2][0], BODY_W / 2, 15.00 - join, 28.00 + join, upper_z0, 16.00 + join))
     out.extend(box("body_upper_top_wall", outer[5][0] - join, outer[4][0] + join, inner[4][1], BODY_D / 2, upper_z0, BODY_H))
     # Stop the centre support below the pin passage.
     out.extend(
@@ -694,7 +704,7 @@ def build_divided_body() -> Mesh:
     # 3. Outer right wall: split around keyway boss at Y in [15.00, 28.00 mm]
     out.extend(box("div_outer_right_lower", rx + slot_recess_right - join, hx, -hy + c - join, 15.00 + join, z_floor - join, BODY_H))
     out.extend(box("div_outer_right_upper", rx + slot_recess_right - join, hx, 28.00 - join, hy - c + join, z_floor - join, BODY_H))
-    out.extend(box("div_outer_right_boss_sub", rx + slot_recess_right - join, hx, 15.00 - join, 28.00 + join, z_floor - join, 16.00 + join))
+    out.extend(box("div_outer_right_boss_sub", rx + slot_recess_right - join, hx, 15.00 - join, 28.00 + join, z_floor - join, 17.80 + join))
 
     # 4. Front wall: Y in [-hy, -iy]
     out.extend(box("divided_front_wall", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, BODY_H))
@@ -733,7 +743,7 @@ def build_divided_body() -> Mesh:
         else:
             if y0 < 15.00:
                 out.extend(box(f"div_right_wall_{idx}_pre", rx, rx + slot_recess_right + join, y0 - join, 15.00 + join, z_floor - join, BODY_H))
-            out.extend(box(f"div_right_wall_{idx}_boss_sub", rx, rx + slot_recess_right + join, 15.00 - join, 28.00 + join, z_floor - join, 16.00 + join))
+            out.extend(box(f"div_right_wall_{idx}_boss_sub", rx, rx + slot_recess_right + join, 15.00 - join, 28.00 + join, z_floor - join, 17.80 + join))
             if y1 > 28.00:
                 out.extend(box(f"div_right_wall_{idx}_post", rx, rx + slot_recess_right + join, 28.00 - join, y1 + join, z_floor - join, BODY_H))
 
