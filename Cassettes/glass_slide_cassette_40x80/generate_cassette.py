@@ -446,6 +446,29 @@ def prism_y(name: str, xz_loop: Sequence[Vec2], y0: float, y1: float) -> Mesh:
     return m.positive()
 
 
+def prism_x(name: str, yz_loop: Sequence[Vec2], x0: float, x1: float) -> Mesh:
+    """Extrude a convex y/z polygon along x."""
+    m = Mesh(name)
+    n = len(yz_loop)
+    a0 = (x0, yz_loop[0][0], yz_loop[0][1])
+    a1 = (x1, yz_loop[0][0], yz_loop[0][1])
+    for i in range(1, n - 1):
+        p0 = (x0, yz_loop[i][0], yz_loop[i][1])
+        q0 = (x0, yz_loop[i + 1][0], yz_loop[i + 1][1])
+        p1 = (x1, yz_loop[i][0], yz_loop[i][1])
+        q1 = (x1, yz_loop[i + 1][0], yz_loop[i + 1][1])
+        m.add(a0, q0, p0)
+        m.add(a1, p1, q1)
+    for i in range(n):
+        j = (i + 1) % n
+        p0 = (x0, yz_loop[i][0], yz_loop[i][1])
+        q0 = (x0, yz_loop[j][0], yz_loop[j][1])
+        p1 = (x1, yz_loop[i][0], yz_loop[i][1])
+        q1 = (x1, yz_loop[j][0], yz_loop[j][1])
+        m.quad(p0, q0, q1, p1)
+    return m.positive()
+
+
 def ring_prism(name: str, outer: Sequence[Vec2], inner: Sequence[Vec2], z0: float, z1: float) -> Mesh:
     m = Mesh(name)
     _ring_face(m, outer, inner, z0, up=False)
@@ -793,10 +816,35 @@ def build_lid_local() -> Mesh:
     out.extend(box("top_window_left_upper", -17.00, window_x0, HINGE_RELIEF_Y1, window_y1 + 0.05, top_z0, top_z1))
     out.extend(box("top_window_right", window_x1, 19.30, window_y0 - 0.05, window_y1 + 0.05, top_z0, top_z1))
 
-    # The unchanged solid label band also roofs the far end of the channel.
-    out.extend(box("top_label_band", -17.00, 19.30, window_y1, 38.05, top_z0, top_z1))
-    out.extend(box("top_label_chamfer_extension", LABEL_X - LABEL_W / 2, LABEL_X + LABEL_W / 2, 37.95, 38.55, top_z0, top_z1))
-    out.extend(box("top_far_end", -16.20, 17.30, 38.45, 40.00, top_z0, top_z1))
+    # 5. Label band and far end roof with integrated dovetail pull-tab keyway:
+    # Forward of keyway:
+    out.extend(box("top_label_band", -17.00, 19.30, window_y1, 35.55, top_z0, top_z1))
+    out.extend(box("top_label_chamfer_extension", LABEL_X - LABEL_W / 2, LABEL_X + LABEL_W / 2, 35.50, 38.55, top_z0, top_z1))
+
+    # Base sub-floor beneath the keyway across the full width (Z in [top_z0, 2.55]):
+    out.extend(box("top_far_sub_floor", -16.20, 17.30, 35.50, 40.00, top_z0 - 0.05, 2.55 + 0.05))
+
+    # Left and right flanking rails forming the 45° dovetail keyway slot:
+    # Slot base is X in [-4.80, 5.80] at Z = 2.55 mm; slopes inward to X in [-3.50, 4.50] at Z = 3.10..top_z1 mm.
+    left_rail_xz = [
+        (-16.20, 2.55),
+        (-4.80, 2.55),
+        (-3.50, 3.10),
+        (-3.50, top_z1),
+        (-16.20, top_z1),
+    ]
+    right_rail_xz = [
+        (17.30, 2.55),
+        (5.80, 2.55),
+        (4.50, 3.10),
+        (4.50, top_z1),
+        (17.30, top_z1),
+    ]
+    out.extend(prism_y("top_far_left_dovetail_rail", left_rail_xz, 35.50, 40.00))
+    out.extend(prism_y("top_far_right_dovetail_rail", right_rail_xz, 35.50, 40.00))
+
+    # Forward stop wall for the keyway at Y = 35.50 mm:
+    out.extend(box("top_keyway_front_stop", -4.85, 5.85, 35.00, 35.55, 2.55, top_z1))
 
     channel_x0 = POCKET_X - PANE_CHANNEL_W / 2
     channel_x1 = POCKET_X + PANE_CHANNEL_W / 2
@@ -898,6 +946,53 @@ def build_lid_local() -> Mesh:
     ]
     out.extend(prism_y("latch_hook", hook_profile, -3.80, 3.80))
     return out
+
+
+def build_pull_tab() -> Mesh:
+    """Build the standalone ergonomic rigid pull tab that snaps into the lid keyway."""
+    out = Mesh(f"pull_tab_{VERSION_TAG}")
+
+    # 1. Dovetail base foot (matching lid keyway with 0.15 mm clearance per side):
+    dovetail_profile_xz = [
+        (-4.65, 0.00),
+        (5.65, 0.00),
+        (4.65, 0.55),
+        (4.65, 1.05),
+        (-3.65, 1.05),
+        (-3.65, 0.55),
+    ]
+    out.extend(prism_y("tab_dovetail_foot", dovetail_profile_xz, -2.20, 2.20))
+
+    # 2. Ergonomic grip handle body (Z in [1.05, 5.55 mm], sticking +4.50 mm above lid):
+    handle_profile_yz = [
+        (-2.00, 1.05),
+        (2.00, 1.05),
+        (1.90, 1.60),
+        (1.30, 3.20),
+        (1.90, 4.80),
+        (2.00, 5.30),
+        (1.50, 5.55),
+        (-1.50, 5.55),
+        (-2.00, 5.30),
+        (-1.90, 4.80),
+        (-1.30, 3.20),
+        (-1.90, 1.60),
+    ]
+    out.extend(prism_x("tab_grip_handle", handle_profile_yz, -6.50, 7.50))
+
+    # 3. Tactile grip ribs on front and rear concave finger hollows:
+    for z_rib in [2.60, 3.80]:
+        out.extend(box(f"tab_front_rib_{z_rib}", -5.50, 6.50, -1.70, -1.20, z_rib, z_rib + 0.50))
+        out.extend(box(f"tab_rear_rib_{z_rib}", -5.50, 6.50, 1.20, 1.70, z_rib, z_rib + 0.50))
+
+    return out
+
+
+def pull_tab_print_orientation(tab: Mesh) -> Mesh:
+    """Orient the pull tab lying flat on its side for 100% support-free printing and max tensile strength."""
+    rotated = tab.transformed(lambda p: (p[1], p[2], p[0]), f"pull_tab_{VERSION_TAG}")
+    zmin = rotated.bounds()[0][2]
+    return rotated.translated(0.0, 0.0, -zmin, f"pull_tab_{VERSION_TAG}")
 
 
 def add_snap_lugs(out: Mesh, interference: float, y_centres: Sequence[float], prefix: str) -> None:
@@ -1845,6 +1940,8 @@ def main() -> None:
     card_1_2 = build_divider_card(1.20)
     card_1_0 = build_divider_card(1.00)
     card_1_4 = build_divider_card(1.40)
+    tab = build_pull_tab()
+    tab_print = pull_tab_print_orientation(tab)
 
     closed_lid = lid_local.translated(0.0, 0.0, BODY_H, "closed_lid")
     glass_local = box(
@@ -1857,13 +1954,15 @@ def main() -> None:
         PANE_CHANNEL_Z0 + MAX_GLASS_T,
     )
     installed_glass = glass_local.translated(0.0, 0.0, BODY_H, "installed_glass")
-    closed_reference = combine("REFERENCE_closed_assembly_DO_NOT_PRINT", [body, closed_lid, installed_glass])
+    installed_tab = tab.translated(0.0, 37.75, BODY_H + 2.55, "installed_tab")
+    closed_reference = combine("REFERENCE_closed_assembly_DO_NOT_PRINT", [body, closed_lid, installed_glass, installed_tab])
     open_lid = rotate_about_hinge_open(lid_local, -108.0)
 
     files: list[tuple[str, Mesh]] = [
         (f"cassette_body_{VERSION_TAG}_divided.stl", body_divided),
         (f"cassette_body_{VERSION_TAG}.stl", body),
         (f"cassette_lid_{VERSION_TAG}_print.stl", lid_print),
+        (f"pull_tab_{VERSION_TAG}.stl", tab_print),
         ("divider_card_1_2mm.stl", card_1_2),
         ("divider_card_1_0mm.stl", card_1_0),
         ("divider_card_1_4mm.stl", card_1_4),
