@@ -577,7 +577,8 @@ def build_body() -> Mesh:
     # Right wall split around dovetail keyway pocket at Y in [17.50, 25.50 mm]:
     out.extend(box("body_upper_right_lower", inner[2][0], BODY_W / 2, outer[2][1] - join, 17.50 + join, upper_z0, BODY_H))
     out.extend(box("body_upper_right_upper", inner[2][0], BODY_W / 2, 25.50 - join, outer[3][1] + join, upper_z0, BODY_H))
-    out.extend(box("body_upper_right_keyway_back", 18.60 - join, BODY_W / 2, 17.50 - join, 25.50 + join, upper_z0, BODY_H))
+    # 1.50 mm solid outer wall behind keyway (X in [17.80, 19.30 mm]):
+    out.extend(box("body_upper_right_keyway_back", 17.80 - join, BODY_W / 2, 17.50 - join, 25.50 + join, upper_z0, BODY_H))
     out.extend(box("body_upper_top_wall", outer[5][0] - join, outer[4][0] + join, inner[4][1], BODY_D / 2, upper_z0, BODY_H))
     # Stop the centre support below the pin passage.
     out.extend(
@@ -633,8 +634,8 @@ def build_body() -> Mesh:
         out.extend(box("body_back_grip_rib", -7.0, 7.0, BODY_D / 2 - join, BODY_D / 2 + 0.40, z_rib, z_rib + 0.90))
 
     # Vertical dovetail keyway retaining lips:
-    lip_lower_xy = [(15.60, 17.50), (15.60, 18.50), (16.80, 17.50)]
-    lip_upper_xy = [(15.60, 25.50), (16.80, 25.50), (15.60, 24.50)]
+    lip_lower_xy = [(15.40, 17.50), (15.40, 18.50), (16.60, 17.50)]
+    lip_upper_xy = [(15.40, 25.50), (16.60, 25.50), (15.40, 24.50)]
     out.extend(prism("body_keyway_lip_lower", lip_lower_xy, upper_z0, BODY_H))
     out.extend(prism("body_keyway_lip_upper", lip_upper_xy, upper_z0, BODY_H))
 
@@ -672,7 +673,8 @@ def build_divided_body() -> Mesh:
     out.extend(box("div_outer_right_lower", rx + slot_recess_right - join, hx, -hy + c - join, 17.50 + join, z_floor - join, BODY_H))
     out.extend(box("div_outer_right_upper", rx + slot_recess_right - join, hx, 25.50 - join, hy - c + join, z_floor - join, BODY_H))
     out.extend(box("div_outer_right_keyway_base", rx + slot_recess_right - join, hx, 17.50 - join, 25.50 + join, z_floor - join, 17.80 + join))
-    out.extend(box("div_outer_right_keyway_back", 18.60 - join, hx, 17.50 - join, 25.50 + join, 17.80, BODY_H))
+    # 1.50 mm solid outer wall behind keyway:
+    out.extend(box("div_outer_right_keyway_back", 17.80 - join, hx, 17.50 - join, 25.50 + join, 17.80, BODY_H))
 
     # 4. Front wall: Y in [-hy, -iy]
     out.extend(box("divided_front_wall", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, BODY_H))
@@ -712,6 +714,7 @@ def build_divided_body() -> Mesh:
             if y0 < 17.50:
                 out.extend(box(f"div_right_wall_{idx}_pre", rx, rx + slot_recess_right + join, y0 - join, 17.50 + join, z_floor - join, BODY_H))
             out.extend(box(f"div_right_wall_{idx}_keyway_sub", rx, rx + slot_recess_right + join, 17.50 - join, 25.50 + join, z_floor - join, 17.80 + join))
+            out.extend(box(f"div_right_wall_{idx}_keyway_back_fill", rx, 17.80 + join, 17.50 - join, 25.50 + join, 17.80, BODY_H))
             if y1 > 25.50:
                 out.extend(box(f"div_right_wall_{idx}_post", rx, rx + slot_recess_right + join, 25.50 - join, y1 + join, z_floor - join, BODY_H))
 
@@ -754,8 +757,8 @@ def build_divided_body() -> Mesh:
         out.extend(box("divided_back_grip_rib", -7.0, 7.0, BODY_D / 2 - join, BODY_D / 2 + 0.40, z_rib, z_rib + 0.90))
 
     # 12. Vertical dovetail keyway retaining lips:
-    lip_lower_xy = [(15.60, 17.50), (15.60, 18.50), (16.80, 17.50)]
-    lip_upper_xy = [(15.60, 25.50), (16.80, 25.50), (15.60, 24.50)]
+    lip_lower_xy = [(15.40, 17.50), (15.40, 18.50), (16.60, 17.50)]
+    lip_upper_xy = [(15.40, 25.50), (16.60, 25.50), (15.40, 24.50)]
     out.extend(prism("divided_keyway_lip_lower", lip_lower_xy, 17.80, BODY_H))
     out.extend(prism("divided_keyway_lip_upper", lip_upper_xy, 17.80, BODY_H))
 
@@ -962,8 +965,8 @@ def build_pull_tab(clearance: float = 0.35, suffix: str = "") -> Mesh:
 
     base_y = 4.00 - clearance
     neck_y = 3.00 - clearance
-    back_x = 18.60 - clearance
-    neck_x = 15.60 + clearance
+    back_x = 17.80 - clearance
+    neck_x = 15.40 + clearance
     flank_x = neck_x + (base_y - neck_y)
 
     # 1. Vertical dovetail male shank (Z in [0.00, 15.05 mm]):
@@ -997,7 +1000,7 @@ def build_pull_tab(clearance: float = 0.35, suffix: str = "") -> Mesh:
     return out.positive()
 
 
-def pull_tab_print_orientation(tab: Mesh, back_x: float = 18.25, suffix: str = "") -> Mesh:
+def pull_tab_print_orientation(tab: Mesh, back_x: float = 17.45, suffix: str = "") -> Mesh:
     """Orient pull tab laying flat on its back face (Z=0) for maximum bed adhesion, tensile strength, and support-free printing."""
     rotated = tab.transformed(lambda p: (p[1], p[2], back_x - p[0]), f"pull_tab_{VERSION_TAG}{suffix}")
     zmin = rotated.bounds()[0][2]
@@ -1950,11 +1953,11 @@ def main() -> None:
     card_1_0 = build_divider_card(1.00)
     card_1_4 = build_divider_card(1.40)
     tab = build_pull_tab(0.35, "")
-    tab_print = pull_tab_print_orientation(tab, 18.60 - 0.35, "")
+    tab_print = pull_tab_print_orientation(tab, 17.80 - 0.35, "")
     tab_loose = build_pull_tab(0.45, "_loose")
-    tab_loose_print = pull_tab_print_orientation(tab_loose, 18.60 - 0.45, "_loose")
+    tab_loose_print = pull_tab_print_orientation(tab_loose, 17.80 - 0.45, "_loose")
     tab_firm = build_pull_tab(0.25, "_firm")
-    tab_firm_print = pull_tab_print_orientation(tab_firm, 18.60 - 0.25, "_firm")
+    tab_firm_print = pull_tab_print_orientation(tab_firm, 17.80 - 0.25, "_firm")
 
     closed_lid = lid_local.translated(0.0, 0.0, BODY_H, "closed_lid")
     glass_local = box(
