@@ -37,12 +37,13 @@ explicitly provisional.
 
 | Priority | Plan | Reason |
 |---:|---|---|
-| 1 | 005 — Develop the larger cassette family | Extends the verified smallest interfaces without propagating unresolved geometry. |
-| 2 | 006 — Develop mixed-layout carriers | Requires physical envelopes from the completed cassette family. |
-| 3 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
-| 4 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
+| 1 | 011 — Develop cassette top-surface pinch grips | Resolves high-density extraction ergonomics on the lid before scaling the cassette family. |
+| 2 | 005 — Develop the larger cassette family | Extends the verified smallest interfaces without propagating unresolved geometry. |
+| 3 | 006 — Develop mixed-layout carriers | Requires physical envelopes from the completed cassette family. |
+| 4 | 007 — Validate system durability and materials | Exercises production-candidate cassettes and carriers after their interfaces stabilize. |
+| 5 | 008 — Prepare and archive the production baseline | Final integration and release work; depends on all prior physical evidence. |
 
 Plans 001 (14U carrier stack validation), 002 (cassette height optimization),
 003 (removable cassette dividers), and 004 (smallest cassette & carrier finalization)
 are completed and archived. Plan 010 (re-evaluate cassette closure latch) is currently
-active in execution. The next queued plan is Plan 005.
+active in execution. The next queued plan is Plan 011.
