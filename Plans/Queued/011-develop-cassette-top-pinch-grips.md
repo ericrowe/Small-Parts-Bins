@@ -1,11 +1,11 @@
 # Plan 011 — Develop cassette top-surface pinch grips
 
-- Status: Executing
-- Depends on: Plans 001–003, 009, 010 completed
+- Status: Queued
+- Depends on: Plan 010 (closure latch and internal flanking ridges)
 - Created: 2026-08-28
-- Started: 2026-08-29
+- Started: Not started
 - Completed: Not completed
-- Git start: `845f42c`
+- Git start: Not committed
 - Git completion: Not completed
 
 ## Outcome

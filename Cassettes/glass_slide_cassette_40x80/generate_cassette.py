@@ -602,6 +602,11 @@ def build_body() -> Mesh:
     ]
     out.extend(prism_y("body_snap_catch", catch_profile, -4.00, 4.00))
 
+    # Ergonomic tactile end pinch ribs
+    for z_rib in [27.5, 29.2, 30.9]:
+        out.extend(box("body_front_grip_rib", -7.0, 7.0, -BODY_D / 2 - 0.40, -BODY_D / 2 + join, z_rib, z_rib + 0.90))
+        out.extend(box("body_back_grip_rib", -7.0, 7.0, BODY_D / 2 - join, BODY_D / 2 + 0.40, z_rib, z_rib + 0.90))
+
     return out
 
 
@@ -707,6 +712,11 @@ def build_divided_body() -> Mesh:
     ]
     out.extend(prism_y("body_snap_catch", catch_profile, -4.00, 4.00))
 
+    # 11. Ergonomic tactile end pinch ribs
+    for z_rib in [27.5, 29.2, 30.9]:
+        out.extend(box("divided_front_grip_rib", -7.0, 7.0, -BODY_D / 2 - 0.40, -BODY_D / 2 + join, z_rib, z_rib + 0.90))
+        out.extend(box("divided_back_grip_rib", -7.0, 7.0, BODY_D / 2 - join, BODY_D / 2 + 0.40, z_rib, z_rib + 0.90))
+
     return out
 
 
@@ -761,18 +771,10 @@ def build_lid_local() -> Mesh:
     tongue_cut_x0 = tongue_x0 - tongue_gap # -3.50 - 0.50 = -4.00
     tongue_cut_x1 = tongue_x1 + tongue_gap #  4.50 + 0.50 =  5.00
 
-    # Top frame with tightened 0.50 mm perimeter gap around the compliant latch
-    # and integrated top-surface transverse pinch grip flutes:
-
-    # 1. Base roof slabs under the entry pads (Z in [top_z0 - 0.05, top_z1 - 0.45]):
-    out.extend(box("top_entry_sub_left", -17.00, pad_cut_x0, -40.00, -34.50, top_z0 - 0.05, top_z1 - 0.45 + 0.05))
-    out.extend(box("top_entry_sub_right", pad_cut_x1, 19.30, -40.00, -34.50, top_z0 - 0.05, top_z1 - 0.45 + 0.05))
-
-    # Transverse grip ribs on entry pads (reaching top_z1 = 3.20 mm on build plate):
-    entry_rib_y_spans = [(-40.00, -39.00), (-37.80, -36.80), (-35.60, -34.50)]
-    for idx, (ry0, ry1) in enumerate(entry_rib_y_spans):
-        out.extend(box(f"top_entry_rib_l_{idx}", -17.00, pad_cut_x0, ry0, ry1, top_z1 - 0.45, top_z1))
-        out.extend(box(f"top_entry_rib_r_{idx}", pad_cut_x1, 19.30, ry0, ry1, top_z1 - 0.45, top_z1))
+    # Top frame with tightened 0.50 mm perimeter gap around the compliant latch:
+    # 1. Entry frame around finger pad:
+    out.extend(box("top_entry_pad_left", -17.00, pad_cut_x0, -40.00, -37.20, top_z0, top_z1))
+    out.extend(box("top_entry_pad_right", pad_cut_x1, 19.30, -40.00, -37.20, top_z0, top_z1))
 
     # 2. Entry frame around tongue:
     out.extend(box("top_entry_tongue_left", -17.00, tongue_cut_x0, -37.25, -34.50, top_z0, top_z1))
@@ -792,15 +794,10 @@ def build_lid_local() -> Mesh:
     out.extend(box("top_window_left_upper", -17.00, window_x0, HINGE_RELIEF_Y1, window_y1 + 0.05, top_z0, top_z1))
     out.extend(box("top_window_right", window_x1, 19.30, window_y0 - 0.05, window_y1 + 0.05, top_z0, top_z1))
 
-    # The solid label band and far end roof with transverse grip flutes:
-    out.extend(box("top_label_band", -17.00, 19.30, window_y1, 37.20, top_z0, top_z1))
-    out.extend(box("top_label_chamfer_extension", LABEL_X - LABEL_W / 2, LABEL_X + LABEL_W / 2, 37.15, 38.55, top_z0, top_z1))
-
-    # Far end base sub-slab and grip ribs:
-    out.extend(box("top_far_sub", -16.20, 17.30, 37.20, 40.00, top_z0 - 0.05, top_z1 - 0.45 + 0.05))
-    far_rib_y_spans = [(37.20, 38.00), (39.00, 40.00)]
-    for idx, (ry0, ry1) in enumerate(far_rib_y_spans):
-        out.extend(box(f"top_far_rib_{idx}", -16.20, 17.30, ry0, ry1, top_z1 - 0.45, top_z1))
+    # The unchanged solid label band also roofs the far end of the channel.
+    out.extend(box("top_label_band", -17.00, 19.30, window_y1, 38.05, top_z0, top_z1))
+    out.extend(box("top_label_chamfer_extension", LABEL_X - LABEL_W / 2, LABEL_X + LABEL_W / 2, 37.95, 38.55, top_z0, top_z1))
+    out.extend(box("top_far_end", -16.20, 17.30, 38.45, 40.00, top_z0, top_z1))
 
     channel_x0 = POCKET_X - PANE_CHANNEL_W / 2
     channel_x1 = POCKET_X + PANE_CHANNEL_W / 2
