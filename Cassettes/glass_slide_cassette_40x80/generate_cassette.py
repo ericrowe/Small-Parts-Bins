@@ -550,44 +550,6 @@ def peaked_hinge_y(
     return m.positive()
 
 
-def build_body_pull_tab_keyway(name_prefix: str) -> Mesh:
-    """Build the vertical dovetail keyway on the front/right body wall for the snap-in pull tab."""
-    out = Mesh(f"{name_prefix}_keyway")
-    z_bottom = 17.80
-    z_top = BODY_H
-    join = 0.05
-
-    # 1. Solid bottom stop floor (Z in [16.30, 17.80 mm]):
-    out.extend(box(f"{name_prefix}_keyway_bottom_stop", 15.60, 19.30, 15.50, 27.50, 16.30, z_bottom + join))
-
-    # 2. Lower solid flank (Y in [15.50, 17.50 mm]):
-    out.extend(box(f"{name_prefix}_keyway_lower_flank", 15.60, 19.30, 15.50, 17.50 + join, z_bottom, z_top))
-
-    # 3. Upper solid flank (Y in [25.50, 27.50 mm]):
-    out.extend(box(f"{name_prefix}_keyway_upper_flank", 15.60, 19.30, 25.50 - join, 27.50, z_bottom, z_top))
-
-    # 4. Outer back wall behind the dovetail slot (X in [18.60, 19.30 mm], Y in [17.50, 25.50 mm]):
-    out.extend(box(f"{name_prefix}_keyway_back_wall", 18.60 - join, 19.30, 17.50 - join, 25.50 + join, z_bottom, z_top))
-
-    # 5. Left retaining lip (Y in [17.50, 18.50 mm]) with 45° dovetail angle:
-    lip_lower_xy = [
-        (15.60, 17.50),
-        (15.60, 18.50),
-        (16.80, 17.50),
-    ]
-    out.extend(prism(f"{name_prefix}_keyway_lip_lower", lip_lower_xy, z_bottom, z_top))
-
-    # 6. Right retaining lip (Y in [24.50, 25.50 mm]) with 45° dovetail angle:
-    lip_upper_xy = [
-        (15.60, 25.50),
-        (16.80, 25.50),
-        (15.60, 24.50),
-    ]
-    out.extend(prism(f"{name_prefix}_keyway_lip_upper", lip_upper_xy, z_bottom, z_top))
-
-    return out
-
-
 def build_body() -> Mesh:
     out = Mesh(f"cassette_body_{VERSION_TAG}")
     outer = chamfer_rect(BODY_W, BODY_D, BODY_CORNER)
@@ -597,8 +559,8 @@ def build_body() -> Mesh:
         max(0.8, BODY_CORNER - BODY_WALL / 2),
     )
 
-    # The complete lower shell ends below the two lid knuckles.  Independent
-    # closed upper-wall pieces restore the normal rim everywhere else.  Their
+    # The complete lower shell ends below the two lid knuckles. Independent
+    # closed upper-wall pieces restore the normal rim everywhere else. Their
     # 0.05 mm vertical overlap is an intentional slicer union.
     shell = Mesh("body_lower_shell")
     _fan(shell, outer, 0.0, up=False)
@@ -610,9 +572,12 @@ def build_body() -> Mesh:
 
     upper_z0 = HINGE_BODY_RELIEF_TOP - 0.05
     join = 0.05
-    # Straight walls ending at the split plane BODY_H (24.80 mm)
+    # Straight walls ending at the split plane BODY_H (32.80 mm)
     out.extend(box("body_upper_bottom_wall", outer[0][0] - join, outer[1][0] + join, -BODY_D / 2, inner[0][1], upper_z0, BODY_H))
-    out.extend(box("body_upper_right_wall", inner[2][0], BODY_W / 2, outer[2][1] - join, outer[3][1] + join, upper_z0, BODY_H))
+    # Right wall split around dovetail keyway pocket at Y in [17.50, 25.50 mm]:
+    out.extend(box("body_upper_right_lower", inner[2][0], BODY_W / 2, outer[2][1] - join, 17.50 + join, upper_z0, BODY_H))
+    out.extend(box("body_upper_right_upper", inner[2][0], BODY_W / 2, 25.50 - join, outer[3][1] + join, upper_z0, BODY_H))
+    out.extend(box("body_upper_right_keyway_back", 18.60 - join, BODY_W / 2, 17.50 - join, 25.50 + join, upper_z0, BODY_H))
     out.extend(box("body_upper_top_wall", outer[5][0] - join, outer[4][0] + join, inner[4][1], BODY_D / 2, upper_z0, BODY_H))
     # Stop the centre support below the pin passage.
     out.extend(
@@ -626,11 +591,11 @@ def build_body() -> Mesh:
             HINGE_BODY_SUPPORT_TOP,
         )
     )
-    # Left wall end spans stay at BODY_H (24.80 mm) to clear the rotating lid knuckles:
+    # Left wall end spans stay at BODY_H (32.80 mm) to clear the rotating lid knuckles:
     out.extend(box("body_upper_left_lower_end", -BODY_W / 2, inner[7][0], outer[7][1] - join, HINGE_BODY_END_RELIEF_Y0, upper_z0, BODY_H))
     out.extend(box("body_upper_left_upper_end", -BODY_W / 2, inner[6][0], HINGE_BODY_END_RELIEF_Y1, outer[6][1] + join, upper_z0, BODY_H))
 
-    # Chamfered corner sectors ending at BODY_H (24.80 mm):
+    # Chamfered corner sectors ending at BODY_H (32.80 mm):
     lower_right = [outer[1], outer[2], inner[2], inner[1]]
     upper_right = [outer[3], outer[4], inner[4], inner[3]]
     lower_left = clip_polygon_y([outer[7], outer[0], inner[0], inner[7]], HINGE_BODY_END_RELIEF_Y0, keep_below=True)
@@ -667,8 +632,11 @@ def build_body() -> Mesh:
         out.extend(box("body_front_grip_rib", -7.0, 7.0, -BODY_D / 2 - 0.40, -BODY_D / 2 + join, z_rib, z_rib + 0.90))
         out.extend(box("body_back_grip_rib", -7.0, 7.0, BODY_D / 2 - join, BODY_D / 2 + 0.40, z_rib, z_rib + 0.90))
 
-    # 11. Vertical dovetail keyway for snap-in pull tab:
-    out.extend(build_body_pull_tab_keyway("body"))
+    # Vertical dovetail keyway retaining lips:
+    lip_lower_xy = [(15.60, 17.50), (15.60, 18.50), (16.80, 17.50)]
+    lip_upper_xy = [(15.60, 25.50), (16.80, 25.50), (15.60, 24.50)]
+    out.extend(prism("body_keyway_lip_lower", lip_lower_xy, upper_z0, BODY_H))
+    out.extend(prism("body_keyway_lip_upper", lip_upper_xy, upper_z0, BODY_H))
 
     return out
 
@@ -700,8 +668,11 @@ def build_divided_body() -> Mesh:
     out.extend(box("divided_upper_left_lower_end", -hx, lx - slot_recess_left + join, -hy + c - join, HINGE_BODY_END_RELIEF_Y0, relief_top, BODY_H))
     out.extend(box("divided_upper_left_upper_end", -hx, lx - slot_recess_left + join, HINGE_BODY_END_RELIEF_Y1, hy - c + join, relief_top, BODY_H))
 
-    # 3. Outer right wall: X in [rx + slot_recess_right, hx], Z in [z_floor - join, BODY_H]
-    out.extend(box("divided_outer_right_wall", rx + slot_recess_right - join, hx, -hy + c - join, hy - c + join, z_floor - join, BODY_H))
+    # 3. Outer right wall: split around keyway pocket at Y in [17.50, 25.50 mm], Z in [17.80, 32.80 mm]
+    out.extend(box("div_outer_right_lower", rx + slot_recess_right - join, hx, -hy + c - join, 17.50 + join, z_floor - join, BODY_H))
+    out.extend(box("div_outer_right_upper", rx + slot_recess_right - join, hx, 25.50 - join, hy - c + join, z_floor - join, BODY_H))
+    out.extend(box("div_outer_right_keyway_base", rx + slot_recess_right - join, hx, 17.50 - join, 25.50 + join, z_floor - join, 17.80 + join))
+    out.extend(box("div_outer_right_keyway_back", 18.60 - join, hx, 17.50 - join, 25.50 + join, 17.80, BODY_H))
 
     # 4. Front wall: Y in [-hy, -iy]
     out.extend(box("divided_front_wall", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, BODY_H))
@@ -727,28 +698,30 @@ def build_divided_body() -> Mesh:
 
     for idx in range(0, len(y_points) - 1, 2):
         y0, y1 = y_points[idx], y_points[idx + 1]
-        # Floor slab between slots (Z in [1.40, 2.00]):
         out.extend(box(f"div_floor_{idx}", lx - join, rx + join, y0 - join, y1 + join, z_floor - join, BODY_BOTTOM + join))
-
-        # Left inner wall segment between slots (X in [lx - slot_recess_left, lx]):
         out.extend(box(f"div_left_wall_{idx}", lx - slot_recess_left - join, lx, y0 - join, y1 + join, z_floor - join, relief_top + join))
         if y1 <= HINGE_BODY_END_RELIEF_Y0 or y0 >= HINGE_BODY_END_RELIEF_Y1:
             out.extend(box(f"div_left_upper_end_{idx}", lx - slot_recess_left - join, lx, y0 - join, y1 + join, relief_top, BODY_H))
         elif y0 >= HINGE_RELIEF_Y0 and y1 <= HINGE_RELIEF_Y1:
             out.extend(box(f"div_left_upper_centre_{idx}", lx - slot_recess_left - join, lx, y0 - join, y1 + join, relief_top, HINGE_BODY_SUPPORT_TOP))
 
-        # Right inner wall segment between slots (X in [rx, rx + slot_recess_right]):
-        out.extend(box(f"div_right_wall_{idx}", rx, rx + slot_recess_right + join, y0 - join, y1 + join, z_floor - join, BODY_H))
+        # Right inner wall segment: pocketed at keyway span
+        if y1 <= 17.50 + join:
+            out.extend(box(f"div_right_wall_{idx}", rx, rx + slot_recess_right + join, y0 - join, y1 + join, z_floor - join, BODY_H))
+        else:
+            if y0 < 17.50:
+                out.extend(box(f"div_right_wall_{idx}_pre", rx, rx + slot_recess_right + join, y0 - join, 17.50 + join, z_floor - join, BODY_H))
+            out.extend(box(f"div_right_wall_{idx}_keyway_sub", rx, rx + slot_recess_right + join, 17.50 - join, 25.50 + join, z_floor - join, 17.80 + join))
+            if y1 > 25.50:
+                out.extend(box(f"div_right_wall_{idx}_post", rx, rx + slot_recess_right + join, 25.50 - join, y1 + join, z_floor - join, BODY_H))
 
     # 8. Internal flanking ridges on the right wall:
     for cy in slot_stations:
-        # Lower ridge (along -Y from slot)
         ry0_a, ry1_a = cy - slot_w / 2 - ridge_w, cy - slot_w / 2
         out.extend(box(f"ridge_lower_{cy}", rx - ridge_proj, rx + join, ry0_a, ry1_a + join, z_floor - join, BODY_H - 1.50 + join))
         chamfer_pts = [(rx - ridge_proj, BODY_H - 1.50), (rx, BODY_H), (rx, BODY_H - 1.50)]
         out.extend(prism_y(f"ridge_lead_lower_{cy}", chamfer_pts, ry0_a, ry1_a + join))
 
-        # Upper ridge (along +Y from slot)
         ry0_b, ry1_b = cy + slot_w / 2, cy + slot_w / 2 + ridge_w
         out.extend(box(f"ridge_upper_{cy}", rx - ridge_proj, rx + join, ry0_b - join, ry1_b, z_floor - join, BODY_H - 1.50 + join))
         out.extend(prism_y(f"ridge_lead_upper_{cy}", chamfer_pts, ry0_b - join, ry1_b))
@@ -780,8 +753,11 @@ def build_divided_body() -> Mesh:
         out.extend(box("divided_front_grip_rib", -7.0, 7.0, -BODY_D / 2 - 0.40, -BODY_D / 2 + join, z_rib, z_rib + 0.90))
         out.extend(box("divided_back_grip_rib", -7.0, 7.0, BODY_D / 2 - join, BODY_D / 2 + 0.40, z_rib, z_rib + 0.90))
 
-    # 12. Vertical dovetail keyway for snap-in pull tab:
-    out.extend(build_body_pull_tab_keyway("divided"))
+    # 12. Vertical dovetail keyway retaining lips:
+    lip_lower_xy = [(15.60, 17.50), (15.60, 18.50), (16.80, 17.50)]
+    lip_upper_xy = [(15.60, 25.50), (16.80, 25.50), (15.60, 24.50)]
+    out.extend(prism("divided_keyway_lip_lower", lip_lower_xy, 17.80, BODY_H))
+    out.extend(prism("divided_keyway_lip_upper", lip_upper_xy, 17.80, BODY_H))
 
     return out
 
