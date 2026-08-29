@@ -550,6 +550,44 @@ def peaked_hinge_y(
     return m.positive()
 
 
+def build_body_pull_tab_keyway(name_prefix: str) -> Mesh:
+    """Build the vertical dovetail keyway on the front/right body wall for the snap-in pull tab."""
+    out = Mesh(f"{name_prefix}_keyway")
+    z_bottom = 17.80
+    z_top = BODY_H
+    join = 0.05
+
+    # 1. Solid bottom stop floor (Z in [16.30, 17.80 mm]):
+    out.extend(box(f"{name_prefix}_keyway_bottom_stop", 15.60, 19.30, 15.50, 27.50, 16.30, z_bottom + join))
+
+    # 2. Lower solid flank (Y in [15.50, 17.50 mm]):
+    out.extend(box(f"{name_prefix}_keyway_lower_flank", 15.60, 19.30, 15.50, 17.50 + join, z_bottom, z_top))
+
+    # 3. Upper solid flank (Y in [25.50, 27.50 mm]):
+    out.extend(box(f"{name_prefix}_keyway_upper_flank", 15.60, 19.30, 25.50 - join, 27.50, z_bottom, z_top))
+
+    # 4. Outer back wall behind the dovetail slot (X in [18.60, 19.30 mm], Y in [17.50, 25.50 mm]):
+    out.extend(box(f"{name_prefix}_keyway_back_wall", 18.60 - join, 19.30, 17.50 - join, 25.50 + join, z_bottom, z_top))
+
+    # 5. Left retaining lip (Y in [17.50, 18.50 mm]) with 45° dovetail angle:
+    lip_lower_xy = [
+        (15.60, 17.50),
+        (15.60, 18.50),
+        (16.80, 17.50),
+    ]
+    out.extend(prism(f"{name_prefix}_keyway_lip_lower", lip_lower_xy, z_bottom, z_top))
+
+    # 6. Right retaining lip (Y in [24.50, 25.50 mm]) with 45° dovetail angle:
+    lip_upper_xy = [
+        (15.60, 25.50),
+        (16.80, 25.50),
+        (15.60, 24.50),
+    ]
+    out.extend(prism(f"{name_prefix}_keyway_lip_upper", lip_upper_xy, z_bottom, z_top))
+
+    return out
+
+
 def build_body() -> Mesh:
     out = Mesh(f"cassette_body_{VERSION_TAG}")
     outer = chamfer_rect(BODY_W, BODY_D, BODY_CORNER)
@@ -628,6 +666,9 @@ def build_body() -> Mesh:
     for z_rib in [27.5, 29.2, 30.9]:
         out.extend(box("body_front_grip_rib", -7.0, 7.0, -BODY_D / 2 - 0.40, -BODY_D / 2 + join, z_rib, z_rib + 0.90))
         out.extend(box("body_back_grip_rib", -7.0, 7.0, BODY_D / 2 - join, BODY_D / 2 + 0.40, z_rib, z_rib + 0.90))
+
+    # 11. Vertical dovetail keyway for snap-in pull tab:
+    out.extend(build_body_pull_tab_keyway("body"))
 
     return out
 
@@ -739,6 +780,9 @@ def build_divided_body() -> Mesh:
         out.extend(box("divided_front_grip_rib", -7.0, 7.0, -BODY_D / 2 - 0.40, -BODY_D / 2 + join, z_rib, z_rib + 0.90))
         out.extend(box("divided_back_grip_rib", -7.0, 7.0, BODY_D / 2 - join, BODY_D / 2 + 0.40, z_rib, z_rib + 0.90))
 
+    # 12. Vertical dovetail keyway for snap-in pull tab:
+    out.extend(build_body_pull_tab_keyway("divided"))
+
     return out
 
 
@@ -814,37 +858,14 @@ def build_lid_local() -> Mesh:
     out.extend(box("top_window_left_lower", -17.00, window_x0, window_y0 - 0.05, HINGE_RELIEF_Y0, top_z0, top_z1))
     out.extend(box("top_window_left_centre", -15.50, window_x0, HINGE_RELIEF_Y0 - 0.05, HINGE_RELIEF_Y1 + 0.05, top_z0, top_z1))
     out.extend(box("top_window_left_upper", -17.00, window_x0, HINGE_RELIEF_Y1, window_y1 + 0.05, top_z0, top_z1))
-    out.extend(box("top_window_right", window_x1, 19.30, window_y0 - 0.05, window_y1 + 0.05, top_z0, top_z1))
+    # Right window rail with pull-tab clearance cutout at Y in [15.50, 27.50 mm]:
+    out.extend(box("top_window_right_lower", window_x1, 19.30, window_y0 - 0.05, 15.55, top_z0, top_z1))
+    out.extend(box("top_window_right_cutout_ledge", window_x1, 15.50, 15.45, window_y1 + 0.05, top_z0, top_z1))
 
-    # 5. Label band and far end roof with integrated dovetail pull-tab keyway:
-    # Forward of keyway:
-    out.extend(box("top_label_band", -17.00, 19.30, window_y1, 35.55, top_z0, top_z1))
-    out.extend(box("top_label_chamfer_extension", LABEL_X - LABEL_W / 2, LABEL_X + LABEL_W / 2, 35.50, 38.55, top_z0, top_z1))
-
-    # Base sub-floor beneath the keyway across the full width (Z in [top_z0, 2.55]):
-    out.extend(box("top_far_sub_floor", -16.20, 17.30, 35.50, 40.00, top_z0 - 0.05, 2.55 + 0.05))
-
-    # Left and right flanking rails forming the 45° dovetail keyway slot:
-    # Slot base is X in [-4.80, 5.80] at Z = 2.55 mm; slopes inward to X in [-3.50, 4.50] at Z = 3.10..top_z1 mm.
-    left_rail_xz = [
-        (-16.20, 2.55),
-        (-4.80, 2.55),
-        (-3.50, 3.10),
-        (-3.50, top_z1),
-        (-16.20, top_z1),
-    ]
-    right_rail_xz = [
-        (17.30, 2.55),
-        (5.80, 2.55),
-        (4.50, 3.10),
-        (4.50, top_z1),
-        (17.30, top_z1),
-    ]
-    out.extend(prism_y("top_far_left_dovetail_rail", left_rail_xz, 35.50, 40.00))
-    out.extend(prism_y("top_far_right_dovetail_rail", right_rail_xz, 35.50, 40.00))
-
-    # Forward stop wall for the keyway at Y = 35.50 mm:
-    out.extend(box("top_keyway_front_stop", -4.85, 5.85, 35.00, 35.55, 2.55, top_z1))
+    # The unchanged solid label band also roofs the far end of the channel:
+    out.extend(box("top_label_band", -17.00, 19.30, window_y1, 38.05, top_z0, top_z1))
+    out.extend(box("top_label_chamfer_extension", LABEL_X - LABEL_W / 2, LABEL_X + LABEL_W / 2, 37.95, 38.55, top_z0, top_z1))
+    out.extend(box("top_far_end", -16.20, 17.30, 38.45, 40.00, top_z0, top_z1))
 
     channel_x0 = POCKET_X - PANE_CHANNEL_W / 2
     channel_x1 = POCKET_X + PANE_CHANNEL_W / 2
@@ -854,15 +875,16 @@ def build_lid_local() -> Mesh:
     # Continuous side walls and 1.5 mm opposite ledges reproduce the passing
     # v0.3/v0.4 channel and positively overlap the bed-supported top frame.
     out.extend(box("pane_left_wall", -15.50, channel_x0, PANE_ENTRY_Y, 38.45, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("pane_right_wall", channel_x1, 17.30, PANE_ENTRY_Y, 38.45, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_right_wall", channel_x1, 15.50, PANE_ENTRY_Y, 38.45, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
     out.extend(box("pane_left_bottom_ledge", -15.50, bottom_x0, PANE_ENTRY_Y, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
-    out.extend(box("pane_right_bottom_ledge", bottom_x1, 17.30, PANE_ENTRY_Y, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
+    out.extend(box("pane_right_bottom_ledge", bottom_x1, 15.50, PANE_ENTRY_Y, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
     out.extend(box("pane_far_stop", channel_x0 - 0.05, channel_x1 + 0.05, PANE_FAR_STOP_Y, 39.50, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
 
     # Outer side walls of the lid meeting the body rim at local Z = 0.00:
-    # Right outer wall with fingernail relief:
+    # Right outer wall with fingernail relief and pull-tab clearance cutout:
     out.extend(box("right_outer_wall_lower_end", 17.25, 19.30, -38.05, -6.95, 0.0, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("right_outer_wall_upper_end", 17.25, 19.30, 6.95, 38.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("right_outer_wall_mid_end", 17.25, 19.30, 6.95, 15.55, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("right_outer_wall_upper_end", 17.25, 19.30, 27.45, 38.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
     out.extend(box("right_finger_relief_inner_wall", 17.25, 18.00, -5.85, 5.85, 0.0, FINGER_RELIEF_H + 0.05))
     out.extend(box("right_finger_relief_roof_wall", 17.25, 19.30, -7.05, 7.05, FINGER_RELIEF_H, PANE_CHANNEL_Z1 + 0.05))
 
@@ -949,50 +971,53 @@ def build_lid_local() -> Mesh:
 
 
 def build_pull_tab() -> Mesh:
-    """Build the standalone ergonomic rigid pull tab that snaps into the lid keyway."""
+    """Build the standalone ergonomic rigid pull tab with vertical dovetail shank."""
     out = Mesh(f"pull_tab_{VERSION_TAG}")
+    # Local coordinate system:
+    # Shank extends Z in [0.00, 15.05 mm] (matching body keyway from Z = 17.80 to 32.80 mm).
+    # Grip head extends Z in [15.00, 22.60 mm] (protruding +4.00 mm above closed 3.60 mm lid).
+    # Centered at (X = 17.10, Y = 0.00) relative to the pull tab's origin.
 
-    # 1. Dovetail base foot (matching lid keyway with 0.15 mm clearance per side):
-    dovetail_profile_xz = [
-        (-4.65, 0.00),
-        (5.65, 0.00),
-        (4.65, 0.55),
-        (4.65, 1.05),
-        (-3.65, 1.05),
-        (-3.65, 0.55),
+    # 1. Vertical dovetail male shank (Z in [0.00, 15.05 mm]):
+    shank_xy = [
+        (15.75, -2.85),
+        (15.75, 2.85),
+        (16.65, 3.85),
+        (18.45, 3.85),
+        (18.45, -3.85),
+        (16.65, -3.85),
     ]
-    out.extend(prism_y("tab_dovetail_foot", dovetail_profile_xz, -2.20, 2.20))
+    out.extend(prism("tab_shank_body", shank_xy, 0.00, 15.05))
 
-    # 2. Ergonomic grip handle body (Z in [1.05, 5.55 mm], sticking +4.50 mm above lid):
-    handle_profile_yz = [
-        (-2.00, 1.05),
-        (2.00, 1.05),
-        (1.90, 1.60),
-        (1.30, 3.20),
-        (1.90, 4.80),
-        (2.00, 5.30),
-        (1.50, 5.55),
-        (-1.50, 5.55),
-        (-2.00, 5.30),
-        (-1.90, 4.80),
-        (-1.30, 3.20),
-        (-1.90, 1.60),
+    # 2. Upper ergonomic grip head (Z in [15.00, 22.60 mm]):
+    # Extruded along Y in [-5.50, +5.50 mm] (11.0 mm wide grip fin):
+    head_profile_xz = [
+        (15.80, 15.00),
+        (18.80, 15.00),
+        (18.70, 16.50),
+        (17.80, 19.50),
+        (18.70, 22.00),
+        (18.40, 22.60),
+        (16.20, 22.60),
+        (15.90, 22.00),
+        (16.80, 19.50),
+        (15.90, 16.50),
     ]
-    out.extend(prism_x("tab_grip_handle", handle_profile_yz, -6.50, 7.50))
+    out.extend(prism_y("tab_grip_head", head_profile_xz, -5.50, 5.50))
 
-    # 3. Tactile grip ribs on front and rear concave finger hollows:
-    for z_rib in [2.60, 3.80]:
-        out.extend(box(f"tab_front_rib_{z_rib}", -5.50, 6.50, -1.70, -1.20, z_rib, z_rib + 0.50))
-        out.extend(box(f"tab_rear_rib_{z_rib}", -5.50, 6.50, 1.20, 1.70, z_rib, z_rib + 0.50))
+    # 3. Tactile grip ribs on finger hollows:
+    for y_rib in [-3.50, 0.00, 3.50]:
+        out.extend(box(f"tab_inner_rib_{y_rib}", 16.50, 17.05, y_rib - 0.50, y_rib + 0.50, 18.50, 20.50))
+        out.extend(box(f"tab_outer_rib_{y_rib}", 17.55, 18.10, y_rib - 0.50, y_rib + 0.50, 18.50, 20.50))
 
-    return out
+    return out.positive()
 
 
 def pull_tab_print_orientation(tab: Mesh) -> Mesh:
-    """Orient the pull tab lying flat on its side for 100% support-free printing and max tensile strength."""
-    rotated = tab.transformed(lambda p: (p[1], p[2], p[0]), f"pull_tab_{VERSION_TAG}")
+    """Orient pull tab lying flat on its side (Y-face down) for 100% support-free printing and max tensile strength."""
+    rotated = tab.transformed(lambda p: (p[0], p[2], p[1]), f"pull_tab_{VERSION_TAG}")
     zmin = rotated.bounds()[0][2]
-    return rotated.translated(0.0, 0.0, -zmin, f"pull_tab_{VERSION_TAG}")
+    return rotated.translated(0.0, 0.0, -zmin, f"pull_tab_{VERSION_TAG}").positive()
 
 
 def add_snap_lugs(out: Mesh, interference: float, y_centres: Sequence[float], prefix: str) -> None:
@@ -1954,8 +1979,8 @@ def main() -> None:
         PANE_CHANNEL_Z0 + MAX_GLASS_T,
     )
     installed_glass = glass_local.translated(0.0, 0.0, BODY_H, "installed_glass")
-    installed_tab = tab.translated(0.0, 37.75, BODY_H + 2.55, "installed_tab")
-    closed_reference = combine("REFERENCE_closed_assembly_DO_NOT_PRINT", [body, closed_lid, installed_glass, installed_tab])
+    installed_tab = tab.translated(0.0, 21.50, 17.80, "installed_tab")
+    closed_reference = combine("REFERENCE_closed_assembly_DO_NOT_PRINT", [body_divided, closed_lid, installed_glass, installed_tab])
     open_lid = rotate_about_hinge_open(lid_local, -108.0)
 
     files: list[tuple[str, Mesh]] = [
