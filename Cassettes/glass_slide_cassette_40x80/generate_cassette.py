@@ -864,9 +864,9 @@ def build_lid_local() -> Mesh:
     out.extend(box("top_window_left_centre", -15.50, window_x0, HINGE_RELIEF_Y0 - 0.05, HINGE_RELIEF_Y1 + 0.05, top_z0, top_z1))
     out.extend(box("top_window_left_upper", -17.00, window_x0, HINGE_RELIEF_Y1, window_y1 + 0.05, top_z0, top_z1))
     # Right window rail: full width outside the pull tab notch; inner rail only across the notch:
-    out.extend(box("top_window_right_lower", window_x1, 19.30, window_y0 - 0.05, 16.05, top_z0, top_z1))
-    out.extend(box("top_window_right_notch_inner", window_x1, 16.00, 15.95, 27.05, top_z0, top_z1))
-    out.extend(box("top_window_right_upper", window_x1, 19.30, 26.95, window_y1 + 0.05, top_z0, top_z1))
+    out.extend(box("top_window_right_lower", window_x1, 19.30, window_y0 - 0.05, 14.05, top_z0, top_z1))
+    out.extend(box("top_window_right_notch_inner", window_x1, 14.50, 13.95, 29.05, top_z0, top_z1))
+    out.extend(box("top_window_right_upper", window_x1, 19.30, 28.95, window_y1 + 0.05, top_z0, top_z1))
 
     # The unchanged solid label band also roofs the far end of the channel:
     out.extend(box("top_label_band", -17.00, 19.30, window_y1, 38.05, top_z0, top_z1))
@@ -881,21 +881,21 @@ def build_lid_local() -> Mesh:
     # Continuous side walls and 1.5 mm opposite ledges reproduce the passing
     # v0.3/v0.4 channel and positively overlap the bed-supported top frame.
     out.extend(box("pane_left_wall", -15.50, channel_x0, PANE_ENTRY_Y, 38.45, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("pane_right_wall_lower", channel_x1, 17.30, PANE_ENTRY_Y, 16.05, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("pane_right_wall_notch_inner", channel_x1, 16.00, 15.95, 27.05, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("pane_right_wall_upper", channel_x1, 17.30, 26.95, 38.45, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_right_wall_lower", channel_x1, 17.30, PANE_ENTRY_Y, 14.05, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_right_wall_notch_inner", channel_x1, 14.50, 13.95, 29.05, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_right_wall_upper", channel_x1, 17.30, 28.95, 38.45, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
     out.extend(box("pane_left_bottom_ledge", -15.50, bottom_x0, PANE_ENTRY_Y, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
-    out.extend(box("pane_right_bottom_ledge_lower", bottom_x1, 17.30, PANE_ENTRY_Y, 16.05, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
-    out.extend(box("pane_right_bottom_ledge_notch_inner", bottom_x1, 16.00, 15.95, 27.05, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
-    out.extend(box("pane_right_bottom_ledge_upper", bottom_x1, 17.30, 26.95, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
+    out.extend(box("pane_right_bottom_ledge_lower", bottom_x1, 17.30, PANE_ENTRY_Y, 14.05, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
+    out.extend(box("pane_right_bottom_ledge_notch_inner", bottom_x1, 14.50, 13.95, 29.05, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
+    out.extend(box("pane_right_bottom_ledge_upper", bottom_x1, 17.30, 28.95, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
     out.extend(box("pane_far_stop", channel_x0 - 0.05, channel_x1 + 0.05, PANE_FAR_STOP_Y, 39.50, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
 
     # Outer side walls of the lid meeting the body rim at local Z = 0.00:
     # Right outer wall with fingernail relief:
     out.extend(box("right_outer_wall_lower_end", 17.25, 19.30, -38.05, -6.95, 0.0, PANE_CHANNEL_Z1 + 0.05))
-    # Full-depth through-notch for the body pull tab at Y in [16.00, 27.00 mm]:
-    out.extend(box("right_outer_wall_mid", 17.25, 19.30, 6.95, 16.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("right_outer_wall_upper", 17.25, 19.30, 26.95, 38.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    # Full-depth sloppy through-notch for the body pull tab at Y in [14.00, 29.00 mm]:
+    out.extend(box("right_outer_wall_mid", 17.25, 19.30, 6.95, 14.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("right_outer_wall_upper", 17.25, 19.30, 28.95, 38.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
     out.extend(box("right_finger_relief_inner_wall", 17.25, 18.00, -5.85, 5.85, 0.0, FINGER_RELIEF_H + 0.05))
     out.extend(box("right_finger_relief_roof_wall", 17.25, 19.30, -7.05, 7.05, FINGER_RELIEF_H, PANE_CHANNEL_Z1 + 0.05))
 
@@ -1978,12 +1978,16 @@ def main() -> None:
     card_1_2 = build_divider_card(1.20)
     card_1_0 = build_divider_card(1.00)
     card_1_4 = build_divider_card(1.40)
-    tab = build_pull_tab(0.35, "")
-    tab_print = pull_tab_print_orientation(tab, 17.80 - 0.35, "")
-    tab_loose = build_pull_tab(0.45, "_loose")
-    tab_loose_print = pull_tab_print_orientation(tab_loose, 17.80 - 0.45, "_loose")
-    tab_firm = build_pull_tab(0.25, "_firm")
-    tab_firm_print = pull_tab_print_orientation(tab_firm, 17.80 - 0.25, "_firm")
+    tab_default = build_pull_tab(0.15, "")
+    tab_default_print = pull_tab_print_orientation(tab_default, 17.80 - 0.15, "")
+    tab_0_20 = build_pull_tab(0.20, "_fit_0_20")
+    tab_0_20_print = pull_tab_print_orientation(tab_0_20, 17.80 - 0.20, "_fit_0_20")
+    tab_0_15 = build_pull_tab(0.15, "_fit_0_15")
+    tab_0_15_print = pull_tab_print_orientation(tab_0_15, 17.80 - 0.15, "_fit_0_15")
+    tab_0_10 = build_pull_tab(0.10, "_fit_0_10")
+    tab_0_10_print = pull_tab_print_orientation(tab_0_10, 17.80 - 0.10, "_fit_0_10")
+    tab_0_05 = build_pull_tab(0.05, "_fit_0_05")
+    tab_0_05_print = pull_tab_print_orientation(tab_0_05, 17.80 - 0.05, "_fit_0_05")
 
     closed_lid = lid_local.translated(0.0, 0.0, BODY_H, "closed_lid")
     glass_local = box(
@@ -1996,7 +2000,7 @@ def main() -> None:
         PANE_CHANNEL_Z0 + MAX_GLASS_T,
     )
     installed_glass = glass_local.translated(0.0, 0.0, BODY_H, "installed_glass")
-    installed_tab = tab.translated(0.0, 21.50, 17.80, "installed_tab")
+    installed_tab = tab_default.translated(0.0, 21.50, 17.80, "installed_tab")
     closed_reference = combine("REFERENCE_closed_assembly_DO_NOT_PRINT", [body_divided, closed_lid, installed_glass, installed_tab])
     open_lid = rotate_about_hinge_open(lid_local, -108.0)
 
@@ -2004,9 +2008,11 @@ def main() -> None:
         (f"cassette_body_{VERSION_TAG}_divided.stl", body_divided),
         (f"cassette_body_{VERSION_TAG}.stl", body),
         (f"cassette_lid_{VERSION_TAG}_print.stl", lid_print),
-        (f"pull_tab_{VERSION_TAG}.stl", tab_print),
-        (f"pull_tab_{VERSION_TAG}_loose.stl", tab_loose_print),
-        (f"pull_tab_{VERSION_TAG}_firm.stl", tab_firm_print),
+        (f"pull_tab_{VERSION_TAG}.stl", tab_default_print),
+        (f"pull_tab_{VERSION_TAG}_fit_0_20.stl", tab_0_20_print),
+        (f"pull_tab_{VERSION_TAG}_fit_0_15.stl", tab_0_15_print),
+        (f"pull_tab_{VERSION_TAG}_fit_0_10.stl", tab_0_10_print),
+        (f"pull_tab_{VERSION_TAG}_fit_0_05.stl", tab_0_05_print),
         ("divider_card_1_2mm.stl", card_1_2),
         ("divider_card_1_0mm.stl", card_1_0),
         ("divider_card_1_4mm.stl", card_1_4),
