@@ -53,9 +53,9 @@ POCKET_X = 0.50
 POCKET_Y = 0.00
 POCKET_DEPTH = 2.30
 WINDOW_W = 23.00
-WINDOW_D = 50.50
+WINDOW_D = 55.00
 WINDOW_X = 0.50
-WINDOW_Y = 2.25
+WINDOW_Y = 0.00
 MAX_GLASS_W = 26.30
 MAX_GLASS_D = 76.30
 MAX_GLASS_T = 1.20
@@ -83,12 +83,12 @@ PANE_FINGER_PAD_W = 10.00
 PANE_SLOT_W = 11.00
 PANE_TONGUE_SLOT_Y1 = -32.95
 
-# Symmetrical uninterrupted top surfaces on both ends of the lid accept 9 mm TZe tape.
+# Perfectly symmetrical 12.5 mm end borders on both ends of the lid accept 9 mm TZe tape.
 LABEL_W = 34.00
 LABEL_D = 10.00
 LABEL_X = 0.50
-LABEL_Y = 33.50
-ENTRY_LABEL_Y = -28.00
+LABEL_Y = 33.00
+ENTRY_LABEL_Y = -33.00
 
 # Hinge: 1.75 mm filament pin in an FDM-friendly peaked bore.  The v0.2
 # circular horizontal tubes printed poorly in PETG because their inner roofs

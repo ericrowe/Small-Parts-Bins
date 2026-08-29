@@ -41,7 +41,7 @@ Do not print `REFERENCE_closed_assembly_DO_NOT_PRINT.stl`.
 | Feature | Dimension |
 |---|---:|
 | Loading channel | 27.0 mm wide × 1.4 mm clear height |
-| Top/visible opening | 23.0 × 50.5 mm |
+| Top/visible opening | 23.0 × 55.0 mm (centered at Y = 0.0 mm) |
 | Opposite opening | 24.0 mm |
 | Tested glass width | 24.9 mm |
 | Overlap per side on tested glass | 0.95 mm top / 0.45 mm opposite |
@@ -51,13 +51,13 @@ Do not print `REFERENCE_closed_assembly_DO_NOT_PRINT.stl`.
 | Latch finger pad | 10.0 mm wide |
 | Frame entry slot cutout | Tight 0.50 mm perimeter outline (11.0 mm pad cut / 9.0 mm tongue cut) |
 | Relaxed tongue-to-glass gap | Flush at channel ceiling (0.2–0.3 mm clearance over 1.1–1.2 mm glass) |
-| Symmetrical solid label zones | Two 34.0 × 10.0 mm flat zones (entry end & far end) for 9 mm TZe tape |
+| Symmetrical end borders | Symmetrical 12.5 mm end borders (34.0 × 10.0 mm label zones) on both ends for 9 mm TZe tape |
 
 The pane enters at the end opposite the label, slides under the solid label band,
 and stops at the far end. Manually depress the compliant tongue outward, slide
 the pane completely past the shoulder, then release it.
 
-The visible window is **23.0 × 50.5 mm** and both label zones are **34.0 × 10.0 mm**.
+The visible window is **23.0 × 55.0 mm** (centered at $Y = 0.0\text{ mm}$) and both label zones are **34.0 × 10.0 mm**.
 The closed envelope without pull tab is **39.55 × 80.0 × 36.4 mm**; with pull tab installed, height reaches **40.4 mm** in the inter-foot stacking clearance valley (+1.85 mm safety margin).
 
 ## Assembly and test order
