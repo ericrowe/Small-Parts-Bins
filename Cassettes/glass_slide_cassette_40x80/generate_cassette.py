@@ -858,7 +858,10 @@ def build_lid_local() -> Mesh:
     out.extend(box("top_window_left_lower", -17.00, window_x0, window_y0 - 0.05, HINGE_RELIEF_Y0, top_z0, top_z1))
     out.extend(box("top_window_left_centre", -15.50, window_x0, HINGE_RELIEF_Y0 - 0.05, HINGE_RELIEF_Y1 + 0.05, top_z0, top_z1))
     out.extend(box("top_window_left_upper", -17.00, window_x0, HINGE_RELIEF_Y1, window_y1 + 0.05, top_z0, top_z1))
-    out.extend(box("top_window_right", window_x1, 19.30, window_y0 - 0.05, window_y1 + 0.05, top_z0, top_z1))
+    # Right window rail: full width outside the pull tab notch; inner rail only across the notch:
+    out.extend(box("top_window_right_lower", window_x1, 19.30, window_y0 - 0.05, 16.05, top_z0, top_z1))
+    out.extend(box("top_window_right_notch_inner", window_x1, 16.00, 15.95, 27.05, top_z0, top_z1))
+    out.extend(box("top_window_right_upper", window_x1, 19.30, 26.95, window_y1 + 0.05, top_z0, top_z1))
 
     # The unchanged solid label band also roofs the far end of the channel:
     out.extend(box("top_label_band", -17.00, 19.30, window_y1, 38.05, top_z0, top_z1))
@@ -873,17 +876,21 @@ def build_lid_local() -> Mesh:
     # Continuous side walls and 1.5 mm opposite ledges reproduce the passing
     # v0.3/v0.4 channel and positively overlap the bed-supported top frame.
     out.extend(box("pane_left_wall", -15.50, channel_x0, PANE_ENTRY_Y, 38.45, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("pane_right_wall", channel_x1, 17.30, PANE_ENTRY_Y, 38.45, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_right_wall_lower", channel_x1, 17.30, PANE_ENTRY_Y, 16.05, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_right_wall_notch_inner", channel_x1, 16.00, 15.95, 27.05, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_right_wall_upper", channel_x1, 17.30, 26.95, 38.45, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
     out.extend(box("pane_left_bottom_ledge", -15.50, bottom_x0, PANE_ENTRY_Y, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
-    out.extend(box("pane_right_bottom_ledge", bottom_x1, 17.30, PANE_ENTRY_Y, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
+    out.extend(box("pane_right_bottom_ledge_lower", bottom_x1, 17.30, PANE_ENTRY_Y, 16.05, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
+    out.extend(box("pane_right_bottom_ledge_notch_inner", bottom_x1, 16.00, 15.95, 27.05, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
+    out.extend(box("pane_right_bottom_ledge_upper", bottom_x1, 17.30, 26.95, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
     out.extend(box("pane_far_stop", channel_x0 - 0.05, channel_x1 + 0.05, PANE_FAR_STOP_Y, 39.50, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
 
     # Outer side walls of the lid meeting the body rim at local Z = 0.00:
     # Right outer wall with fingernail relief:
     out.extend(box("right_outer_wall_lower_end", 17.25, 19.30, -38.05, -6.95, 0.0, PANE_CHANNEL_Z1 + 0.05))
-    # Clearance notch in the downward-projecting outer skirt for the body pull tab at Y in [17.00, 26.00 mm]:
-    out.extend(box("right_outer_wall_mid", 17.25, 19.30, 6.95, 17.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("right_outer_wall_upper", 17.25, 19.30, 25.95, 38.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    # Full-depth through-notch for the body pull tab at Y in [16.00, 27.00 mm]:
+    out.extend(box("right_outer_wall_mid", 17.25, 19.30, 6.95, 16.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("right_outer_wall_upper", 17.25, 19.30, 26.95, 38.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
     out.extend(box("right_finger_relief_inner_wall", 17.25, 18.00, -5.85, 5.85, 0.0, FINGER_RELIEF_H + 0.05))
     out.extend(box("right_finger_relief_roof_wall", 17.25, 19.30, -7.05, 7.05, FINGER_RELIEF_H, PANE_CHANNEL_Z1 + 0.05))
 

@@ -166,7 +166,7 @@
     },
     {
       "file": "cassette_lid_v0_8_print.stl",
-      "triangles": 792,
+      "triangles": 864,
       "bounds_min_mm": [
         -20.45,
         -40.0,
@@ -182,21 +182,21 @@
         80.0,
         6.9
       ],
-      "signed_mesh_volume_mm3": 4196.71,
+      "signed_mesh_volume_mm3": 4113.03,
       "edge_audit": {
-        "triangles": 792,
-        "unique_edges": 1188,
+        "triangles": 864,
+        "unique_edges": 1296,
         "boundary_edges": 0,
         "nonmanifold_edges": 0
       },
       "exported_stl_audit": {
         "binary_stl_size_valid": true,
-        "triangle_count": 792,
+        "triangle_count": 864,
         "finite_coordinates": true,
         "degenerate_triangles": 0
       },
       "shell_overlap_connectivity": {
-        "closed_shell_components": 39,
+        "closed_shell_components": 45,
         "positive_aabb_overlap_graph_connected": true,
         "unconnected_shell_components": 0
       }
@@ -331,7 +331,7 @@
     },
     {
       "file": "REFERENCE_closed_assembly_DO_NOT_PRINT.stl",
-      "triangles": 1596,
+      "triangles": 1668,
       "bounds_min_mm": [
         -20.45,
         -40.4,
@@ -347,16 +347,16 @@
         80.8,
         40.4
       ],
-      "signed_mesh_volume_mm3": 33391.39,
+      "signed_mesh_volume_mm3": 33307.71,
       "edge_audit": {
-        "triangles": 1596,
-        "unique_edges": 2394,
+        "triangles": 1668,
+        "unique_edges": 2502,
         "boundary_edges": 0,
         "nonmanifold_edges": 0
       },
       "exported_stl_audit": {
         "binary_stl_size_valid": true,
-        "triangle_count": 1596,
+        "triangle_count": 1668,
         "finite_coordinates": true,
         "degenerate_triangles": 0
       }
