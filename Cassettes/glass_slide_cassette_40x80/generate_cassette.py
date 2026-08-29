@@ -550,6 +550,32 @@ def peaked_hinge_y(
     return m.positive()
 
 
+def build_body_boss_keyway(name_prefix: str) -> Mesh:
+    """Build the monolithic reinforced boss and dovetail keyway on the right/front body wall."""
+    m = Mesh(f"{name_prefix}_keyway_boss")
+    z0 = 17.80
+    z1 = BODY_H
+    join = 0.05
+    # 1. Solid bottom floor stop slab (Z in [16.00, 17.80 mm]):
+    m.extend(box(f"{name_prefix}_keyway_floor_stop", 14.80, 19.30, 15.00, 28.00, 16.00, z0 + join))
+    # 2. Solid 1.50 mm outer back wall (X in [17.80, 19.30 mm]):
+    m.extend(box(f"{name_prefix}_keyway_back_wall", 17.80 - join, 19.30, 15.00, 28.00, z0, z1))
+    # 3. Solid lower sidewall flank with 45° cavity lead-in chamfer (Y in [15.00, 17.50 mm]):
+    m.extend(box(f"{name_prefix}_keyway_lower_sidewall", 14.80, 17.80 + join, 16.50 - join, 17.50 + join, z0, z1))
+    chamfer_lower = [(17.30, 15.00), (14.80, 16.50), (17.80, 16.50), (17.80, 15.00)]
+    m.extend(prism(f"{name_prefix}_keyway_lower_chamfer", chamfer_lower, z0, z1))
+    # 4. Solid upper sidewall flank with 45° cavity lead-in chamfer (Y in [25.50, 28.00 mm]):
+    m.extend(box(f"{name_prefix}_keyway_upper_sidewall", 14.80, 17.80 + join, 25.50 - join, 26.50 + join, z0, z1))
+    chamfer_upper = [(14.80, 26.50), (17.30, 28.00), (17.80, 28.00), (17.80, 26.50)]
+    m.extend(prism(f"{name_prefix}_keyway_upper_chamfer", chamfer_upper, z0, z1))
+    # 5. Robust dovetail retaining lips (X in [14.80, 15.80 mm]):
+    lip_lower = [(14.80, 17.50), (14.80, 18.50), (15.80, 17.50)]
+    lip_upper = [(14.80, 25.50), (15.80, 25.50), (14.80, 24.50)]
+    m.extend(prism(f"{name_prefix}_keyway_lip_lower", lip_lower, z0, z1))
+    m.extend(prism(f"{name_prefix}_keyway_lip_upper", lip_upper, z0, z1))
+    return m
+
+
 def build_body() -> Mesh:
     out = Mesh(f"cassette_body_{VERSION_TAG}")
     outer = chamfer_rect(BODY_W, BODY_D, BODY_CORNER)
@@ -574,11 +600,10 @@ def build_body() -> Mesh:
     join = 0.05
     # Straight walls ending at the split plane BODY_H (32.80 mm)
     out.extend(box("body_upper_bottom_wall", outer[0][0] - join, outer[1][0] + join, -BODY_D / 2, inner[0][1], upper_z0, BODY_H))
-    # Right wall split around dovetail keyway pocket at Y in [17.50, 25.50 mm]:
-    out.extend(box("body_upper_right_lower", inner[2][0], BODY_W / 2, outer[2][1] - join, 17.50 + join, upper_z0, BODY_H))
-    out.extend(box("body_upper_right_upper", inner[2][0], BODY_W / 2, 25.50 - join, outer[3][1] + join, upper_z0, BODY_H))
-    # 1.50 mm solid outer wall behind keyway (X in [17.80, 19.30 mm]):
-    out.extend(box("body_upper_right_keyway_back", 17.80 - join, BODY_W / 2, 17.50 - join, 25.50 + join, upper_z0, BODY_H))
+    # Right wall split around dovetail keyway boss at Y in [15.00, 28.00 mm]:
+    out.extend(box("body_upper_right_lower", inner[2][0], BODY_W / 2, outer[2][1] - join, 15.00 + join, upper_z0, BODY_H))
+    out.extend(box("body_upper_right_upper", inner[2][0], BODY_W / 2, 28.00 - join, outer[3][1] + join, upper_z0, BODY_H))
+    out.extend(box("body_upper_right_boss_sub", inner[2][0], BODY_W / 2, 15.00 - join, 28.00 + join, upper_z0, 16.00 + join))
     out.extend(box("body_upper_top_wall", outer[5][0] - join, outer[4][0] + join, inner[4][1], BODY_D / 2, upper_z0, BODY_H))
     # Stop the centre support below the pin passage.
     out.extend(
@@ -633,11 +658,8 @@ def build_body() -> Mesh:
         out.extend(box("body_front_grip_rib", -7.0, 7.0, -BODY_D / 2 - 0.40, -BODY_D / 2 + join, z_rib, z_rib + 0.90))
         out.extend(box("body_back_grip_rib", -7.0, 7.0, BODY_D / 2 - join, BODY_D / 2 + 0.40, z_rib, z_rib + 0.90))
 
-    # Vertical dovetail keyway retaining lips:
-    lip_lower_xy = [(15.40, 17.50), (15.40, 18.50), (16.60, 17.50)]
-    lip_upper_xy = [(15.40, 25.50), (16.60, 25.50), (15.40, 24.50)]
-    out.extend(prism("body_keyway_lip_lower", lip_lower_xy, upper_z0, BODY_H))
-    out.extend(prism("body_keyway_lip_upper", lip_upper_xy, upper_z0, BODY_H))
+    # Monolithic reinforced boss and keyway:
+    out.extend(build_body_boss_keyway("body"))
 
     return out
 
@@ -669,12 +691,10 @@ def build_divided_body() -> Mesh:
     out.extend(box("divided_upper_left_lower_end", -hx, lx - slot_recess_left + join, -hy + c - join, HINGE_BODY_END_RELIEF_Y0, relief_top, BODY_H))
     out.extend(box("divided_upper_left_upper_end", -hx, lx - slot_recess_left + join, HINGE_BODY_END_RELIEF_Y1, hy - c + join, relief_top, BODY_H))
 
-    # 3. Outer right wall: split around keyway pocket at Y in [17.50, 25.50 mm], Z in [17.80, 32.80 mm]
-    out.extend(box("div_outer_right_lower", rx + slot_recess_right - join, hx, -hy + c - join, 17.50 + join, z_floor - join, BODY_H))
-    out.extend(box("div_outer_right_upper", rx + slot_recess_right - join, hx, 25.50 - join, hy - c + join, z_floor - join, BODY_H))
-    out.extend(box("div_outer_right_keyway_base", rx + slot_recess_right - join, hx, 17.50 - join, 25.50 + join, z_floor - join, 17.80 + join))
-    # 1.50 mm solid outer wall behind keyway:
-    out.extend(box("div_outer_right_keyway_back", 17.80 - join, hx, 17.50 - join, 25.50 + join, 17.80, BODY_H))
+    # 3. Outer right wall: split around keyway boss at Y in [15.00, 28.00 mm]
+    out.extend(box("div_outer_right_lower", rx + slot_recess_right - join, hx, -hy + c - join, 15.00 + join, z_floor - join, BODY_H))
+    out.extend(box("div_outer_right_upper", rx + slot_recess_right - join, hx, 28.00 - join, hy - c + join, z_floor - join, BODY_H))
+    out.extend(box("div_outer_right_boss_sub", rx + slot_recess_right - join, hx, 15.00 - join, 28.00 + join, z_floor - join, 16.00 + join))
 
     # 4. Front wall: Y in [-hy, -iy]
     out.extend(box("divided_front_wall", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, BODY_H))
@@ -707,16 +727,15 @@ def build_divided_body() -> Mesh:
         elif y0 >= HINGE_RELIEF_Y0 and y1 <= HINGE_RELIEF_Y1:
             out.extend(box(f"div_left_upper_centre_{idx}", lx - slot_recess_left - join, lx, y0 - join, y1 + join, relief_top, HINGE_BODY_SUPPORT_TOP))
 
-        # Right inner wall segment: pocketed at keyway span
-        if y1 <= 17.50 + join:
+        # Right inner wall segment: pocketed at boss span
+        if y1 <= 15.00 + join:
             out.extend(box(f"div_right_wall_{idx}", rx, rx + slot_recess_right + join, y0 - join, y1 + join, z_floor - join, BODY_H))
         else:
-            if y0 < 17.50:
-                out.extend(box(f"div_right_wall_{idx}_pre", rx, rx + slot_recess_right + join, y0 - join, 17.50 + join, z_floor - join, BODY_H))
-            out.extend(box(f"div_right_wall_{idx}_keyway_sub", rx, rx + slot_recess_right + join, 17.50 - join, 25.50 + join, z_floor - join, 17.80 + join))
-            out.extend(box(f"div_right_wall_{idx}_keyway_back_fill", rx, 17.80 + join, 17.50 - join, 25.50 + join, 17.80, BODY_H))
-            if y1 > 25.50:
-                out.extend(box(f"div_right_wall_{idx}_post", rx, rx + slot_recess_right + join, 25.50 - join, y1 + join, z_floor - join, BODY_H))
+            if y0 < 15.00:
+                out.extend(box(f"div_right_wall_{idx}_pre", rx, rx + slot_recess_right + join, y0 - join, 15.00 + join, z_floor - join, BODY_H))
+            out.extend(box(f"div_right_wall_{idx}_boss_sub", rx, rx + slot_recess_right + join, 15.00 - join, 28.00 + join, z_floor - join, 16.00 + join))
+            if y1 > 28.00:
+                out.extend(box(f"div_right_wall_{idx}_post", rx, rx + slot_recess_right + join, 28.00 - join, y1 + join, z_floor - join, BODY_H))
 
     # 8. Internal flanking ridges on the right wall:
     for cy in slot_stations:
@@ -756,11 +775,8 @@ def build_divided_body() -> Mesh:
         out.extend(box("divided_front_grip_rib", -7.0, 7.0, -BODY_D / 2 - 0.40, -BODY_D / 2 + join, z_rib, z_rib + 0.90))
         out.extend(box("divided_back_grip_rib", -7.0, 7.0, BODY_D / 2 - join, BODY_D / 2 + 0.40, z_rib, z_rib + 0.90))
 
-    # 12. Vertical dovetail keyway retaining lips:
-    lip_lower_xy = [(15.40, 17.50), (15.40, 18.50), (16.60, 17.50)]
-    lip_upper_xy = [(15.40, 25.50), (16.60, 25.50), (15.40, 24.50)]
-    out.extend(prism("divided_keyway_lip_lower", lip_lower_xy, 17.80, BODY_H))
-    out.extend(prism("divided_keyway_lip_upper", lip_upper_xy, 17.80, BODY_H))
+    # 12. Monolithic reinforced boss and keyway:
+    out.extend(build_body_boss_keyway("divided"))
 
     return out
 
@@ -966,7 +982,7 @@ def build_pull_tab(clearance: float = 0.35, suffix: str = "") -> Mesh:
     base_y = 4.00 - clearance
     neck_y = 3.00 - clearance
     back_x = 17.80 - clearance
-    neck_x = 15.40 + clearance
+    neck_x = 14.80 + clearance
     flank_x = neck_x + (base_y - neck_y)
 
     # 1. Vertical dovetail male shank (Z in [0.00, 15.05 mm]):
