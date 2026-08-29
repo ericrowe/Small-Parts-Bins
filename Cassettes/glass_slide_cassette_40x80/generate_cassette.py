@@ -976,50 +976,56 @@ def build_lid_local() -> Mesh:
     return out
 
 
-def build_pull_tab() -> Mesh:
+def build_pull_tab(clearance: float = 0.35, suffix: str = "") -> Mesh:
     """Build the standalone ergonomic rigid pull tab with vertical dovetail shank and face-up finger grip."""
-    out = Mesh(f"pull_tab_{VERSION_TAG}")
+    out = Mesh(f"pull_tab_{VERSION_TAG}{suffix}")
     # Local coordinate system:
     # Shank extends Z in [0.00, 15.05 mm] (matching body keyway from Z = 17.80 to 32.80 mm).
     # Grip head extends Z in [15.00, 22.60 mm] (protruding +4.00 mm above closed 3.60 mm lid).
-    # Flat back face at X = 18.50 mm rests completely flat on the build plate (print Z = 0).
+    # Flat back face rests completely flat on the build plate (print Z = 0).
+
+    base_y = 4.00 - clearance
+    neck_y = 3.00 - clearance
+    back_x = 18.60 - clearance
+    neck_x = 15.60 + clearance
+    flank_x = neck_x + (base_y - neck_y)
 
     # 1. Vertical dovetail male shank (Z in [0.00, 15.05 mm]):
     shank_xy = [
-        (15.75, -2.85),
-        (15.75, 2.85),
-        (16.85, 3.85),
-        (18.50, 3.85),
-        (18.50, -3.85),
-        (16.85, -3.85),
+        (neck_x, -neck_y),
+        (neck_x, neck_y),
+        (flank_x, base_y),
+        (back_x, base_y),
+        (back_x, -base_y),
+        (flank_x, -base_y),
     ]
-    out.extend(prism("tab_shank_body", shank_xy, 0.00, 15.05))
+    out.extend(prism(f"tab_shank_body{suffix}", shank_xy, 0.00, 15.05))
 
     # 2. Upper ergonomic grip head (Z in [15.00, 22.60 mm], 11.0 mm wide fin along Y):
-    # Flat back face at X = 18.50 mm; contoured finger scoop on the face-up side (X <= 16.80 mm):
+    # Flat back face at X = back_x; contoured finger scoop on the face-up side:
     head_profile_xz = [
-        (15.75, 15.00),
-        (18.50, 15.00),
-        (18.50, 22.60),
+        (neck_x, 15.00),
+        (back_x, 15.00),
+        (back_x, 22.60),
         (16.00, 22.60),
         (15.60, 22.20),
         (16.80, 20.00),
         (16.00, 18.60),
     ]
-    out.extend(prism_y("tab_grip_head", head_profile_xz, -5.50, 5.50))
+    out.extend(prism_y(f"tab_grip_head{suffix}", head_profile_xz, -5.50, 5.50))
 
     # 3. Tactile grip ribs on the face-up side (print Z top surface):
-    out.extend(box("tab_rib_1", 16.00, 16.50, -4.50, 4.50, 19.20, 19.80))
-    out.extend(box("tab_rib_2", 16.00, 16.50, -4.50, 4.50, 20.50, 21.10))
+    out.extend(box(f"tab_rib_1{suffix}", 16.00, 16.50, -4.50, 4.50, 19.20, 19.80))
+    out.extend(box(f"tab_rib_2{suffix}", 16.00, 16.50, -4.50, 4.50, 20.50, 21.10))
 
     return out.positive()
 
 
-def pull_tab_print_orientation(tab: Mesh) -> Mesh:
+def pull_tab_print_orientation(tab: Mesh, back_x: float = 18.25, suffix: str = "") -> Mesh:
     """Orient pull tab laying flat on its back face (Z=0) for maximum bed adhesion, tensile strength, and support-free printing."""
-    rotated = tab.transformed(lambda p: (p[1], p[2], 18.50 - p[0]), f"pull_tab_{VERSION_TAG}")
+    rotated = tab.transformed(lambda p: (p[1], p[2], back_x - p[0]), f"pull_tab_{VERSION_TAG}{suffix}")
     zmin = rotated.bounds()[0][2]
-    return rotated.translated(0.0, 0.0, -zmin, f"pull_tab_{VERSION_TAG}").positive()
+    return rotated.translated(0.0, 0.0, -zmin, f"pull_tab_{VERSION_TAG}{suffix}").positive()
 
 
 def add_snap_lugs(out: Mesh, interference: float, y_centres: Sequence[float], prefix: str) -> None:
@@ -1967,8 +1973,12 @@ def main() -> None:
     card_1_2 = build_divider_card(1.20)
     card_1_0 = build_divider_card(1.00)
     card_1_4 = build_divider_card(1.40)
-    tab = build_pull_tab()
-    tab_print = pull_tab_print_orientation(tab)
+    tab = build_pull_tab(0.35, "")
+    tab_print = pull_tab_print_orientation(tab, 18.60 - 0.35, "")
+    tab_loose = build_pull_tab(0.45, "_loose")
+    tab_loose_print = pull_tab_print_orientation(tab_loose, 18.60 - 0.45, "_loose")
+    tab_firm = build_pull_tab(0.25, "_firm")
+    tab_firm_print = pull_tab_print_orientation(tab_firm, 18.60 - 0.25, "_firm")
 
     closed_lid = lid_local.translated(0.0, 0.0, BODY_H, "closed_lid")
     glass_local = box(
@@ -1990,6 +2000,8 @@ def main() -> None:
         (f"cassette_body_{VERSION_TAG}.stl", body),
         (f"cassette_lid_{VERSION_TAG}_print.stl", lid_print),
         (f"pull_tab_{VERSION_TAG}.stl", tab_print),
+        (f"pull_tab_{VERSION_TAG}_loose.stl", tab_loose_print),
+        (f"pull_tab_{VERSION_TAG}_firm.stl", tab_firm_print),
         ("divider_card_1_2mm.stl", card_1_2),
         ("divider_card_1_0mm.stl", card_1_0),
         ("divider_card_1_4mm.stl", card_1_4),
