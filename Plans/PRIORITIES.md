@@ -46,4 +46,4 @@ explicitly provisional.
 Plans 001 (14U carrier stack validation), 002 (cassette height optimization),
 003 (removable cassette dividers), 004 (smallest cassette & carrier finalization),
 and 010 (closure latch re-evaluation & clip reinforcement) are completed and archived.
-Plan 011 (cassette extraction pull tabs) is currently active in execution. The next queued plan is Plan 012.
+Plan 011 (cassette removal features) is currently active in execution. The next queued plan is Plan 012.
