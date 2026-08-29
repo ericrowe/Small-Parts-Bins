@@ -977,51 +977,47 @@ def build_lid_local() -> Mesh:
 
 
 def build_pull_tab() -> Mesh:
-    """Build the standalone ergonomic rigid pull tab with vertical dovetail shank."""
+    """Build the standalone ergonomic rigid pull tab with vertical dovetail shank and face-up finger grip."""
     out = Mesh(f"pull_tab_{VERSION_TAG}")
     # Local coordinate system:
     # Shank extends Z in [0.00, 15.05 mm] (matching body keyway from Z = 17.80 to 32.80 mm).
     # Grip head extends Z in [15.00, 22.60 mm] (protruding +4.00 mm above closed 3.60 mm lid).
-    # Centered at (X = 17.10, Y = 0.00) relative to the pull tab's origin.
+    # Flat back face at X = 18.50 mm rests completely flat on the build plate (print Z = 0).
 
     # 1. Vertical dovetail male shank (Z in [0.00, 15.05 mm]):
     shank_xy = [
         (15.75, -2.85),
         (15.75, 2.85),
-        (16.65, 3.85),
-        (18.45, 3.85),
-        (18.45, -3.85),
-        (16.65, -3.85),
+        (16.85, 3.85),
+        (18.50, 3.85),
+        (18.50, -3.85),
+        (16.85, -3.85),
     ]
     out.extend(prism("tab_shank_body", shank_xy, 0.00, 15.05))
 
-    # 2. Upper ergonomic grip head (Z in [15.00, 22.60 mm]):
-    # Below Z = 18.60 mm: passes through lid skirt notch at X in [17.40, 19.25 mm].
-    # Above Z = 18.60 mm: flares out above lid for ergonomic two-finger purchase.
+    # 2. Upper ergonomic grip head (Z in [15.00, 22.60 mm], 11.0 mm wide fin along Y):
+    # Flat back face at X = 18.50 mm; contoured finger scoop on the face-up side (X <= 16.80 mm):
     head_profile_xz = [
-        (17.40, 15.00),
-        (19.25, 15.00),
-        (19.25, 18.60),
-        (19.25, 22.00),
-        (18.90, 22.60),
-        (16.60, 22.60),
-        (16.30, 22.00),
-        (17.00, 19.50),
-        (17.40, 18.60),
+        (15.75, 15.00),
+        (18.50, 15.00),
+        (18.50, 22.60),
+        (16.00, 22.60),
+        (15.60, 22.20),
+        (16.80, 20.00),
+        (16.00, 18.60),
     ]
     out.extend(prism_y("tab_grip_head", head_profile_xz, -5.50, 5.50))
 
-    # 3. Tactile grip ribs on finger hollow:
-    for y_rib in [-3.50, 0.00, 3.50]:
-        out.extend(box(f"tab_inner_rib_{y_rib}", 16.70, 17.25, y_rib - 0.50, y_rib + 0.50, 19.00, 21.00))
-        out.extend(box(f"tab_outer_rib_{y_rib}", 18.70, 19.25, y_rib - 0.50, y_rib + 0.50, 19.00, 21.00))
+    # 3. Tactile grip ribs on the face-up side (print Z top surface):
+    out.extend(box("tab_rib_1", 16.00, 16.50, -4.50, 4.50, 19.20, 19.80))
+    out.extend(box("tab_rib_2", 16.00, 16.50, -4.50, 4.50, 20.50, 21.10))
 
     return out.positive()
 
 
 def pull_tab_print_orientation(tab: Mesh) -> Mesh:
-    """Orient pull tab lying flat on its side (Y-face down) for 100% support-free printing and max tensile strength."""
-    rotated = tab.transformed(lambda p: (p[0], p[2], p[1]), f"pull_tab_{VERSION_TAG}")
+    """Orient pull tab laying flat on its back face (Z=0) for maximum bed adhesion, tensile strength, and support-free printing."""
+    rotated = tab.transformed(lambda p: (p[1], p[2], 18.50 - p[0]), f"pull_tab_{VERSION_TAG}")
     zmin = rotated.bounds()[0][2]
     return rotated.translated(0.0, 0.0, -zmin, f"pull_tab_{VERSION_TAG}").positive()
 
