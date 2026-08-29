@@ -66,49 +66,48 @@ def prism_x(name: str, profile_yz: Sequence[tuple[float, float]], x0: float, x1:
     return m
 
 
-def build_single_slot_rocker_insert(width: float = 38.8, length: float = 79.6,
-                                    shelf_h: float = 2.0, fulcrum_y: float = 12.0) -> Mesh:
-    """Build a 1-slot rocker insert with a flat front resting shelf and rear tilt relief."""
+def build_single_slot_reversed_rocker_insert(width: float = 38.8, length: float = 79.6,
+                                             shelf_h: float = 2.0, push_zone_len: float = 28.0) -> Mesh:
+    """Build a 1-slot reversed rocker insert: push outer end down -> center end pops UP."""
     hx = width / 2.0
     y_min = -length / 2.0
     y_max = length / 2.0
+    fulcrum_y = y_min + push_zone_len  # e.g. -39.8 + 28.0 = -11.8 mm
 
     # Profile in (Y, Z):
-    # Front resting shelf: y_min to fulcrum_y at Z = shelf_h
-    # Rear tilt pocket: fulcrum_y to y_max slopes down to Z = 0.20 mm (thin tie membrane)
+    # Outer push pocket: y_min to fulcrum_y slopes from Z = 0.20 to shelf_h
+    # Center lift shelf: fulcrum_y to y_max is flat at Z = shelf_h
     profile_yz = [
         (y_min, 0.0),
         (y_max, 0.0),
-        (y_max, 0.20),
+        (y_max, shelf_h),
         (fulcrum_y, shelf_h),
-        (y_min, shelf_h),
+        (y_min, 0.20),
     ]
-    return prism_x("rocker_insert_single_slot", profile_yz, -hx, hx)
+    return prism_x("rocker_insert_single_slot_reversed", profile_yz, -hx, hx)
 
 
-def build_dual_slot_rocker_insert(width: float = 38.8, total_length: float = 160.0,
-                                  shelf_h: float = 2.0, fulcrum_offset: float = 12.0) -> Mesh:
-    """Build a 2-slot back-to-back rocker insert for testing Row 1 and Row 2 in a 3x4 carrier."""
+def build_dual_slot_reversed_rocker_insert(width: float = 38.8, total_length: float = 160.0,
+                                           shelf_h: float = 2.0, push_zone_len: float = 28.0) -> Mesh:
+    """Build a 2-slot back-to-back reversed rocker insert: push outer ends -> center pops UP."""
     hx = width / 2.0
     half_l = total_length / 2.0
+    f1 = -half_l + push_zone_len  # -80 + 28 = -52 mm (front fulcrum)
+    f2 = half_l - push_zone_len   # +80 - 28 = +52 mm (rear fulcrum)
 
-    # Row 1 (front slot: -half_l to 0.0):
-    # Front shelf at -half_l to (-half_l + (40.0 + fulcrum_offset)), rear tilt slopes down to center
-    # Row 2 (back slot: 0.0 to +half_l):
-    # Center tilt slopes up to (+half_l - (40.0 + fulcrum_offset)), rear shelf to +half_l
-    f1 = -half_l + (40.0 + fulcrum_offset)  # e.g. -80 + 52 = -28 mm
-    f2 = half_l - (40.0 + fulcrum_offset)   # e.g. +80 - 52 = +28 mm
-
+    # Profile in (Y, Z):
+    # Front push pocket: -half_l (Z=0.2) to f1 (Z=shelf_h)
+    # Center resting bridge: f1 to f2 (Z=shelf_h) flat resting shelf
+    # Rear push pocket: f2 (Z=shelf_h) to half_l (Z=0.2)
     profile_yz = [
         (-half_l, 0.0),
         (half_l, 0.0),
-        (half_l, shelf_h),
+        (half_l, 0.20),
         (f2, shelf_h),
-        (0.0, 0.20),
         (f1, shelf_h),
-        (-half_l, shelf_h),
+        (-half_l, 0.20),
     ]
-    return prism_x("rocker_insert_dual_slot", profile_yz, -hx, hx)
+    return prism_x("rocker_insert_dual_slot_reversed", profile_yz, -hx, hx)
 
 
 def save_binary_stl(mesh: Mesh, path: Path) -> None:
@@ -140,14 +139,14 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=Path(__file__).resolve().parent / "build")
     args = parser.parse_args()
 
-    single = build_single_slot_rocker_insert()
-    dual = build_dual_slot_rocker_insert()
+    single_rev = build_single_slot_reversed_rocker_insert()
+    dual_rev = build_dual_slot_reversed_rocker_insert()
 
-    save_binary_stl(single, args.out / "rocker_insert_single_slot.stl")
-    save_binary_stl(dual, args.out / "rocker_insert_dual_slot.stl")
+    save_binary_stl(single_rev, args.out / "rocker_insert_single_slot_reversed.stl")
+    save_binary_stl(dual_rev, args.out / "rocker_insert_dual_slot_reversed.stl")
 
-    print(f"Generated single-slot rocker insert: {args.out / 'rocker_insert_single_slot.stl'}")
-    print(f"Generated dual-slot rocker insert: {args.out / 'rocker_insert_dual_slot.stl'}")
+    print(f"Generated single-slot reversed rocker insert: {args.out / 'rocker_insert_single_slot_reversed.stl'}")
+    print(f"Generated dual-slot reversed rocker insert: {args.out / 'rocker_insert_dual_slot_reversed.stl'}")
 
 
 if __name__ == "__main__":
