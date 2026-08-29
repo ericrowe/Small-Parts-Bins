@@ -858,9 +858,7 @@ def build_lid_local() -> Mesh:
     out.extend(box("top_window_left_lower", -17.00, window_x0, window_y0 - 0.05, HINGE_RELIEF_Y0, top_z0, top_z1))
     out.extend(box("top_window_left_centre", -15.50, window_x0, HINGE_RELIEF_Y0 - 0.05, HINGE_RELIEF_Y1 + 0.05, top_z0, top_z1))
     out.extend(box("top_window_left_upper", -17.00, window_x0, HINGE_RELIEF_Y1, window_y1 + 0.05, top_z0, top_z1))
-    # Right window rail with pull-tab clearance cutout at Y in [15.50, 27.50 mm]:
-    out.extend(box("top_window_right_lower", window_x1, 19.30, window_y0 - 0.05, 15.55, top_z0, top_z1))
-    out.extend(box("top_window_right_cutout_ledge", window_x1, 15.50, 15.45, window_y1 + 0.05, top_z0, top_z1))
+    out.extend(box("top_window_right", window_x1, 19.30, window_y0 - 0.05, window_y1 + 0.05, top_z0, top_z1))
 
     # The unchanged solid label band also roofs the far end of the channel:
     out.extend(box("top_label_band", -17.00, 19.30, window_y1, 38.05, top_z0, top_z1))
@@ -875,16 +873,17 @@ def build_lid_local() -> Mesh:
     # Continuous side walls and 1.5 mm opposite ledges reproduce the passing
     # v0.3/v0.4 channel and positively overlap the bed-supported top frame.
     out.extend(box("pane_left_wall", -15.50, channel_x0, PANE_ENTRY_Y, 38.45, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("pane_right_wall", channel_x1, 15.50, PANE_ENTRY_Y, 38.45, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_right_wall", channel_x1, 17.30, PANE_ENTRY_Y, 38.45, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
     out.extend(box("pane_left_bottom_ledge", -15.50, bottom_x0, PANE_ENTRY_Y, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
-    out.extend(box("pane_right_bottom_ledge", bottom_x1, 15.50, PANE_ENTRY_Y, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
+    out.extend(box("pane_right_bottom_ledge", bottom_x1, 17.30, PANE_ENTRY_Y, 38.45, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
     out.extend(box("pane_far_stop", channel_x0 - 0.05, channel_x1 + 0.05, PANE_FAR_STOP_Y, 39.50, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
 
     # Outer side walls of the lid meeting the body rim at local Z = 0.00:
-    # Right outer wall with fingernail relief and pull-tab clearance cutout:
+    # Right outer wall with fingernail relief:
     out.extend(box("right_outer_wall_lower_end", 17.25, 19.30, -38.05, -6.95, 0.0, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("right_outer_wall_mid_end", 17.25, 19.30, 6.95, 15.55, 0.0, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("right_outer_wall_upper_end", 17.25, 19.30, 27.45, 38.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    # Clearance notch in the downward-projecting outer skirt for the body pull tab at Y in [17.00, 26.00 mm]:
+    out.extend(box("right_outer_wall_mid", 17.25, 19.30, 6.95, 17.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("right_outer_wall_upper", 17.25, 19.30, 25.95, 38.05, 0.0, PANE_CHANNEL_Z1 + 0.05))
     out.extend(box("right_finger_relief_inner_wall", 17.25, 18.00, -5.85, 5.85, 0.0, FINGER_RELIEF_H + 0.05))
     out.extend(box("right_finger_relief_roof_wall", 17.25, 19.30, -7.05, 7.05, FINGER_RELIEF_H, PANE_CHANNEL_Z1 + 0.05))
 
@@ -990,25 +989,25 @@ def build_pull_tab() -> Mesh:
     out.extend(prism("tab_shank_body", shank_xy, 0.00, 15.05))
 
     # 2. Upper ergonomic grip head (Z in [15.00, 22.60 mm]):
-    # Extruded along Y in [-5.50, +5.50 mm] (11.0 mm wide grip fin):
+    # Below Z = 18.60 mm: passes through lid skirt notch at X in [17.40, 19.25 mm].
+    # Above Z = 18.60 mm: flares out above lid for ergonomic two-finger purchase.
     head_profile_xz = [
-        (15.80, 15.00),
-        (18.80, 15.00),
-        (18.70, 16.50),
-        (17.80, 19.50),
-        (18.70, 22.00),
-        (18.40, 22.60),
-        (16.20, 22.60),
-        (15.90, 22.00),
-        (16.80, 19.50),
-        (15.90, 16.50),
+        (17.40, 15.00),
+        (19.25, 15.00),
+        (19.25, 18.60),
+        (19.25, 22.00),
+        (18.90, 22.60),
+        (16.60, 22.60),
+        (16.30, 22.00),
+        (17.00, 19.50),
+        (17.40, 18.60),
     ]
     out.extend(prism_y("tab_grip_head", head_profile_xz, -5.50, 5.50))
 
-    # 3. Tactile grip ribs on finger hollows:
+    # 3. Tactile grip ribs on finger hollow:
     for y_rib in [-3.50, 0.00, 3.50]:
-        out.extend(box(f"tab_inner_rib_{y_rib}", 16.50, 17.05, y_rib - 0.50, y_rib + 0.50, 18.50, 20.50))
-        out.extend(box(f"tab_outer_rib_{y_rib}", 17.55, 18.10, y_rib - 0.50, y_rib + 0.50, 18.50, 20.50))
+        out.extend(box(f"tab_inner_rib_{y_rib}", 16.70, 17.25, y_rib - 0.50, y_rib + 0.50, 19.00, 21.00))
+        out.extend(box(f"tab_outer_rib_{y_rib}", 18.70, 19.25, y_rib - 0.50, y_rib + 0.50, 19.00, 21.00))
 
     return out.positive()
 
