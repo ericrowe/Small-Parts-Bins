@@ -42,25 +42,29 @@ stacking clearance envelope.
 ## Implementation steps
 
 1. [x] **Architecture Selection:** Select internal flanking ridge architecture with deep channel engagement ($1.40\text{–}1.60\text{ mm}$/side), loose-fit divider cards ($33.00\text{ mm}$), and reinforced closure clasp ($0.85\text{ mm}$ undercut).
-2. [ ] **Parametric Generator Update:** Update `Cassettes/glass_slide_cassette_40x80/generate_cassette.py` with internal flanking ridges, deepened channel recesses, loose-fit divider cards, and reinforced $0.85\text{ mm}$ closure clasp.
-3. [ ] **Export & Mesh Audit:** Generate and audit all updated STLs (`cassette_body_v0_8_divided.stl`, `cassette_body_v0_8.stl`, `cassette_lid_v0_8_print.stl`, `divider_card_full_1_2mm.stl`) for 0 boundary edges and 0 non-manifold edges.
-4. [ ] **Documentation & Previews:** Update README, manifests, and multi-view engineering drawings.
-5. [ ] **Physical Validation:** Print the updated divided body, lid, and divider cards in PETG; verify gravity drop-in, zero front-wall deflection, crisp latch snap, and secure closure under rollover.
-6. [ ] **Plan Archive:** Archive Plan 010 with walkthrough narrative upon physical acceptance.
+2. [x] **Parametric Generator Update:** Update `Cassettes/glass_slide_cassette_40x80/generate_cassette.py` with internal flanking ridges, deepened channel recesses, loose-fit divider cards, and reinforced $0.85\text{ mm}$ closure clasp.
+3. [x] **Export & Mesh Audit:** Generate and audit all updated STLs (`cassette_body_v0_8_divided.stl`, `cassette_body_v0_8.stl`, `cassette_lid_v0_8_print.stl`, `divider_card_1_2mm.stl`) for 0 boundary edges and 0 non-manifold edges.
+4. [x] **Documentation & Previews:** Update README, manifests, and multi-view engineering drawings.
+5. [ ] **Physical Validation:** Print full carrier set of updated divided bodies, lids, and divider cards in PETG; verify gravity drop-in, zero front-wall deflection, crisp latch snap, and secure closure under loaded carrier handling and rollover.
+6. [ ] **Plan Archive:** Archive Plan 010 with walkthrough narrative upon complete physical validation.
 
 ## Acceptance criteria
 
 - [ ] Latch positively retains the lid when 2 divider cards are installed (no spontaneous opening during handling, shaking, or rollover).
 - [ ] Latch positively retains the lid when 0 dividers are installed.
-- [ ] Divider cards drop in by gravity without wall binding.
-- [ ] Fingernail opening remains comfortable and non-destructive.
-- [ ] Closed envelope remains strictly within $39.55 \times 80.0 \times 36.0\text{ mm}$.
-- [ ] Exported STLs pass 100% geometric and mesh audits (0 boundary edges, 0 non-manifold edges).
-- [ ] Physical validation records document print settings, measured dimensions, and functional outcomes.
+- [x] Divider cards drop in by gravity without wall binding (physically confirmed on initial test unit).
+- [x] Fingernail opening remains comfortable and non-destructive.
+- [x] Closed envelope remains strictly within $39.55 \times 80.0 \times 36.0\text{ mm}$.
+- [x] Exported STLs pass 100% geometric and mesh audits (0 boundary edges, 0 non-manifold edges).
+- [ ] Physical validation records document full-batch print settings, measured dimensions, and functional outcomes.
 
 ## Validation record
 
-Record measurements, coupon test results, physical findings, and final latch parameters here during execution.
+### Initial Sample Validation — 2026-08-28
+
+- **Test Article:** `cassette_body_v0_8_divided.stl`, `cassette_lid_v0_8_print.stl`, and `divider_card_1_2mm.stl` printed in PETG.
+- **Physical Finding:** The $33.00\text{ mm}$ loose-fit divider card drops in by gravity with zero wall contact/wedging. The internal flanking ridges maintain positive capture overlap across the channel lips. With dividers seated, the front wall remains straight and the reinforced $0.85\text{ mm}$ closure clasp snaps crisply and holds firmly closed.
+- **Next Step:** Printing full batch overnight to fill a $3 \times 4$ carrier tray for loaded multi-cassette handling and stacking tests.
 
 ## Stop and rollback conditions
 
