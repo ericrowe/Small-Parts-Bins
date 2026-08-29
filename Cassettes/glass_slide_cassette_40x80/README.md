@@ -10,7 +10,7 @@ tray's bottom Gridfinity feet (lowest foot surface at $Z = 44.25\text{ mm}$, cas
 Key features:
 1. **Optimized Usable Depth:** $30.80\text{ mm}$ internal cavity depth with $2.0\text{ mm}$ solid floor.
 2. **Body-Anchored Vertical Dovetail Pull Tab (`pull_tab_v0_8.stl`):** A $15.0\text{ mm}$ tall male dovetail shank slides vertically into a monolithic reinforced boss keyway on the front/right body wall ($Y \in [15.00, 28.00\text{ mm}]$). Sized at the physically verified **$+0.10\text{ mm}$ fit standard** ($7.80\text{ mm}$ base, $5.80\text{ mm}$ neck, $2.80\text{ mm}$ thickness), it slides firmly and locks against the $45^\circ$ lead-in bottom floor stop. The upper ergonomic grip fin ($11.0\text{ mm}$ wide $\times 4.0\text{ mm}$ raised above lid) provides deep concave finger purchase scoops for effortless vertical one-handed extraction straight out of packed carrier trays in open drawers.
-3. **Matching Lid Perimeter Cutaway & Restored Solid Label Roof:** The lid's front perimeter skirt features an enlarged **$15.00\text{ mm}$ through-cutout** ($Y \in [14.00, 29.00\text{ mm}]$, $X \in [14.50, 19.30\text{ mm}]$) providing $+2.0\text{ mm}$ of clear air on all sides around the pull tab, allowing the lid to swing freely and latch securely with zero binding. The rear roof of the lid remains 100% solid and flat for the $34 \times 10\text{ mm}$ label.
+3. **Matching Lid Perimeter Cutaway & Symmetrical Dual Label Zones:** The lid's front perimeter skirt features an enlarged **$15.00\text{ mm}$ through-cutout** ($Y \in [14.00, 29.00\text{ mm}]$, $X \in [14.50, 19.30\text{ mm}]$) providing $+2.0\text{ mm}$ of clear air around the pull tab. Symmetrical solid **$34.0 \times 10.0\text{ mm}$ flat label zones** on BOTH the entry and far ends allow standard 9 mm Brother TZe tape to be applied on either end (or both) so labels read consistently regardless of carrier drawer orientation.
 4. **Reinforced $1.20\text{ mm}$ Compliant Glass Clip:** The compliant tongue and solid roof frame are $1.20\text{ mm}$ (6 solid layers in PETG, +125% stronger) with widened $2.5\text{ mm}$ 3D root gussets, eliminating bed-peel root tear failures upon removing prints from PEI build plates while maintaining smooth manual slide service.
 5. **Internal Flanking Ridges (Plan 010):** Vertical ridges projecting $+0.80\text{ mm}$ into the cavity ($1.50\text{ mm}$ wide along Y) flank the divider slots on the front wall. They create deep $1.40\text{–}1.60\text{ mm}$ guide channels ($3.00\text{ mm}$ total engagement across the cavity) and brace the front wall span down from $80\text{ mm}$ to $22.6\text{ mm}$ around the center latch.
 6. **Loose-Fit Gravity Drop-In Dividers:** $33.00\text{ mm}$ wide divider cards provide **$+1.10\text{ mm}$ of lateral float clearance** across the $34.10\text{ mm}$ channel bottom span, completely eliminating outward wall wedging while maintaining $\ge 0.75\text{ mm}$ of positive capture overlap past the channel lips.
@@ -26,7 +26,7 @@ Key features:
 
 - `build/cassette_body_v0_8_divided.stl` (divided body with reinforced front-wall dovetail boss keyway, $45^\circ$ under-shelf lead-in, and $0.85\text{ mm}$ catch; print upright in PETG or ASA)
 - `build/cassette_body_v0_8.stl` (undivided body with dovetail keyway; print upright in PETG or ASA)
-- `build/cassette_lid_v0_8_print.stl` (lid with $15.0\text{ mm}$ pull-tab clearance cutaway & $1.20\text{ mm}$ reinforced clip; print top/label-face down in PETG)
+- `build/cassette_lid_v0_8_print.stl` (lid with $15.0\text{ mm}$ pull-tab clearance cutaway, dual 9 mm label zones, & $1.20\text{ mm}$ reinforced clip; print top/label-face down in PETG)
 - `build/pull_tab_v0_8.stl` (ergonomic rigid pull tab with physically verified $+0.10\text{ mm}$ fit; print flat on back face in PETG, ~1 min print)
 - `build/divider_card_1_2mm.stl` (baseline $33.00 \times 31.20 \times 1.20\text{ mm}$ divider card with top extraction notch and lead-in chamfers)
 
@@ -41,7 +41,7 @@ Do not print `REFERENCE_closed_assembly_DO_NOT_PRINT.stl`.
 | Feature | Dimension |
 |---|---:|
 | Loading channel | 27.0 mm wide × 1.4 mm clear height |
-| Top/visible opening | 23.0 mm |
+| Top/visible opening | 23.0 × 50.5 mm |
 | Opposite opening | 24.0 mm |
 | Tested glass width | 24.9 mm |
 | Overlap per side on tested glass | 0.95 mm top / 0.45 mm opposite |
@@ -51,12 +51,13 @@ Do not print `REFERENCE_closed_assembly_DO_NOT_PRINT.stl`.
 | Latch finger pad | 10.0 mm wide |
 | Frame entry slot cutout | Tight 0.50 mm perimeter outline (11.0 mm pad cut / 9.0 mm tongue cut) |
 | Relaxed tongue-to-glass gap | Flush at channel ceiling (0.2–0.3 mm clearance over 1.1–1.2 mm glass) |
+| Symmetrical solid label zones | Two 34.0 × 10.0 mm flat zones (entry end & far end) for 9 mm TZe tape |
 
 The pane enters at the end opposite the label, slides under the solid label band,
 and stops at the far end. Manually depress the compliant tongue outward, slide
 the pane completely past the shoulder, then release it.
 
-The 23.0 × 58.5 mm visible window and 34.0 × 10.0 mm label zone are unchanged.
+The visible window is **23.0 × 50.5 mm** and both label zones are **34.0 × 10.0 mm**.
 The closed envelope without pull tab is **39.55 × 80.0 × 36.4 mm**; with pull tab installed, height reaches **40.4 mm** in the inter-foot stacking clearance valley (+1.85 mm safety margin).
 
 ## Assembly and test order
