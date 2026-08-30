@@ -392,8 +392,50 @@ def build_1x2_body() -> Mesh:
     return out
 
 
+def prism_x(name: str, profile_yz: list[tuple[float, float]], x0: float, x1: float) -> Mesh:
+    """Extrude a 2D profile defined in YZ across the X span [x0, x1]."""
+    m = prism_y(name, profile_yz, x0, x1)
+    out = Mesh(name)
+    out.triangles = [tuple((y, x, z) for x, y, z in t) for t in m.triangles]
+    return out
+
+
+def build_stacking_lip(lid_h: float = 3.60, lip_h: float = 4.40) -> Mesh:
+    """Build the standard 1x2 Gridfinity hollow stacking lip rim without covering the viewing window."""
+    m = Mesh("stacking_lip")
+    hx = OUTER_W / 2
+    hy = OUTER_L / 2
+    c = OUTER_R
+    ix = 18.60  # throat half-width (37.2 mm total)
+    iy = 39.60  # throat half-length (79.2 mm total)
+    z0 = lid_h
+    z_top = lid_h + lip_h
+    join = 0.05
+
+    xp = [(ix, z0 - join), (hx, z0 - join), (hx, z0 + 2.00), (hx - 0.40, z_top), (ix + 0.70, z_top), (ix + 0.70, z0 + 1.80), (ix, z0 + 1.10)]
+    xn = [(-x, z) for x, z in xp]
+    yp = [(iy, z0 - join), (hy, z0 - join), (hy, z0 + 2.00), (hy - 0.40, z_top), (iy + 0.70, z_top), (iy + 0.70, z0 + 1.80), (iy, z0 + 1.10)]
+    yn = [(-y, z) for y, z in yp]
+
+    # 4 Straight lip segments:
+    m.extend(prism_y("lip_right", xp, -hy + c - join, hy - c + join))
+    m.extend(prism_y("lip_left", xn, -hy + c - join, hy - c + join))
+    m.extend(prism_x("lip_back", yp, -hx + c - join, hx - c + join))
+    m.extend(prism_x("lip_front", yn, -hx + c - join, hx - c + join))
+
+    # 4 Corner columns:
+    for cx, cy, start in ((hx - c, -hy + c, 270), (hx - c, hy - c, 0), (-hx + c, hy - c, 90), (-hx + c, -hy + c, 180)):
+        poly = [(cx, cy)]
+        for i in range(7):
+            a = math.radians(start + i * 90 / 6)
+            poly.append((round(cx + c * math.cos(a), 4), round(cy + c * math.sin(a), 4)))
+        m.extend(prism(f"lip_corner_{int(start)}", poly, z0 - join, z_top))
+
+    return m
+
+
 def build_1x2_lid_local() -> Mesh:
-    """Build the 1x2 7U Gridfinity cassette lid with integrated stacking lip and glass capture."""
+    """Build the 1x2 7U Gridfinity cassette lid with integrated hollow stacking lip and glass capture."""
     out = Mesh("gridfinity_lid_1x2_7u_local")
 
     hx, hy = OUTER_W / 2, OUTER_L / 2
@@ -404,22 +446,8 @@ def build_1x2_lid_local() -> Mesh:
     window_x0 = WINDOW_X - WINDOW_W / 2   # -11.50
     window_x1 = WINDOW_X + WINDOW_W / 2   # +11.50
 
-    # 1. Stacking Rim / Lip on Top of Lid (local Z in [LID_H, LID_H + LIP_H] = [3.60, 8.00 mm]):
-    # Outer lip profile: 41.5 x 83.5 mm tapering to 40.7 x 82.7 mm
-    # Inner throat: 37.2 x 79.2 mm
-    outer_rim_rings = [
-        (LID_H, rounded_rect(OUTER_W, OUTER_L, OUTER_R)),
-        (LID_H + 2.00, rounded_rect(OUTER_W, OUTER_L, OUTER_R)),
-        (LID_H + LIP_H, rounded_rect(OUTER_W - 0.80, OUTER_L - 0.80, OUTER_R - 0.40)),
-    ]
-    out.extend(loft(outer_rim_rings))
-
-    # Inner throat cutout wall for stacking:
-    inner_throat_rings = [
-        (LID_H - 0.05, rounded_rect(OUTER_W - 2 * WALL_T, OUTER_L - 2 * WALL_T, 2.0)),
-        (LID_H + LIP_H + 0.05, rounded_rect(37.2, 79.2, 3.4)),
-    ]
-    # (The outer rim loft forms the positive lip perimeter).
+    # 1. Hollow Stacking Rim / Lip on Top of Lid (local Z in [3.60, 8.00 mm]):
+    out.extend(build_stacking_lip(LID_H, LIP_H))
 
     # 2. Main Lid Top Plate (local Z in [top_z0, top_z1] = [2.40, 3.60 mm]):
     # Symmetrical 12.5 mm solid end borders:
