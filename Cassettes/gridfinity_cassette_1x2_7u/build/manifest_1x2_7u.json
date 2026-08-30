@@ -1,5 +1,5 @@
 {
-  "format": "Gridfinity 1x2 7U Cassette Bin",
+  "format": "Gridfinity 1x2 7U Cassette Bin (Direct Stacking Body with Inset Lid)",
   "pitch_mm": [
     42.0,
     84.0
@@ -11,65 +11,67 @@
   ],
   "stacking_engaged_height_mm": 49.0,
   "total_height_with_lip_mm": 53.4,
+  "lid_top_height_mm": 48.6,
+  "lid_clearance_below_stacking_shelf_mm": 0.3999999999999986,
   "two_high_stack_height_mm": 102.4,
   "drawer_ceiling_mm": 111.125,
   "drawer_stack_clearance_mm": 8.724999999999994,
   "files": [
     {
       "file": "gridfinity_cassette_body_1x2_7u_divided.stl",
-      "triangles": 1156,
+      "triangles": 1496,
       "bounds_min_mm": [
-        -22.45,
+        -20.75,
         -41.75,
         0.0
       ],
       "bounds_max_mm": [
         20.75,
         41.75,
-        48.3
+        53.4
       ],
       "size_mm": [
-        43.2,
+        41.5,
         83.5,
-        48.3
+        53.4
       ]
     },
     {
       "file": "gridfinity_cassette_body_1x2_7u.stl",
-      "triangles": 940,
+      "triangles": 1280,
       "bounds_min_mm": [
-        -22.45,
+        -20.75,
         -41.75,
         0.0
       ],
       "bounds_max_mm": [
         20.75,
         41.75,
-        48.3
+        53.4
       ],
       "size_mm": [
-        43.2,
+        41.5,
         83.5,
-        48.3
+        53.4
       ]
     },
     {
       "file": "gridfinity_cassette_lid_1x2_7u_print.stl",
-      "triangles": 932,
+      "triangles": 604,
       "bounds_min_mm": [
-        -22.45,
-        -41.75,
+        -19.2,
+        -39.0,
         0.0
       ],
       "bounds_max_mm": [
-        20.75,
-        41.75,
-        10.6
+        18.45,
+        38.9,
+        5.6
       ],
       "size_mm": [
-        43.2,
-        83.5,
-        10.6
+        37.65,
+        77.9,
+        5.6
       ]
     },
     {
@@ -83,50 +85,50 @@
       "bounds_max_mm": [
         18.75,
         0.6,
-        42.0
+        38.8
       ],
       "size_mm": [
         37.5,
         1.2,
-        42.0
+        38.8
       ]
     },
     {
       "file": "REFERENCE_closed_assembly_1x2_7u_DO_NOT_PRINT.stl",
-      "triangles": 2088,
+      "triangles": 2100,
       "bounds_min_mm": [
-        -22.45,
+        -20.75,
         -41.75,
         0.0
       ],
       "bounds_max_mm": [
         20.75,
         41.75,
-        53.42
+        53.4
       ],
       "size_mm": [
-        43.2,
+        41.5,
         83.5,
-        53.42
+        53.4
       ]
     },
     {
       "file": "REFERENCE_two_high_stack_1x2_14u_DO_NOT_PRINT.stl",
-      "triangles": 4176,
+      "triangles": 4200,
       "bounds_min_mm": [
-        -22.45,
+        -20.75,
         -41.75,
         0.0
       ],
       "bounds_max_mm": [
         20.75,
         41.75,
-        102.44
+        102.42
       ],
       "size_mm": [
-        43.2,
+        41.5,
         83.5,
-        102.44
+        102.42
       ]
     }
   ]
