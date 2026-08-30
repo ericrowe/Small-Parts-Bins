@@ -244,6 +244,18 @@ def build_gridfinity_base() -> Mesh:
     return m
 
 
+def build_scoop_fillet(ix: float, z_floor: float, r: float, y0: float, y1: float, n: int = 8) -> Mesh:
+    """Build a smooth curved finger scoop radius along the inside front (latch) bottom corner."""
+    cx = ix - r
+    cz = z_floor + r
+    join = 0.05
+    profile = [(cx, z_floor - join), (ix + join, z_floor - join), (ix + join, cz)]
+    for i in range(n, -1, -1):
+        a = math.radians(270 + i * 90 / n)
+        profile.append((cx + r * math.cos(a), cz + r * math.sin(a)))
+    return prism_y("scoop_fillet", profile, y0, y1)
+
+
 def build_1x2_body_divided() -> Mesh:
     """Build the 1x2 7U divided Gridfinity cassette body."""
     out = Mesh("gridfinity_body_1x2_7u_divided")
@@ -288,7 +300,13 @@ def build_1x2_body_divided() -> Mesh:
         out.extend(box(f"left_brace_lower_{cy:.2f}", -ix - join, -ix + 0.60, ry0_a - join, ry1_a + join, z_floor - join, BODY_H))
         out.extend(box(f"left_brace_upper_{cy:.2f}", -ix - join, -ix + 0.60, ry0_b - join, ry1_b + join, z_floor - join, BODY_H))
 
-    # 4. Centre Hinge Knuckle on Left Wall:
+    # 4. Smooth finger scoop fillets (R = 4.0 mm) along inside front (latch) floor edge:
+    r_scoop = 4.00
+    out.extend(build_scoop_fillet(ix, z_floor, r_scoop, -hy + c, slot_stations[0] - slot_w / 2 + join))
+    out.extend(build_scoop_fillet(ix, z_floor, r_scoop, slot_stations[0] + slot_w / 2 - join, slot_stations[1] - slot_w / 2 + join))
+    out.extend(build_scoop_fillet(ix, z_floor, r_scoop, slot_stations[1] + slot_w / 2 - join, hy - c))
+
+    # 5. Centre Hinge Knuckle on Left Wall:
     out.extend(
         peaked_hinge_y(
             "body_centre_knuckle",
@@ -301,7 +319,7 @@ def build_1x2_body_divided() -> Mesh:
         )
     )
 
-    # 5. Inward Closure Catch on Inside of Right Wall (0.85 mm undercut):
+    # 6. Inward Closure Catch on Inside of Right Wall (0.85 mm undercut):
     catch_profile = [
         (ix, BODY_H - 2.60),
         (ix - 0.85, BODY_H - 2.10),
@@ -314,7 +332,7 @@ def build_1x2_body_divided() -> Mesh:
 
 
 def build_1x2_body() -> Mesh:
-    """Build the undivided 1x2 7U Gridfinity cassette body."""
+    """Build the undivided 1x2 7U Gridfinity cassette body with inside bottom finger scoop."""
     out = Mesh("gridfinity_body_1x2_7u")
     out.extend(build_gridfinity_base())
 
@@ -327,6 +345,10 @@ def build_1x2_body() -> Mesh:
     # Outer shell:
     outer_pts = rounded_rect(OUTER_W, OUTER_L, OUTER_R, 6)
     out.extend(prism("body_shell", outer_pts, z_floor - join, BODY_H))
+
+    # Continuous smooth finger scoop fillet (R = 4.0 mm) along inside front (latch) floor edge:
+    r_scoop = 4.00
+    out.extend(build_scoop_fillet(ix, z_floor, r_scoop, -hy + c, hy - c))
 
     # Centre Hinge Knuckle on Left Wall:
     out.extend(
@@ -461,10 +483,12 @@ def build_divider_card_1x2_7u(thickness: float = 1.20) -> Mesh:
     notch_w = 12.0
     notch_d = 2.0
 
+    r_scoop = 4.00
+
     pts_xz = [
         (x_left + 1.0, 0.0),
-        (x_right - 1.0, 0.0),
-        (x_right, 1.0),
+        (x_right - r_scoop, 0.0),
+        (x_right, r_scoop),
         (x_right, z_top - 1.0),
         (x_right - 1.0, z_top),
         (notch_w / 2.0, z_top),
