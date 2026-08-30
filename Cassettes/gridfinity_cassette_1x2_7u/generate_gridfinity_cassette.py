@@ -304,11 +304,15 @@ def build_stacking_lip(lid_h: float = 3.60, lip_h: float = 4.40) -> Mesh:
     yp = [(iy, z0 - join), (hy, z0 - join), (hy, z0 + 2.00), (hy - 0.40, z_top), (iy + 0.70, z_top), (iy + 0.70, z0 + 1.80), (iy, z0 + 1.10)]
     yn = [(-y, z) for y, z in yp]
 
-    # 4 Straight lip segments:
+    ch_x0 = -13.50  # 27.0 mm wide glass slide entry / flexure cutaway boundary
+    ch_x1 = 13.50
+
+    # 4 Straight lip segments (front lip is split to clear the glass entry and compliant flexure):
     m.extend(prism_y("lip_right", xp, -hy + c_out - join, hy - c_out + join))
     m.extend(prism_y("lip_left", xn, -hy + c_out - join, hy - c_out + join))
     m.extend(prism_x("lip_back", yp, -hx + c_out - join, hx - c_out + join))
-    m.extend(prism_x("lip_front", yn, -hx + c_out - join, hx - c_out + join))
+    m.extend(prism_x("lip_front_left", yn, -hx + c_out - join, ch_x0 + join))
+    m.extend(prism_x("lip_front_right", yn, ch_x1 - join, hx - c_out + join))
 
     # 4 Hollow corner arcs (ring polygons between outer and inner throat radius):
     corners = [
