@@ -1,0 +1,133 @@
+{
+  "format": "Gridfinity 1x2 7U Cassette Bin",
+  "pitch_mm": [
+    42.0,
+    84.0
+  ],
+  "envelope_outside_mm": [
+    41.5,
+    83.5,
+    53.4
+  ],
+  "stacking_engaged_height_mm": 49.0,
+  "total_height_with_lip_mm": 53.4,
+  "two_high_stack_height_mm": 102.4,
+  "drawer_ceiling_mm": 111.125,
+  "drawer_stack_clearance_mm": 8.724999999999994,
+  "files": [
+    {
+      "file": "gridfinity_cassette_body_1x2_7u_divided.stl",
+      "triangles": 864,
+      "bounds_min_mm": [
+        -22.45,
+        -41.75,
+        0.0
+      ],
+      "bounds_max_mm": [
+        20.75,
+        41.75,
+        48.3
+      ],
+      "size_mm": [
+        43.2,
+        83.5,
+        48.3
+      ]
+    },
+    {
+      "file": "gridfinity_cassette_body_1x2_7u.stl",
+      "triangles": 688,
+      "bounds_min_mm": [
+        -22.45,
+        -41.75,
+        0.0
+      ],
+      "bounds_max_mm": [
+        20.75,
+        41.75,
+        48.3
+      ],
+      "size_mm": [
+        43.2,
+        83.5,
+        48.3
+      ]
+    },
+    {
+      "file": "gridfinity_cassette_lid_1x2_7u_print.stl",
+      "triangles": 384,
+      "bounds_min_mm": [
+        -22.45,
+        -41.75,
+        0.0
+      ],
+      "bounds_max_mm": [
+        20.75,
+        41.75,
+        10.6
+      ],
+      "size_mm": [
+        43.2,
+        83.5,
+        10.6
+      ]
+    },
+    {
+      "file": "divider_card_1x2_7u_1_2mm.stl",
+      "triangles": 44,
+      "bounds_min_mm": [
+        -18.75,
+        -0.6,
+        0.0
+      ],
+      "bounds_max_mm": [
+        18.75,
+        0.6,
+        42.0
+      ],
+      "size_mm": [
+        37.5,
+        1.2,
+        42.0
+      ]
+    },
+    {
+      "file": "REFERENCE_closed_assembly_1x2_7u_DO_NOT_PRINT.stl",
+      "triangles": 1248,
+      "bounds_min_mm": [
+        -22.45,
+        -41.75,
+        0.0
+      ],
+      "bounds_max_mm": [
+        20.75,
+        41.75,
+        53.42
+      ],
+      "size_mm": [
+        43.2,
+        83.5,
+        53.42
+      ]
+    },
+    {
+      "file": "REFERENCE_two_high_stack_1x2_14u_DO_NOT_PRINT.stl",
+      "triangles": 2496,
+      "bounds_min_mm": [
+        -22.45,
+        -41.75,
+        0.0
+      ],
+      "bounds_max_mm": [
+        20.75,
+        41.75,
+        102.44
+      ],
+      "size_mm": [
+        43.2,
+        83.5,
+        102.44
+      ]
+    }
+  ]
+}
