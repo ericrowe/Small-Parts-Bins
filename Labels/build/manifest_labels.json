@@ -59,6 +59,26 @@
       "preview_wrap_png": "imperial_sae_socket_assortment_preview_wrap.png"
     },
     {
+      "title": "Specialty Hardware and Set Screws",
+      "label_count": 22,
+      "print_strip_svg": "specialty_hardware_and_set_screws_print_strip.svg",
+      "cut_strip_svg": "specialty_hardware_and_set_screws_cut_strip.svg",
+      "preview_strip_png": "specialty_hardware_and_set_screws_preview_strip.png",
+      "print_wrap_svg": "specialty_hardware_and_set_screws_print_wrap.svg",
+      "cut_wrap_svg": "specialty_hardware_and_set_screws_cut_wrap.svg",
+      "preview_wrap_png": "specialty_hardware_and_set_screws_preview_wrap.png"
+    },
+    {
+      "title": "Wood and Sheet Metal Screws",
+      "label_count": 22,
+      "print_strip_svg": "wood_and_sheet_metal_screws_print_strip.svg",
+      "cut_strip_svg": "wood_and_sheet_metal_screws_cut_strip.svg",
+      "preview_strip_png": "wood_and_sheet_metal_screws_preview_strip.png",
+      "print_wrap_svg": "wood_and_sheet_metal_screws_print_wrap.svg",
+      "cut_wrap_svg": "wood_and_sheet_metal_screws_cut_wrap.svg",
+      "preview_wrap_png": "wood_and_sheet_metal_screws_preview_wrap.png"
+    },
+    {
       "title": "Brass Heat Set Insert Assortment",
       "label_count": 9,
       "print_strip_svg": "brass_heat_set_insert_assortment_print_strip.svg",

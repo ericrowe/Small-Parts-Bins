@@ -6,7 +6,7 @@ Supports:
   2. Extended 38.6 x 76.0 mm Full-Lid Wrap Overlays (with 23.0 x 58.5 mm glass cutout & side length rulers).
   3. Batch Cricut Print-Then-Cut sheets (Letter & A4) with vector cut paths and fiducial registration frames.
   4. High-resolution PNG preview sheets for direct raster printing and visual inspection.
-  5. Preset shop assortments: Metric (M2–M6), Imperial (#4-40–1/4"), Brass Heat-Set Inserts, and Washers.
+  5. Preset shop assortments: Metric (M2–M6), Imperial (#4-40–1/4"), Brass Heat-Set Inserts, Specialty/Grub Screws, and Wood/Sheet Metal Screws.
 """
 
 from __future__ import annotations
@@ -63,17 +63,17 @@ FONT_SUB2_SIZE_MM = 1.7    # Standard subtext 2 font size
 
 @dataclass
 class FastenerSpec:
-    category: str           # "metric_coarse", "imperial_unc", "heat_set_inserts", "washers", etc.
-    size: str               # "M3", "#4-40", "1/4\"-20", etc.
+    category: str           # "metric_coarse", "imperial_unc", "heat_set_inserts", "washers", "specialty", etc.
+    size: str               # "M3", "#4-40", "1/4\"-20", "#6", etc.
     length: str = ""        # "12 mm", "1/2\"", "Standard", etc.
     head: str = "shcs"      # "shcs", "bhcs", "fhcs", "hex", "pan", "none"
     drive: str = "hex"      # "hex", "torx", "phillips", "none"
-    comp_type: str = "bolt" # "bolt", "nut", "nyloc", "washer", "insert"
+    comp_type: str = "bolt" # "bolt", "nut", "nyloc", "washer", "insert", "pin", "standoff", "wood"
     pitch: str = ""         # "0.5", "40 TPI", etc.
     tap_drill: str = ""     # "2.5 mm (#39)", "#43 (0.089\")", etc.
     clearance_drill: str = ""
-    tool_key: str = ""      # "2.5 mm", "3/32\"", "T10", etc.
-    material: str = ""      # "SS 304", "12.9", "GR 8", "Brass", etc.
+    tool_key: str = ""      # "2.5 mm", "3/32\"", "T10", "PH2", etc.
+    material: str = ""      # "SS 304", "12.9", "GR 8", "Brass", "Zinc", etc.
     accent_color: str = ""
     bg_color: str = ""
     extra_note: str = ""
@@ -96,11 +96,19 @@ def format_label_strings(spec: FastenerSpec) -> tuple[str, str, str]:
         title = f"{spec.size} × {len_str}".strip()
         sub1 = spec.extra_note.replace("Hole: ", "").strip() if spec.extra_note else ""
         sub2 = "Brass Insert"
+    elif spec.comp_type == "pin":
+        title = f"{spec.size} × {spec.length}".strip()
+        sub1 = spec.extra_note or "Dowel Pin"
+        sub2 = spec.material or "Hardened Steel"
+    elif spec.comp_type == "standoff":
+        title = f"{spec.size} × {spec.length}".strip()
+        sub1 = spec.extra_note or "Hex Standoff"
+        sub2 = f"Key {spec.tool_key}" if spec.tool_key else spec.material
     else:
         title = f"{spec.size} × {spec.length}".strip() if spec.length else spec.size
         p_str = spec.pitch if spec.pitch else ""
         tap_str = spec.tap_drill.split()[0] if (spec.tap_drill and spec.tap_drill.split()) else ""
-        sub1 = f"{p_str} | Tap {tap_str}" if (p_str and tap_str) else (p_str or tap_str)
+        sub1 = f"{p_str} | Tap {tap_str}" if (p_str and tap_str) else (spec.extra_note or p_str or tap_str)
         sub2 = f"Key {spec.tool_key}" if spec.tool_key else spec.material
 
     return title, sub1, sub2
@@ -365,7 +373,7 @@ def load_database() -> dict[str, Any]:
 
 
 def build_metric_m3_assortment() -> list[FastenerSpec]:
-    """Metric M3 Complete Shop Assortment (SHCS, BHCS, FHCS, Nuts, Washers)."""
+    """Metric M3 Complete Shop Assortment (SHCS, BHCS, FHCS, Nuts, Washers) - Elegoo Blue Theme."""
     db = load_database()
     m_info = next(m for m in db["threads"]["metric"] if m["size"] == "M3")
     cat = db["categories"]["metric_coarse"]
@@ -415,7 +423,7 @@ def build_metric_m3_assortment() -> list[FastenerSpec]:
 
 
 def build_metric_m2_m25_assortment() -> list[FastenerSpec]:
-    """Metric M2 & M2.5 Micro-Fastener Assortment (Electronics & Drones)."""
+    """Metric M2 & M2.5 Micro-Fastener Assortment - Elegoo Blue Theme."""
     db = load_database()
     cat = db["categories"]["metric_coarse"]
     specs = []
@@ -444,7 +452,7 @@ def build_metric_m2_m25_assortment() -> list[FastenerSpec]:
 
 
 def build_metric_m4_m5_m6_assortment() -> list[FastenerSpec]:
-    """Metric M4, M5, M6 Structural Hardware Assortment."""
+    """Metric M4, M5, M6 Structural Hardware Assortment - Elegoo Blue Theme."""
     db = load_database()
     cat = db["categories"]["metric_coarse"]
     specs = []
@@ -474,7 +482,7 @@ def build_metric_m4_m5_m6_assortment() -> list[FastenerSpec]:
 
 
 def build_imperial_socket_assortment() -> list[FastenerSpec]:
-    """Imperial / SAE (#4-40, #6-32, #8-32, 1/4\"-20) Assortment."""
+    """Imperial / SAE (#4-40, #6-32, #8-32, 1/4\"-20) Assortment - Elegoo Orange Theme."""
     db = load_database()
     cat = db["categories"]["imperial_unc"]
     specs = []
@@ -503,8 +511,147 @@ def build_imperial_socket_assortment() -> list[FastenerSpec]:
     return specs
 
 
+def build_specialty_hardware_assortment() -> list[FastenerSpec]:
+    """Specialty Mechanical Hardware (Set Screws / Grub Screws, Dowel Pins, Standoffs) - Elegoo / Overture Yellow Theme."""
+    db = load_database()
+    cat = db["categories"]["specialty"]
+    specs = []
+
+    # 1. Metric Set Screws / Grub Screws (Cup Point):
+    for size, length, key in [
+        ("M3", "3 mm", "1.5 mm"), ("M3", "4 mm", "1.5 mm"), ("M3", "6 mm", "1.5 mm"), ("M3", "8 mm", "1.5 mm"),
+        ("M4", "4 mm", "2.0 mm"), ("M4", "6 mm", "2.0 mm"), ("M4", "8 mm", "2.0 mm"),
+        ("M5", "5 mm", "2.5 mm"), ("M5", "8 mm", "2.5 mm")
+    ]:
+        specs.append(FastenerSpec(
+            category="specialty",
+            size=size,
+            length=length,
+            head="none",
+            drive="hex",
+            comp_type="bolt",
+            extra_note="Set Screw (Grub)",
+            tool_key=key,
+            material="12.9 Steel",
+            accent_color=cat["color_hex"],
+            bg_color=cat["color_bg"]
+        ))
+
+    # 2. Imperial Set Screws:
+    for size, length, key in [
+        ("#4-40", "1/8\"", "0.050\""), ("#6-32", "3/16\"", "1/16\""), ("#8-32", "1/4\"", "5/64\""), ("1/4\"-20", "1/4\"", "1/8\"")
+    ]:
+        specs.append(FastenerSpec(
+            category="specialty",
+            size=size,
+            length=length,
+            head="none",
+            drive="hex",
+            comp_type="bolt",
+            extra_note="Set Screw (Grub)",
+            tool_key=key,
+            material="Alloy Steel",
+            accent_color=cat["color_hex"],
+            bg_color=cat["color_bg"]
+        ))
+
+    # 3. Precision Dowel Pins:
+    for dia, length in [("Ø2.0", "10 mm"), ("Ø3.0", "12 mm"), ("Ø3.0", "16 mm"), ("Ø4.0", "20 mm"), ("Ø5.0", "25 mm")]:
+        specs.append(FastenerSpec(
+            category="specialty",
+            size=dia,
+            length=length,
+            head="none",
+            drive="none",
+            comp_type="pin",
+            extra_note="Ground Dowel Pin",
+            material="Hardened Steel",
+            accent_color=cat["color_hex"],
+            bg_color=cat["color_bg"]
+        ))
+
+    # 4. Hex M3 Standoffs (Male-Female):
+    for length in ["6+6 mm", "10+6 mm", "15+6 mm", "20+6 mm"]:
+        specs.append(FastenerSpec(
+            category="specialty",
+            size="M3",
+            length=length,
+            head="hex",
+            drive="none",
+            comp_type="standoff",
+            extra_note="Hex M-F Standoff",
+            tool_key="5.0 mm",
+            material="Brass",
+            accent_color=cat["color_hex"],
+            bg_color=cat["color_bg"]
+        ))
+
+    return specs
+
+
+def build_wood_screws_assortment() -> list[FastenerSpec]:
+    """Wood Screws & Sheet Metal Screws - Elegoo / Overture Yellow Theme."""
+    db = load_database()
+    cat = db["categories"]["specialty"]
+    specs = []
+
+    # 1. Wood Screws (Countersunk Flat Head, Torx/PH):
+    for size, length, drive, key in [
+        ("#4", "1/2\"", "phillips", "PH1"), ("#4", "3/4\"", "phillips", "PH1"), ("#4", "1\"", "phillips", "PH1"),
+        ("#6", "1/2\"", "phillips", "PH2"), ("#6", "3/4\"", "phillips", "PH2"), ("#6", "1\"", "phillips", "PH2"), ("#6", "1-1/4\"", "phillips", "PH2"), ("#6", "1-1/2\"", "phillips", "PH2"),
+        ("#8", "3/4\"", "torx", "T20"), ("#8", "1\"", "torx", "T20"), ("#8", "1-1/4\"", "torx", "T20"), ("#8", "1-1/2\"", "torx", "T20"), ("#8", "2\"", "torx", "T20")
+    ]:
+        specs.append(FastenerSpec(
+            category="specialty",
+            size=size,
+            length=length,
+            head="fhcs",
+            drive=drive,
+            comp_type="bolt",
+            extra_note="Wood Screw (Flat)",
+            tool_key=key,
+            material="Zinc Plated",
+            accent_color=cat["color_hex"],
+            bg_color=cat["color_bg"]
+        ))
+
+    # 2. Sheet Metal Screws (Pan Head):
+    for size, length in [("#4", "3/8\""), ("#6", "1/2\""), ("#6", "3/4\""), ("#8", "1/2\""), ("#8", "3/4\"")]:
+        specs.append(FastenerSpec(
+            category="specialty",
+            size=size,
+            length=length,
+            head="pan",
+            drive="phillips",
+            comp_type="bolt",
+            extra_note="Sheet Metal (Pan)",
+            tool_key="PH2",
+            material="Stainless",
+            accent_color=cat["color_hex"],
+            bg_color=cat["color_bg"]
+        ))
+
+    # 3. Plastic Thread-Forming Screws:
+    for size, length in [("M2", "6 mm"), ("M2.5", "8 mm"), ("M3", "8 mm"), ("M3", "12 mm")]:
+        specs.append(FastenerSpec(
+            category="specialty",
+            size=size,
+            length=length,
+            head="pan",
+            drive="torx",
+            comp_type="bolt",
+            extra_note="Plastic Thread Screw",
+            tool_key="T10",
+            material="Black Oxide",
+            accent_color=cat["color_hex"],
+            bg_color=cat["color_bg"]
+        ))
+
+    return specs
+
+
 def build_heat_set_insert_assortment() -> list[FastenerSpec]:
-    """Brass Heat-Set Threaded Inserts (3D Printing Standard)."""
+    """Brass Heat-Set Threaded Inserts (3D Printing Standard) - Elegoo Black Body / Gold Accent Theme."""
     db = load_database()
     cat = db["categories"]["heat_set_inserts"]
     specs = []
@@ -538,6 +685,8 @@ def main():
         ("Metric M2 and M2.5 Micro Assortment", build_metric_m2_m25_assortment()),
         ("Metric M4 M5 M6 Structural Assortment", build_metric_m4_m5_m6_assortment()),
         ("Imperial SAE Socket Assortment", build_imperial_socket_assortment()),
+        ("Specialty Hardware and Set Screws", build_specialty_hardware_assortment()),
+        ("Wood and Sheet Metal Screws", build_wood_screws_assortment()),
         ("Brass Heat Set Insert Assortment", build_heat_set_insert_assortment()),
     ]
 
