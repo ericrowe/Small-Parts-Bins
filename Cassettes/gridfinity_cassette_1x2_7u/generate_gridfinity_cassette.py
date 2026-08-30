@@ -246,40 +246,45 @@ def build_corner_wedges(hx: float, hy: float, c: float, z0: float, z1: float, jo
 
 
 def build_upper_corner_shells(hx: float, hy: float, c: float, rx_slot: float, y_back_stop: float, z0: float, z1: float, join: float = 0.05) -> Mesh:
-    """Build the 4 rounded outer corner columns in the upper guide slot region (Z in [SLOT_Z0, ENGAGED_H]) without intruding into the rectangular sliding slot."""
+    """Build the 4 rounded outer corner columns in the upper guide slot region (Z in [SLOT_Z0, ENGAGED_H]) perfectly flush with the rounded Gridfinity outer shell."""
     m = Mesh("upper_corner_shells")
     n = 6
+
     # Rear-right corner (X > 0, Y > 0):
-    cx, cy = hx - c, hy - c
-    pts_rr = [(rx_slot - join, y_back_stop - join)]
+    cx_rr, cy_rr = hx - c, hy - c
+    poly_rr = [(cx_rr - join, cy_rr - join), (hx, cy_rr - join)]
     for i in range(n + 1):
         a = math.radians(0 + i * 90 / n)
-        pts_rr.append((round(cx + c * math.cos(a), 4), round(cy + c * math.sin(a), 4)))
-    m.extend(prism("upper_corner_rr", pts_rr, z0 - join, z1))
+        poly_rr.append((round(cx_rr + c * math.cos(a), 4), round(cy_rr + c * math.sin(a), 4)))
+    poly_rr.append((cx_rr - join, hy))
+    m.extend(prism("upper_corner_rr", poly_rr, z0 - join, z1))
 
     # Rear-left corner (X < 0, Y > 0):
-    cx, cy = -hx + c, hy - c
-    pts_rl = [(-rx_slot + join, y_back_stop - join)]
+    cx_rl, cy_rl = -hx + c, hy - c
+    poly_rl = [(cx_rl + join, cy_rl - join)]
     for i in range(n + 1):
         a = math.radians(90 + i * 90 / n)
-        pts_rl.append((round(cx + c * math.cos(a), 4), round(cy + c * math.sin(a), 4)))
-    m.extend(prism("upper_corner_rl", pts_rl, z0 - join, z1))
+        poly_rl.append((round(cx_rl + c * math.cos(a), 4), round(cy_rl + c * math.sin(a), 4)))
+    poly_rl.append((-hx, cy_rl - join))
+    m.extend(prism("upper_corner_rl", poly_rl, z0 - join, z1))
 
     # Front-left corner (X < 0, Y < 0):
-    cx, cy = -hx + c, -hy + c
-    pts_fl = [(-rx_slot + join, -hy + join)]
+    cx_fl, cy_fl = -hx + c, -hy + c
+    poly_fl = [(cx_fl + join, cy_fl + join), (-hx, cy_fl + join)]
     for i in range(n + 1):
         a = math.radians(180 + i * 90 / n)
-        pts_fl.append((round(cx + c * math.cos(a), 4), round(cy + c * math.sin(a), 4)))
-    m.extend(prism("upper_corner_fl", pts_fl, z0 - join, z1))
+        poly_fl.append((round(cx_fl + c * math.cos(a), 4), round(cy_fl + c * math.sin(a), 4)))
+    poly_fl.append((cx_fl + join, -hy))
+    m.extend(prism("upper_corner_fl", poly_fl, z0 - join, z1))
 
     # Front-right corner (X > 0, Y < 0):
-    cx, cy = hx - c, -hy + c
-    pts_fr = [(rx_slot - join, -hy + join)]
+    cx_fr, cy_fr = hx - c, -hy + c
+    poly_fr = [(cx_fr - join, cy_fr + join), (cx_fr - join, -hy)]
     for i in range(n + 1):
         a = math.radians(270 + i * 90 / n)
-        pts_fr.append((round(cx + c * math.cos(a), 4), round(cy + c * math.sin(a), 4)))
-    m.extend(prism("upper_corner_fr", pts_fr, z0 - join, z1))
+        poly_fr.append((round(cx_fr + c * math.cos(a), 4), round(cy_fr + c * math.sin(a), 4)))
+    poly_fr.append((hx, cy_fr + join))
+    m.extend(prism("upper_corner_fr", poly_fr, z0 - join, z1))
 
     return m
 
@@ -370,15 +375,15 @@ def build_1x2_body_divided() -> Mesh:
     y_back_stop = SLOT_STOP_Y  # 39.75 mm
     y_back_outer = hy
 
-    # 2. Upper Continuous Guide Walls (Z = 45.20 to 49.00 mm):
-    out.extend(box("body_upper_left_wall", -hx, -rx_slot + join, y_front, y_back_stop + join, SLOT_Z0 - join, ENGAGED_H))
-    out.extend(box("body_upper_right_wall", rx_slot - join, hx, y_front, y_back_stop + join, SLOT_Z0 - join, ENGAGED_H))
+    # 2. Upper Straight Guide Walls (Z = 45.20 to 49.00 mm):
+    out.extend(box("body_upper_left_wall", -hx, -rx_slot + join, -hy + c - join, hy - c + join, SLOT_Z0 - join, ENGAGED_H))
+    out.extend(box("body_upper_right_wall", rx_slot - join, hx, -hy + c - join, hy - c + join, SLOT_Z0 - join, ENGAGED_H))
     # Solid back end-stop wall (flat, flush across full slot width):
-    out.extend(box("body_upper_back_wall", -hx + c - join, hx - c + join, y_back_stop - join, y_back_outer, SLOT_Z0 - join, ENGAGED_H))
+    out.extend(box("body_upper_back_wall", -hx + c - join, hx - c + join, y_back_stop - join, hy, SLOT_Z0 - join, ENGAGED_H))
     # Open front entry slot: front wall above SLOT_Z0 only exists above SLOT_Z1 under the lip:
-    out.extend(box("body_upper_front_overhang", -hx + c - join, hx - c + join, -hy, -iy + join, SLOT_Z1 - join, ENGAGED_H))
+    out.extend(box("body_upper_front_overhang", -hx + c - join, hx - c + join, -hy, -hy + (hy - y_back_stop) + join, SLOT_Z1 - join, ENGAGED_H))
 
-    # 3. Outer 4 corner rounded columns:
+    # 3. Outer 4 corner rounded columns (Z in [6.00, 45.20] and [45.20, 49.00]):
     out.extend(build_corner_wedges(hx, hy, c, z_floor - join, SLOT_Z0 + join, join))
     out.extend(build_upper_corner_shells(hx, hy, c, rx_slot, y_back_stop, SLOT_Z0, ENGAGED_H, join))
 
@@ -387,8 +392,8 @@ def build_1x2_body_divided() -> Mesh:
 
     # 5. Continuous sliding guide rails (from front entry to rear stop):
     rail_w = 1.00
-    out.extend(box("slide_rail_left", -rx_slot - join, -rx_slot + rail_w, y_front, y_back_stop + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
-    out.extend(box("slide_rail_right", rx_slot - rail_w, rx_slot + join, y_front, y_back_stop + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
+    out.extend(box("slide_rail_left", -rx_slot - join, -rx_slot + rail_w, -hy + c - join, y_back_stop + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
+    out.extend(box("slide_rail_right", rx_slot - rail_w, rx_slot + join, -hy + c - join, y_back_stop + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
 
     # 6. Divider slots (Two stations at thirds Y = ±13.50 mm):
     slot_w = 1.40
@@ -441,17 +446,15 @@ def build_1x2_body() -> Mesh:
     out.extend(box("body_lower_front", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, SLOT_Z0 + join))
     out.extend(box("body_lower_back", -hx + c - join, hx - c + join, iy - join, hy, z_floor - join, SLOT_Z0 + join))
 
-    y_front = -hy
     y_back_stop = SLOT_STOP_Y  # 39.75 mm
-    y_back_outer = hy
 
-    # 2. Upper Continuous Guide Walls:
-    out.extend(box("body_upper_left_wall", -hx, -rx_slot + join, y_front, y_back_stop + join, SLOT_Z0 - join, ENGAGED_H))
-    out.extend(box("body_upper_right_wall", rx_slot - join, hx, y_front, y_back_stop + join, SLOT_Z0 - join, ENGAGED_H))
-    out.extend(box("body_upper_back_wall", -hx + c - join, hx - c + join, y_back_stop - join, y_back_outer, SLOT_Z0 - join, ENGAGED_H))
-    out.extend(box("body_upper_front_overhang", -hx + c - join, hx - c + join, -hy, -iy + join, SLOT_Z1 - join, ENGAGED_H))
+    # 2. Upper Straight Guide Walls:
+    out.extend(box("body_upper_left_wall", -hx, -rx_slot + join, -hy + c - join, hy - c + join, SLOT_Z0 - join, ENGAGED_H))
+    out.extend(box("body_upper_right_wall", rx_slot - join, hx, -hy + c - join, hy - c + join, SLOT_Z0 - join, ENGAGED_H))
+    out.extend(box("body_upper_back_wall", -hx + c - join, hx - c + join, y_back_stop - join, hy, SLOT_Z0 - join, ENGAGED_H))
+    out.extend(box("body_upper_front_overhang", -hx + c - join, hx - c + join, -hy, -hy + (hy - y_back_stop) + join, SLOT_Z1 - join, ENGAGED_H))
 
-    # 3. Outer 4 corner rounded columns:
+    # 3. Outer 4 corner rounded columns (Z in [6.00, 45.20] and [45.20, 49.00]):
     out.extend(build_corner_wedges(hx, hy, c, z_floor - join, SLOT_Z0 + join, join))
     out.extend(build_upper_corner_shells(hx, hy, c, rx_slot, y_back_stop, SLOT_Z0, ENGAGED_H, join))
 
@@ -460,8 +463,8 @@ def build_1x2_body() -> Mesh:
 
     # 5. Continuous sliding guide rails:
     rail_w = 1.00
-    out.extend(box("slide_rail_left", -rx_slot - join, -rx_slot + rail_w, y_front, y_back_stop + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
-    out.extend(box("slide_rail_right", rx_slot - rail_w, rx_slot + join, y_front, y_back_stop + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
+    out.extend(box("slide_rail_left", -rx_slot - join, -rx_slot + rail_w, -hy + c - join, y_back_stop + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
+    out.extend(box("slide_rail_right", rx_slot - rail_w, rx_slot + join, -hy + c - join, y_back_stop + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
 
     # 6. Continuous smooth finger scoop fillet:
     r_scoop = 4.00
