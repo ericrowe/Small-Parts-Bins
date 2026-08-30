@@ -2,45 +2,59 @@
   "categories": {
     "metric_coarse": {
       "name": "Metric Coarse (ISO)",
-      "color_name": "Cyan / Electric Blue",
+      "filament": "Elegoo Blue PETG",
+      "color_name": "Elegoo Blue",
       "color_hex": "#0077CC",
       "color_bg": "#E6F3FA",
       "prefix": "M"
     },
     "metric_fine": {
       "name": "Metric Fine (ISO)",
-      "color_name": "Navy / Indigo",
-      "color_hex": "#003366",
+      "filament": "Elegoo Blue PETG",
+      "color_name": "Elegoo Blue / Dark Navy",
+      "color_hex": "#005599",
       "color_bg": "#E8EEF5",
       "prefix": "M"
     },
     "imperial_unc": {
-      "name": "Imperial Coarse (UNC)",
-      "color_name": "Red / Crimson",
-      "color_hex": "#C8102E",
-      "color_bg": "#FBEAEB",
-      "prefix": "#"
-    },
-    "imperial_unf": {
-      "name": "Imperial Fine (UNF)",
-      "color_name": "Orange / Amber",
+      "name": "Imperial Coarse (UNC / SAE)",
+      "filament": "Elegoo Orange PETG",
+      "color_name": "Elegoo Orange",
       "color_hex": "#E65100",
       "color_bg": "#FEEFE6",
       "prefix": "#"
     },
-    "heat_set_inserts": {
-      "name": "Brass Heat-Set Inserts",
-      "color_name": "Gold / Brass Yellow",
-      "color_hex": "#C5A059",
-      "color_bg": "#F9F6EE",
-      "prefix": "M"
+    "imperial_unf": {
+      "name": "Imperial Fine (UNF / SAE)",
+      "filament": "Elegoo Orange PETG",
+      "color_name": "Elegoo Orange",
+      "color_hex": "#E65100",
+      "color_bg": "#FEEFE6",
+      "prefix": "#"
     },
     "washers": {
       "name": "Washers & Spacers",
+      "filament": "Elegoo / Geeetech Green PETG",
       "color_name": "Green",
       "color_hex": "#2E7D32",
       "color_bg": "#EAF4EB",
       "prefix": ""
+    },
+    "specialty": {
+      "name": "Specialty & Wood/Sheet Metal",
+      "filament": "Elegoo / Overture Yellow PETG",
+      "color_name": "Yellow",
+      "color_hex": "#D4A017",
+      "color_bg": "#FEF9E7",
+      "prefix": ""
+    },
+    "heat_set_inserts": {
+      "name": "Brass Heat-Set Inserts",
+      "filament": "Elegoo Black PETG",
+      "color_name": "Black / Brass Gold Accent",
+      "color_hex": "#C5A059",
+      "color_bg": "#F9F6EE",
+      "prefix": "M"
     }
   },
   "threads": {

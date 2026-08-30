@@ -4,80 +4,59 @@ This directory provides an automated Python generator for producing high-density
 
 Labels are formatted for:
 1. **Standard 34.0 × 10.0 mm Strips:** Fits the solid front label zone on cassette lids (`cassette_lid_v0_8_print.stl`).
-2. **Extended 38.6 × 76.0 mm Full-Lid Wraps:** Overlays the entire lid with an integrated 1:1 scale millimeter length ruler and technical specifications while leaving the **$23.0 \times 58.5\text{ mm}$ glass microscope slide window 100% unobstructed**.
+2. **Extended 38.6 × 76.0 mm Full-Lid Wraps:** Overlays the entire lid with an integrated 1:1 scale millimeter length ruler and technical specifications while leaving the **$23.0 \times 58.5\text{ mm}$ glass microscope slide window 100% clear**.
 
 ---
 
 ## Visual Previews
 
-### 1. Metric M3 Fastener Assortment (Standard 34 × 10 mm Strips)
+### 1. Metric M3 Fastener Assortment (Elegoo Blue Theme)
 ![Metric M3 Strip Sheet](../../docs/images/metric_m3_fastener_assortment_preview_strip.png)
 
-### 2. Imperial SAE Socket Assortment (Standard 34 × 10 mm Strips)
+### 2. Imperial SAE Socket Assortment (Elegoo Orange Theme)
 ![Imperial SAE Socket Strip Sheet](../../docs/images/imperial_sae_socket_assortment_preview_strip.png)
 
-### 3. Brass Heat-Set Insert Assortment (34 × 10 mm Strips with Hole Sizing Specs)
+### 3. Brass Heat-Set Insert Assortment (Elegoo Black Body / Gold Accent Theme)
 ![Brass Heat-Set Insert Strip Sheet](../../docs/images/brass_heat_set_insert_assortment_preview_strip.png)
 
 ---
 
-## Hardware Taxonomy & Color-Coding
+## Hardware Taxonomy & Filament Color Mapping
 
-| Category | Color Code | Hex Code | Fasteners Covered |
+| Category | Primary Hardware | Filament Material / Color | Label Accent Color |
 |---|---|---|---|
-| **Metric Coarse (ISO)** | Electric Blue / Cyan | `#0077CC` | M1.6, M2, M2.5, M3, M4, M5, M6, M8, M10, M12 |
-| **Metric Fine (ISO)** | Navy / Indigo | `#003366` | M8×1.0, M10×1.25, M12×1.5 |
-| **Imperial Coarse (UNC)** | Red / Crimson | `#C8102E` | #0-80, #2-56, #4-40, #6-32, #8-32, #10-24, 1/4"-20, 5/16"-18, 3/8"-16, 1/2"-13 |
-| **Imperial Fine (UNF)** | Orange / Amber | `#E65100` | #10-32, 1/4"-28, 5/16"-24, 3/8"-24, 1/2"-20 |
-| **Brass Heat-Set Inserts** | Gold / Brass | `#C5A059` | M2, M2.5, M3 (Short/Std/Voron), M4, M5 (with 3D print hole recommendations) |
-| **Washers & Spacers** | Green | `#2E7D32` | Flat washers, Split lock washers, Star washers |
+| **Metric Hardware (ISO)** | M1.6, M2, M2.5, M3, M4, M5, M6, M8 (SHCS, BHCS, FHCS) | **Elegoo Blue PETG** | Blue (`#0077CC`) |
+| **Imperial Hardware (SAE)** | #2-56, #4-40, #6-32, #8-32, #10-24, #10-32, 1/4"-20 | **Elegoo Orange PETG** | Orange (`#E65100`) |
+| **Washers & Spacers** | Flat washers, Split lock washers, Star washers, Spacers | **Elegoo / Geeetech Green PETG** | Green (`#2E7D32`) |
+| **Specialty & Wood/Pins** | Wood screws, sheet metal screws, grub screws, pins | **Elegoo / Overture Yellow PETG** | Yellow (`#D4A017`) |
+| **Carrier Trays & Lids** | 3×4 7U Carrier Trays & Cassette Lids | **Elegoo Black PETG** | Neutral Black Base |
+| **Heat-Set Inserts** | M2, M2.5, M3 (Short/Std/Voron), M4, M5 Brass Inserts | **Elegoo Black PETG** | Brass / Gold (`#C5A059`) |
 
 ---
 
-## Technical Information on Every Label
+## Standard Typography & Design Hierarchy
 
-1. **Size & Length Header:** Large, high-contrast bold typography (e.g. `M3 × 12`, `#4-40 × 1/2"`).
-2. **Thread Pitch & Tap Drill:** Recommended tap drill size (e.g. `P: 0.5 | Tap: 2.5mm (#39)` or `40 TPI | Tap: #43`).
-3. **Drive Key Size & Material:** Allen / Torx wrench size and material badge (e.g. `Key: 2.5 mm | SS 304`).
-4. **Vector Silhouette Icons:**
-   * Head profiles: Socket Head Cap (SHCS), Button Head (BHCS), Flat/Countersunk (FHCS), Pan Head, Hex Head.
-   * Drive profiles: Hex / Allen, Torx / Star (6-lobe), Phillips, Slotted, Square / Robertson.
-   * Component icons: Hex nuts, Nyloc lock nuts, Flanged nuts, Flat washers, Split lock washers, Knurled heat-set inserts.
+* **No dynamic letter squishing:** All labels use consistent, uniform typography with natural letter tracking.
+* **Main Size Header:** Bold $3.0\text{ mm}$ ($8.0\text{ pt}$) size and length callout (e.g. `M3 × 12 mm`, `#4-40 × 1/2"`).
+* **Technical Subtext 1:** Regular $1.7\text{ mm}$ ($4.8\text{ pt}$) pitch / tap drill / hole sizing (e.g. `0.5 | Tap 2.5`, `40 TPI | Tap #43`, `Ø4.0 × 4.5 mm`).
+* **Tool & Material Subtext 2:** Bold $1.7\text{ mm}$ ($4.8\text{ pt}$) category color drive key / material badge (e.g. `Key 2.5 mm`, `Key 3/32"`, `Brass Insert`).
+* **Vector Silhouettes:** Scalable vector head profiles (Socket, Button, Flat, Pan, Hex) and drive sockets (Hex, Torx, Phillips, Slotted, Square).
 
 ---
 
 ## Fabrication & Cricut Print-Then-Cut Workflow
 
-### Equipment & Materials:
-* **Printer:** Color Laser or High-Resolution Inkjet printer.
-* **Paper Stock:** Printable waterproof vinyl sticker paper or matte/gloss polyester laser label sheets (Letter 8.5 × 11 in or A4).
-* **Cutting Machine:** Cricut Maker / Explore / Joy Xtra (or silhouette cutter / hobby knife).
-
-### Step-by-Step Instructions:
-
 1. **Generate Sheets:**
    ```bash
    python3 Labels/generate_labels.py
    ```
-2. **Load Artwork into Cricut Design Space:**
+2. **Load into Cricut Design Space:**
    * Import `*_print_strip.svg` (or `*_print_wrap.svg`) as the **Print Artwork Layer**.
-   * Import `*_cut_strip.svg` as the **Cut Path Layer** (set operation to "Basic Cut").
+   * Import `*_cut_strip.svg` as the **Cut Path Layer** (Basic Cut).
    * Align the two layers over the matching corner registration frame and click **Attach**.
 3. **Print:**
-   * Print to laser printer on full-sheet sticker paper with standard 100% scale (no page scaling / "Actual Size").
+   * Print on full-sheet printable vinyl/polyester sticker paper with color laser printer at 100% scale (no page scaling).
 4. **Cut:**
-   * Place printed sheet on Cricut cutting mat.
-   * The optical sensor detects the black fiducial corner frame and performs precision kiss-cutting around each label perimeter ($R = 1.0\text{ mm}$ rounded corners).
+   * Place printed sheet on Cricut mat. Optical sensor registers fiducial corner frame and performs precision kiss-cutting ($R = 1.0\text{ mm}$ corners).
 5. **Apply:**
-   * Peel and apply directly to the $34 \times 10\text{ mm}$ front recessed zone of any assembled v0.7 / v0.8 cassette lid.
-
----
-
-## File Directory (`Labels/build/`)
-
-* `metric_m3_fastener_assortment_print_strip.svg` & `*_cut_strip.svg`
-* `metric_m2_and_m2_5_micro_assortment_print_strip.svg` & `*_cut_strip.svg`
-* `metric_m4_m5_m6_structural_assortment_print_strip.svg` & `*_cut_strip.svg`
-* `imperial_sae_socket_assortment_print_strip.svg` & `*_cut_strip.svg`
-* `brass_heat_set_insert_assortment_print_strip.svg` & `*_cut_strip.svg`
-* Matching `*_wrap.svg` full-lid overlays for all assortments.
+   * Apply directly to the $34 \times 10\text{ mm}$ front recessed zone of assembled cassette lids.
