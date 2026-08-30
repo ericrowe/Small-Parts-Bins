@@ -233,7 +233,7 @@ def build_scoop_fillet(ix: float, z_floor: float, r: float, y0: float, y1: float
 
 
 def build_corner_wedges(hx: float, hy: float, c: float, z0: float, z1: float, join: float = 0.05) -> Mesh:
-    """Build the 4 rounded corner columns of the outer shell without filling the internal cavity."""
+    """Build the 4 rounded corner columns of the lower body (Z <= SLOT_Z0)."""
     m = Mesh("corner_wedges")
     n = 6
     for cx, cy, start in ((hx - c, -hy + c, 270), (hx - c, hy - c, 0), (-hx + c, hy - c, 90), (-hx + c, -hy + c, 180)):
@@ -242,6 +242,45 @@ def build_corner_wedges(hx: float, hy: float, c: float, z0: float, z1: float, jo
             a = math.radians(start + i * 90 / n)
             poly.append((round(cx + c * math.cos(a), 4), round(cy + c * math.sin(a), 4)))
         m.extend(prism(f"corner_{int(start)}", poly, z0, z1))
+    return m
+
+
+def build_upper_corner_shells(hx: float, hy: float, c: float, rx_slot: float, y_back_stop: float, z0: float, z1: float, join: float = 0.05) -> Mesh:
+    """Build the 4 rounded outer corner columns in the upper guide slot region (Z in [SLOT_Z0, ENGAGED_H]) without intruding into the rectangular sliding slot."""
+    m = Mesh("upper_corner_shells")
+    n = 6
+    # Rear-right corner (X > 0, Y > 0):
+    cx, cy = hx - c, hy - c
+    pts_rr = [(rx_slot - join, y_back_stop - join)]
+    for i in range(n + 1):
+        a = math.radians(0 + i * 90 / n)
+        pts_rr.append((round(cx + c * math.cos(a), 4), round(cy + c * math.sin(a), 4)))
+    m.extend(prism("upper_corner_rr", pts_rr, z0 - join, z1))
+
+    # Rear-left corner (X < 0, Y > 0):
+    cx, cy = -hx + c, hy - c
+    pts_rl = [(-rx_slot + join, y_back_stop - join)]
+    for i in range(n + 1):
+        a = math.radians(90 + i * 90 / n)
+        pts_rl.append((round(cx + c * math.cos(a), 4), round(cy + c * math.sin(a), 4)))
+    m.extend(prism("upper_corner_rl", pts_rl, z0 - join, z1))
+
+    # Front-left corner (X < 0, Y < 0):
+    cx, cy = -hx + c, -hy + c
+    pts_fl = [(-rx_slot + join, -hy + join)]
+    for i in range(n + 1):
+        a = math.radians(180 + i * 90 / n)
+        pts_fl.append((round(cx + c * math.cos(a), 4), round(cy + c * math.sin(a), 4)))
+    m.extend(prism("upper_corner_fl", pts_fl, z0 - join, z1))
+
+    # Front-right corner (X > 0, Y < 0):
+    cx, cy = hx - c, -hy + c
+    pts_fr = [(rx_slot - join, -hy + join)]
+    for i in range(n + 1):
+        a = math.radians(270 + i * 90 / n)
+        pts_fr.append((round(cx + c * math.cos(a), 4), round(cy + c * math.sin(a), 4)))
+    m.extend(prism("upper_corner_fr", pts_fr, z0 - join, z1))
+
     return m
 
 
@@ -340,7 +379,8 @@ def build_1x2_body_divided() -> Mesh:
     out.extend(box("body_upper_front_overhang", -hx + c - join, hx - c + join, -hy, -iy + join, SLOT_Z1 - join, ENGAGED_H))
 
     # 3. Outer 4 corner rounded columns:
-    out.extend(build_corner_wedges(hx, hy, c, z_floor - join, ENGAGED_H, join))
+    out.extend(build_corner_wedges(hx, hy, c, z_floor - join, SLOT_Z0 + join, join))
+    out.extend(build_upper_corner_shells(hx, hy, c, rx_slot, y_back_stop, SLOT_Z0, ENGAGED_H, join))
 
     # 4. Monolithic Stacking Lip on Top of Body (Z = 49.00 to 53.40 mm):
     out.extend(build_stacking_lip())
@@ -412,7 +452,8 @@ def build_1x2_body() -> Mesh:
     out.extend(box("body_upper_front_overhang", -hx + c - join, hx - c + join, -hy, -iy + join, SLOT_Z1 - join, ENGAGED_H))
 
     # 3. Outer 4 corner rounded columns:
-    out.extend(build_corner_wedges(hx, hy, c, z_floor - join, ENGAGED_H, join))
+    out.extend(build_corner_wedges(hx, hy, c, z_floor - join, SLOT_Z0 + join, join))
+    out.extend(build_upper_corner_shells(hx, hy, c, rx_slot, y_back_stop, SLOT_Z0, ENGAGED_H, join))
 
     # 4. Monolithic Stacking Lip:
     out.extend(build_stacking_lip())
