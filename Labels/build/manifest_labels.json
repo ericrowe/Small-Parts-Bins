@@ -1,5 +1,5 @@
 {
-  "format": "High-Density Cricut Print-Then-Cut Strip Sheets (72 labels/sheet)",
+  "format": "High-Density Cricut Print-Then-Cut Strip Sheets with Bleed",
   "paper_size_mm": [
     215.9,
     279.4
@@ -13,6 +13,7 @@
     34.0,
     10.0
   ],
+  "bleed_margin_mm": 1.0,
   "typography": {
     "title_size_mm": 3.0,
     "sub1_size_mm": 1.7,

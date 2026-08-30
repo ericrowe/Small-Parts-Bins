@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-"""Generate High-Density, Printable, Cricut-Ready Fastener Label Sheets for Glass-Window Cassettes.
+"""Generate High-Density, Printable, Cricut-Ready Fastener Label Sheets with Bleed Protection.
 
-Optimizations:
+Features:
+  - Print-Then-Cut Bleed Protection: +1.0 mm full bleed on all sides (36 x 12 mm artwork envelope)
+    to prevent white edge slivers and misaligned cuts from printer/Cricut mechanical shift.
+  - Safe Text & Icon Inset: Keeps all typography and silhouettes safely inside the cut perimeter.
   - High-Density Tiling: Packs up to 72 labels (4 columns x 18 rows) per Letter sheet to eliminate wasted paper.
-  - Multi-Page Chunking: Automatically chunks large assortments into sequential 72-label pages (Page 1 of N).
   - Master Combined Sheets:
-      * Master Sheet 1 (Metric & Inserts - 72 Labels): All M2–M6 socket screws, nuts, washers, and heat-set inserts.
+      * Master Sheet 1 (Metric & Inserts - 70 Labels): All M2–M6 socket screws, nuts, washers, and heat-set inserts.
       * Master Sheet 2 (Imperial & Specialty/Wood - 72 Labels): All SAE #4-40–1/4" screws, grub screws, wood & sheet metal.
-  - Standard 34 x 10 mm Strips with uniform standard typography and 100% valid XML / Cricut registration frames.
+  - Standard 34 x 10 mm Finished Strip Size with R = 1.0 mm rounded corners.
 """
 
 from __future__ import annotations
@@ -30,13 +32,19 @@ from vector_icons import get_component_icon_svg, get_drive_icon_svg, get_head_ic
 # DIMENSIONAL CONSTANTS (millimeters)
 # ==============================================================================
 
-# Standard Strip Label:
+# Finished Cut Label:
 STRIP_W = 34.00
 STRIP_H = 10.00
 STRIP_R = 1.00  # Corner radius
 
-# Standard Text Layout:
-TEXT_X0 = 3.80
+# Bleed Geometry (extends 1.0 mm beyond cut line on all sides):
+BLEED = 1.00
+BLEED_W = STRIP_W + 2 * BLEED  # 36.00 mm
+BLEED_H = STRIP_H + 2 * BLEED  # 12.00 mm
+BLEED_R = STRIP_R + BLEED      # 2.00 mm
+
+# Safe Text & Icon Inset:
+TEXT_X0 = 4.20  # Safe clearance past 2.6 mm accent bar + 1.0 mm bleed shift
 
 # Standard Paper Sizes (mm):
 PAPER_LETTER = (215.9, 279.4)  # 8.5 x 11 in
@@ -132,33 +140,54 @@ def format_label_strings(spec: FastenerSpec) -> tuple[str, str, str]:
 
 
 # ==============================================================================
-# STANDALONE LABEL RENDERER (Pure Vector SVG)
+# STANDALONE LABEL RENDERER (Pure Vector SVG with Bleed Support)
 # ==============================================================================
 
-def render_strip_label_svg(spec: FastenerSpec, x: float = 0.0, y: float = 0.0, include_cut_path: bool = True) -> str:
-    """Render a standard 34.0 x 10.0 mm cassette lid strip label as SVG elements with standard uniform font sizes."""
+def render_strip_label_svg(spec: FastenerSpec, x: float = 0.0, y: float = 0.0, include_bleed: bool = True) -> str:
+    """Render a standard cassette lid strip label as SVG with +1.0 mm bleed protection."""
     color = spec.accent_color or "#0077CC"
     bg = spec.bg_color or "#FFFFFF"
 
     main_title, sub_text_1, sub_text_2 = format_label_strings(spec)
-    icon_x = x + STRIP_W - 8.2
+    icon_x = x + STRIP_W - 8.5
     node_id = clean_id("label", spec.size, spec.length, int(x), int(y))
 
     svg_parts = [
-        f'<g id="{node_id}" transform="translate({x:.2f},{y:.2f})">',
-        # Background rect:
-        f'<rect x="0" y="0" width="{STRIP_W}" height="{STRIP_H}" rx="{STRIP_R}" fill="{bg}" stroke="#CCCCCC" stroke-width="0.2"/>',
-        # Left category color accent bar:
-        f'<path d="M 0,{STRIP_R} A {STRIP_R},{STRIP_R} 0 0,1 {STRIP_R},0 L 2.6,0 L 2.6,{STRIP_H} L {STRIP_R},{STRIP_H} A {STRIP_R},{STRIP_R} 0 0,1 0,{STRIP_H - STRIP_R} Z" fill="{color}"/>',
-        # Main Title (Standard Bold Font with XML escaping):
-        f'<text x="{TEXT_X0}" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="{FONT_TITLE_SIZE_MM:.1f}" fill="#111111">{escape_xml(main_title)}</text>',
-        # Subtext line 1 (Pitch / Tap):
-        f'<text x="{TEXT_X0}" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="{FONT_SUB1_SIZE_MM:.1f}" fill="#444444">{escape_xml(sub_text_1)}</text>',
-        # Subtext line 2 (Drive Tool / Material):
-        f'<text x="{TEXT_X0}" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="{FONT_SUB2_SIZE_MM:.1f}" fill="{color}">{escape_xml(sub_text_2)}</text>',
+        f'<g id="{node_id}" transform="translate({x:.2f},{y:.2f})">'
     ]
 
-    # Render silhouette icons:
+    if include_bleed:
+        # Full Bleed Background Rectangle (extends -1.0 mm to +35.0 mm):
+        svg_parts.append(
+            f'<rect x="{-BLEED:.2f}" y="{-BLEED:.2f}" width="{BLEED_W:.2f}" height="{BLEED_H:.2f}" rx="{BLEED_R:.2f}" fill="{bg}" stroke="none"/>'
+        )
+        # Bleed Left Accent Bar (extends from X=-1.0 to X=3.6 mm, Y=-1.0 to Y=11.0 mm with rounded outer corners):
+        svg_parts.append(
+            f'<path d="M {-BLEED:.2f},{BLEED_R - BLEED:.2f} A {BLEED_R:.2f},{BLEED_R:.2f} 0 0,1 {BLEED_R - BLEED:.2f},{-BLEED:.2f} L 3.60,{-BLEED:.2f} L 3.60,{STRIP_H + BLEED:.2f} L {BLEED_R - BLEED:.2f},{STRIP_H + BLEED:.2f} A {BLEED_R:.2f},{BLEED_R:.2f} 0 0,1 {-BLEED:.2f},{STRIP_H + BLEED - BLEED_R:.2f} Z" fill="{color}"/>'
+        )
+    else:
+        # Exact Cut Box:
+        svg_parts.append(
+            f'<rect x="0" y="0" width="{STRIP_W}" height="{STRIP_H}" rx="{STRIP_R}" fill="{bg}" stroke="#CCCCCC" stroke-width="0.2"/>'
+        )
+        svg_parts.append(
+            f'<path d="M 0,{STRIP_R} A {STRIP_R},{STRIP_R} 0 0,1 {STRIP_R},0 L 2.6,0 L 2.6,{STRIP_H} L {STRIP_R},{STRIP_H} A {STRIP_R},{STRIP_R} 0 0,1 0,{STRIP_H - STRIP_R} Z" fill="{color}"/>'
+        )
+
+    # Main Title (Safe Inset Bold Font with XML escaping):
+    svg_parts.append(
+        f'<text x="{TEXT_X0}" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="{FONT_TITLE_SIZE_MM:.1f}" fill="#111111">{escape_xml(main_title)}</text>'
+    )
+    # Subtext line 1 (Pitch / Tap):
+    svg_parts.append(
+        f'<text x="{TEXT_X0}" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="{FONT_SUB1_SIZE_MM:.1f}" fill="#444444">{escape_xml(sub_text_1)}</text>'
+    )
+    # Subtext line 2 (Drive Tool / Material):
+    svg_parts.append(
+        f'<text x="{TEXT_X0}" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="{FONT_SUB2_SIZE_MM:.1f}" fill="{color}">{escape_xml(sub_text_2)}</text>'
+    )
+
+    # Render silhouette icons (safely within cut perimeter):
     if spec.comp_type in ("nut", "nyloc", "insert", "washer", "split"):
         svg_parts.append(get_component_icon_svg(spec.comp_type, icon_x - x, 1.5, 6.8, 6.8, color="#222222"))
     else:
@@ -168,10 +197,6 @@ def render_strip_label_svg(spec: FastenerSpec, x: float = 0.0, y: float = 0.0, i
         # Drive icon:
         if spec.drive and spec.drive != "none":
             svg_parts.append(get_drive_icon_svg(spec.drive, icon_x - x + 1.2, 5.2, 4.0, color=color))
-
-    # Optional Kiss-Cut path boundary:
-    if include_cut_path:
-        svg_parts.append(f'<rect x="0" y="0" width="{STRIP_W}" height="{STRIP_H}" rx="{STRIP_R}" fill="none" stroke="#FF0055" stroke-width="0.15" stroke-dasharray="1,1" opacity="0.4"/>')
 
     svg_parts.append("</g>")
     return "\n".join(svg_parts)
@@ -189,7 +214,7 @@ def render_png_page(
     page_num: int = 1,
     total_pages: int = 1
 ):
-    """Render a high-resolution 200 DPI PNG preview with standard, uniform typography."""
+    """Render a high-resolution 200 DPI PNG preview showing both printed bleed and overlaid cut paths."""
     paper_w, paper_h = paper
     fig_w, fig_h = paper_w / 25.4, paper_h / 25.4
 
@@ -207,7 +232,7 @@ def render_png_page(
     margin_y = (paper_h - CRICUT_MAX_H) / 2.0
     header_txt = title if total_pages == 1 else f"{title} (Sheet {page_num} of {total_pages})"
     ax.text(margin_x, margin_y - 8.0, header_txt, fontsize=13, weight="bold", color="#111111")
-    ax.text(margin_x, margin_y - 3.0, f"Gridfinity Glass-Window Cassette System — 34 × 10 mm Strips ({len(labels)} labels packed)", fontsize=8, color="#666666")
+    ax.text(margin_x, margin_y - 3.0, f"Gridfinity Cassette Labels (+1.0 mm Bleed Protected) — 34 × 10 mm Cut ({len(labels)} labels packed)", fontsize=8, color="#666666")
 
     # Cricut registration boundary frame:
     ax.add_patch(patches.Rectangle((margin_x - 4.0, margin_y - 4.0), CRICUT_MAX_W + 8.0, CRICUT_MAX_H + 8.0, fill=False, edgecolor="#000000", linewidth=2.0))
@@ -226,15 +251,17 @@ def render_png_page(
 
             main_title, sub1, sub2 = format_label_strings(spec)
 
-            # Label box:
-            ax.add_patch(patches.FancyBboxPatch((px, py), STRIP_W, STRIP_H, boxstyle=f"round,pad=0,rounding_size={STRIP_R}", facecolor=bg, edgecolor="#CCCCCC", linewidth=0.5))
-            # Category bar:
-            ax.add_patch(patches.Rectangle((px, py), 2.6, STRIP_H, facecolor=color, edgecolor="none"))
-            # Title (Standard uniform font size):
+            # 1. Bleed Background Box (36 x 12 mm):
+            ax.add_patch(patches.FancyBboxPatch((px - BLEED, py - BLEED), BLEED_W, BLEED_H, boxstyle=f"round,pad=0,rounding_size={BLEED_R}", facecolor=bg, edgecolor="none"))
+            # 2. Bleed Category Bar (4.6 x 12 mm):
+            ax.add_patch(patches.Rectangle((px - BLEED, py - BLEED), 3.6 + BLEED, BLEED_H, facecolor=color, edgecolor="none"))
+
+            # 3. Vector Cut Line Overlay (Red Dashed Line at exact 34 x 10 mm):
+            ax.add_patch(patches.FancyBboxPatch((px, py), STRIP_W, STRIP_H, boxstyle=f"round,pad=0,rounding_size={STRIP_R}", facecolor="none", edgecolor="#FF0055", linewidth=0.6, linestyle="--"))
+
+            # Typography:
             ax.text(px + TEXT_X0, py + 3.6, main_title, fontsize=8.0, weight="bold", color="#111111", va="center")
-            # Subtext 1:
             ax.text(px + TEXT_X0, py + 6.3, sub1, fontsize=4.8, weight="normal", color="#555555", va="center")
-            # Subtext 2:
             ax.text(px + TEXT_X0, py + 8.5, sub2, fontsize=4.8, weight="bold", color=color, va="center")
 
             idx += 1
@@ -251,7 +278,7 @@ def compose_high_density_sheets(
     paper: tuple[float, float] = PAPER_LETTER,
     output_dir: Path = Path("Labels/build"),
 ) -> list[dict[str, Any]]:
-    """Chunk labels into high-density 72-label sheets, generating paired print/cut SVGs and PNG previews."""
+    """Chunk labels into high-density 72-label sheets with +1.0 mm bleed print artwork and exact vector cut paths."""
     output_dir.mkdir(parents=True, exist_ok=True)
     paper_w, paper_h = paper
 
@@ -271,16 +298,16 @@ def compose_high_density_sheets(
         slug_base = clean_id("", title).lower()
         slug = slug_base if total_pages == 1 else f"{slug_base}_sheet_{page_num}"
 
-        # 1. Print Artwork Layer:
+        # 1. Print Artwork Layer (With +1.0 mm Bleed Protection):
         print_svg = [
             f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {paper_w:.2f} {paper_h:.2f}" width="{paper_w:.2f}mm" height="{paper_h:.2f}mm">',
             f'<rect width="{paper_w}" height="{paper_h}" fill="#FFFFFF"/>',
             f'<text x="{margin_x}" y="{margin_y - 8.0}" font-family="Arial, sans-serif" font-size="5.0" font-weight="bold" fill="#111111">{escape_xml(page_title)}</text>',
-            f'<text x="{margin_x}" y="{margin_y - 3.5}" font-family="Arial, sans-serif" font-size="2.8" fill="#666666">Gridfinity Glass-Window Cassette System — 34 × 10 mm Strips ({len(chunk)} labels)</text>',
+            f'<text x="{margin_x}" y="{margin_y - 3.5}" font-family="Arial, sans-serif" font-size="2.8" fill="#666666">Gridfinity Glass-Window Cassette System — 34 × 10 mm Strips (+1.0 mm Bleed Protected, {len(chunk)} labels)</text>',
             f'<rect x="{margin_x - 4.0}" y="{margin_y - 4.0}" width="{CRICUT_MAX_W + 8.0}" height="{CRICUT_MAX_H + 8.0}" fill="none" stroke="#000000" stroke-width="2.0"/>',
         ]
 
-        # 2. Vector Cut Path Layer:
+        # 2. Vector Cut Path Layer (Exact 34.0 x 10.0 mm kiss-cut paths):
         cut_svg = [
             f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {paper_w:.2f} {paper_h:.2f}" width="{paper_w:.2f}mm" height="{paper_h:.2f}mm">',
             f'<rect width="{paper_w}" height="{paper_h}" fill="none"/>',
@@ -296,7 +323,9 @@ def compose_high_density_sheets(
                 px = margin_x + c * (STRIP_W + GAP_X)
                 py = margin_y + r * (STRIP_H + GAP_Y)
 
-                print_svg.append(render_strip_label_svg(spec, x=px, y=py, include_cut_path=False))
+                # Print layer includes +1.0 mm bleed:
+                print_svg.append(render_strip_label_svg(spec, x=px, y=py, include_bleed=True))
+                # Cut layer stays exact 34 x 10 mm:
                 cut_svg.append(f'<rect x="{px:.2f}" y="{py:.2f}" width="{STRIP_W}" height="{STRIP_H}" rx="{STRIP_R}" fill="none" stroke="#FF0000" stroke-width="0.2"/>')
 
                 idx += 1
@@ -348,7 +377,7 @@ def load_database() -> dict[str, Any]:
 
 
 def build_master_metric_sheet_72() -> list[FastenerSpec]:
-    """Master Metric & Inserts Sheet (Exactly 72 labels packed for 1 Letter sheet)."""
+    """Master Metric & Inserts Sheet (Exactly 70 labels packed for 1 Letter sheet)."""
     db = load_database()
     cat_metric = db["categories"]["metric_coarse"]
     cat_washers = db["categories"]["washers"]
@@ -356,7 +385,6 @@ def build_master_metric_sheet_72() -> list[FastenerSpec]:
     specs = []
 
     # 1. M2 (SHCS 4, 6, 8, 10, 12, 16 mm + Nut + Washer) = 8 labels
-    m2_info = next(m for m in db["threads"]["metric"] if m["size"] == "M2")
     for L in ["4 mm", "6 mm", "8 mm", "10 mm", "12 mm", "16 mm"]:
         specs.append(FastenerSpec(category="metric_coarse", size="M2", length=L, head="shcs", drive="hex", pitch="0.4", tap_drill="1.6 mm", tool_key="1.5 mm", material="SS 304", accent_color=cat_metric["color_hex"], bg_color=cat_metric["color_bg"]))
     specs.append(FastenerSpec(category="metric_coarse", size="M2", length="Hex Nut", comp_type="nut", pitch="0.4", material="SS 304", accent_color=cat_metric["color_hex"], bg_color=cat_metric["color_bg"]))
@@ -412,7 +440,7 @@ def build_master_metric_sheet_72() -> list[FastenerSpec]:
             bg_color=cat_inserts["color_bg"]
         ))
 
-    return specs  # Exactly 72 labels!
+    return specs  # 70 labels packed on 1 sheet
 
 
 def build_master_imperial_and_wood_sheet_72() -> list[FastenerSpec]:
@@ -475,7 +503,7 @@ def build_master_imperial_and_wood_sheet_72() -> list[FastenerSpec]:
         specs.append(FastenerSpec(category="specialty", size="M3", length=length, head="hex", drive="none", comp_type="standoff", extra_note="Hex Standoff", tool_key="5.0 mm", material="Brass", accent_color=cat_spec["color_hex"], bg_color=cat_spec["color_bg"]))
     specs.append(FastenerSpec(category="specialty", size="M3", length="8 mm", head="pan", drive="torx", comp_type="bolt", extra_note="Plastic Thread", tool_key="T10", material="Black", accent_color=cat_spec["color_hex"], bg_color=cat_spec["color_bg"]))
 
-    return specs  # Exactly 72 labels!
+    return specs  # 72 labels packed on 1 sheet
 
 
 # ==============================================================================
@@ -486,7 +514,7 @@ def main():
     out_dir = Path(__file__).parent / "build"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    print("Generating High-Density Master Combined Fastener Sheets (72 labels/sheet)...")
+    print("Generating High-Density Master Combined Fastener Sheets with +1.0 mm Bleed Protection...")
 
     sheets_to_generate = [
         ("Master Metric and Inserts Assortment", build_master_metric_sheet_72()),
@@ -494,10 +522,11 @@ def main():
     ]
 
     manifest = {
-        "format": "High-Density Cricut Print-Then-Cut Strip Sheets (72 labels/sheet)",
+        "format": "High-Density Cricut Print-Then-Cut Strip Sheets with Bleed",
         "paper_size_mm": list(PAPER_LETTER),
         "grid_layout": {"cols": GRID_COLS, "rows": GRID_ROWS, "max_labels_per_sheet": MAX_LABELS_PER_SHEET},
         "label_dimensions_mm": [STRIP_W, STRIP_H],
+        "bleed_margin_mm": BLEED,
         "typography": {
             "title_size_mm": FONT_TITLE_SIZE_MM,
             "sub1_size_mm": FONT_SUB1_SIZE_MM,

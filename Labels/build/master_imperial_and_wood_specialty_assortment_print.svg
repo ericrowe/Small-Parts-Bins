@@ -1,961 +1,961 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 215.90 279.40" width="215.90mm" height="279.40mm">
 <rect width="215.9" height="279.4" fill="#FFFFFF"/>
 <text x="22.22500000000001" y="14.224999999999994" font-family="Arial, sans-serif" font-size="5.0" font-weight="bold" fill="#111111">Master Imperial and Wood Specialty Assortment</text>
-<text x="22.22500000000001" y="18.724999999999994" font-family="Arial, sans-serif" font-size="2.8" fill="#666666">Gridfinity Glass-Window Cassette System — 34 × 10 mm Strips (72 labels)</text>
+<text x="22.22500000000001" y="18.724999999999994" font-family="Arial, sans-serif" font-size="2.8" fill="#666666">Gridfinity Glass-Window Cassette System — 34 × 10 mm Strips (+1.0 mm Bleed Protected, 72 labels)</text>
 <rect x="18.22500000000001" y="18.224999999999994" width="179.45" height="242.95" fill="none" stroke="#000000" stroke-width="2.0"/>
 <g id="label_4-40_1_4_22_22" transform="translate(22.23,22.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 × 1/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI | Tap #43</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/32&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 × 1/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI | Tap #43</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/32&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_4-40_3_8_59_22" transform="translate(59.23,22.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 × 3/8&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI | Tap #43</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/32&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 × 3/8&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI | Tap #43</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/32&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_4-40_1_2_96_22" transform="translate(96.23,22.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 × 1/2&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI | Tap #43</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/32&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 × 1/2&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI | Tap #43</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/32&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_4-40_5_8_133_22" transform="translate(133.23,22.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 × 5/8&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI | Tap #43</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/32&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 × 5/8&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI | Tap #43</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/32&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_4-40_3_4_22_35" transform="translate(22.23,35.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 × 3/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI | Tap #43</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/32&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 × 3/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI | Tap #43</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/32&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_4-40_1_59_35" transform="translate(59.23,35.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 × 1&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI | Tap #43</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/32&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 × 1&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI | Tap #43</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/32&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_4-40_Hex_Nut_96_35" transform="translate(96.23,35.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 Hex</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
-<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 Hex</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
+<g transform="translate(25.50,1.50) scale(0.2833,0.2833)" fill="#222222">
             <polygon points="3,6 21,6 21,18 3,18"/>
             <line x1="9" y1="6" x2="9" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="15" y1="6" x2="15" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
 </g>
 <g id="label_4-40_Nyloc_Nut_133_35" transform="translate(133.23,35.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 Nyloc</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
-<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 Nyloc</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">40 TPI</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
+<g transform="translate(25.50,1.50) scale(0.2833,0.2833)" fill="#222222">
             <polygon points="3,9 21,9 21,19 3,19"/>
             <path d="M 6,9 C 6,5 18,5 18,9 Z" fill="#0077CC"/>
         </g>
 </g>
 <g id="label_4_Flat_Washer_22_48" transform="translate(22.23,48.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#EAF4EB" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#2E7D32"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4 Flat</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444"></text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#2E7D32">18-8 SS</text>
-<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#EAF4EB" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#2E7D32"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4 Flat</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444"></text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#2E7D32">18-8 SS</text>
+<g transform="translate(25.50,1.50) scale(0.2833,0.2833)" fill="#222222">
             <circle cx="12" cy="12" r="9"/>
             <circle cx="12" cy="12" r="4.5" fill="#FFFFFF"/>
         </g>
 </g>
 <g id="label_6-32_1_4_59_48" transform="translate(59.23,48.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 × 1/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #36</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 7/64&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 × 1/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #36</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 7/64&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_6-32_3_8_96_48" transform="translate(96.23,48.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 × 3/8&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #36</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 7/64&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 × 3/8&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #36</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 7/64&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_6-32_1_2_133_48" transform="translate(133.23,48.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 × 1/2&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #36</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 7/64&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 × 1/2&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #36</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 7/64&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_6-32_5_8_22_61" transform="translate(22.23,61.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 × 5/8&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #36</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 7/64&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 × 5/8&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #36</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 7/64&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_6-32_3_4_59_61" transform="translate(59.23,61.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 × 3/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #36</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 7/64&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 × 3/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #36</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 7/64&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_6-32_1_96_61" transform="translate(96.23,61.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 × 1&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #36</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 7/64&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 × 1&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #36</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 7/64&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_6-32_Hex_Nut_133_61" transform="translate(133.23,61.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 Hex</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
-<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 Hex</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
+<g transform="translate(25.50,1.50) scale(0.2833,0.2833)" fill="#222222">
             <polygon points="3,6 21,6 21,18 3,18"/>
             <line x1="9" y1="6" x2="9" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="15" y1="6" x2="15" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
 </g>
 <g id="label_6-32_Nyloc_Nut_22_74" transform="translate(22.23,74.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 Nyloc</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
-<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 Nyloc</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
+<g transform="translate(25.50,1.50) scale(0.2833,0.2833)" fill="#222222">
             <polygon points="3,9 21,9 21,19 3,19"/>
             <path d="M 6,9 C 6,5 18,5 18,9 Z" fill="#0077CC"/>
         </g>
 </g>
 <g id="label_6_Flat_Washer_59_74" transform="translate(59.23,74.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#EAF4EB" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#2E7D32"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6 Flat</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444"></text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#2E7D32">18-8 SS</text>
-<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#EAF4EB" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#2E7D32"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6 Flat</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444"></text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#2E7D32">18-8 SS</text>
+<g transform="translate(25.50,1.50) scale(0.2833,0.2833)" fill="#222222">
             <circle cx="12" cy="12" r="9"/>
             <circle cx="12" cy="12" r="4.5" fill="#FFFFFF"/>
         </g>
 </g>
 <g id="label_8-32_1_4_96_74" transform="translate(96.23,74.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 1/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #29</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 9/64&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 1/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #29</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 9/64&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_8-32_3_8_133_74" transform="translate(133.23,74.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 3/8&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #29</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 9/64&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 3/8&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #29</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 9/64&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_8-32_1_2_22_87" transform="translate(22.23,87.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 1/2&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #29</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 9/64&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 1/2&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #29</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 9/64&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_8-32_5_8_59_87" transform="translate(59.23,87.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 5/8&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #29</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 9/64&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 5/8&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #29</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 9/64&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_8-32_3_4_96_87" transform="translate(96.23,87.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 3/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #29</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 9/64&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 3/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #29</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 9/64&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_8-32_1_133_87" transform="translate(133.23,87.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 1&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #29</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 9/64&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 1&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #29</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 9/64&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_8-32_1-1_4_22_100" transform="translate(22.23,100.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 1-1/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #29</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 9/64&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 1-1/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI | Tap #29</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 9/64&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_8-32_Hex_Nut_59_100" transform="translate(59.23,100.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 Hex</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
-<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 Hex</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
+<g transform="translate(25.50,1.50) scale(0.2833,0.2833)" fill="#222222">
             <polygon points="3,6 21,6 21,18 3,18"/>
             <line x1="9" y1="6" x2="9" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="15" y1="6" x2="15" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
 </g>
 <g id="label_8-32_Nyloc_Nut_96_100" transform="translate(96.23,100.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 Nyloc</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
-<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 Nyloc</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">32 TPI</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
+<g transform="translate(25.50,1.50) scale(0.2833,0.2833)" fill="#222222">
             <polygon points="3,9 21,9 21,19 3,19"/>
             <path d="M 6,9 C 6,5 18,5 18,9 Z" fill="#0077CC"/>
         </g>
 </g>
 <g id="label_8_Flat_Washer_133_100" transform="translate(133.23,100.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#EAF4EB" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#2E7D32"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8 Flat</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444"></text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#2E7D32">18-8 SS</text>
-<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#EAF4EB" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#2E7D32"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8 Flat</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444"></text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#2E7D32">18-8 SS</text>
+<g transform="translate(25.50,1.50) scale(0.2833,0.2833)" fill="#222222">
             <circle cx="12" cy="12" r="9"/>
             <circle cx="12" cy="12" r="4.5" fill="#FFFFFF"/>
         </g>
 </g>
 <g id="label_1_4_-20_3_8_22_113" transform="translate(22.23,113.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 × 3/8&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI | Tap #7</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/16&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 × 3/8&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI | Tap #7</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/16&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_1_4_-20_1_2_59_113" transform="translate(59.23,113.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 × 1/2&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI | Tap #7</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/16&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 × 1/2&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI | Tap #7</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/16&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_1_4_-20_5_8_96_113" transform="translate(96.23,113.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 × 5/8&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI | Tap #7</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/16&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 × 5/8&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI | Tap #7</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/16&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_1_4_-20_3_4_133_113" transform="translate(133.23,113.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 × 3/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI | Tap #7</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/16&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 × 3/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI | Tap #7</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/16&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_1_4_-20_1_22_126" transform="translate(22.23,126.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 × 1&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI | Tap #7</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/16&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 × 1&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI | Tap #7</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/16&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_1_4_-20_1-1_4_59_126" transform="translate(59.23,126.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 × 1-1/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI | Tap #7</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/16&quot;</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 × 1-1/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI | Tap #7</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">Key 3/16&quot;</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
             <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#E65100">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#E65100">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_1_4_-20_Hex_Nut_96_126" transform="translate(96.23,126.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 Hex</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
-<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 Hex</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
+<g transform="translate(25.50,1.50) scale(0.2833,0.2833)" fill="#222222">
             <polygon points="3,6 21,6 21,18 3,18"/>
             <line x1="9" y1="6" x2="9" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
             <line x1="15" y1="6" x2="15" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
         </g>
 </g>
 <g id="label_1_4_-20_Nyloc_Nut_133_126" transform="translate(133.23,126.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEEFE6" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#E65100"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 Nyloc</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
-<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEEFE6" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#E65100"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot;-20 Nyloc</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">20 TPI</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#E65100">18-8 SS</text>
+<g transform="translate(25.50,1.50) scale(0.2833,0.2833)" fill="#222222">
             <polygon points="3,9 21,9 21,19 3,19"/>
             <path d="M 6,9 C 6,5 18,5 18,9 Z" fill="#0077CC"/>
         </g>
 </g>
 <g id="label_1_4_Flat_Washer_22_139" transform="translate(22.23,139.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#EAF4EB" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#2E7D32"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot; Flat</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444"></text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#2E7D32">18-8 SS</text>
-<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#EAF4EB" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#2E7D32"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">1/4&quot; Flat</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444"></text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#2E7D32">18-8 SS</text>
+<g transform="translate(25.50,1.50) scale(0.2833,0.2833)" fill="#222222">
             <circle cx="12" cy="12" r="9"/>
             <circle cx="12" cy="12" r="4.5" fill="#FFFFFF"/>
         </g>
 </g>
 <g id="label_M3_3_mm_59_139" transform="translate(59.23,139.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 3 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 1.5 mm</text>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 3 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 1.5 mm</text>
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_M3_4_mm_96_139" transform="translate(96.23,139.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 4 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 1.5 mm</text>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 4 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 1.5 mm</text>
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_M3_6_mm_133_139" transform="translate(133.23,139.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 6 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 1.5 mm</text>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 6 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 1.5 mm</text>
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_M3_8_mm_22_152" transform="translate(22.23,152.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 8 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 1.5 mm</text>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 8 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 1.5 mm</text>
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_M4_4_mm_59_152" transform="translate(59.23,152.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 4 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 2.0 mm</text>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 4 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 2.0 mm</text>
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_M4_6_mm_96_152" transform="translate(96.23,152.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 6 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 2.0 mm</text>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 6 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 2.0 mm</text>
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_M4_8_mm_133_152" transform="translate(133.23,152.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 8 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 2.0 mm</text>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 8 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 2.0 mm</text>
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_M5_5_mm_22_165" transform="translate(22.23,165.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 × 5 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 2.5 mm</text>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 × 5 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 2.5 mm</text>
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_M5_8_mm_59_165" transform="translate(59.23,165.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 × 8 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 2.5 mm</text>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 × 8 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 2.5 mm</text>
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_4-40_1_8_96_165" transform="translate(96.23,165.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 × 1/8&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 0.050&quot;</text>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4-40 × 1/8&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 0.050&quot;</text>
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_6-32_3_16_133_165" transform="translate(133.23,165.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 × 3/16&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 1/16&quot;</text>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6-32 × 3/16&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 1/16&quot;</text>
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_8-32_1_4_22_178" transform="translate(22.23,178.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 1/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 5/64&quot;</text>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8-32 × 1/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Grub Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 5/64&quot;</text>
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
         </g>
 </g>
 <g id="label_4_1_2_59_178" transform="translate(59.23,178.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4 × 1/2&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH1</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4 × 1/2&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH1</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="3,4 21,4 14.5,13 9.5,13"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <path d="M 10,3 L 14,3 L 14,10 L 21,10 L 21,14 L 14,14 L 14,21 L 10,21 L 10,14 L 3,14 L 3,10 L 10,10 Z"/>
         </g>
 </g>
 <g id="label_4_3_4_96_178" transform="translate(96.23,178.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4 × 3/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH1</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4 × 3/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH1</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="3,4 21,4 14.5,13 9.5,13"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <path d="M 10,3 L 14,3 L 14,10 L 21,10 L 21,14 L 14,14 L 14,21 L 10,21 L 10,14 L 3,14 L 3,10 L 10,10 Z"/>
         </g>
 </g>
 <g id="label_4_1_133_178" transform="translate(133.23,178.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4 × 1&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH1</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#4 × 1&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH1</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="3,4 21,4 14.5,13 9.5,13"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <path d="M 10,3 L 14,3 L 14,10 L 21,10 L 21,14 L 14,14 L 14,21 L 10,21 L 10,14 L 3,14 L 3,10 L 10,10 Z"/>
         </g>
 </g>
 <g id="label_6_1_2_22_191" transform="translate(22.23,191.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6 × 1/2&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH2</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6 × 1/2&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH2</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="3,4 21,4 14.5,13 9.5,13"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <path d="M 10,3 L 14,3 L 14,10 L 21,10 L 21,14 L 14,14 L 14,21 L 10,21 L 10,14 L 3,14 L 3,10 L 10,10 Z"/>
         </g>
 </g>
 <g id="label_6_3_4_59_191" transform="translate(59.23,191.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6 × 3/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH2</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6 × 3/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH2</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="3,4 21,4 14.5,13 9.5,13"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <path d="M 10,3 L 14,3 L 14,10 L 21,10 L 21,14 L 14,14 L 14,21 L 10,21 L 10,14 L 3,14 L 3,10 L 10,10 Z"/>
         </g>
 </g>
 <g id="label_6_1_96_191" transform="translate(96.23,191.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6 × 1&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH2</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6 × 1&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH2</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="3,4 21,4 14.5,13 9.5,13"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <path d="M 10,3 L 14,3 L 14,10 L 21,10 L 21,14 L 14,14 L 14,21 L 10,21 L 10,14 L 3,14 L 3,10 L 10,10 Z"/>
         </g>
 </g>
 <g id="label_6_1-1_4_133_191" transform="translate(133.23,191.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6 × 1-1/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH2</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6 × 1-1/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH2</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="3,4 21,4 14.5,13 9.5,13"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <path d="M 10,3 L 14,3 L 14,10 L 21,10 L 21,14 L 14,14 L 14,21 L 10,21 L 10,14 L 3,14 L 3,10 L 10,10 Z"/>
         </g>
 </g>
 <g id="label_6_1-1_2_22_204" transform="translate(22.23,204.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6 × 1-1/2&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH2</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#6 × 1-1/2&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key PH2</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="3,4 21,4 14.5,13 9.5,13"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <path d="M 10,3 L 14,3 L 14,10 L 21,10 L 21,14 L 14,14 L 14,21 L 10,21 L 10,14 L 3,14 L 3,10 L 10,10 Z"/>
         </g>
 </g>
 <g id="label_8_3_4_59_204" transform="translate(59.23,204.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8 × 3/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key T20</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8 × 3/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key T20</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="3,4 21,4 14.5,13 9.5,13"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <path d="M 12,2 C 12.8,2 13.5,3.8 14.2,4.8 C 15.2,4.5 16.5,4.7 17.2,5.2 C 17.8,5.7 18.2,7 18.3,8.2 C 19.2,8.7 20.8,9.7 21,10.6 C 21.2,11.5 20.2,12.5 19.7,13.4 C 20.1,14.4 20.2,15.7 19.8,16.5 C 19.4,17.3 18.1,18 17.1,18.4 C 16.7,19.3 15.8,20.8 15,21.2 C 14.1,21.6 13,20.8 12,20.8 C 11,20.8 9.9,21.6 9,21.2 C 8.2,20.8 7.3,19.3 6.9,18.4 C 5.9,18 4.6,17.3 4.2,16.5 C 3.8,15.7 3.9,14.4 4.3,13.4 C 3.8,12.5 2.8,11.5 3,10.6 C 3.2,9.7 4.8,8.7 5.7,8.2 C 5.8,7 6.2,5.7 6.8,5.2 C 7.5,4.7 8.8,4.5 9.8,4.8 C 10.5,3.8 11.2,2 12,2 Z"/>
         </g>
 </g>
 <g id="label_8_1_96_204" transform="translate(96.23,204.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8 × 1&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key T20</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8 × 1&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key T20</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="3,4 21,4 14.5,13 9.5,13"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <path d="M 12,2 C 12.8,2 13.5,3.8 14.2,4.8 C 15.2,4.5 16.5,4.7 17.2,5.2 C 17.8,5.7 18.2,7 18.3,8.2 C 19.2,8.7 20.8,9.7 21,10.6 C 21.2,11.5 20.2,12.5 19.7,13.4 C 20.1,14.4 20.2,15.7 19.8,16.5 C 19.4,17.3 18.1,18 17.1,18.4 C 16.7,19.3 15.8,20.8 15,21.2 C 14.1,21.6 13,20.8 12,20.8 C 11,20.8 9.9,21.6 9,21.2 C 8.2,20.8 7.3,19.3 6.9,18.4 C 5.9,18 4.6,17.3 4.2,16.5 C 3.8,15.7 3.9,14.4 4.3,13.4 C 3.8,12.5 2.8,11.5 3,10.6 C 3.2,9.7 4.8,8.7 5.7,8.2 C 5.8,7 6.2,5.7 6.8,5.2 C 7.5,4.7 8.8,4.5 9.8,4.8 C 10.5,3.8 11.2,2 12,2 Z"/>
         </g>
 </g>
 <g id="label_8_1-1_4_133_204" transform="translate(133.23,204.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8 × 1-1/4&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key T20</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8 × 1-1/4&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key T20</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="3,4 21,4 14.5,13 9.5,13"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <path d="M 12,2 C 12.8,2 13.5,3.8 14.2,4.8 C 15.2,4.5 16.5,4.7 17.2,5.2 C 17.8,5.7 18.2,7 18.3,8.2 C 19.2,8.7 20.8,9.7 21,10.6 C 21.2,11.5 20.2,12.5 19.7,13.4 C 20.1,14.4 20.2,15.7 19.8,16.5 C 19.4,17.3 18.1,18 17.1,18.4 C 16.7,19.3 15.8,20.8 15,21.2 C 14.1,21.6 13,20.8 12,20.8 C 11,20.8 9.9,21.6 9,21.2 C 8.2,20.8 7.3,19.3 6.9,18.4 C 5.9,18 4.6,17.3 4.2,16.5 C 3.8,15.7 3.9,14.4 4.3,13.4 C 3.8,12.5 2.8,11.5 3,10.6 C 3.2,9.7 4.8,8.7 5.7,8.2 C 5.8,7 6.2,5.7 6.8,5.2 C 7.5,4.7 8.8,4.5 9.8,4.8 C 10.5,3.8 11.2,2 12,2 Z"/>
         </g>
 </g>
 <g id="label_8_1-1_2_22_217" transform="translate(22.23,217.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8 × 1-1/2&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key T20</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8 × 1-1/2&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key T20</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="3,4 21,4 14.5,13 9.5,13"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <path d="M 12,2 C 12.8,2 13.5,3.8 14.2,4.8 C 15.2,4.5 16.5,4.7 17.2,5.2 C 17.8,5.7 18.2,7 18.3,8.2 C 19.2,8.7 20.8,9.7 21,10.6 C 21.2,11.5 20.2,12.5 19.7,13.4 C 20.1,14.4 20.2,15.7 19.8,16.5 C 19.4,17.3 18.1,18 17.1,18.4 C 16.7,19.3 15.8,20.8 15,21.2 C 14.1,21.6 13,20.8 12,20.8 C 11,20.8 9.9,21.6 9,21.2 C 8.2,20.8 7.3,19.3 6.9,18.4 C 5.9,18 4.6,17.3 4.2,16.5 C 3.8,15.7 3.9,14.4 4.3,13.4 C 3.8,12.5 2.8,11.5 3,10.6 C 3.2,9.7 4.8,8.7 5.7,8.2 C 5.8,7 6.2,5.7 6.8,5.2 C 7.5,4.7 8.8,4.5 9.8,4.8 C 10.5,3.8 11.2,2 12,2 Z"/>
         </g>
 </g>
 <g id="label_8_2_59_217" transform="translate(59.23,217.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8 × 2&quot;</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key T20</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">#8 × 2&quot;</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Wood Screw</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key T20</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="3,4 21,4 14.5,13 9.5,13"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <path d="M 12,2 C 12.8,2 13.5,3.8 14.2,4.8 C 15.2,4.5 16.5,4.7 17.2,5.2 C 17.8,5.7 18.2,7 18.3,8.2 C 19.2,8.7 20.8,9.7 21,10.6 C 21.2,11.5 20.2,12.5 19.7,13.4 C 20.1,14.4 20.2,15.7 19.8,16.5 C 19.4,17.3 18.1,18 17.1,18.4 C 16.7,19.3 15.8,20.8 15,21.2 C 14.1,21.6 13,20.8 12,20.8 C 11,20.8 9.9,21.6 9,21.2 C 8.2,20.8 7.3,19.3 6.9,18.4 C 5.9,18 4.6,17.3 4.2,16.5 C 3.8,15.7 3.9,14.4 4.3,13.4 C 3.8,12.5 2.8,11.5 3,10.6 C 3.2,9.7 4.8,8.7 5.7,8.2 C 5.8,7 6.2,5.7 6.8,5.2 C 7.5,4.7 8.8,4.5 9.8,4.8 C 10.5,3.8 11.2,2 12,2 Z"/>
         </g>
 </g>
 <g id="label_2_0_10_mm_96_217" transform="translate(96.23,217.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">Ø2.0 × 10 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Dowel Pin</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Hardened Steel</text>
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">Ø2.0 × 10 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Dowel Pin</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Hardened Steel</text>
 </g>
 <g id="label_3_0_12_mm_133_217" transform="translate(133.23,217.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">Ø3.0 × 12 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Dowel Pin</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Hardened Steel</text>
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">Ø3.0 × 12 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Dowel Pin</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Hardened Steel</text>
 </g>
 <g id="label_3_0_16_mm_22_230" transform="translate(22.23,230.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">Ø3.0 × 16 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Dowel Pin</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Hardened Steel</text>
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">Ø3.0 × 16 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Dowel Pin</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Hardened Steel</text>
 </g>
 <g id="label_4_0_20_mm_59_230" transform="translate(59.23,230.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">Ø4.0 × 20 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Dowel Pin</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Hardened Steel</text>
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">Ø4.0 × 20 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Dowel Pin</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Hardened Steel</text>
 </g>
 <g id="label_5_0_25_mm_96_230" transform="translate(96.23,230.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">Ø5.0 × 25 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Dowel Pin</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Hardened Steel</text>
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">Ø5.0 × 25 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Dowel Pin</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Hardened Steel</text>
 </g>
 <g id="label_M3_6_6_mm_133_230" transform="translate(133.23,230.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 6+6 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Hex Standoff</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 5.0 mm</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 6+6 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Hex Standoff</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 5.0 mm</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="4,4 20,4 21,6 21,12 20,13 4,13 3,12 3,6"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
 </g>
 <g id="label_M3_10_6_mm_22_243" transform="translate(22.23,243.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 10+6 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Hex Standoff</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 5.0 mm</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 10+6 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Hex Standoff</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 5.0 mm</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="4,4 20,4 21,6 21,12 20,13 4,13 3,12 3,6"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
 </g>
 <g id="label_M3_15_6_mm_59_243" transform="translate(59.23,243.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 15+6 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Hex Standoff</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 5.0 mm</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 15+6 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Hex Standoff</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 5.0 mm</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="4,4 20,4 21,6 21,12 20,13 4,13 3,12 3,6"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
 </g>
 <g id="label_M3_20_6_mm_96_243" transform="translate(96.23,243.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 20+6 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Hex Standoff</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 5.0 mm</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 20+6 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Hex Standoff</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key 5.0 mm</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <polygon points="4,4 20,4 21,6 21,12 20,13 4,13 3,12 3,6"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
 </g>
 <g id="label_M3_8_mm_133_243" transform="translate(133.23,243.22)">
-<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#FEF9E7" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#D4A017"/>
-<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 8 mm</text>
-<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Plastic Thread</text>
-<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key T10</text>
-<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+<rect x="-1.00" y="-1.00" width="36.00" height="12.00" rx="2.00" fill="#FEF9E7" stroke="none"/>
+<path d="M -1.00,1.00 A 2.00,2.00 0 0,1 1.00,-1.00 L 3.60,-1.00 L 3.60,11.00 L 1.00,11.00 A 2.00,2.00 0 0,1 -1.00,9.00 Z" fill="#D4A017"/>
+<text x="4.2" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M3 × 8 mm</text>
+<text x="4.2" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">Plastic Thread</text>
+<text x="4.2" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#D4A017">Key T10</text>
+<g transform="translate(25.50,0.80) scale(0.2708,0.1750)" fill="#222222">
             <path d="M 4,13 L 4,7 C 4,5 6,4 8,4 L 16,4 C 18,4 20,5 20,7 L 20,13 Z"/>
             <rect x="9.5" y="13" width="5" height="9"/>
         </g>
-<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#D4A017">
+<g transform="translate(26.70,5.20) scale(0.1667,0.1667)" fill="#D4A017">
             <path d="M 12,2 C 12.8,2 13.5,3.8 14.2,4.8 C 15.2,4.5 16.5,4.7 17.2,5.2 C 17.8,5.7 18.2,7 18.3,8.2 C 19.2,8.7 20.8,9.7 21,10.6 C 21.2,11.5 20.2,12.5 19.7,13.4 C 20.1,14.4 20.2,15.7 19.8,16.5 C 19.4,17.3 18.1,18 17.1,18.4 C 16.7,19.3 15.8,20.8 15,21.2 C 14.1,21.6 13,20.8 12,20.8 C 11,20.8 9.9,21.6 9,21.2 C 8.2,20.8 7.3,19.3 6.9,18.4 C 5.9,18 4.6,17.3 4.2,16.5 C 3.8,15.7 3.9,14.4 4.3,13.4 C 3.8,12.5 2.8,11.5 3,10.6 C 3.2,9.7 4.8,8.7 5.7,8.2 C 5.8,7 6.2,5.7 6.8,5.2 C 7.5,4.7 8.8,4.5 9.8,4.8 C 10.5,3.8 11.2,2 12,2 Z"/>
         </g>
 </g>
