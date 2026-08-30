@@ -327,12 +327,15 @@ def build_1x2_body_divided() -> Mesh:
     out.extend(box("body_lower_front", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, SLOT_Z0 + join))
     out.extend(box("body_lower_back", -hx + c - join, hx - c + join, iy - join, hy, z_floor - join, SLOT_Z0 + join))
 
-    # 2. Upper Wall Shells & Stacking Lip (Z = 45.20 to 49.00 mm):
-    # Left & Right slot guide walls (recessed to rx_slot):
-    out.extend(box("body_upper_left_wall", -hx, -rx_slot + join, -hy + c - join, hy - c + join, SLOT_Z0 - join, ENGAGED_H))
-    out.extend(box("body_upper_right_wall", rx_slot - join, hx, -hy + c - join, hy - c + join, SLOT_Z0 - join, ENGAGED_H))
-    # Solid back end-stop wall:
-    out.extend(box("body_upper_back_wall", -hx + c - join, hx - c + join, iy - join, hy, SLOT_Z0 - join, ENGAGED_H))
+    y_front = -hy
+    y_back_stop = SLOT_STOP_Y  # 39.75 mm
+    y_back_outer = hy
+
+    # 2. Upper Continuous Guide Walls (Z = 45.20 to 49.00 mm):
+    out.extend(box("body_upper_left_wall", -hx, -rx_slot + join, y_front, y_back_stop + join, SLOT_Z0 - join, ENGAGED_H))
+    out.extend(box("body_upper_right_wall", rx_slot - join, hx, y_front, y_back_stop + join, SLOT_Z0 - join, ENGAGED_H))
+    # Solid back end-stop wall (flat, flush across full slot width):
+    out.extend(box("body_upper_back_wall", -hx + c - join, hx - c + join, y_back_stop - join, y_back_outer, SLOT_Z0 - join, ENGAGED_H))
     # Open front entry slot: front wall above SLOT_Z0 only exists above SLOT_Z1 under the lip:
     out.extend(box("body_upper_front_overhang", -hx + c - join, hx - c + join, -hy, -iy + join, SLOT_Z1 - join, ENGAGED_H))
 
@@ -342,10 +345,10 @@ def build_1x2_body_divided() -> Mesh:
     # 4. Monolithic Stacking Lip on Top of Body (Z = 49.00 to 53.40 mm):
     out.extend(build_stacking_lip())
 
-    # 5. Sliding guide rails (under-roof retainers at Z = 48.60 mm):
+    # 5. Continuous sliding guide rails (from front entry to rear stop):
     rail_w = 1.00
-    out.extend(box("slide_rail_left", -rx_slot - join, -rx_slot + rail_w, -hy + c - join, hy - c + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
-    out.extend(box("slide_rail_right", rx_slot - rail_w, rx_slot + join, -hy + c - join, hy - c + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
+    out.extend(box("slide_rail_left", -rx_slot - join, -rx_slot + rail_w, y_front, y_back_stop + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
+    out.extend(box("slide_rail_right", rx_slot - rail_w, rx_slot + join, y_front, y_back_stop + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
 
     # 6. Divider slots (Two stations at thirds Y = ±13.50 mm):
     slot_w = 1.40
@@ -398,10 +401,14 @@ def build_1x2_body() -> Mesh:
     out.extend(box("body_lower_front", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, SLOT_Z0 + join))
     out.extend(box("body_lower_back", -hx + c - join, hx - c + join, iy - join, hy, z_floor - join, SLOT_Z0 + join))
 
-    # 2. Upper Wall Shells & Stacking Lip:
-    out.extend(box("body_upper_left_wall", -hx, -rx_slot + join, -hy + c - join, hy - c + join, SLOT_Z0 - join, ENGAGED_H))
-    out.extend(box("body_upper_right_wall", rx_slot - join, hx, -hy + c - join, hy - c + join, SLOT_Z0 - join, ENGAGED_H))
-    out.extend(box("body_upper_back_wall", -hx + c - join, hx - c + join, iy - join, hy, SLOT_Z0 - join, ENGAGED_H))
+    y_front = -hy
+    y_back_stop = SLOT_STOP_Y  # 39.75 mm
+    y_back_outer = hy
+
+    # 2. Upper Continuous Guide Walls:
+    out.extend(box("body_upper_left_wall", -hx, -rx_slot + join, y_front, y_back_stop + join, SLOT_Z0 - join, ENGAGED_H))
+    out.extend(box("body_upper_right_wall", rx_slot - join, hx, y_front, y_back_stop + join, SLOT_Z0 - join, ENGAGED_H))
+    out.extend(box("body_upper_back_wall", -hx + c - join, hx - c + join, y_back_stop - join, y_back_outer, SLOT_Z0 - join, ENGAGED_H))
     out.extend(box("body_upper_front_overhang", -hx + c - join, hx - c + join, -hy, -iy + join, SLOT_Z1 - join, ENGAGED_H))
 
     # 3. Outer 4 corner rounded columns:
@@ -410,10 +417,10 @@ def build_1x2_body() -> Mesh:
     # 4. Monolithic Stacking Lip:
     out.extend(build_stacking_lip())
 
-    # 5. Sliding guide rails:
+    # 5. Continuous sliding guide rails:
     rail_w = 1.00
-    out.extend(box("slide_rail_left", -rx_slot - join, -rx_slot + rail_w, -hy + c - join, hy - c + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
-    out.extend(box("slide_rail_right", rx_slot - rail_w, rx_slot + join, -hy + c - join, hy - c + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
+    out.extend(box("slide_rail_left", -rx_slot - join, -rx_slot + rail_w, y_front, y_back_stop + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
+    out.extend(box("slide_rail_right", rx_slot - rail_w, rx_slot + join, y_front, y_back_stop + join, SLOT_Z1 - 0.80, SLOT_Z1 + join))
 
     # 6. Continuous smooth finger scoop fillet:
     r_scoop = 4.00
