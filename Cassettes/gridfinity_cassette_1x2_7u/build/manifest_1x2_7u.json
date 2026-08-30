@@ -1,5 +1,5 @@
 {
-  "format": "Gridfinity 1x2 7U Cassette Bin (Direct Stacking Body with Inset Lid)",
+  "format": "Gridfinity 1x2 7U Cassette Bin (Direct Stacking Body with Inset Lid & Through-Tunnel Hinge)",
   "pitch_mm": [
     42.0,
     84.0
@@ -19,7 +19,7 @@
   "files": [
     {
       "file": "gridfinity_cassette_body_1x2_7u_divided.stl",
-      "triangles": 1496,
+      "triangles": 1824,
       "bounds_min_mm": [
         -20.75,
         -41.75,
@@ -38,7 +38,7 @@
     },
     {
       "file": "gridfinity_cassette_body_1x2_7u.stl",
-      "triangles": 1280,
+      "triangles": 1632,
       "bounds_min_mm": [
         -20.75,
         -41.75,
@@ -59,17 +59,17 @@
       "file": "gridfinity_cassette_lid_1x2_7u_print.stl",
       "triangles": 604,
       "bounds_min_mm": [
-        -19.2,
+        -20.5,
         -39.0,
         0.0
       ],
       "bounds_max_mm": [
-        18.45,
+        18.05,
         38.9,
         5.6
       ],
       "size_mm": [
-        37.65,
+        38.55,
         77.9,
         5.6
       ]
@@ -78,7 +78,7 @@
       "file": "divider_card_1x2_7u_1_2mm.stl",
       "triangles": 44,
       "bounds_min_mm": [
-        -18.75,
+        -16.0,
         -0.6,
         0.0
       ],
@@ -88,14 +88,14 @@
         38.8
       ],
       "size_mm": [
-        37.5,
+        34.75,
         1.2,
         38.8
       ]
     },
     {
       "file": "REFERENCE_closed_assembly_1x2_7u_DO_NOT_PRINT.stl",
-      "triangles": 2100,
+      "triangles": 2428,
       "bounds_min_mm": [
         -20.75,
         -41.75,
@@ -114,7 +114,7 @@
     },
     {
       "file": "REFERENCE_two_high_stack_1x2_14u_DO_NOT_PRINT.stl",
-      "triangles": 4200,
+      "triangles": 4856,
       "bounds_min_mm": [
         -20.75,
         -41.75,

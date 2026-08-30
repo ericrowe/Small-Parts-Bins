@@ -10,7 +10,11 @@ Architecture:
     * Internal shelf at Z = 45.40 mm
     * Lid top rests at Z = 48.60 mm (0.40 mm below the Z = 49.00 mm stacking shelf plane)
     * Other Gridfinity bins stack directly into the top of the body with zero contact on the lid or glass
-  - Inset peaked 3-knuckle filament hinge on the left inner wall below stacking features (1.75 mm filament pin)
+  - Embedded Hinge & Full-Length Through-Tunnel:
+    * Thickened left wall (5.25 mm thick, inner face at X = -15.50 mm) embeds the entire hinge
+    * Hinge axis moved back to X = -18.50 mm, providing +0.60 mm of clear vertical drop-in clearance past the knuckle peak
+    * Full-length hinge bore tunnel extends completely through the front and back end walls (Y = -41.75 to +41.75 mm)
+      with external pin entry ports on the outside of the box for effortless pin insertion
   - Squeeze-to-release closure catch:
     * Squeezing the front long wall flexes the wall inward ~0.7 mm, instantly disengaging the catch
   - Replaceable standard microscope glass slide window (75 x 25 x 1.1-1.2 mm) with end-loaded positive capture:
@@ -46,25 +50,36 @@ LIP_H = 4.40          # Gridfinity stacking lip height
 TOTAL_H = ENGAGED_H + LIP_H  # 53.40 mm
 BASE_H = 4.75         # Height of Gridfinity base feet
 FLOOR_Z = 6.00        # Inside cavity floor
-WALL_T = 2.00         # Perimeter wall thickness
+WALL_T = 2.00         # Front/Back/Right perimeter wall thickness
+
+# Thickened Left Wall (Embeds Hinge & Clears Dividers):
+LEFT_WALL_INNER_X = -15.50  # 5.25 mm thick solid left wall
+RIGHT_WALL_INNER_X = 18.75  # 2.00 mm thick right wall
 
 # Internal Lid Shelf & Split Line:
 LID_SHELF_Z = 45.40   # Internal inset rim plane inside the body
 LID_THICKNESS = 3.20  # Lid thickness (45.40 + 3.20 = 48.60 mm; 0.40 mm below 49.00 mm stacking plane)
 
-# Inset Hinge Geometry (Inset inside left wall below stacking shelf):
-HINGE_X = -17.20               # Inset inside left wall
+# Embedded Hinge Geometry (X = -18.50 mm, Z = 45.40 mm):
+HINGE_X = -18.50               # Embedded inside thickened left wall
 HINGE_Z = LID_SHELF_Z         # At internal lid rim plane (45.40 mm)
 HINGE_OUTER_HALF_W = 2.00
 HINGE_OUTER_POINT = 2.40
 HINGE_OUTER_SIDE_TOP = 0.80
 HINGE_BODY_BORE_R = 1.125      # 2.25 mm nominal bore on body
 HINGE_LID_BORE_R = 1.05        # 2.10 mm nominal bore on lid
-HINGE_BODY_Y0 = -14.00
-HINGE_BODY_Y1 = 14.00
-HINGE_LID_K0_Y0 = -37.00
-HINGE_LID_K0_Y1 = -15.60
-HINGE_LID_K1_Y0 = 15.60
+
+# Knuckle Stations along Y:
+HINGE_BODY_FRONT_Y0 = -41.75   # External front entry port
+HINGE_BODY_FRONT_Y1 = -37.80   # Front body knuckle/tunnel
+HINGE_BODY_CENTER_Y0 = -14.00  # Center body knuckle
+HINGE_BODY_CENTER_Y1 = 14.00
+HINGE_BODY_BACK_Y0 = 37.80     # Back body knuckle/tunnel
+HINGE_BODY_BACK_Y1 = 41.75     # External back exit port
+
+HINGE_LID_K0_Y0 = -37.00       # Lower lid knuckle
+HINGE_LID_K0_Y1 = -14.80
+HINGE_LID_K1_Y0 = 14.80        # Upper lid knuckle
 HINGE_LID_K1_Y1 = 37.00
 
 # Glass Slide Capture Constants:
@@ -337,78 +352,78 @@ def build_stacking_lip() -> Mesh:
 
 
 def build_1x2_body_divided() -> Mesh:
-    """Build the 1x2 7U divided Gridfinity cassette body with monolithic stacking lip, inset lid shelf, and squeeze catch."""
+    """Build the 1x2 7U divided Gridfinity cassette body with thickened left wall, embedded through-tunnel hinge, and squeeze catch."""
     out = Mesh("gridfinity_body_1x2_7u_divided")
     out.extend(build_gridfinity_base())
 
     hx, hy = OUTER_W / 2, OUTER_L / 2
     c = OUTER_R
-    ix, iy = hx - WALL_T, hy - WALL_T  # 18.75 x 39.75 mm cavity
+    lx = LEFT_WALL_INNER_X   # -15.50 mm (5.25 mm thick solid left wall)
+    rx = RIGHT_WALL_INNER_X  # +18.75 mm (2.00 mm thick right wall)
+    iy = hy - WALL_T         # 39.75 mm
     join = 0.05
     z_floor = FLOOR_Z
 
-    # 1. 4 Continuous Perimeter Walls (Z = 6.00 to 49.00 mm):
-    out.extend(box("body_outer_left", -hx, -ix + join, -hy + c - join, hy - c + join, z_floor - join, ENGAGED_H))
-    out.extend(box("body_outer_right", ix - join, hx, -hy + c - join, hy - c + join, z_floor - join, ENGAGED_H))
+    # 1. Thickened Solid Left Wall (X in [-hx, lx] = [-20.75, -15.50 mm]) embedding the hinge:
+    out.extend(box("body_thickened_left_wall", -hx, lx + join, -hy + c - join, hy - c + join, z_floor - join, ENGAGED_H))
+
+    # 2. Right, Front, and Back Outer Walls (Z = 6.00 to 49.00 mm):
+    out.extend(box("body_outer_right", rx - join, hx, -hy + c - join, hy - c + join, z_floor - join, ENGAGED_H))
     out.extend(box("body_outer_front", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, ENGAGED_H))
     out.extend(box("body_outer_back", -hx + c - join, hx - c + join, iy - join, hy, z_floor - join, ENGAGED_H))
 
-    # 2. Outer 4 corner rounded wedges (Z = 6.00 to 49.00 mm):
+    # 3. Outer 4 corner rounded wedges (Z = 6.00 to 49.00 mm):
     out.extend(build_corner_wedges(hx, hy, c, z_floor - join, ENGAGED_H, join))
 
-    # 3. Monolithic Stacking Lip on Top of Body (Z = 49.00 to 53.40 mm):
+    # 4. Monolithic Stacking Lip on Top of Body (Z = 49.00 to 53.40 mm):
     out.extend(build_stacking_lip())
 
-    # 4. Inset Lid Shelf Ledges (Z = 45.40 mm) supporting the lid:
+    # 5. Inset Lid Shelf Ledges (Z = 45.40 mm) supporting the lid:
     shelf_w = 1.20
-    out.extend(box("lid_shelf_right", ix - shelf_w, ix + join, -hy + c, hy - c, LID_SHELF_Z - 1.20, LID_SHELF_Z + join))
-    out.extend(box("lid_shelf_front", -hx + c, hx - c, -iy - join, -iy + shelf_w, LID_SHELF_Z - 1.20, LID_SHELF_Z + join))
-    out.extend(box("lid_shelf_back", -hx + c, hx - c, iy - shelf_w, iy + join, LID_SHELF_Z - 1.20, LID_SHELF_Z + join))
+    out.extend(box("lid_shelf_right", rx - shelf_w, rx + join, -hy + c, hy - c, LID_SHELF_Z - 1.20, LID_SHELF_Z + join))
+    out.extend(box("lid_shelf_front", lx + join, rx - join, -iy - join, -iy + shelf_w, LID_SHELF_Z - 1.20, LID_SHELF_Z + join))
+    out.extend(box("lid_shelf_back", lx + join, rx - join, iy - shelf_w, iy + join, LID_SHELF_Z - 1.20, LID_SHELF_Z + join))
 
-    # 5. Divider slots (Two stations at thirds Y = ±13.50 mm):
+    # 6. Divider slots (Two stations at thirds Y = ±13.50 mm):
     slot_w = 1.40
     slot_stations = [-13.50, 13.50]
     ridge_proj = 0.80
     ridge_w = 1.50
 
     for cy in slot_stations:
+        # Right wall ridges & slot:
         ry0_a, ry1_a = cy - slot_w / 2 - ridge_w, cy - slot_w / 2
-        out.extend(box(f"ridge_lower_{cy:.2f}", ix - ridge_proj, ix + join, ry0_a - join, ry1_a + join, z_floor - join, LID_SHELF_Z - 1.00 + join))
-        chamfer_pts = [(ix - ridge_proj, LID_SHELF_Z - 1.00), (ix, LID_SHELF_Z), (ix, LID_SHELF_Z - 1.00)]
+        out.extend(box(f"ridge_lower_{cy:.2f}", rx - ridge_proj, rx + join, ry0_a - join, ry1_a + join, z_floor - join, LID_SHELF_Z - 1.00 + join))
+        chamfer_pts = [(rx - ridge_proj, LID_SHELF_Z - 1.00), (rx, LID_SHELF_Z), (rx, LID_SHELF_Z - 1.00)]
         out.extend(prism_y(f"ridge_lead_lower_{cy:.2f}", chamfer_pts, ry0_a - join, ry1_a + join))
 
         ry0_b, ry1_b = cy + slot_w / 2, cy + slot_w / 2 + ridge_w
-        out.extend(box(f"ridge_upper_{cy:.2f}", ix - ridge_proj, ix + join, ry0_b - join, ry1_b + join, z_floor - join, LID_SHELF_Z - 1.00 + join))
+        out.extend(box(f"ridge_upper_{cy:.2f}", rx - ridge_proj, rx + join, ry0_b - join, ry1_b + join, z_floor - join, LID_SHELF_Z - 1.00 + join))
         out.extend(prism_y(f"ridge_lead_upper_{cy:.2f}", chamfer_pts, ry0_b - join, ry1_b + join))
 
-        out.extend(box(f"left_brace_lower_{cy:.2f}", -ix - join, -ix + 0.60, ry0_a - join, ry1_a + join, z_floor - join, LID_SHELF_Z + join))
-        out.extend(box(f"left_brace_upper_{cy:.2f}", -ix - join, -ix + 0.60, ry0_b - join, ry1_b + join, z_floor - join, LID_SHELF_Z + join))
+        # Left wall slot channel (recessed into thickened wall):
+        out.extend(box(f"left_slot_channel_{cy:.2f}", lx - 0.60, lx + join, cy - slot_w / 2, cy + slot_w / 2, z_floor - join, LID_SHELF_Z + join))
 
-    # 6. Smooth finger scoop fillets (R = 4.0 mm) along inside front (latch) floor edge:
+    # 7. Smooth finger scoop fillets (R = 4.0 mm) along inside front (latch) floor edge:
     r_scoop = 4.00
-    out.extend(build_scoop_fillet(ix, z_floor, r_scoop, -hy + c, slot_stations[0] - slot_w / 2 + join))
-    out.extend(build_scoop_fillet(ix, z_floor, r_scoop, slot_stations[0] + slot_w / 2 - join, slot_stations[1] - slot_w / 2 + join))
-    out.extend(build_scoop_fillet(ix, z_floor, r_scoop, slot_stations[1] + slot_w / 2 - join, hy - c))
+    out.extend(build_scoop_fillet(rx, z_floor, r_scoop, -hy + c, slot_stations[0] - slot_w / 2 + join))
+    out.extend(build_scoop_fillet(rx, z_floor, r_scoop, slot_stations[0] + slot_w / 2 - join, slot_stations[1] - slot_w / 2 + join))
+    out.extend(build_scoop_fillet(rx, z_floor, r_scoop, slot_stations[1] + slot_w / 2 - join, hy - c))
 
-    # 7. Inset Peaked Center Hinge Knuckle on Left Inner Wall (Z = 45.40 mm):
-    out.extend(
-        peaked_hinge_y(
-            "body_centre_knuckle",
-            HINGE_X,
-            HINGE_Z,
-            HINGE_BODY_Y0,
-            HINGE_BODY_Y1,
-            print_up_sign=1.0,
-            bore_r=HINGE_BODY_BORE_R,
-        )
-    )
+    # 8. Embedded Hinge Knuckles & Full-Length Pin Tunnels:
+    # Front end tunnel (extends through front face Y = -41.75 mm):
+    out.extend(peaked_hinge_y("body_front_tunnel", HINGE_X, HINGE_Z, HINGE_BODY_FRONT_Y0, HINGE_BODY_FRONT_Y1, print_up_sign=1.0, bore_r=HINGE_BODY_BORE_R))
+    # Center knuckle:
+    out.extend(peaked_hinge_y("body_centre_knuckle", HINGE_X, HINGE_Z, HINGE_BODY_CENTER_Y0, HINGE_BODY_CENTER_Y1, print_up_sign=1.0, bore_r=HINGE_BODY_BORE_R))
+    # Back end tunnel (extends through back face Y = +41.75 mm):
+    out.extend(peaked_hinge_y("body_back_tunnel", HINGE_X, HINGE_Z, HINGE_BODY_BACK_Y0, HINGE_BODY_BACK_Y1, print_up_sign=1.0, bore_r=HINGE_BODY_BORE_R))
 
-    # 8. Squeeze-to-Release Inward Catch on Inside of Right Wall (0.60 mm undercut):
+    # 9. Squeeze-to-Release Inward Catch on Inside of Right Wall (0.60 mm undercut):
     catch_profile = [
-        (ix, LID_SHELF_Z + 1.20),
-        (ix - 0.60, LID_SHELF_Z + 2.00),
-        (ix - 0.60, LID_SHELF_Z + 2.60),
-        (ix, LID_SHELF_Z + 3.10),
+        (rx, LID_SHELF_Z + 1.20),
+        (rx - 0.60, LID_SHELF_Z + 2.00),
+        (rx - 0.60, LID_SHELF_Z + 2.60),
+        (rx, LID_SHELF_Z + 3.10),
     ]
     out.extend(prism_y("body_squeeze_catch", catch_profile, -6.00, 6.00))
 
@@ -416,57 +431,53 @@ def build_1x2_body_divided() -> Mesh:
 
 
 def build_1x2_body() -> Mesh:
-    """Build the undivided 1x2 7U Gridfinity cassette body with monolithic stacking lip, inset lid shelf, and squeeze catch."""
+    """Build the undivided 1x2 7U Gridfinity cassette body with thickened left wall, embedded through-tunnel hinge, and squeeze catch."""
     out = Mesh("gridfinity_body_1x2_7u")
     out.extend(build_gridfinity_base())
 
     hx, hy = OUTER_W / 2, OUTER_L / 2
     c = OUTER_R
-    ix, iy = hx - WALL_T, hy - WALL_T
+    lx = LEFT_WALL_INNER_X
+    rx = RIGHT_WALL_INNER_X
+    iy = hy - WALL_T
     join = 0.05
     z_floor = FLOOR_Z
 
-    # 1. 4 Continuous Perimeter Walls (Z = 6.00 to 49.00 mm):
-    out.extend(box("body_outer_left", -hx, -ix + join, -hy + c - join, hy - c + join, z_floor - join, ENGAGED_H))
-    out.extend(box("body_outer_right", ix - join, hx, -hy + c - join, hy - c + join, z_floor - join, ENGAGED_H))
+    # 1. Thickened Solid Left Wall embedding the hinge:
+    out.extend(box("body_thickened_left_wall", -hx, lx + join, -hy + c - join, hy - c + join, z_floor - join, ENGAGED_H))
+
+    # 2. Right, Front, and Back Outer Walls:
+    out.extend(box("body_outer_right", rx - join, hx, -hy + c - join, hy - c + join, z_floor - join, ENGAGED_H))
     out.extend(box("body_outer_front", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, ENGAGED_H))
     out.extend(box("body_outer_back", -hx + c - join, hx - c + join, iy - join, hy, z_floor - join, ENGAGED_H))
 
-    # 2. Outer 4 corner rounded wedges:
+    # 3. Outer 4 corner rounded wedges:
     out.extend(build_corner_wedges(hx, hy, c, z_floor - join, ENGAGED_H, join))
 
-    # 3. Monolithic Stacking Lip on Top of Body (Z = 49.00 to 53.40 mm):
+    # 4. Monolithic Stacking Lip on Top of Body:
     out.extend(build_stacking_lip())
 
-    # 4. Inset Lid Shelf Ledges (Z = 45.40 mm):
+    # 5. Inset Lid Shelf Ledges (Z = 45.40 mm):
     shelf_w = 1.20
-    out.extend(box("lid_shelf_right", ix - shelf_w, ix + join, -hy + c, hy - c, LID_SHELF_Z - 1.20, LID_SHELF_Z + join))
-    out.extend(box("lid_shelf_front", -hx + c, hx - c, -iy - join, -iy + shelf_w, LID_SHELF_Z - 1.20, LID_SHELF_Z + join))
-    out.extend(box("lid_shelf_back", -hx + c, hx - c, iy - shelf_w, iy + join, LID_SHELF_Z - 1.20, LID_SHELF_Z + join))
+    out.extend(box("lid_shelf_right", rx - shelf_w, rx + join, -hy + c, hy - c, LID_SHELF_Z - 1.20, LID_SHELF_Z + join))
+    out.extend(box("lid_shelf_front", lx + join, rx - join, -iy - join, -iy + shelf_w, LID_SHELF_Z - 1.20, LID_SHELF_Z + join))
+    out.extend(box("lid_shelf_back", lx + join, rx - join, iy - shelf_w, iy + join, LID_SHELF_Z - 1.20, LID_SHELF_Z + join))
 
-    # 5. Continuous smooth finger scoop fillet (R = 4.0 mm) along inside front (latch) floor edge:
+    # 6. Continuous smooth finger scoop fillet (R = 4.0 mm) along inside front (latch) floor edge:
     r_scoop = 4.00
-    out.extend(build_scoop_fillet(ix, z_floor, r_scoop, -hy + c, hy - c))
+    out.extend(build_scoop_fillet(rx, z_floor, r_scoop, -hy + c, hy - c))
 
-    # 6. Inset Peaked Center Hinge Knuckle on Left Wall:
-    out.extend(
-        peaked_hinge_y(
-            "body_centre_knuckle",
-            HINGE_X,
-            HINGE_Z,
-            HINGE_BODY_Y0,
-            HINGE_BODY_Y1,
-            print_up_sign=1.0,
-            bore_r=HINGE_BODY_BORE_R,
-        )
-    )
+    # 7. Embedded Hinge Knuckles & Full-Length Pin Tunnels:
+    out.extend(peaked_hinge_y("body_front_tunnel", HINGE_X, HINGE_Z, HINGE_BODY_FRONT_Y0, HINGE_BODY_FRONT_Y1, print_up_sign=1.0, bore_r=HINGE_BODY_BORE_R))
+    out.extend(peaked_hinge_y("body_centre_knuckle", HINGE_X, HINGE_Z, HINGE_BODY_CENTER_Y0, HINGE_BODY_CENTER_Y1, print_up_sign=1.0, bore_r=HINGE_BODY_BORE_R))
+    out.extend(peaked_hinge_y("body_back_tunnel", HINGE_X, HINGE_Z, HINGE_BODY_BACK_Y0, HINGE_BODY_BACK_Y1, print_up_sign=1.0, bore_r=HINGE_BODY_BORE_R))
 
-    # 7. Squeeze-to-Release Inward Catch:
+    # 8. Squeeze-to-Release Inward Catch:
     catch_profile = [
-        (ix, LID_SHELF_Z + 1.20),
-        (ix - 0.60, LID_SHELF_Z + 2.00),
-        (ix - 0.60, LID_SHELF_Z + 2.60),
-        (ix, LID_SHELF_Z + 3.10),
+        (rx, LID_SHELF_Z + 1.20),
+        (rx - 0.60, LID_SHELF_Z + 2.00),
+        (rx - 0.60, LID_SHELF_Z + 2.60),
+        (rx, LID_SHELF_Z + 3.10),
     ]
     out.extend(prism_y("body_squeeze_catch", catch_profile, -6.00, 6.00))
 
@@ -474,13 +485,14 @@ def build_1x2_body() -> Mesh:
 
 
 def build_1x2_lid_local() -> Mesh:
-    """Build the internal inset lid that seats below the Gridfinity stacking features with glass capture."""
+    """Build the internal inset lid that seats below the Gridfinity stacking features with embedded hinge knuckles."""
     out = Mesh("gridfinity_lid_1x2_7u_local")
 
-    lid_w = 35.80   # Fits within 37.2 mm throat with 0.7 mm clearance per side
-    lid_l = 77.80   # Fits within 79.2 mm throat with 0.7 mm clearance per side
-    hx = lid_w / 2  # 17.90
-    hy = lid_l / 2  # 38.90
+    lid_x0 = HINGE_X          # -18.50 mm (hinge axis)
+    lid_x1 = 17.50            # Latch hook edge
+    lid_w = lid_x1 - lid_x0   # 36.00 mm
+    lid_l = 77.80             # Fits within 79.2 mm throat
+    hy = lid_l / 2            # 38.90
 
     top_z0 = PANE_CHANNEL_Z1
     top_z1 = PANE_TOP_Z1
@@ -504,20 +516,20 @@ def build_1x2_lid_local() -> Mesh:
 
     # 1. Main Lid Top Plate (local Z in [top_z0, top_z1] = [2.20, 3.20 mm]):
     # A. Entry side top frame with 0.50 mm clearance cutouts around the compliant clip:
-    out.extend(box("top_entry_pad_left", -hx, pad_cut_x0, PANE_ENTRY_Y, -36.20, top_z0, top_z1))
-    out.extend(box("top_entry_pad_right", pad_cut_x1, hx, PANE_ENTRY_Y, -36.20, top_z0, top_z1))
-    out.extend(box("top_entry_tongue_left", -hx, tongue_cut_x0, -36.25, -33.50, top_z0, top_z1))
-    out.extend(box("top_entry_tongue_right", tongue_cut_x1, hx, -36.25, -33.50, top_z0, top_z1))
-    out.extend(box("top_entry_gusset_left", -hx, pad_cut_x0, -33.55, PANE_TONGUE_ROOT_Y + 0.05, top_z0, top_z1))
-    out.extend(box("top_entry_gusset_right", pad_cut_x1, hx, -33.55, PANE_TONGUE_ROOT_Y + 0.05, top_z0, top_z1))
-    out.extend(box("top_tongue_root_band", -hx, hx, PANE_TONGUE_ROOT_Y, window_y0 + 0.05, top_z0, top_z1))
+    out.extend(box("top_entry_pad_left", lid_x0, pad_cut_x0, PANE_ENTRY_Y, -36.20, top_z0, top_z1))
+    out.extend(box("top_entry_pad_right", pad_cut_x1, lid_x1, PANE_ENTRY_Y, -36.20, top_z0, top_z1))
+    out.extend(box("top_entry_tongue_left", lid_x0, tongue_cut_x0, -36.25, -33.50, top_z0, top_z1))
+    out.extend(box("top_entry_tongue_right", tongue_cut_x1, lid_x1, -36.25, -33.50, top_z0, top_z1))
+    out.extend(box("top_entry_gusset_left", lid_x0, pad_cut_x0, -33.55, PANE_TONGUE_ROOT_Y + 0.05, top_z0, top_z1))
+    out.extend(box("top_entry_gusset_right", pad_cut_x1, lid_x1, -33.55, PANE_TONGUE_ROOT_Y + 0.05, top_z0, top_z1))
+    out.extend(box("top_tongue_root_band", lid_x0, lid_x1, PANE_TONGUE_ROOT_Y, window_y0 + 0.05, top_z0, top_z1))
 
     # B. Side Rails flanking the 23.0 mm window:
-    out.extend(box("top_left_rail", -hx, window_x0, window_y0 - 0.05, window_y1 + 0.05, top_z0, top_z1))
-    out.extend(box("top_right_rail", window_x1, hx, window_y0 - 0.05, window_y1 + 0.05, top_z0, top_z1))
+    out.extend(box("top_left_rail", lid_x0, window_x0, window_y0 - 0.05, window_y1 + 0.05, top_z0, top_z1))
+    out.extend(box("top_right_rail", window_x1, lid_x1, window_y0 - 0.05, window_y1 + 0.05, top_z0, top_z1))
 
     # C. Far end solid label band:
-    out.extend(box("top_far_border", -hx, hx, window_y1 - 0.05, hy, top_z0, top_z1))
+    out.extend(box("top_far_border", lid_x0, lid_x1, window_y1 - 0.05, hy, top_z0, top_z1))
 
     # 2. Glass Microscope Slide Channel (local Z in [PANE_CHANNEL_Z0, PANE_CHANNEL_Z1] = [0.80, 2.20 mm]):
     ch_x0 = WINDOW_X - PANE_CHANNEL_W / 2  # -13.50
@@ -525,10 +537,10 @@ def build_1x2_lid_local() -> Mesh:
     bot_x0 = WINDOW_X - 12.00              # -12.00
     bot_x1 = WINDOW_X + 12.00              # +12.00
 
-    out.extend(box("pane_left_wall", -hx, ch_x0, PANE_ENTRY_Y, PANE_FAR_STOP_Y, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("pane_right_wall", ch_x1, hx, PANE_ENTRY_Y, PANE_FAR_STOP_Y, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("pane_left_bottom_ledge", -hx, bot_x0, PANE_ENTRY_Y, PANE_FAR_STOP_Y, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
-    out.extend(box("pane_right_bottom_ledge", bot_x1, hx, PANE_ENTRY_Y, PANE_FAR_STOP_Y, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
+    out.extend(box("pane_left_wall", lid_x0, ch_x0, PANE_ENTRY_Y, PANE_FAR_STOP_Y, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_right_wall", ch_x1, lid_x1, PANE_ENTRY_Y, PANE_FAR_STOP_Y, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_left_bottom_ledge", lid_x0, bot_x0, PANE_ENTRY_Y, PANE_FAR_STOP_Y, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
+    out.extend(box("pane_right_bottom_ledge", bot_x1, lid_x1, PANE_ENTRY_Y, PANE_FAR_STOP_Y, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
     out.extend(box("pane_far_stop", ch_x0 - 0.05, ch_x1 + 0.05, PANE_FAR_STOP_Y, hy, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
 
     # 3. Reinforced Compliant Glass Retention Clip (1.20 mm solid PETG, local Z in [LID_THICKNESS - 1.20, LID_THICKNESS]):
@@ -540,18 +552,18 @@ def build_1x2_lid_local() -> Mesh:
     out.extend(prism("tongue_gusset_left", [(tongue_x0 - 2.5, PANE_TONGUE_ROOT_Y + 0.1), (tongue_x0 + 0.1, PANE_TONGUE_ROOT_Y + 0.1), (tongue_x0 + 0.1, PANE_TONGUE_ROOT_Y - 2.0)], LID_THICKNESS - PANE_TONGUE_H, LID_THICKNESS))
     out.extend(prism("tongue_gusset_right", [(tongue_x1 - 0.1, PANE_TONGUE_ROOT_Y + 0.1), (tongue_x1 + 2.5, PANE_TONGUE_ROOT_Y + 0.1), (tongue_x1 - 0.1, PANE_TONGUE_ROOT_Y - 2.0)], LID_THICKNESS - PANE_TONGUE_H, LID_THICKNESS))
 
-    # 4. Inset Twin Hinge Knuckles along Left Edge:
+    # 4. Inset Twin Hinge Knuckles along Left Edge (aligned at HINGE_X = -18.50 mm):
     for name_k, y0_k, y1_k in (("lid_knuckle_0", HINGE_LID_K0_Y0, HINGE_LID_K0_Y1), ("lid_knuckle_1", HINGE_LID_K1_Y0, HINGE_LID_K1_Y1)):
         out.extend(peaked_hinge_y(name_k, HINGE_X, 0.00, y0_k, y1_k, print_up_sign=-1.0, bore_r=HINGE_LID_BORE_R))
 
     # 5. Matching Catch Hook on Right Wall Edge (snaps under body squeeze catch):
     hook_xz = [
-        (hx - 1.20, 0.00),
-        (hx, 0.00),
-        (hx + 0.55, 2.00),
-        (hx + 0.55, 2.60),
-        (hx, 3.20),
-        (hx - 1.20, 3.20),
+        (lid_x1 - 1.20, 0.00),
+        (lid_x1, 0.00),
+        (lid_x1 + 0.55, 2.00),
+        (lid_x1 + 0.55, 2.60),
+        (lid_x1, 3.20),
+        (lid_x1 - 1.20, 3.20),
     ]
     out.extend(prism_y("lid_closure_hook", hook_xz, -5.50, 5.50))
 
@@ -574,10 +586,10 @@ def lid_print_orientation(lid: Mesh) -> Mesh:
 
 
 def build_divider_card_1x2_7u(thickness: float = 1.20) -> Mesh:
-    """Build divider card for the 7U 1x2 Gridfinity cassette."""
+    """Build divider card for the 7U 1x2 Gridfinity cassette clearing the embedded hinge."""
     name = f"divider_card_1x2_7u_{thickness:.1f}mm"
-    x_left = -18.75
-    x_right = 18.75
+    x_left = LEFT_WALL_INNER_X - 0.50  # -16.00 mm (seats in left slot channel)
+    x_right = RIGHT_WALL_INNER_X       # 18.75 mm
     z_top = 38.80
     ht = thickness / 2.0
     notch_w = 12.0
@@ -663,7 +675,7 @@ def main():
     ]
 
     manifest = {
-        "format": "Gridfinity 1x2 7U Cassette Bin (Direct Stacking Body with Inset Lid)",
+        "format": "Gridfinity 1x2 7U Cassette Bin (Direct Stacking Body with Inset Lid & Through-Tunnel Hinge)",
         "pitch_mm": [PITCH, 2 * PITCH],
         "envelope_outside_mm": [OUTER_W, OUTER_L, TOTAL_H],
         "stacking_engaged_height_mm": ENGAGED_H,
