@@ -2,7 +2,7 @@
 """Generate Printable, Cricut-Ready Fastener Label Sheets for Glass-Window Cassettes.
 
 Supports:
-  1. Standard 34 x 10 mm Strip Labels (fits solid cassette lid zone).
+  1. Standard 34 x 10 mm Strip Labels (fits solid cassette lid zone with zero text conflict).
   2. Extended 38.6 x 76.0 mm Full-Lid Wrap Overlays (with 23.0 x 58.5 mm glass cutout & side length rulers).
   3. Batch Cricut Print-Then-Cut sheets (Letter & A4) with vector cut paths and fiducial registration frames.
   4. High-resolution PNG preview sheets for direct raster printing and visual inspection.
@@ -31,6 +31,10 @@ STRIP_W = 34.00
 STRIP_H = 10.00
 STRIP_R = 1.00  # Corner radius
 
+# Text Boundary in Strip Label:
+TEXT_X0 = 4.00
+TEXT_MAX_W = 20.80  # Leaves 1.0 mm clear safety gap before icon at X = 25.8 mm
+
 # Full-Lid Wrap Label:
 WRAP_W = 38.60
 WRAP_H = 76.00
@@ -50,7 +54,7 @@ CRICUT_MAX_W = 171.45
 CRICUT_MAX_H = 234.95
 
 # ==============================================================================
-# FASTENER SPECIFICATION DATA MODEL
+# FASTENER SPECIFICATION DATA MODEL & FORMATTING
 # ==============================================================================
 
 @dataclass
@@ -71,6 +75,36 @@ class FastenerSpec:
     extra_note: str = ""
 
 
+def format_label_strings(spec: FastenerSpec) -> tuple[str, str, str]:
+    """Format and optimize label text strings to avoid overlapping or truncation."""
+    # 1. Main Title Header:
+    if spec.comp_type in ("nut", "nyloc"):
+        # Compact nut title e.g. "M3 Hex Nut" -> "M3 Hex", "#4-40 Nyloc"
+        suffix = spec.length.replace(" Nut", "").strip()
+        title = f"{spec.size} {suffix}".strip()
+        sub1 = spec.pitch if spec.pitch else ""
+        sub2 = f"Key {spec.tool_key}" if spec.tool_key else spec.material
+    elif spec.comp_type in ("washer", "split"):
+        suffix = spec.length.replace(" Washer", "").strip()
+        title = f"{spec.size} {suffix}".strip()
+        sub1 = spec.extra_note or ""
+        sub2 = spec.material or ""
+    elif spec.comp_type == "insert":
+        len_str = spec.length.replace("L: ", "").strip()
+        title = f"{spec.size} × {len_str}".strip()
+        sub1 = spec.extra_note.replace("Hole: ", "").strip() if spec.extra_note else ""
+        sub2 = "Brass Insert"
+    else:
+        # Standard Bolt / Screw:
+        title = f"{spec.size} × {spec.length}".strip() if spec.length else spec.size
+        p_str = spec.pitch if spec.pitch else ""
+        tap_str = spec.tap_drill.split()[0] if (spec.tap_drill and spec.tap_drill.split()) else ""
+        sub1 = f"{p_str} | Tap {tap_str}" if (p_str and tap_str) else (p_str or tap_str)
+        sub2 = f"Key {spec.tool_key}" if spec.tool_key else spec.material
+
+    return title, sub1, sub2
+
+
 # ==============================================================================
 # STANDALONE LABEL RENDERERS (Pure Vector SVG)
 # ==============================================================================
@@ -80,19 +114,13 @@ def render_strip_label_svg(spec: FastenerSpec, x: float = 0.0, y: float = 0.0, i
     color = spec.accent_color or "#0077CC"
     bg = spec.bg_color or "#FFFFFF"
 
-    # Main text line:
-    if spec.comp_type in ("nut", "nyloc", "insert", "washer"):
-        main_title = f"{spec.size} {spec.length}".strip()
-        sub_text_1 = spec.extra_note or (f"Tap: {spec.tap_drill}" if spec.tap_drill else spec.pitch)
-        sub_text_2 = f"Key: {spec.tool_key}" if spec.tool_key else (spec.material or "")
-    else:
-        main_title = f"{spec.size} × {spec.length}".strip() if spec.length else spec.size
-        sub_text_1 = f"P: {spec.pitch}" if spec.pitch else ""
-        if spec.tap_drill and spec.tap_drill.split():
-            sub_text_1 += f" | Tap: {spec.tap_drill.split()[0]}"
-        sub_text_2 = f"Key: {spec.tool_key}" if spec.tool_key else (spec.material or "")
+    main_title, sub_text_1, sub_text_2 = format_label_strings(spec)
 
-    # Icons:
+    # Dynamic font scaling to guarantee zero text collision:
+    title_size = 3.6 if len(main_title) <= 11 else (3.1 if len(main_title) <= 15 else 2.6)
+    sub1_size = 1.9 if len(sub_text_1) <= 16 else 1.6
+    sub2_size = 1.9 if len(sub_text_2) <= 14 else 1.6
+
     icon_x = x + STRIP_W - 8.2
 
     svg_parts = [
@@ -101,16 +129,16 @@ def render_strip_label_svg(spec: FastenerSpec, x: float = 0.0, y: float = 0.0, i
         f'<rect x="0" y="0" width="{STRIP_W}" height="{STRIP_H}" rx="{STRIP_R}" fill="{bg}" stroke="#CCCCCC" stroke-width="0.2"/>',
         # Left category color accent bar:
         f'<path d="M 0,{STRIP_R} A {STRIP_R},{STRIP_R} 0 0,1 {STRIP_R},0 L 2.8,0 L 2.8,{STRIP_H} L {STRIP_R},{STRIP_H} A {STRIP_R},{STRIP_R} 0 0,1 0,{STRIP_H - STRIP_R} Z" fill="{color}"/>',
-        # Main Title (Bold):
-        f'<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">{main_title}</text>',
+        # Main Title (Bold with max length constraint):
+        f'<text x="{TEXT_X0}" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="{title_size:.1f}" fill="#111111" textLength="{TEXT_MAX_W:.2f}" lengthAdjust="spacingAndGlyphs">{main_title}</text>',
         # Subtext line 1 (Pitch / Tap):
-        f'<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">{sub_text_1}</text>',
+        f'<text x="{TEXT_X0}" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="{sub1_size:.1f}" fill="#444444" textLength="{TEXT_MAX_W:.2f}" lengthAdjust="spacingAndGlyphs">{sub_text_1}</text>',
         # Subtext line 2 (Drive Tool / Material):
-        f'<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="{color}">{sub_text_2}</text>',
+        f'<text x="{TEXT_X0}" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="{sub2_size:.1f}" fill="{color}" textLength="{TEXT_MAX_W:.2f}" lengthAdjust="spacingAndGlyphs">{sub_text_2}</text>',
     ]
 
     # Render silhouette icons:
-    if spec.comp_type in ("nut", "nyloc", "insert", "washer"):
+    if spec.comp_type in ("nut", "nyloc", "insert", "washer", "split"):
         svg_parts.append(get_component_icon_svg(spec.comp_type, icon_x - x, 1.5, 6.8, 6.8, color="#222222"))
     else:
         # Head icon:
@@ -157,8 +185,8 @@ def render_full_lid_wrap_svg(spec: FastenerSpec, x: float = 0.0, y: float = 0.0)
     # Bottom rear banner:
     bot_y = WRAP_CUTOUT_Y0 + WRAP_CUTOUT_H + 1.2
     svg_parts.append(f'<rect x="2.0" y="{bot_y}" width="{WRAP_W - 4.0}" height="3.5" rx="0.6" fill="{color}"/>')
-    spec_banner = f"Tap: {spec.tap_drill}  |  Clearance: {spec.clearance_drill}" if spec.tap_drill else spec.extra_note
-    svg_parts.append(f'<text x="{WRAP_W/2.0}" y="{bot_y + 2.5}" font-family="Arial, sans-serif" font-size="1.8" font-weight="bold" fill="#FFFFFF" text-anchor="middle">{spec_banner}</text>')
+    spec_banner = f"Tap: {spec.tap_drill}  |  Clear: {spec.clearance_drill}" if spec.tap_drill else (spec.extra_note or spec.pitch)
+    svg_parts.append(f'<text x="{WRAP_W/2.0}" y="{bot_y + 2.5}" font-family="Arial, sans-serif" font-size="1.7" font-weight="bold" fill="#FFFFFF" text-anchor="middle" textLength="{WRAP_W - 6.0:.2f}" lengthAdjust="spacingAndGlyphs">{spec_banner}</text>')
 
     svg_parts.append("</g>")
     return "\n".join(svg_parts)
@@ -191,7 +219,7 @@ def render_png_sheet(
     # Sheet Header:
     margin_x = (paper_w - CRICUT_MAX_W) / 2.0
     margin_y = (paper_h - CRICUT_MAX_H) / 2.0
-    ax.text(margin_x, margin_y - 8.0, title, fontsize=14, weight="bold", color="#111111")
+    ax.text(margin_x, margin_y - 8.0, title, fontsize=13, weight="bold", color="#111111")
     ax.text(margin_x, margin_y - 3.0, f"Gridfinity Glass-Window Cassette System — {label_format.upper()} ({STRIP_W if label_format=='strip' else WRAP_W} × {STRIP_H if label_format=='strip' else WRAP_H} mm)", fontsize=8, color="#666666")
 
     # Cricut registration boundary frame:
@@ -219,28 +247,30 @@ def render_png_sheet(
             color = spec.accent_color or "#0077CC"
             bg = spec.bg_color or "#FFFFFF"
 
+            main_title, sub1, sub2 = format_label_strings(spec)
+
             if label_format == "strip":
                 # Label box:
                 ax.add_patch(patches.FancyBboxPatch((px, py), item_w, item_h, boxstyle=f"round,pad=0,rounding_size={STRIP_R}", facecolor=bg, edgecolor="#CCCCCC", linewidth=0.5))
                 # Category bar:
                 ax.add_patch(patches.Rectangle((px, py), 2.8, item_h, facecolor=color, edgecolor="none"))
                 # Title:
-                title_txt = f"{spec.size} × {spec.length}".strip() if spec.comp_type not in ("nut", "nyloc", "insert", "washer") else f"{spec.size} {spec.length}".strip()
-                ax.text(px + 4.0, py + 3.8, title_txt, fontsize=8.5, weight="bold", color="#111111", va="center")
+                title_font = 8.5 if len(main_title) <= 11 else (7.2 if len(main_title) <= 15 else 6.2)
+                ax.text(px + TEXT_X0, py + 3.8, main_title, fontsize=title_font, weight="bold", color="#111111", va="center")
                 # Subtext 1:
-                sub1 = spec.extra_note if spec.extra_note else (f"P: {spec.pitch}" + (f" | Tap: {spec.tap_drill.split()[0]}" if spec.tap_drill and spec.tap_drill.split() else ""))
-                ax.text(px + 4.0, py + 6.6, sub1, fontsize=5.0, weight="semibold", color="#555555", va="center")
+                sub1_font = 5.0 if len(sub1) <= 16 else 4.4
+                ax.text(px + TEXT_X0, py + 6.6, sub1, fontsize=sub1_font, weight="bold", color="#555555", va="center")
                 # Subtext 2:
-                sub2 = f"Key: {spec.tool_key}" if spec.tool_key else spec.material
-                ax.text(px + 4.0, py + 8.8, sub2, fontsize=5.0, weight="bold", color=color, va="center")
+                sub2_font = 5.0 if len(sub2) <= 14 else 4.4
+                ax.text(px + TEXT_X0, py + 8.8, sub2, fontsize=sub2_font, weight="bold", color=color, va="center")
             else:
                 # Full wrap box:
                 ax.add_patch(patches.FancyBboxPatch((px, py), item_w, item_h, boxstyle=f"round,pad=0,rounding_size={WRAP_R}", facecolor=bg, edgecolor="#CCCCCC", linewidth=0.5))
                 # Window cutout:
                 ax.add_patch(patches.FancyBboxPatch((px + WRAP_CUTOUT_X0, py + WRAP_CUTOUT_Y0), WRAP_CUTOUT_W, WRAP_CUTOUT_H, boxstyle=f"round,pad=0,rounding_size={WRAP_CUTOUT_R}", facecolor="#FFFFFF", edgecolor="#FF0055", linewidth=0.5, linestyle="--"))
                 # Label title:
-                title_txt = f"{spec.size} × {spec.length}".strip() if spec.comp_type not in ("nut", "nyloc", "insert", "washer") else f"{spec.size} {spec.length}".strip()
-                ax.text(px + 6.0, py + 4.5, title_txt, fontsize=9.0, weight="bold", color="#111111", va="center")
+                title_font = 8.5 if len(main_title) <= 11 else 7.2
+                ax.text(px + 6.0, py + 4.5, main_title, fontsize=title_font, weight="bold", color="#111111", va="center")
                 # Category bar on top:
                 ax.add_patch(patches.Rectangle((px + 2.0, py + 1.0), 2.5, 9.0, facecolor=color, edgecolor="none"))
 
@@ -387,8 +417,8 @@ def build_metric_m3_assortment() -> list[FastenerSpec]:
     # M3 Nuts & Washers:
     specs.append(FastenerSpec(category="metric_coarse", size="M3", length="Hex Nut", comp_type="nut", pitch=m_info["pitch_coarse"], tool_key="5.5 mm", material="SS 304", accent_color=cat["color_hex"], bg_color=cat["color_bg"]))
     specs.append(FastenerSpec(category="metric_coarse", size="M3", length="Nyloc Nut", comp_type="nyloc", pitch=m_info["pitch_coarse"], tool_key="5.5 mm", material="SS 304", accent_color=cat["color_hex"], bg_color=cat["color_bg"]))
-    specs.append(FastenerSpec(category="washers", size="M3", length="Flat Washer", comp_type="washer", extra_note="OD: 7.0 mm | T: 0.5 mm", material="SS 304", accent_color="#2E7D32", bg_color="#EAF4EB"))
-    specs.append(FastenerSpec(category="washers", size="M3", length="Split Lock", comp_type="split", extra_note="DIN 127 Spring Lock", material="SS 304", accent_color="#2E7D32", bg_color="#EAF4EB"))
+    specs.append(FastenerSpec(category="washers", size="M3", length="Flat Washer", comp_type="washer", extra_note="OD: 7.0 mm", material="SS 304", accent_color="#2E7D32", bg_color="#EAF4EB"))
+    specs.append(FastenerSpec(category="washers", size="M3", length="Split Lock", comp_type="split", extra_note="DIN 127 Spring", material="SS 304", accent_color="#2E7D32", bg_color="#EAF4EB"))
 
     return specs
 
@@ -494,7 +524,7 @@ def build_heat_set_insert_assortment() -> list[FastenerSpec]:
             size=item["size"],
             length=f"L: {item['length']}",
             comp_type="insert",
-            extra_note=f"Hole: Ø{item['print_hole_dia']} × {item['print_hole_depth']}",
+            extra_note=f"Ø{item['print_hole_dia']} × {item['print_hole_depth']}",
             material="Brass",
             accent_color=cat["color_hex"],
             bg_color=cat["color_bg"]
