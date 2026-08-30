@@ -364,10 +364,13 @@ def build_1x2_body_divided() -> Mesh:
     join = 0.05
     z_floor = FLOOR_Z
 
-    # 1. Thickened Solid Left Wall (X in [-hx, lx] = [-20.75, -15.50 mm]) embedding the hinge:
-    out.extend(box("body_thickened_left_wall", -hx, lx + join, -hy + c - join, hy - c + join, z_floor - join, ENGAGED_H))
+    # 1. Thickened Solid Left Wall below the lid shelf (Z = 6.00 to 45.40 mm):
+    out.extend(box("body_thickened_left_wall_lower", -hx, lx + join, -hy + c - join, hy - c + join, z_floor - join, LID_SHELF_Z + join))
 
-    # 2. Right, Front, and Back Outer Walls (Z = 6.00 to 49.00 mm):
+    # 2. Outer Thin Left Wall Shell above the lid shelf (Z = 45.40 to 49.00 mm):
+    out.extend(box("body_left_outer_wall_upper", -hx, -hx + 2.00 + join, -hy + c - join, hy - c + join, LID_SHELF_Z - join, ENGAGED_H))
+
+    # 3. Right, Front, and Back Outer Walls (Z = 6.00 to 49.00 mm):
     out.extend(box("body_outer_right", rx - join, hx, -hy + c - join, hy - c + join, z_floor - join, ENGAGED_H))
     out.extend(box("body_outer_front", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, ENGAGED_H))
     out.extend(box("body_outer_back", -hx + c - join, hx - c + join, iy - join, hy, z_floor - join, ENGAGED_H))
@@ -443,10 +446,13 @@ def build_1x2_body() -> Mesh:
     join = 0.05
     z_floor = FLOOR_Z
 
-    # 1. Thickened Solid Left Wall embedding the hinge:
-    out.extend(box("body_thickened_left_wall", -hx, lx + join, -hy + c - join, hy - c + join, z_floor - join, ENGAGED_H))
+    # 1. Thickened Solid Left Wall below the lid shelf (Z = 6.00 to 45.40 mm):
+    out.extend(box("body_thickened_left_wall_lower", -hx, lx + join, -hy + c - join, hy - c + join, z_floor - join, LID_SHELF_Z + join))
 
-    # 2. Right, Front, and Back Outer Walls:
+    # 2. Outer Thin Left Wall Shell above the lid shelf (Z = 45.40 to 49.00 mm):
+    out.extend(box("body_left_outer_wall_upper", -hx, -hx + 2.00 + join, -hy + c - join, hy - c + join, LID_SHELF_Z - join, ENGAGED_H))
+
+    # 3. Right, Front, and Back Outer Walls:
     out.extend(box("body_outer_right", rx - join, hx, -hy + c - join, hy - c + join, z_floor - join, ENGAGED_H))
     out.extend(box("body_outer_front", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, ENGAGED_H))
     out.extend(box("body_outer_back", -hx + c - join, hx - c + join, iy - join, hy, z_floor - join, ENGAGED_H))
