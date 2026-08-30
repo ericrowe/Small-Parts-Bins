@@ -403,73 +403,79 @@ def build_1x2_body() -> Mesh:
 
 
 def build_1x2_sliding_lid_local() -> Mesh:
-    """Build the horizontal loose-fit sliding lid with glass window, compliant clip, and front pull tab."""
+    """Build the horizontal loose-fit sliding lid with glass window, rear compliant clip, and front solid pull tab."""
     out = Mesh("gridfinity_lid_1x2_7u_local")
 
     hx = LID_W / 2          # 18.70 mm
-    hy_back = 39.50         # Rear end
-    hy_front = -39.50       # Front body plane
-    hy_pull = -43.50        # Front pull tab apex
+    hy_front = -39.50       # Front solid label end (remains at front mouth)
+    hy_pull = -43.50        # Front pull tab apex (protrudes past front face)
+    hy_back = 39.50         # Rear end (slides in first toward back stop)
 
-    top_z0 = PANE_CHANNEL_Z1
-    top_z1 = PANE_TOP_Z1
-    window_y0 = WINDOW_Y - WINDOW_D / 2   # -27.50
-    window_y1 = WINDOW_Y + WINDOW_D / 2   # +27.50
-    window_x0 = WINDOW_X - WINDOW_W / 2   # -11.50
-    window_x1 = WINDOW_X + WINDOW_W / 2   # +11.50
+    top_z0 = PANE_CHANNEL_Z1 # 2.10 mm
+    top_z1 = PANE_TOP_Z1     # 3.00 mm
+    window_y0 = -27.50
+    window_y1 = 27.50
+    window_x0 = -11.50
+    window_x1 = 11.50
 
-    # Compliant clip cutout dimensions:
-    tongue_x0 = WINDOW_X - PANE_TONGUE_W / 2      # -4.00
-    tongue_x1 = WINDOW_X + PANE_TONGUE_W / 2      #  4.00
-    pad_x0 = WINDOW_X - PANE_FINGER_PAD_W / 2     # -5.00
-    pad_x1 = WINDOW_X + PANE_FINGER_PAD_W / 2     #  5.00
+    # Glass loading entry at rear (+Y):
+    pane_entry_y = 39.00
+    pane_shoulder_y0 = 38.50
+    pane_shoulder_y1 = 37.50
+    pane_tongue_root_y = 33.25
+    pane_tongue_end_y = 32.20
+    pane_far_stop_y = -37.50
+
+    tongue_x0 = -4.00
+    tongue_x1 =  4.00
+    pad_x0 = -5.00
+    pad_x1 =  5.00
 
     pad_gap = 0.50
     tongue_gap = 0.50
-    pad_cut_x0 = pad_x0 - pad_gap                 # -5.50
-    pad_cut_x1 = pad_x1 + pad_gap                 #  5.50
-    tongue_cut_x0 = tongue_x0 - tongue_gap         # -4.50
-    tongue_cut_x1 = tongue_x1 + tongue_gap         #  4.50
+    pad_cut_x0 = pad_x0 - pad_gap
+    pad_cut_x1 = pad_x1 + pad_gap
+    tongue_cut_x0 = tongue_x0 - tongue_gap
+    tongue_cut_x1 = tongue_x1 + tongue_gap
 
-    # 1. Main Lid Top Plate (local Z in [top_z0, top_z1] = [2.10, 3.00 mm]):
-    # A. Entry side top frame with 0.50 mm clearance cutouts:
-    out.extend(box("top_entry_pad_left", -hx, pad_cut_x0, PANE_ENTRY_Y, -36.20, top_z0, top_z1))
-    out.extend(box("top_entry_pad_right", pad_cut_x1, hx, PANE_ENTRY_Y, -36.20, top_z0, top_z1))
-    out.extend(box("top_entry_tongue_left", -hx, tongue_cut_x0, -36.25, -33.50, top_z0, top_z1))
-    out.extend(box("top_entry_tongue_right", tongue_cut_x1, hx, -36.25, -33.50, top_z0, top_z1))
-    out.extend(box("top_entry_gusset_left", -hx, pad_cut_x0, -33.55, PANE_TONGUE_ROOT_Y + 0.05, top_z0, top_z1))
-    out.extend(box("top_entry_gusset_right", pad_cut_x1, hx, -33.55, PANE_TONGUE_ROOT_Y + 0.05, top_z0, top_z1))
-    out.extend(box("top_tongue_root_band", -hx, hx, PANE_TONGUE_ROOT_Y, window_y0 + 0.05, top_z0, top_z1))
+    # 1. Main Lid Top Plate:
+    # A. Front solid label band:
+    out.extend(box("top_front_solid_label_band", -hx, hx, hy_front - 0.05, window_y0 + 0.05, top_z0, top_z1))
 
-    # B. Side Rails flanking the 23.0 mm window:
+    # B. Side rails flanking the 23.0 mm window:
     out.extend(box("top_left_rail", -hx, window_x0, window_y0 - 0.05, window_y1 + 0.05, top_z0, top_z1))
     out.extend(box("top_right_rail", window_x1, hx, window_y0 - 0.05, window_y1 + 0.05, top_z0, top_z1))
 
-    # C. Far end solid label band:
-    out.extend(box("top_far_border", -hx, hx, window_y1 - 0.05, hy_back, top_z0, top_z1))
+    # C. Rear entry frame around the compliant clip:
+    out.extend(box("top_rear_tongue_root_band", -hx, hx, window_y1 - 0.05, pane_tongue_root_y, top_z0, top_z1))
+    out.extend(box("top_rear_gusset_left", -hx, pad_cut_x0, pane_tongue_root_y - 0.05, 33.55, top_z0, top_z1))
+    out.extend(box("top_rear_gusset_right", pad_cut_x1, hx, pane_tongue_root_y - 0.05, 33.55, top_z0, top_z1))
+    out.extend(box("top_rear_tongue_left", -hx, tongue_cut_x0, 33.50, 36.25, top_z0, top_z1))
+    out.extend(box("top_rear_tongue_right", tongue_cut_x1, hx, 33.50, 36.25, top_z0, top_z1))
+    out.extend(box("top_rear_pad_left", -hx, pad_cut_x0, 36.20, pane_entry_y, top_z0, top_z1))
+    out.extend(box("top_rear_pad_right", pad_cut_x1, hx, 36.20, pane_entry_y, top_z0, top_z1))
 
-    # 2. Glass Microscope Slide Channel (local Z in [PANE_CHANNEL_Z0, PANE_CHANNEL_Z1] = [0.70, 2.10 mm]):
-    ch_x0 = WINDOW_X - PANE_CHANNEL_W / 2  # -13.50
-    ch_x1 = WINDOW_X + PANE_CHANNEL_W / 2  # +13.50
-    bot_x0 = WINDOW_X - 12.00              # -12.00
-    bot_x1 = WINDOW_X + 12.00              # +12.00
+    # 2. Glass Microscope Slide Channel:
+    ch_x0 = -13.50
+    ch_x1 =  13.50
+    bot_x0 = -12.00
+    bot_x1 =  12.00
 
-    out.extend(box("pane_left_wall", -hx, ch_x0, PANE_ENTRY_Y, PANE_FAR_STOP_Y, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("pane_right_wall", ch_x1, hx, PANE_ENTRY_Y, PANE_FAR_STOP_Y, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
-    out.extend(box("pane_left_bottom_ledge", -hx, bot_x0, PANE_ENTRY_Y, PANE_FAR_STOP_Y, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
-    out.extend(box("pane_right_bottom_ledge", bot_x1, hx, PANE_ENTRY_Y, PANE_FAR_STOP_Y, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
-    out.extend(box("pane_far_stop", ch_x0 - 0.05, ch_x1 + 0.05, PANE_FAR_STOP_Y, hy_back, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_left_wall", -hx, ch_x0, pane_far_stop_y, pane_entry_y, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_right_wall", ch_x1, hx, pane_far_stop_y, pane_entry_y, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
+    out.extend(box("pane_left_bottom_ledge", -hx, bot_x0, pane_far_stop_y, pane_entry_y, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
+    out.extend(box("pane_right_bottom_ledge", bot_x1, hx, pane_far_stop_y, pane_entry_y, PANE_BOTTOM_Z0, PANE_CHANNEL_Z0))
+    out.extend(box("pane_front_far_stop", ch_x0 - 0.05, ch_x1 + 0.05, hy_front - 0.05, pane_far_stop_y, PANE_CHANNEL_Z0 - 0.05, PANE_CHANNEL_Z1 + 0.05))
 
-    # 3. Reinforced Compliant Glass Retention Clip (1.20 mm solid PETG, local Z in [LID_THICKNESS - 1.20, LID_THICKNESS]):
-    out.extend(box("pane_compliant_tongue", tongue_x0, tongue_x1, PANE_SHOULDER_Y0, PANE_TONGUE_END_Y, LID_THICKNESS - PANE_TONGUE_H, LID_THICKNESS))
-    out.extend(box("pane_latch_finger_pad", pad_x0, pad_x1, PANE_SHOULDER_Y0, PANE_SHOULDER_Y1 + 0.20, LID_THICKNESS - PANE_TONGUE_H, LID_THICKNESS))
-    out.extend(box("pane_positive_end_shoulder", tongue_x0, tongue_x1, PANE_SHOULDER_Y0, PANE_SHOULDER_Y1, PANE_CHANNEL_Z0, LID_THICKNESS - PANE_TONGUE_H + 0.05))
+    # 3. Compliant clip at rear:
+    out.extend(box("pane_compliant_tongue", tongue_x0, tongue_x1, pane_tongue_end_y, pane_shoulder_y0, LID_THICKNESS - PANE_TONGUE_H, LID_THICKNESS))
+    out.extend(box("pane_latch_finger_pad", pad_x0, pad_x1, pane_shoulder_y1 - 0.20, pane_shoulder_y0, LID_THICKNESS - PANE_TONGUE_H, LID_THICKNESS))
+    out.extend(box("pane_positive_end_shoulder", tongue_x0, tongue_x1, pane_shoulder_y1, pane_shoulder_y0, PANE_CHANNEL_Z0, LID_THICKNESS - PANE_TONGUE_H + 0.05))
 
-    # 3D Root Gussets:
-    out.extend(prism("tongue_gusset_left", [(tongue_x0 - 2.5, PANE_TONGUE_ROOT_Y + 0.1), (tongue_x0 + 0.1, PANE_TONGUE_ROOT_Y + 0.1), (tongue_x0 + 0.1, PANE_TONGUE_ROOT_Y - 2.0)], LID_THICKNESS - PANE_TONGUE_H, LID_THICKNESS))
-    out.extend(prism("tongue_gusset_right", [(tongue_x1 - 0.1, PANE_TONGUE_ROOT_Y + 0.1), (tongue_x1 + 2.5, PANE_TONGUE_ROOT_Y + 0.1), (tongue_x1 - 0.1, PANE_TONGUE_ROOT_Y - 2.0)], LID_THICKNESS - PANE_TONGUE_H, LID_THICKNESS))
+    out.extend(prism("tongue_gusset_left", [(tongue_x0 - 2.5, pane_tongue_root_y - 0.1), (tongue_x0 + 0.1, pane_tongue_root_y - 0.1), (tongue_x0 + 0.1, pane_tongue_root_y + 2.0)], LID_THICKNESS - PANE_TONGUE_H, LID_THICKNESS))
+    out.extend(prism("tongue_gusset_right", [(tongue_x1 - 0.1, pane_tongue_root_y - 0.1), (tongue_x1 + 2.5, pane_tongue_root_y - 0.1), (tongue_x1 - 0.1, pane_tongue_root_y + 2.0)], LID_THICKNESS - PANE_TONGUE_H, LID_THICKNESS))
 
-    # 4. Front Protruding Finger Pull Tab (Y in [-43.50, -39.50 mm]):
+    # 4. Front Protruding Finger Pull Tab (attached directly to front solid label band):
     tab_hx = PULL_TAB_W / 2  # 12.00 mm
     grip_profile = [
         (hy_front + 0.05, 0.00),
@@ -478,7 +484,7 @@ def build_1x2_sliding_lid_local() -> Mesh:
         (hy_pull, LID_THICKNESS),
         (hy_front + 0.05, LID_THICKNESS),
     ]
-    out.extend(prism_x("pull_tab_grip_lip", grip_profile, -tab_hx, tab_hx))
+    out.extend(prism_x("pull_tab_front", grip_profile, -tab_hx, tab_hx))
 
     return out
 
