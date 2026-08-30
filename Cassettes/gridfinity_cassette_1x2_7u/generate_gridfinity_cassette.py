@@ -256,6 +256,19 @@ def build_scoop_fillet(ix: float, z_floor: float, r: float, y0: float, y1: float
     return prism_y("scoop_fillet", profile, y0, y1)
 
 
+def build_corner_wedges(hx: float, hy: float, c: float, z0: float, z1: float, join: float = 0.05) -> Mesh:
+    """Build the 4 rounded corner columns of the outer shell without filling the internal cavity."""
+    m = Mesh("corner_wedges")
+    n = 6
+    for cx, cy, start in ((hx - c, -hy + c, 270), (hx - c, hy - c, 0), (-hx + c, hy - c, 90), (-hx + c, -hy + c, 180)):
+        poly = [(cx, cy)]
+        for i in range(n + 1):
+            a = math.radians(start + i * 90 / n)
+            poly.append((round(cx + c * math.cos(a), 4), round(cy + c * math.sin(a), 4)))
+        m.extend(prism(f"corner_{int(start)}", poly, z0, z1))
+    return m
+
+
 def build_1x2_body_divided() -> Mesh:
     """Build the 1x2 7U divided Gridfinity cassette body."""
     out = Mesh("gridfinity_body_1x2_7u_divided")
@@ -267,7 +280,7 @@ def build_1x2_body_divided() -> Mesh:
     join = 0.05
     z_floor = FLOOR_Z
 
-    # 1. Continuous Outer Walls:
+    # 1. 4 Continuous Perimeter Walls (Leaves 37.5 x 79.5 mm cavity completely hollow):
     # Left wall (hinge side):
     out.extend(box("body_outer_left", -hx, -ix + join, -hy + c - join, hy - c + join, z_floor - join, BODY_H))
     # Right wall (latch side):
@@ -276,9 +289,8 @@ def build_1x2_body_divided() -> Mesh:
     out.extend(box("body_outer_front", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, BODY_H))
     out.extend(box("body_outer_back", -hx + c - join, hx - c + join, iy - join, hy, z_floor - join, BODY_H))
 
-    # 2. Outer corner columns:
-    outer_pts = rounded_rect(OUTER_W, OUTER_L, OUTER_R, 6)
-    out.extend(prism("body_corners", outer_pts, z_floor - join, BODY_H))
+    # 2. Outer 4 corner rounded wedges:
+    out.extend(build_corner_wedges(hx, hy, c, z_floor - join, BODY_H, join))
 
     # 3. Divider slots (Two stations at thirds Y = ±13.50 mm):
     slot_w = 1.40
@@ -342,15 +354,20 @@ def build_1x2_body() -> Mesh:
     join = 0.05
     z_floor = FLOOR_Z
 
-    # Outer shell:
-    outer_pts = rounded_rect(OUTER_W, OUTER_L, OUTER_R, 6)
-    out.extend(prism("body_shell", outer_pts, z_floor - join, BODY_H))
+    # 1. 4 Continuous Perimeter Walls (Leaves 37.5 x 79.5 mm cavity completely hollow):
+    out.extend(box("body_outer_left", -hx, -ix + join, -hy + c - join, hy - c + join, z_floor - join, BODY_H))
+    out.extend(box("body_outer_right", ix - join, hx, -hy + c - join, hy - c + join, z_floor - join, BODY_H))
+    out.extend(box("body_outer_front", -hx + c - join, hx - c + join, -hy, -iy + join, z_floor - join, BODY_H))
+    out.extend(box("body_outer_back", -hx + c - join, hx - c + join, iy - join, hy, z_floor - join, BODY_H))
 
-    # Continuous smooth finger scoop fillet (R = 4.0 mm) along inside front (latch) floor edge:
+    # 2. Outer 4 corner rounded wedges:
+    out.extend(build_corner_wedges(hx, hy, c, z_floor - join, BODY_H, join))
+
+    # 3. Continuous smooth finger scoop fillet (R = 4.0 mm) along inside front (latch) floor edge:
     r_scoop = 4.00
     out.extend(build_scoop_fillet(ix, z_floor, r_scoop, -hy + c, hy - c))
 
-    # Centre Hinge Knuckle on Left Wall:
+    # 4. Centre Hinge Knuckle on Left Wall:
     out.extend(
         peaked_hinge_y(
             "body_centre_knuckle",
@@ -363,7 +380,7 @@ def build_1x2_body() -> Mesh:
         )
     )
 
-    # Inward Closure Catch:
+    # 5. Inward Closure Catch:
     catch_profile = [
         (ix, BODY_H - 2.60),
         (ix - 0.85, BODY_H - 2.10),
