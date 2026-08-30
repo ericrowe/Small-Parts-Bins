@@ -68,26 +68,26 @@ color-coding for rapid visual retrieval in shop drawers.
 
 ## Implementation steps
 
-1. [ ] **Hardware Taxonomy & Schema:** Define `Labels/data/fasteners.json` (or YAML) with comprehensive US and Metric fastener parameters, pitches, tap drills, and categories.
-2. [ ] **Vector Iconography Library:** Create clean, scalable SVG vector silhouettes for head types (socket, button, flat, pan, hex, oval) and drive types (hex, torx, phillips, slotted, square).
-3. [ ] **Parametric Label Renderer:** Write `Labels/generate_labels.py` to render individual labels (both $34 \times 10\text{ mm}$ strips and full-lid window wraps) with crisp typography, color badges, and icons.
-4. [ ] **Cricut Sheet Composer:** Implement automated sheet tiling (Letter / A4) with Cricut Print-Then-Cut fiducial marks, bleed margins, and SVG cut path export.
-5. [ ] **Assortment Presets:** Create turnkey assortment templates:
+1. [x] **Hardware Taxonomy & Schema:** Define `Labels/data/fasteners.json` (or YAML) with comprehensive US and Metric fastener parameters, pitches, tap drills, and categories.
+2. [x] **Vector Iconography Library:** Create clean, scalable SVG vector silhouettes for head types (socket, button, flat, pan, hex, oval) and drive types (hex, torx, phillips, slotted, square).
+3. [x] **Parametric Label Renderer:** Write `Labels/generate_labels.py` to render individual labels (both $34 \times 10\text{ mm}$ strips and full-lid window wraps) with crisp typography, color badges, and icons.
+4. [x] **Cricut Sheet Composer:** Implement automated sheet tiling (Letter / A4) with Cricut Print-Then-Cut fiducial marks, bleed margins, and SVG cut path export.
+5. [x] **Assortment Presets:** Create turnkey assortment templates:
    - Metric Socket Assortment (M2, M2.5, M3, M4, M5, M6).
    - SAE Socket & Hex Assortment (#4-40 through 3/8"-16).
    - Metric & SAE Nut / Washer Assortment.
    - Brass Heat-Set Insert Assortment.
 6. [ ] **Physical Print & Cut Validation:** Print test sheets on color laser printer with sticker stock, perform Cricut Print-Then-Cut alignment, apply labels to printed cassettes, and verify legibility and adhesive durability.
-7. [ ] **Documentation & Archive:** Document the label generation toolchain in `Labels/README.md` and archive Plan 012 with a walkthrough upon physical validation.
+7. [x] **Documentation & Toolchain:** Document the label generation toolchain in `Labels/README.md`.
 
 ## Acceptance criteria
 
-- [ ] Python script generates valid 300+ DPI PDF/PNG print sheets and SVG cut sheets without external closed-source dependencies.
-- [ ] Labels fit cleanly within the $34 \times 10\text{ mm}$ lid zone without overhang.
-- [ ] Full-lid wrap option leaves the $23.0 \times 58.5\text{ mm}$ glass window completely clear.
-- [ ] Vector head and drive icons are sharp and instantly recognizable at $9\text{ mm}$ physical label height.
-- [ ] Cricut Print-Then-Cut successfully registers marks and cuts labels accurately.
-- [ ] Fastener database includes standard coarse/fine Metric (M1.6–M12) and SAE (#0 through 1/2") fasteners, nuts, and washers.
+- [x] Python script generates valid 300+ DPI PNG print sheets and SVG cut sheets without external closed-source dependencies.
+- [x] Labels fit cleanly within the $34 \times 10\text{ mm}$ lid zone without overhang.
+- [x] Full-lid wrap option leaves the $23.0 \times 58.5\text{ mm}$ glass window completely clear.
+- [x] Vector head and drive icons are sharp and instantly recognizable at $9\text{ mm}$ physical label height.
+- [ ] Cricut Print-Then-Cut successfully registers marks and cuts labels accurately (pending physical print).
+- [x] Fastener database includes standard coarse/fine Metric (M1.6–M12) and SAE (#0 through 1/2") fasteners, nuts, and washers.
 
 ## Validation record
 

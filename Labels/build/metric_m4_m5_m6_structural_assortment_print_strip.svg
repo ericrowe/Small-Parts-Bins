@@ -1,0 +1,567 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 215.90 279.40" width="215.90mm" height="279.40mm">
+<rect width="215.9" height="279.4" fill="#FFFFFF"/>
+<text x="22.22500000000001" y="14.224999999999994" font-family="Arial, sans-serif" font-size="5.0" font-weight="900" fill="#111111">Metric M4 M5 M6 Structural Assortment</text>
+<text x="22.22500000000001" y="18.724999999999994" font-family="Arial, sans-serif" font-size="2.8" fill="#666666">Gridfinity Glass-Window Cassette System — Format: STRIP (34.0 × 10.0 mm)</text>
+<rect x="18.22500000000001" y="18.224999999999994" width="179.45" height="242.95" fill="none" stroke="#000000" stroke-width="2.0"/>
+<g id="label_M4_8 mm" transform="translate(22.23,22.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M4 × 8 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.7 | Tap: 3.30</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 3.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M4_10 mm" transform="translate(59.23,22.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M4 × 10 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.7 | Tap: 3.30</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 3.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M4_12 mm" transform="translate(96.23,22.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M4 × 12 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.7 | Tap: 3.30</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 3.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M4_16 mm" transform="translate(133.23,22.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M4 × 16 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.7 | Tap: 3.30</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 3.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M4_20 mm" transform="translate(22.23,35.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M4 × 20 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.7 | Tap: 3.30</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 3.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M4_25 mm" transform="translate(59.23,35.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M4 × 25 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.7 | Tap: 3.30</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 3.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M4_30 mm" transform="translate(96.23,35.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M4 × 30 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.7 | Tap: 3.30</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 3.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M4_35 mm" transform="translate(133.23,35.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M4 × 35 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.7 | Tap: 3.30</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 3.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M4_40 mm" transform="translate(22.23,48.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M4 × 40 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.7 | Tap: 3.30</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 3.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M4_Hex Nut" transform="translate(59.23,48.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M4 Hex Nut</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">0.7</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Class 10</text>
+<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+            <polygon points="3,6 21,6 21,18 3,18"/>
+            <line x1="9" y1="6" x2="9" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="15" y1="6" x2="15" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+</g>
+<g id="label_M4_Nyloc Nut" transform="translate(96.23,48.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M4 Nyloc Nut</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">0.7</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Class 10</text>
+<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+            <polygon points="3,9 21,9 21,19 3,19"/>
+            <path d="M 6,9 C 6,5 18,5 18,9 Z" fill="#0077CC"/>
+        </g>
+</g>
+<g id="label_M4_Flat Washer" transform="translate(133.23,48.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#EAF4EB" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#2E7D32"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M4 Flat Washer</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444"></text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#2E7D32">Steel</text>
+<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="12" r="4.5" fill="#FFFFFF"/>
+        </g>
+</g>
+<g id="label_M5_8 mm" transform="translate(22.23,61.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M5 × 8 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.8 | Tap: 4.20</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 4.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M5_10 mm" transform="translate(59.23,61.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M5 × 10 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.8 | Tap: 4.20</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 4.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M5_12 mm" transform="translate(96.23,61.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M5 × 12 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.8 | Tap: 4.20</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 4.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M5_16 mm" transform="translate(133.23,61.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M5 × 16 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.8 | Tap: 4.20</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 4.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M5_20 mm" transform="translate(22.23,74.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M5 × 20 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.8 | Tap: 4.20</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 4.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M5_25 mm" transform="translate(59.23,74.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M5 × 25 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.8 | Tap: 4.20</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 4.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M5_30 mm" transform="translate(96.23,74.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M5 × 30 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.8 | Tap: 4.20</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 4.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M5_35 mm" transform="translate(133.23,74.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M5 × 35 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.8 | Tap: 4.20</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 4.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M5_40 mm" transform="translate(22.23,87.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M5 × 40 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 0.8 | Tap: 4.20</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 4.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M5_Hex Nut" transform="translate(59.23,87.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M5 Hex Nut</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">0.8</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Class 10</text>
+<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+            <polygon points="3,6 21,6 21,18 3,18"/>
+            <line x1="9" y1="6" x2="9" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="15" y1="6" x2="15" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+</g>
+<g id="label_M5_Nyloc Nut" transform="translate(96.23,87.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M5 Nyloc Nut</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">0.8</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Class 10</text>
+<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+            <polygon points="3,9 21,9 21,19 3,19"/>
+            <path d="M 6,9 C 6,5 18,5 18,9 Z" fill="#0077CC"/>
+        </g>
+</g>
+<g id="label_M5_Flat Washer" transform="translate(133.23,87.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#EAF4EB" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#2E7D32"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M5 Flat Washer</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444"></text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#2E7D32">Steel</text>
+<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="12" r="4.5" fill="#FFFFFF"/>
+        </g>
+</g>
+<g id="label_M6_8 mm" transform="translate(22.23,100.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M6 × 8 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 1.0 | Tap: 5.00</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 5.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M6_10 mm" transform="translate(59.23,100.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M6 × 10 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 1.0 | Tap: 5.00</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 5.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M6_12 mm" transform="translate(96.23,100.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M6 × 12 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 1.0 | Tap: 5.00</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 5.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M6_16 mm" transform="translate(133.23,100.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M6 × 16 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 1.0 | Tap: 5.00</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 5.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M6_20 mm" transform="translate(22.23,113.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M6 × 20 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 1.0 | Tap: 5.00</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 5.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M6_25 mm" transform="translate(59.23,113.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M6 × 25 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 1.0 | Tap: 5.00</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 5.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M6_30 mm" transform="translate(96.23,113.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M6 × 30 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 1.0 | Tap: 5.00</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 5.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M6_35 mm" transform="translate(133.23,113.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M6 × 35 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 1.0 | Tap: 5.00</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 5.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M6_40 mm" transform="translate(22.23,126.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M6 × 40 mm</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">P: 1.0 | Tap: 5.00</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Key: 5.0 mm</text>
+<g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
+            <rect x="5" y="2" width="14" height="11" rx="0.8"/>
+            <rect x="9.5" y="13" width="5" height="9"/>
+            <line x1="8" y1="3" x2="8" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="12" y1="3" x2="12" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="16" y1="3" x2="16" y2="12" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+<g transform="translate(27.00,5.20) scale(0.1667,0.1667)" fill="#0077CC">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5"/>
+        </g>
+</g>
+<g id="label_M6_Hex Nut" transform="translate(59.23,126.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M6 Hex Nut</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">1.0</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Class 10</text>
+<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+            <polygon points="3,6 21,6 21,18 3,18"/>
+            <line x1="9" y1="6" x2="9" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+            <line x1="15" y1="6" x2="15" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+        </g>
+</g>
+<g id="label_M6_Nyloc Nut" transform="translate(96.23,126.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M6 Nyloc Nut</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444">1.0</text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC">Class 10</text>
+<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+            <polygon points="3,9 21,9 21,19 3,19"/>
+            <path d="M 6,9 C 6,5 18,5 18,9 Z" fill="#0077CC"/>
+        </g>
+</g>
+<g id="label_M6_Flat Washer" transform="translate(133.23,126.22)">
+<rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#EAF4EB" stroke="#CCCCCC" stroke-width="0.2"/>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#2E7D32"/>
+<text x="4.2" y="4.2" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.8" fill="#111111">M6 Flat Washer</text>
+<text x="4.2" y="6.8" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444"></text>
+<text x="4.2" y="8.9" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#2E7D32">Steel</text>
+<g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="12" r="4.5" fill="#FFFFFF"/>
+        </g>
+</g>
+</svg>

@@ -1,0 +1,244 @@
+{
+  "categories": {
+    "metric_coarse": {
+      "name": "Metric Coarse (ISO)",
+      "color_name": "Cyan / Electric Blue",
+      "color_hex": "#0077CC",
+      "color_bg": "#E6F3FA",
+      "prefix": "M"
+    },
+    "metric_fine": {
+      "name": "Metric Fine (ISO)",
+      "color_name": "Navy / Indigo",
+      "color_hex": "#003366",
+      "color_bg": "#E8EEF5",
+      "prefix": "M"
+    },
+    "imperial_unc": {
+      "name": "Imperial Coarse (UNC)",
+      "color_name": "Red / Crimson",
+      "color_hex": "#C8102E",
+      "color_bg": "#FBEAEB",
+      "prefix": "#"
+    },
+    "imperial_unf": {
+      "name": "Imperial Fine (UNF)",
+      "color_name": "Orange / Amber",
+      "color_hex": "#E65100",
+      "color_bg": "#FEEFE6",
+      "prefix": "#"
+    },
+    "heat_set_inserts": {
+      "name": "Brass Heat-Set Inserts",
+      "color_name": "Gold / Brass Yellow",
+      "color_hex": "#C5A059",
+      "color_bg": "#F9F6EE",
+      "prefix": "M"
+    },
+    "washers": {
+      "name": "Washers & Spacers",
+      "color_name": "Green",
+      "color_hex": "#2E7D32",
+      "color_bg": "#EAF4EB",
+      "prefix": ""
+    }
+  },
+  "threads": {
+    "metric": [
+      {
+        "size": "M1.6",
+        "pitch_coarse": "0.35",
+        "tap_drill": "1.25 mm (#55)",
+        "clearance_drill": "1.8 mm (#50)",
+        "hex_key": {"shcs": "1.5 mm", "bhcs": "1.0 mm", "fhcs": "1.0 mm"},
+        "torx_key": {"shcs": "T5", "bhcs": "T5", "fhcs": "T5"}
+      },
+      {
+        "size": "M2",
+        "pitch_coarse": "0.4",
+        "tap_drill": "1.60 mm (#52)",
+        "clearance_drill": "2.2 mm (#44)",
+        "hex_key": {"shcs": "1.5 mm", "bhcs": "1.3 mm", "fhcs": "1.3 mm"},
+        "torx_key": {"shcs": "T6", "bhcs": "T6", "fhcs": "T6"}
+      },
+      {
+        "size": "M2.5",
+        "pitch_coarse": "0.45",
+        "tap_drill": "2.05 mm (#46)",
+        "clearance_drill": "2.7 mm (#36)",
+        "hex_key": {"shcs": "2.0 mm", "bhcs": "1.5 mm", "fhcs": "1.5 mm"},
+        "torx_key": {"shcs": "T8", "bhcs": "T8", "fhcs": "T8"}
+      },
+      {
+        "size": "M3",
+        "pitch_coarse": "0.5",
+        "tap_drill": "2.50 mm (#39)",
+        "clearance_drill": "3.3 mm (#30)",
+        "hex_key": {"shcs": "2.5 mm", "bhcs": "2.0 mm", "fhcs": "2.0 mm"},
+        "torx_key": {"shcs": "T10", "bhcs": "T10", "fhcs": "T10"}
+      },
+      {
+        "size": "M4",
+        "pitch_coarse": "0.7",
+        "tap_drill": "3.30 mm (#30)",
+        "clearance_drill": "4.5 mm (#16)",
+        "hex_key": {"shcs": "3.0 mm", "bhcs": "2.5 mm", "fhcs": "2.5 mm"},
+        "torx_key": {"shcs": "T20", "bhcs": "T20", "fhcs": "T20"}
+      },
+      {
+        "size": "M5",
+        "pitch_coarse": "0.8",
+        "tap_drill": "4.20 mm (#19)",
+        "clearance_drill": "5.5 mm (7/32\")",
+        "hex_key": {"shcs": "4.0 mm", "bhcs": "3.0 mm", "fhcs": "3.0 mm"},
+        "torx_key": {"shcs": "T25", "bhcs": "T25", "fhcs": "T25"}
+      },
+      {
+        "size": "M6",
+        "pitch_coarse": "1.0",
+        "tap_drill": "5.00 mm (#8)",
+        "clearance_drill": "6.6 mm (17/64\")",
+        "hex_key": {"shcs": "5.0 mm", "bhcs": "4.0 mm", "fhcs": "4.0 mm"},
+        "torx_key": {"shcs": "T30", "bhcs": "T30", "fhcs": "T30"}
+      },
+      {
+        "size": "M8",
+        "pitch_coarse": "1.25",
+        "pitch_fine": "1.0",
+        "tap_drill": "6.80 mm (H)",
+        "clearance_drill": "9.0 mm (23/64\")",
+        "hex_key": {"shcs": "6.0 mm", "bhcs": "5.0 mm", "fhcs": "5.0 mm"},
+        "torx_key": {"shcs": "T40", "bhcs": "T40", "fhcs": "T40"}
+      },
+      {
+        "size": "M10",
+        "pitch_coarse": "1.5",
+        "pitch_fine": "1.25",
+        "tap_drill": "8.50 mm (R)",
+        "clearance_drill": "11.0 mm (7/16\")",
+        "hex_key": {"shcs": "8.0 mm", "bhcs": "6.0 mm", "fhcs": "6.0 mm"},
+        "torx_key": {"shcs": "T50", "bhcs": "T50", "fhcs": "T50"}
+      },
+      {
+        "size": "M12",
+        "pitch_coarse": "1.75",
+        "pitch_fine": "1.5",
+        "tap_drill": "10.20 mm (13/32\")",
+        "clearance_drill": "13.5 mm (17/32\")",
+        "hex_key": {"shcs": "10.0 mm", "bhcs": "8.0 mm", "fhcs": "8.0 mm"},
+        "torx_key": {"shcs": "T55", "bhcs": "T55", "fhcs": "T55"}
+      }
+    ],
+    "imperial": [
+      {
+        "size": "#0-80",
+        "tpi_coarse": "80",
+        "tap_drill": "#56 (0.0465\")",
+        "clearance_drill": "#52 (0.0635\")",
+        "hex_key": {"shcs": "0.050\"", "bhcs": "0.035\"", "fhcs": "0.035\""}
+      },
+      {
+        "size": "#2-56",
+        "tpi_coarse": "56",
+        "tap_drill": "#50 (0.0700\")",
+        "clearance_drill": "#43 (0.0890\")",
+        "hex_key": {"shcs": "5/64\"", "bhcs": "0.050\"", "fhcs": "0.050\""}
+      },
+      {
+        "size": "#4-40",
+        "tpi_coarse": "40",
+        "tap_drill": "#43 (0.0890\")",
+        "clearance_drill": "#32 (0.1160\")",
+        "hex_key": {"shcs": "3/32\"", "bhcs": "1/16\"", "fhcs": "1/16\""}
+      },
+      {
+        "size": "#6-32",
+        "tpi_coarse": "32",
+        "tap_drill": "#36 (0.1065\")",
+        "clearance_drill": "#27 (0.1440\")",
+        "hex_key": {"shcs": "7/64\"", "bhcs": "5/64\"", "fhcs": "5/64\""}
+      },
+      {
+        "size": "#8-32",
+        "tpi_coarse": "32",
+        "tap_drill": "#29 (0.1360\")",
+        "clearance_drill": "#18 (0.1695\")",
+        "hex_key": {"shcs": "9/64\"", "bhcs": "3/32\"", "fhcs": "3/32\""}
+      },
+      {
+        "size": "#10-24",
+        "tpi_coarse": "24",
+        "tpi_fine": "32",
+        "tap_drill": "#25 (0.1495\")",
+        "clearance_drill": "#9 (0.1960\")",
+        "hex_key": {"shcs": "5/32\"", "bhcs": "1/8\"", "fhcs": "1/8\""}
+      },
+      {
+        "size": "#10-32",
+        "tpi_coarse": "32",
+        "tap_drill": "#21 (0.1590\")",
+        "clearance_drill": "#9 (0.1960\")",
+        "hex_key": {"shcs": "5/32\"", "bhcs": "1/8\"", "fhcs": "1/8\""}
+      },
+      {
+        "size": "1/4\"-20",
+        "tpi_coarse": "20",
+        "tpi_fine": "28",
+        "tap_drill": "#7 (0.2010\")",
+        "clearance_drill": "F (0.2570\")",
+        "hex_key": {"shcs": "3/16\"", "bhcs": "5/32\"", "fhcs": "5/32\""}
+      },
+      {
+        "size": "5/16\"-18",
+        "tpi_coarse": "18",
+        "tpi_fine": "24",
+        "tap_drill": "F (0.2570\")",
+        "clearance_drill": "P (0.3230\")",
+        "hex_key": {"shcs": "1/4\"", "bhcs": "3/16\"", "fhcs": "3/16\""}
+      },
+      {
+        "size": "3/8\"-16",
+        "tpi_coarse": "16",
+        "tpi_fine": "24",
+        "tap_drill": "5/16\" (0.3125\")",
+        "clearance_drill": "W (0.3860\")",
+        "hex_key": {"shcs": "5/16\"", "bhcs": "7/32\"", "fhcs": "7/32\""}
+      },
+      {
+        "size": "1/2\"-13",
+        "tpi_coarse": "13",
+        "tpi_fine": "20",
+        "tap_drill": "27/64\" (0.4219\")",
+        "clearance_drill": "17/32\" (0.5312\")",
+        "hex_key": {"shcs": "3/8\"", "bhcs": "5/16\"", "fhcs": "5/16\""}
+      }
+    ]
+  },
+  "heat_set_inserts": [
+    {"size": "M2", "length": "3.0 mm", "outer_dia": "3.2 mm", "print_hole_dia": "3.0 mm", "print_hole_depth": "3.5 mm"},
+    {"size": "M2.5", "length": "4.0 mm", "outer_dia": "3.6 mm", "print_hole_dia": "3.4 mm", "print_hole_depth": "4.5 mm"},
+    {"size": "M3", "length": "3.0 mm", "outer_dia": "4.2 mm", "print_hole_dia": "4.0 mm", "print_hole_depth": "3.5 mm", "variant": "Short"},
+    {"size": "M3", "length": "4.0 mm", "outer_dia": "4.2 mm", "print_hole_dia": "4.0 mm", "print_hole_depth": "4.5 mm", "variant": "Standard"},
+    {"size": "M3", "length": "5.0 mm", "outer_dia": "4.2 mm", "print_hole_dia": "4.0 mm", "print_hole_depth": "5.5 mm", "variant": "Long (Voron)"},
+    {"size": "M4", "length": "4.0 mm", "outer_dia": "5.6 mm", "print_hole_dia": "5.3 mm", "print_hole_depth": "4.6 mm"},
+    {"size": "M4", "length": "8.0 mm", "outer_dia": "5.6 mm", "print_hole_dia": "5.3 mm", "print_hole_depth": "8.6 mm"},
+    {"size": "M5", "length": "5.8 mm", "outer_dia": "7.0 mm", "print_hole_dia": "6.7 mm", "print_hole_depth": "6.5 mm"},
+    {"size": "M5", "length": "9.5 mm", "outer_dia": "7.0 mm", "print_hole_dia": "6.7 mm", "print_hole_depth": "10.2 mm"}
+  ],
+  "head_styles": {
+    "shcs": {"name": "Socket Head Cap", "code": "SHCS", "abbrev": "Cap"},
+    "bhcs": {"name": "Button Head", "code": "BHCS", "abbrev": "Button"},
+    "fhcs": {"name": "Flat / Countersunk", "code": "FHCS", "abbrev": "Flat"},
+    "pan": {"name": "Pan Head", "code": "Pan", "abbrev": "Pan"},
+    "truss": {"name": "Truss Head", "code": "Truss", "abbrev": "Truss"},
+    "hex": {"name": "Hex Head", "code": "Hex", "abbrev": "Hex"},
+    "round": {"name": "Round Head", "code": "Round", "abbrev": "Round"}
+  },
+  "drive_types": {
+    "hex": {"name": "Hex / Allen", "code": "HEX"},
+    "torx": {"name": "Torx / Star", "code": "TORX"},
+    "phillips": {"name": "Phillips", "code": "PH"},
+    "slotted": {"name": "Slotted", "code": "SLOT"},
+    "square": {"name": "Robertson / Square", "code": "SQ"}
+  }
+}
