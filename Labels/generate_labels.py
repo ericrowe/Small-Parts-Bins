@@ -13,6 +13,9 @@ from __future__ import annotations
 
 import json
 import math
+import re
+import xml.etree.ElementTree as ET
+import xml.sax.saxutils as sax
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -56,6 +59,22 @@ CRICUT_MAX_H = 234.95
 FONT_TITLE_SIZE_MM = 3.0   # Standard title font size
 FONT_SUB1_SIZE_MM = 1.7    # Standard subtext 1 font size
 FONT_SUB2_SIZE_MM = 1.7    # Standard subtext 2 font size
+
+# ==============================================================================
+# XML ESCAPING & SLUG HELPERS
+# ==============================================================================
+
+def clean_id(prefix: str, *parts: Any) -> str:
+    """Generate a 100% valid XML ID slug without spaces, quotes, slashes, or hashes."""
+    raw = "_".join(str(p) for p in parts if p)
+    slug = re.sub(r"[^a-zA-Z0-9_-]", "_", f"{prefix}_{raw}")
+    return re.sub(r"_+", "_", slug).strip("_")
+
+
+def escape_xml(s: Any) -> str:
+    """Escape XML special characters in text nodes (&, <, >, quotes)."""
+    return sax.escape(str(s), {'"': "&quot;", "'": "&apos;"})
+
 
 # ==============================================================================
 # FASTENER SPECIFICATION DATA MODEL & FORMATTING
@@ -125,19 +144,20 @@ def render_strip_label_svg(spec: FastenerSpec, x: float = 0.0, y: float = 0.0, i
 
     main_title, sub_text_1, sub_text_2 = format_label_strings(spec)
     icon_x = x + STRIP_W - 8.2
+    node_id = clean_id("label", spec.size, spec.length)
 
     svg_parts = [
-        f'<g id="label_{spec.size}_{spec.length}" transform="translate({x:.2f},{y:.2f})">',
+        f'<g id="{node_id}" transform="translate({x:.2f},{y:.2f})">',
         # Background rect:
         f'<rect x="0" y="0" width="{STRIP_W}" height="{STRIP_H}" rx="{STRIP_R}" fill="{bg}" stroke="#CCCCCC" stroke-width="0.2"/>',
         # Left category color accent bar:
         f'<path d="M 0,{STRIP_R} A {STRIP_R},{STRIP_R} 0 0,1 {STRIP_R},0 L 2.6,0 L 2.6,{STRIP_H} L {STRIP_R},{STRIP_H} A {STRIP_R},{STRIP_R} 0 0,1 0,{STRIP_H - STRIP_R} Z" fill="{color}"/>',
-        # Main Title (Standard Bold Font):
-        f'<text x="{TEXT_X0}" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="{FONT_TITLE_SIZE_MM:.1f}" fill="#111111">{main_title}</text>',
+        # Main Title (Standard Bold Font with XML escaping):
+        f'<text x="{TEXT_X0}" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="{FONT_TITLE_SIZE_MM:.1f}" fill="#111111">{escape_xml(main_title)}</text>',
         # Subtext line 1 (Pitch / Tap):
-        f'<text x="{TEXT_X0}" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="{FONT_SUB1_SIZE_MM:.1f}" fill="#444444">{sub_text_1}</text>',
+        f'<text x="{TEXT_X0}" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="{FONT_SUB1_SIZE_MM:.1f}" fill="#444444">{escape_xml(sub_text_1)}</text>',
         # Subtext line 2 (Drive Tool / Material):
-        f'<text x="{TEXT_X0}" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="{FONT_SUB2_SIZE_MM:.1f}" fill="{color}">{sub_text_2}</text>',
+        f'<text x="{TEXT_X0}" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="{FONT_SUB2_SIZE_MM:.1f}" fill="{color}">{escape_xml(sub_text_2)}</text>',
     ]
 
     # Render silhouette icons:
@@ -163,9 +183,10 @@ def render_full_lid_wrap_svg(spec: FastenerSpec, x: float = 0.0, y: float = 0.0)
     """Render an extended 38.6 x 76.0 mm full-lid overlay with clear glass window cutout and length rulers."""
     color = spec.accent_color or "#0077CC"
     bg = spec.bg_color or "#FFFFFF"
+    node_id = clean_id("wrap", spec.size, spec.length)
 
     svg_parts = [
-        f'<g id="wrap_{spec.size}_{spec.length}" transform="translate({x:.2f},{y:.2f})">',
+        f'<g id="{node_id}" transform="translate({x:.2f},{y:.2f})">',
         # Outer lid skin rect:
         f'<rect x="0" y="0" width="{WRAP_W}" height="{WRAP_H}" rx="{WRAP_R}" fill="{bg}" stroke="#CCCCCC" stroke-width="0.3"/>',
         # Glass window cutout keep-out area:
@@ -189,7 +210,7 @@ def render_full_lid_wrap_svg(spec: FastenerSpec, x: float = 0.0, y: float = 0.0)
     bot_y = WRAP_CUTOUT_Y0 + WRAP_CUTOUT_H + 1.2
     svg_parts.append(f'<rect x="2.0" y="{bot_y}" width="{WRAP_W - 4.0}" height="3.5" rx="0.6" fill="{color}"/>')
     spec_banner = f"Tap: {spec.tap_drill}  |  Clear: {spec.clearance_drill}" if spec.tap_drill else (spec.extra_note or spec.pitch)
-    svg_parts.append(f'<text x="{WRAP_W/2.0}" y="{bot_y + 2.5}" font-family="Arial, sans-serif" font-size="1.7" font-weight="bold" fill="#FFFFFF" text-anchor="middle">{spec_banner}</text>')
+    svg_parts.append(f'<text x="{WRAP_W/2.0}" y="{bot_y + 2.5}" font-family="Arial, sans-serif" font-size="1.7" font-weight="bold" fill="#FFFFFF" text-anchor="middle">{escape_xml(spec_banner)}</text>')
 
     svg_parts.append("</g>")
     return "\n".join(svg_parts)
@@ -309,7 +330,7 @@ def compose_cricut_sheet(
     print_svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {paper_w:.2f} {paper_h:.2f}" width="{paper_w:.2f}mm" height="{paper_h:.2f}mm">',
         f'<rect width="{paper_w}" height="{paper_h}" fill="#FFFFFF"/>',
-        f'<text x="{margin_x}" y="{margin_y - 8.0}" font-family="Arial, sans-serif" font-size="5.0" font-weight="bold" fill="#111111">{title}</text>',
+        f'<text x="{margin_x}" y="{margin_y - 8.0}" font-family="Arial, sans-serif" font-size="5.0" font-weight="bold" fill="#111111">{escape_xml(title)}</text>',
         f'<text x="{margin_x}" y="{margin_y - 3.5}" font-family="Arial, sans-serif" font-size="2.8" fill="#666666">Gridfinity Glass-Window Cassette System — Format: {label_format.upper()} ({item_w} × {item_h} mm)</text>',
         f'<rect x="{margin_x - 4.0}" y="{margin_y - 4.0}" width="{CRICUT_MAX_W + 8.0}" height="{CRICUT_MAX_H + 8.0}" fill="none" stroke="#000000" stroke-width="2.0"/>',
     ]
@@ -345,7 +366,7 @@ def compose_cricut_sheet(
     print_svg.append("</svg>")
     cut_svg.append("</svg>")
 
-    slug = title.lower().replace(" ", "_").replace("/", "_").replace("—", "_").replace(".", "_")
+    slug = clean_id("", title).lower()
     print_path = output_dir / f"{slug}_print_{label_format}.svg"
     cut_path = output_dir / f"{slug}_cut_{label_format}.svg"
     png_path = output_dir / f"{slug}_preview_{label_format}.png"
@@ -358,6 +379,13 @@ def compose_cricut_sheet(
 
     # Render PNG preview:
     render_png_sheet(labels, title, paper, png_path, label_format=label_format)
+
+    # Validate output XML:
+    try:
+        ET.parse(print_path)
+        ET.parse(cut_path)
+    except Exception as e:
+        raise ValueError(f"Generated invalid XML for {title}: {e}")
 
     return print_path, cut_path, png_path
 
