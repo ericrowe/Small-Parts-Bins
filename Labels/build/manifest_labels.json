@@ -1,92 +1,37 @@
 {
-  "format": "Cricut Print-Then-Cut Fastener Label Sheets (Standard Font Sizes)",
-  "standard_strip_dimensions_mm": [
+  "format": "High-Density Cricut Print-Then-Cut Strip Sheets (72 labels/sheet)",
+  "paper_size_mm": [
+    215.9,
+    279.4
+  ],
+  "grid_layout": {
+    "cols": 4,
+    "rows": 18,
+    "max_labels_per_sheet": 72
+  },
+  "label_dimensions_mm": [
     34.0,
     10.0
-  ],
-  "full_lid_wrap_dimensions_mm": [
-    38.6,
-    76.0
-  ],
-  "glass_window_clearance_mm": [
-    23.0,
-    58.5
   ],
   "typography": {
     "title_size_mm": 3.0,
     "sub1_size_mm": 1.7,
     "sub2_size_mm": 1.7
   },
-  "sheets": [
+  "master_sheets": [
     {
-      "title": "Metric M3 Fastener Assortment",
-      "label_count": 22,
-      "print_strip_svg": "metric_m3_fastener_assortment_print_strip.svg",
-      "cut_strip_svg": "metric_m3_fastener_assortment_cut_strip.svg",
-      "preview_strip_png": "metric_m3_fastener_assortment_preview_strip.png",
-      "print_wrap_svg": "metric_m3_fastener_assortment_print_wrap.svg",
-      "cut_wrap_svg": "metric_m3_fastener_assortment_cut_wrap.svg",
-      "preview_wrap_png": "metric_m3_fastener_assortment_preview_wrap.png"
+      "sheet_title": "Master Metric and Inserts Assortment",
+      "label_count": 70,
+      "print_svg": "master_metric_and_inserts_assortment_print.svg",
+      "cut_svg": "master_metric_and_inserts_assortment_cut.svg",
+      "preview_png": "master_metric_and_inserts_assortment_preview.png"
     },
     {
-      "title": "Metric M2 and M2.5 Micro Assortment",
-      "label_count": 18,
-      "print_strip_svg": "metric_m2_and_m2_5_micro_assortment_print_strip.svg",
-      "cut_strip_svg": "metric_m2_and_m2_5_micro_assortment_cut_strip.svg",
-      "preview_strip_png": "metric_m2_and_m2_5_micro_assortment_preview_strip.png",
-      "print_wrap_svg": "metric_m2_and_m2_5_micro_assortment_print_wrap.svg",
-      "cut_wrap_svg": "metric_m2_and_m2_5_micro_assortment_cut_wrap.svg",
-      "preview_wrap_png": "metric_m2_and_m2_5_micro_assortment_preview_wrap.png"
-    },
-    {
-      "title": "Metric M4 M5 M6 Structural Assortment",
-      "label_count": 36,
-      "print_strip_svg": "metric_m4_m5_m6_structural_assortment_print_strip.svg",
-      "cut_strip_svg": "metric_m4_m5_m6_structural_assortment_cut_strip.svg",
-      "preview_strip_png": "metric_m4_m5_m6_structural_assortment_preview_strip.png",
-      "print_wrap_svg": "metric_m4_m5_m6_structural_assortment_print_wrap.svg",
-      "cut_wrap_svg": "metric_m4_m5_m6_structural_assortment_cut_wrap.svg",
-      "preview_wrap_png": "metric_m4_m5_m6_structural_assortment_preview_wrap.png"
-    },
-    {
-      "title": "Imperial SAE Socket Assortment",
-      "label_count": 40,
-      "print_strip_svg": "imperial_sae_socket_assortment_print_strip.svg",
-      "cut_strip_svg": "imperial_sae_socket_assortment_cut_strip.svg",
-      "preview_strip_png": "imperial_sae_socket_assortment_preview_strip.png",
-      "print_wrap_svg": "imperial_sae_socket_assortment_print_wrap.svg",
-      "cut_wrap_svg": "imperial_sae_socket_assortment_cut_wrap.svg",
-      "preview_wrap_png": "imperial_sae_socket_assortment_preview_wrap.png"
-    },
-    {
-      "title": "Specialty Hardware and Set Screws",
-      "label_count": 22,
-      "print_strip_svg": "specialty_hardware_and_set_screws_print_strip.svg",
-      "cut_strip_svg": "specialty_hardware_and_set_screws_cut_strip.svg",
-      "preview_strip_png": "specialty_hardware_and_set_screws_preview_strip.png",
-      "print_wrap_svg": "specialty_hardware_and_set_screws_print_wrap.svg",
-      "cut_wrap_svg": "specialty_hardware_and_set_screws_cut_wrap.svg",
-      "preview_wrap_png": "specialty_hardware_and_set_screws_preview_wrap.png"
-    },
-    {
-      "title": "Wood and Sheet Metal Screws",
-      "label_count": 22,
-      "print_strip_svg": "wood_and_sheet_metal_screws_print_strip.svg",
-      "cut_strip_svg": "wood_and_sheet_metal_screws_cut_strip.svg",
-      "preview_strip_png": "wood_and_sheet_metal_screws_preview_strip.png",
-      "print_wrap_svg": "wood_and_sheet_metal_screws_print_wrap.svg",
-      "cut_wrap_svg": "wood_and_sheet_metal_screws_cut_wrap.svg",
-      "preview_wrap_png": "wood_and_sheet_metal_screws_preview_wrap.png"
-    },
-    {
-      "title": "Brass Heat Set Insert Assortment",
-      "label_count": 9,
-      "print_strip_svg": "brass_heat_set_insert_assortment_print_strip.svg",
-      "cut_strip_svg": "brass_heat_set_insert_assortment_cut_strip.svg",
-      "preview_strip_png": "brass_heat_set_insert_assortment_preview_strip.png",
-      "print_wrap_svg": "brass_heat_set_insert_assortment_print_wrap.svg",
-      "cut_wrap_svg": "brass_heat_set_insert_assortment_cut_wrap.svg",
-      "preview_wrap_png": "brass_heat_set_insert_assortment_preview_wrap.png"
+      "sheet_title": "Master Imperial and Wood Specialty Assortment",
+      "label_count": 72,
+      "print_svg": "master_imperial_and_wood_specialty_assortment_print.svg",
+      "cut_svg": "master_imperial_and_wood_specialty_assortment_cut.svg",
+      "preview_png": "master_imperial_and_wood_specialty_assortment_preview.png"
     }
   ]
 }

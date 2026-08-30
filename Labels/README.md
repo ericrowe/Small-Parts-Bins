@@ -1,23 +1,40 @@
-# Printable Fastener Label System (Color Laser + Cricut Ready)
+# Printable Fastener Label System (High-Density Master Sheets)
 
-This directory provides an automated Python generator for producing high-density, standardized, professional hardware labels for the **Gridfinity Glass-Window Cassette System**.
+This toolchain generates high-density, standardized, professional hardware labels for the **Gridfinity Glass-Window Cassette System**.
 
-Labels are formatted for:
-1. **Standard 34.0 × 10.0 mm Strips:** Fits the solid front label zone on cassette lids (`cassette_lid_v0_8_print.stl`).
-2. **Extended 38.6 × 76.0 mm Full-Lid Wraps:** Overlays the entire lid with an integrated 1:1 scale millimeter length ruler and technical specifications while leaving the **$23.0 \times 58.5\text{ mm}$ glass microscope slide window 100% clear**.
+Labels are formatted in the standard **$34.0 \times 10.0\text{ mm}$ strip layout** with $R = 1.0\text{ mm}$ rounded corners, designed to fit the front solid label band on all cassette lids (`cassette_lid_v0_8_print.stl`).
 
 ---
 
-## Visual Previews
+## Master Combined Sheets (Print Your Entire Shop on 2 Sheets!)
 
-### 1. Metric M3 Fastener Assortment (Elegoo Blue Theme)
-![Metric M3 Strip Sheet](../../docs/images/metric_m3_fastener_assortment_preview_strip.png)
+By packing labels into a **4-column × 18-row grid (up to 72 labels per Letter sheet)**, your entire shop's hardware collection can be printed and cut on **just 2 sheets of sticker paper**:
 
-### 2. Imperial SAE Socket Assortment (Elegoo Orange Theme)
-![Imperial SAE Socket Strip Sheet](../../docs/images/imperial_sae_socket_assortment_preview_strip.png)
+### Sheet 1: Master Metric Fasteners & Heat-Set Inserts (70 Labels)
+* **Print Artwork Layer (Color Laser):** [`Labels/build/master_metric_and_inserts_assortment_print.svg`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/Labels/build/master_metric_and_inserts_assortment_print.svg)
+* **Cut Path Layer (Cricut Kiss-Cut):** [`Labels/build/master_metric_and_inserts_assortment_cut.svg`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/Labels/build/master_metric_and_inserts_assortment_cut.svg)
 
-### 3. Brass Heat-Set Insert Assortment (Elegoo Black Body / Gold Accent Theme)
-![Brass Heat-Set Insert Strip Sheet](../../docs/images/brass_heat_set_insert_assortment_preview_strip.png)
+![Master Metric Sheet Preview](../../docs/images/master_metric_and_inserts_assortment_preview.png)
+
+#### Contents of Sheet 1:
+1. **M2 & M2.5 Micro Screws (Elegoo Blue):** SHCS $4\text{ to }16\text{ mm}$, Hex Nuts, Flat Washers (16 labels).
+2. **M3 Complete Assortment (Elegoo Blue):** SHCS $4\text{ to }30\text{ mm}$, BHCS $6\text{ to }16\text{ mm}$, Hex Nuts, Nylocs, Flat Washers, Split Lock Washers (22 labels).
+3. **M4, M5, M6 Structural Screws (Elegoo Blue):** SHCS $8\text{ to }30\text{ mm}$, Hex Nuts, Nylocs, Flat Washers (25 labels).
+4. **Brass Heat-Set Inserts (Black Body / Gold):** M2, M2.5, M3 (Short/Std/Voron), M4, M5 inserts with hole diameter and depth specifications (9 labels).
+
+---
+
+### Sheet 2: Master Imperial Hardware & Wood / Specialty (72 Labels)
+* **Print Artwork Layer (Color Laser):** [`Labels/build/master_imperial_and_wood_specialty_assortment_print.svg`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/Labels/build/master_imperial_and_wood_specialty_assortment_print.svg)
+* **Cut Path Layer (Cricut Kiss-Cut):** [`Labels/build/master_imperial_and_wood_specialty_assortment_cut.svg`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/Labels/build/master_imperial_and_wood_specialty_assortment_cut.svg)
+
+![Master Imperial & Wood Sheet Preview](../../docs/images/master_imperial_and_wood_specialty_assortment_preview.png)
+
+#### Contents of Sheet 2:
+1. **Imperial #4-40, #6-32, #8-32, 1/4"-20 Screws (Elegoo Orange):** SHCS $1/4"\text{ to }1-1/4"$, Hex Nuts, Nyloc Nuts, Flat Washers (37 labels).
+2. **Set / Grub Screws (Elegoo Yellow):** Metric M3, M4, M5 and Imperial #4, #6, #8, 1/4" cup point grub screws with hex wrench sizes (12 labels).
+3. **Countersunk Wood Screws (Elegoo Yellow):** #4, #6, #8 flat head wood screws (13 labels).
+4. **Dowel Pins, Standoffs & Plastic Screws (Elegoo Yellow):** Ground dowel pins, brass hex standoffs, and plastic thread-forming screws (10 labels).
 
 ---
 
@@ -34,16 +51,6 @@ Labels are formatted for:
 
 ---
 
-## Standard Typography & Design Hierarchy
-
-* **No dynamic letter squishing:** All labels use consistent, uniform typography with natural letter tracking.
-* **Main Size Header:** Bold $3.0\text{ mm}$ ($8.0\text{ pt}$) size and length callout (e.g. `M3 × 12 mm`, `#4-40 × 1/2"`).
-* **Technical Subtext 1:** Regular $1.7\text{ mm}$ ($4.8\text{ pt}$) pitch / tap drill / hole sizing (e.g. `0.5 | Tap 2.5`, `40 TPI | Tap #43`, `Ø4.0 × 4.5 mm`).
-* **Tool & Material Subtext 2:** Bold $1.7\text{ mm}$ ($4.8\text{ pt}$) category color drive key / material badge (e.g. `Key 2.5 mm`, `Key 3/32"`, `Brass Insert`).
-* **Vector Silhouettes:** Scalable vector head profiles (Socket, Button, Flat, Pan, Hex) and drive sockets (Hex, Torx, Phillips, Slotted, Square).
-
----
-
 ## Fabrication & Cricut Print-Then-Cut Workflow
 
 1. **Generate Sheets:**
@@ -51,12 +58,12 @@ Labels are formatted for:
    python3 Labels/generate_labels.py
    ```
 2. **Load into Cricut Design Space:**
-   * Import `*_print_strip.svg` (or `*_print_wrap.svg`) as the **Print Artwork Layer**.
-   * Import `*_cut_strip.svg` as the **Cut Path Layer** (Basic Cut).
+   * Import `master_*_print.svg` as the **Print Artwork Layer**.
+   * Import `master_*_cut.svg` as the **Cut Path Layer** (Operation: "Basic Cut").
    * Align the two layers over the matching corner registration frame and click **Attach**.
 3. **Print:**
-   * Print on full-sheet printable vinyl/polyester sticker paper with color laser printer at 100% scale (no page scaling).
+   * Print on full-sheet printable vinyl/polyester sticker paper with color laser printer at 100% scale ("Actual Size").
 4. **Cut:**
    * Place printed sheet on Cricut mat. Optical sensor registers fiducial corner frame and performs precision kiss-cutting ($R = 1.0\text{ mm}$ corners).
 5. **Apply:**
-   * Apply directly to the $34 \times 10\text{ mm}$ front recessed zone of assembled cassette lids.
+   * Peel and apply directly to the $34 \times 10\text{ mm}$ front recessed zone of assembled cassette lids.
