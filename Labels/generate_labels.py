@@ -2,7 +2,7 @@
 """Generate Printable, Cricut-Ready Fastener Label Sheets for Glass-Window Cassettes.
 
 Supports:
-  1. Standard 34 x 10 mm Strip Labels (fits solid cassette lid zone with zero text conflict).
+  1. Standard 34 x 10 mm Strip Labels (fits solid cassette lid zone with uniform standard typography).
   2. Extended 38.6 x 76.0 mm Full-Lid Wrap Overlays (with 23.0 x 58.5 mm glass cutout & side length rulers).
   3. Batch Cricut Print-Then-Cut sheets (Letter & A4) with vector cut paths and fiducial registration frames.
   4. High-resolution PNG preview sheets for direct raster printing and visual inspection.
@@ -31,9 +31,8 @@ STRIP_W = 34.00
 STRIP_H = 10.00
 STRIP_R = 1.00  # Corner radius
 
-# Text Boundary in Strip Label:
-TEXT_X0 = 4.00
-TEXT_MAX_W = 20.80  # Leaves 1.0 mm clear safety gap before icon at X = 25.8 mm
+# Standard Text Layout:
+TEXT_X0 = 3.80
 
 # Full-Lid Wrap Label:
 WRAP_W = 38.60
@@ -52,6 +51,11 @@ PAPER_A4 = (210.0, 297.0)
 # Cricut Print-Then-Cut Safe Printable Area:
 CRICUT_MAX_W = 171.45
 CRICUT_MAX_H = 234.95
+
+# Standard Typography Constants (Uniform across all labels):
+FONT_TITLE_SIZE_MM = 3.0   # Standard title font size
+FONT_SUB1_SIZE_MM = 1.7    # Standard subtext 1 font size
+FONT_SUB2_SIZE_MM = 1.7    # Standard subtext 2 font size
 
 # ==============================================================================
 # FASTENER SPECIFICATION DATA MODEL & FORMATTING
@@ -76,10 +80,8 @@ class FastenerSpec:
 
 
 def format_label_strings(spec: FastenerSpec) -> tuple[str, str, str]:
-    """Format and optimize label text strings to avoid overlapping or truncation."""
-    # 1. Main Title Header:
+    """Format label text strings cleanly with standard concise nomenclature."""
     if spec.comp_type in ("nut", "nyloc"):
-        # Compact nut title e.g. "M3 Hex Nut" -> "M3 Hex", "#4-40 Nyloc"
         suffix = spec.length.replace(" Nut", "").strip()
         title = f"{spec.size} {suffix}".strip()
         sub1 = spec.pitch if spec.pitch else ""
@@ -95,7 +97,6 @@ def format_label_strings(spec: FastenerSpec) -> tuple[str, str, str]:
         sub1 = spec.extra_note.replace("Hole: ", "").strip() if spec.extra_note else ""
         sub2 = "Brass Insert"
     else:
-        # Standard Bolt / Screw:
         title = f"{spec.size} × {spec.length}".strip() if spec.length else spec.size
         p_str = spec.pitch if spec.pitch else ""
         tap_str = spec.tap_drill.split()[0] if (spec.tap_drill and spec.tap_drill.split()) else ""
@@ -110,17 +111,11 @@ def format_label_strings(spec: FastenerSpec) -> tuple[str, str, str]:
 # ==============================================================================
 
 def render_strip_label_svg(spec: FastenerSpec, x: float = 0.0, y: float = 0.0, include_cut_path: bool = True) -> str:
-    """Render a standard 34.0 x 10.0 mm cassette lid strip label as SVG elements."""
+    """Render a standard 34.0 x 10.0 mm cassette lid strip label as SVG elements with standard uniform font sizes."""
     color = spec.accent_color or "#0077CC"
     bg = spec.bg_color or "#FFFFFF"
 
     main_title, sub_text_1, sub_text_2 = format_label_strings(spec)
-
-    # Dynamic font scaling to guarantee zero text collision:
-    title_size = 3.6 if len(main_title) <= 11 else (3.1 if len(main_title) <= 15 else 2.6)
-    sub1_size = 1.9 if len(sub_text_1) <= 16 else 1.6
-    sub2_size = 1.9 if len(sub_text_2) <= 14 else 1.6
-
     icon_x = x + STRIP_W - 8.2
 
     svg_parts = [
@@ -128,13 +123,13 @@ def render_strip_label_svg(spec: FastenerSpec, x: float = 0.0, y: float = 0.0, i
         # Background rect:
         f'<rect x="0" y="0" width="{STRIP_W}" height="{STRIP_H}" rx="{STRIP_R}" fill="{bg}" stroke="#CCCCCC" stroke-width="0.2"/>',
         # Left category color accent bar:
-        f'<path d="M 0,{STRIP_R} A {STRIP_R},{STRIP_R} 0 0,1 {STRIP_R},0 L 2.8,0 L 2.8,{STRIP_H} L {STRIP_R},{STRIP_H} A {STRIP_R},{STRIP_R} 0 0,1 0,{STRIP_H - STRIP_R} Z" fill="{color}"/>',
-        # Main Title (Bold with max length constraint):
-        f'<text x="{TEXT_X0}" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="{title_size:.1f}" fill="#111111" textLength="{TEXT_MAX_W:.2f}" lengthAdjust="spacingAndGlyphs">{main_title}</text>',
+        f'<path d="M 0,{STRIP_R} A {STRIP_R},{STRIP_R} 0 0,1 {STRIP_R},0 L 2.6,0 L 2.6,{STRIP_H} L {STRIP_R},{STRIP_H} A {STRIP_R},{STRIP_R} 0 0,1 0,{STRIP_H - STRIP_R} Z" fill="{color}"/>',
+        # Main Title (Standard Bold Font):
+        f'<text x="{TEXT_X0}" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="{FONT_TITLE_SIZE_MM:.1f}" fill="#111111">{main_title}</text>',
         # Subtext line 1 (Pitch / Tap):
-        f'<text x="{TEXT_X0}" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="{sub1_size:.1f}" fill="#444444" textLength="{TEXT_MAX_W:.2f}" lengthAdjust="spacingAndGlyphs">{sub_text_1}</text>',
+        f'<text x="{TEXT_X0}" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="{FONT_SUB1_SIZE_MM:.1f}" fill="#444444">{sub_text_1}</text>',
         # Subtext line 2 (Drive Tool / Material):
-        f'<text x="{TEXT_X0}" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="{sub2_size:.1f}" fill="{color}" textLength="{TEXT_MAX_W:.2f}" lengthAdjust="spacingAndGlyphs">{sub_text_2}</text>',
+        f'<text x="{TEXT_X0}" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="{FONT_SUB2_SIZE_MM:.1f}" fill="{color}">{sub_text_2}</text>',
     ]
 
     # Render silhouette icons:
@@ -186,7 +181,7 @@ def render_full_lid_wrap_svg(spec: FastenerSpec, x: float = 0.0, y: float = 0.0)
     bot_y = WRAP_CUTOUT_Y0 + WRAP_CUTOUT_H + 1.2
     svg_parts.append(f'<rect x="2.0" y="{bot_y}" width="{WRAP_W - 4.0}" height="3.5" rx="0.6" fill="{color}"/>')
     spec_banner = f"Tap: {spec.tap_drill}  |  Clear: {spec.clearance_drill}" if spec.tap_drill else (spec.extra_note or spec.pitch)
-    svg_parts.append(f'<text x="{WRAP_W/2.0}" y="{bot_y + 2.5}" font-family="Arial, sans-serif" font-size="1.7" font-weight="bold" fill="#FFFFFF" text-anchor="middle" textLength="{WRAP_W - 6.0:.2f}" lengthAdjust="spacingAndGlyphs">{spec_banner}</text>')
+    svg_parts.append(f'<text x="{WRAP_W/2.0}" y="{bot_y + 2.5}" font-family="Arial, sans-serif" font-size="1.7" font-weight="bold" fill="#FFFFFF" text-anchor="middle">{spec_banner}</text>')
 
     svg_parts.append("</g>")
     return "\n".join(svg_parts)
@@ -203,7 +198,7 @@ def render_png_sheet(
     out_path: Path,
     label_format: str = "strip"
 ):
-    """Render a high-resolution 200 DPI PNG preview of the printable label sheet using matplotlib."""
+    """Render a high-resolution 200 DPI PNG preview with standard, uniform typography."""
     paper_w, paper_h = paper
     fig_w, fig_h = paper_w / 25.4, paper_h / 25.4
 
@@ -253,24 +248,20 @@ def render_png_sheet(
                 # Label box:
                 ax.add_patch(patches.FancyBboxPatch((px, py), item_w, item_h, boxstyle=f"round,pad=0,rounding_size={STRIP_R}", facecolor=bg, edgecolor="#CCCCCC", linewidth=0.5))
                 # Category bar:
-                ax.add_patch(patches.Rectangle((px, py), 2.8, item_h, facecolor=color, edgecolor="none"))
-                # Title:
-                title_font = 8.5 if len(main_title) <= 11 else (7.2 if len(main_title) <= 15 else 6.2)
-                ax.text(px + TEXT_X0, py + 3.8, main_title, fontsize=title_font, weight="bold", color="#111111", va="center")
+                ax.add_patch(patches.Rectangle((px, py), 2.6, item_h, facecolor=color, edgecolor="none"))
+                # Title (Standard uniform font size):
+                ax.text(px + TEXT_X0, py + 3.6, main_title, fontsize=8.0, weight="bold", color="#111111", va="center")
                 # Subtext 1:
-                sub1_font = 5.0 if len(sub1) <= 16 else 4.4
-                ax.text(px + TEXT_X0, py + 6.6, sub1, fontsize=sub1_font, weight="bold", color="#555555", va="center")
+                ax.text(px + TEXT_X0, py + 6.3, sub1, fontsize=4.8, weight="normal", color="#555555", va="center")
                 # Subtext 2:
-                sub2_font = 5.0 if len(sub2) <= 14 else 4.4
-                ax.text(px + TEXT_X0, py + 8.8, sub2, fontsize=sub2_font, weight="bold", color=color, va="center")
+                ax.text(px + TEXT_X0, py + 8.5, sub2, fontsize=4.8, weight="bold", color=color, va="center")
             else:
                 # Full wrap box:
                 ax.add_patch(patches.FancyBboxPatch((px, py), item_w, item_h, boxstyle=f"round,pad=0,rounding_size={WRAP_R}", facecolor=bg, edgecolor="#CCCCCC", linewidth=0.5))
                 # Window cutout:
                 ax.add_patch(patches.FancyBboxPatch((px + WRAP_CUTOUT_X0, py + WRAP_CUTOUT_Y0), WRAP_CUTOUT_W, WRAP_CUTOUT_H, boxstyle=f"round,pad=0,rounding_size={WRAP_CUTOUT_R}", facecolor="#FFFFFF", edgecolor="#FF0055", linewidth=0.5, linestyle="--"))
                 # Label title:
-                title_font = 8.5 if len(main_title) <= 11 else 7.2
-                ax.text(px + 6.0, py + 4.5, main_title, fontsize=title_font, weight="bold", color="#111111", va="center")
+                ax.text(px + 6.0, py + 4.5, main_title, fontsize=8.0, weight="bold", color="#111111", va="center")
                 # Category bar on top:
                 ax.add_patch(patches.Rectangle((px + 2.0, py + 1.0), 2.5, 9.0, facecolor=color, edgecolor="none"))
 
@@ -310,7 +301,7 @@ def compose_cricut_sheet(
     print_svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {paper_w:.2f} {paper_h:.2f}" width="{paper_w:.2f}mm" height="{paper_h:.2f}mm">',
         f'<rect width="{paper_w}" height="{paper_h}" fill="#FFFFFF"/>',
-        f'<text x="{margin_x}" y="{margin_y - 8.0}" font-family="Arial, sans-serif" font-size="5.0" font-weight="900" fill="#111111">{title}</text>',
+        f'<text x="{margin_x}" y="{margin_y - 8.0}" font-family="Arial, sans-serif" font-size="5.0" font-weight="bold" fill="#111111">{title}</text>',
         f'<text x="{margin_x}" y="{margin_y - 3.5}" font-family="Arial, sans-serif" font-size="2.8" fill="#666666">Gridfinity Glass-Window Cassette System — Format: {label_format.upper()} ({item_w} × {item_h} mm)</text>',
         f'<rect x="{margin_x - 4.0}" y="{margin_y - 4.0}" width="{CRICUT_MAX_W + 8.0}" height="{CRICUT_MAX_H + 8.0}" fill="none" stroke="#000000" stroke-width="2.0"/>',
     ]
@@ -540,7 +531,7 @@ def main():
     out_dir = Path(__file__).parent / "build"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    print("Generating Cricut-ready printable label sheets and PNG previews...")
+    print("Generating Cricut-ready printable label sheets with standard uniform font sizes...")
 
     assortments = [
         ("Metric M3 Fastener Assortment", build_metric_m3_assortment()),
@@ -551,10 +542,15 @@ def main():
     ]
 
     manifest = {
-        "format": "Cricut Print-Then-Cut Fastener Label Sheets",
+        "format": "Cricut Print-Then-Cut Fastener Label Sheets (Standard Font Sizes)",
         "standard_strip_dimensions_mm": [STRIP_W, STRIP_H],
         "full_lid_wrap_dimensions_mm": [WRAP_W, WRAP_H],
         "glass_window_clearance_mm": [WRAP_CUTOUT_W, WRAP_CUTOUT_H],
+        "typography": {
+            "title_size_mm": FONT_TITLE_SIZE_MM,
+            "sub1_size_mm": FONT_SUB1_SIZE_MM,
+            "sub2_size_mm": FONT_SUB2_SIZE_MM,
+        },
         "sheets": []
     }
 

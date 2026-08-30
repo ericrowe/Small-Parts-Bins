@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 215.90 279.40" width="215.90mm" height="279.40mm">
 <rect width="215.9" height="279.4" fill="#FFFFFF"/>
-<text x="22.22500000000001" y="14.224999999999994" font-family="Arial, sans-serif" font-size="5.0" font-weight="900" fill="#111111">Metric M4 M5 M6 Structural Assortment</text>
+<text x="22.22500000000001" y="14.224999999999994" font-family="Arial, sans-serif" font-size="5.0" font-weight="bold" fill="#111111">Metric M4 M5 M6 Structural Assortment</text>
 <text x="22.22500000000001" y="18.724999999999994" font-family="Arial, sans-serif" font-size="2.8" fill="#666666">Gridfinity Glass-Window Cassette System — Format: STRIP (34.0 × 10.0 mm)</text>
 <rect x="18.22500000000001" y="18.224999999999994" width="179.45" height="242.95" fill="none" stroke="#000000" stroke-width="2.0"/>
 <g id="label_M4_8 mm" transform="translate(22.23,22.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M4 × 8 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.7 | Tap 3.30</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 3.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 8 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.7 | Tap 3.30</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 3.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -22,10 +22,10 @@
 </g>
 <g id="label_M4_10 mm" transform="translate(59.23,22.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M4 × 10 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.7 | Tap 3.30</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 3.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 10 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.7 | Tap 3.30</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 3.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -39,10 +39,10 @@
 </g>
 <g id="label_M4_12 mm" transform="translate(96.23,22.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M4 × 12 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.7 | Tap 3.30</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 3.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 12 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.7 | Tap 3.30</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 3.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -56,10 +56,10 @@
 </g>
 <g id="label_M4_16 mm" transform="translate(133.23,22.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M4 × 16 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.7 | Tap 3.30</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 3.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 16 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.7 | Tap 3.30</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 3.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -73,10 +73,10 @@
 </g>
 <g id="label_M4_20 mm" transform="translate(22.23,35.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M4 × 20 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.7 | Tap 3.30</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 3.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 20 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.7 | Tap 3.30</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 3.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -90,10 +90,10 @@
 </g>
 <g id="label_M4_25 mm" transform="translate(59.23,35.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M4 × 25 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.7 | Tap 3.30</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 3.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 25 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.7 | Tap 3.30</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 3.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -107,10 +107,10 @@
 </g>
 <g id="label_M4_30 mm" transform="translate(96.23,35.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M4 × 30 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.7 | Tap 3.30</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 3.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 30 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.7 | Tap 3.30</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 3.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -124,10 +124,10 @@
 </g>
 <g id="label_M4_35 mm" transform="translate(133.23,35.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M4 × 35 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.7 | Tap 3.30</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 3.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 35 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.7 | Tap 3.30</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 3.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -141,10 +141,10 @@
 </g>
 <g id="label_M4_40 mm" transform="translate(22.23,48.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M4 × 40 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.7 | Tap 3.30</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 3.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 × 40 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.7 | Tap 3.30</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 3.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -158,10 +158,10 @@
 </g>
 <g id="label_M4_Hex Nut" transform="translate(59.23,48.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M4 Hex</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.7</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Class 10</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 Hex</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.7</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Class 10</text>
 <g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
             <polygon points="3,6 21,6 21,18 3,18"/>
             <line x1="9" y1="6" x2="9" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
@@ -170,10 +170,10 @@
 </g>
 <g id="label_M4_Nyloc Nut" transform="translate(96.23,48.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M4 Nyloc</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.7</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Class 10</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 Nyloc</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.7</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Class 10</text>
 <g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
             <polygon points="3,9 21,9 21,19 3,19"/>
             <path d="M 6,9 C 6,5 18,5 18,9 Z" fill="#0077CC"/>
@@ -181,10 +181,10 @@
 </g>
 <g id="label_M4_Flat Washer" transform="translate(133.23,48.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#EAF4EB" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#2E7D32"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M4 Flat</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs"></text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#2E7D32" textLength="20.80" lengthAdjust="spacingAndGlyphs">Steel</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#2E7D32"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M4 Flat</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444"></text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#2E7D32">Steel</text>
 <g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
             <circle cx="12" cy="12" r="9"/>
             <circle cx="12" cy="12" r="4.5" fill="#FFFFFF"/>
@@ -192,10 +192,10 @@
 </g>
 <g id="label_M5_8 mm" transform="translate(22.23,61.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M5 × 8 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.8 | Tap 4.20</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 4.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 × 8 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.8 | Tap 4.20</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 4.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -209,10 +209,10 @@
 </g>
 <g id="label_M5_10 mm" transform="translate(59.23,61.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M5 × 10 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.8 | Tap 4.20</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 4.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 × 10 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.8 | Tap 4.20</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 4.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -226,10 +226,10 @@
 </g>
 <g id="label_M5_12 mm" transform="translate(96.23,61.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M5 × 12 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.8 | Tap 4.20</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 4.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 × 12 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.8 | Tap 4.20</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 4.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -243,10 +243,10 @@
 </g>
 <g id="label_M5_16 mm" transform="translate(133.23,61.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M5 × 16 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.8 | Tap 4.20</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 4.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 × 16 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.8 | Tap 4.20</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 4.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -260,10 +260,10 @@
 </g>
 <g id="label_M5_20 mm" transform="translate(22.23,74.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M5 × 20 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.8 | Tap 4.20</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 4.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 × 20 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.8 | Tap 4.20</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 4.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -277,10 +277,10 @@
 </g>
 <g id="label_M5_25 mm" transform="translate(59.23,74.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M5 × 25 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.8 | Tap 4.20</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 4.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 × 25 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.8 | Tap 4.20</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 4.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -294,10 +294,10 @@
 </g>
 <g id="label_M5_30 mm" transform="translate(96.23,74.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M5 × 30 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.8 | Tap 4.20</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 4.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 × 30 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.8 | Tap 4.20</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 4.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -311,10 +311,10 @@
 </g>
 <g id="label_M5_35 mm" transform="translate(133.23,74.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M5 × 35 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.8 | Tap 4.20</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 4.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 × 35 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.8 | Tap 4.20</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 4.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -328,10 +328,10 @@
 </g>
 <g id="label_M5_40 mm" transform="translate(22.23,87.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M5 × 40 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.8 | Tap 4.20</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 4.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 × 40 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.8 | Tap 4.20</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 4.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -345,10 +345,10 @@
 </g>
 <g id="label_M5_Hex Nut" transform="translate(59.23,87.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M5 Hex</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.8</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Class 10</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 Hex</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.8</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Class 10</text>
 <g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
             <polygon points="3,6 21,6 21,18 3,18"/>
             <line x1="9" y1="6" x2="9" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
@@ -357,10 +357,10 @@
 </g>
 <g id="label_M5_Nyloc Nut" transform="translate(96.23,87.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M5 Nyloc</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">0.8</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Class 10</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 Nyloc</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">0.8</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Class 10</text>
 <g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
             <polygon points="3,9 21,9 21,19 3,19"/>
             <path d="M 6,9 C 6,5 18,5 18,9 Z" fill="#0077CC"/>
@@ -368,10 +368,10 @@
 </g>
 <g id="label_M5_Flat Washer" transform="translate(133.23,87.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#EAF4EB" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#2E7D32"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M5 Flat</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs"></text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#2E7D32" textLength="20.80" lengthAdjust="spacingAndGlyphs">Steel</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#2E7D32"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M5 Flat</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444"></text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#2E7D32">Steel</text>
 <g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
             <circle cx="12" cy="12" r="9"/>
             <circle cx="12" cy="12" r="4.5" fill="#FFFFFF"/>
@@ -379,10 +379,10 @@
 </g>
 <g id="label_M6_8 mm" transform="translate(22.23,100.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M6 × 8 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">1.0 | Tap 5.00</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 5.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M6 × 8 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">1.0 | Tap 5.00</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 5.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -396,10 +396,10 @@
 </g>
 <g id="label_M6_10 mm" transform="translate(59.23,100.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M6 × 10 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">1.0 | Tap 5.00</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 5.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M6 × 10 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">1.0 | Tap 5.00</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 5.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -413,10 +413,10 @@
 </g>
 <g id="label_M6_12 mm" transform="translate(96.23,100.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M6 × 12 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">1.0 | Tap 5.00</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 5.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M6 × 12 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">1.0 | Tap 5.00</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 5.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -430,10 +430,10 @@
 </g>
 <g id="label_M6_16 mm" transform="translate(133.23,100.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M6 × 16 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">1.0 | Tap 5.00</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 5.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M6 × 16 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">1.0 | Tap 5.00</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 5.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -447,10 +447,10 @@
 </g>
 <g id="label_M6_20 mm" transform="translate(22.23,113.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M6 × 20 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">1.0 | Tap 5.00</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 5.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M6 × 20 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">1.0 | Tap 5.00</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 5.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -464,10 +464,10 @@
 </g>
 <g id="label_M6_25 mm" transform="translate(59.23,113.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M6 × 25 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">1.0 | Tap 5.00</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 5.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M6 × 25 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">1.0 | Tap 5.00</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 5.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -481,10 +481,10 @@
 </g>
 <g id="label_M6_30 mm" transform="translate(96.23,113.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M6 × 30 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">1.0 | Tap 5.00</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 5.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M6 × 30 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">1.0 | Tap 5.00</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 5.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -498,10 +498,10 @@
 </g>
 <g id="label_M6_35 mm" transform="translate(133.23,113.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M6 × 35 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">1.0 | Tap 5.00</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 5.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M6 × 35 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">1.0 | Tap 5.00</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 5.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -515,10 +515,10 @@
 </g>
 <g id="label_M6_40 mm" transform="translate(22.23,126.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M6 × 40 mm</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">1.0 | Tap 5.00</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Key 5.0 mm</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M6 × 40 mm</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">1.0 | Tap 5.00</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Key 5.0 mm</text>
 <g transform="translate(25.80,0.80) scale(0.2708,0.1750)" fill="#222222">
             <rect x="5" y="2" width="14" height="11" rx="0.8"/>
             <rect x="9.5" y="13" width="5" height="9"/>
@@ -532,10 +532,10 @@
 </g>
 <g id="label_M6_Hex Nut" transform="translate(59.23,126.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M6 Hex</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">1.0</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Class 10</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M6 Hex</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">1.0</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Class 10</text>
 <g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
             <polygon points="3,6 21,6 21,18 3,18"/>
             <line x1="9" y1="6" x2="9" y2="18" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
@@ -544,10 +544,10 @@
 </g>
 <g id="label_M6_Nyloc Nut" transform="translate(96.23,126.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#E6F3FA" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M6 Nyloc</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs">1.0</text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#0077CC" textLength="20.80" lengthAdjust="spacingAndGlyphs">Class 10</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#0077CC"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M6 Nyloc</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444">1.0</text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#0077CC">Class 10</text>
 <g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
             <polygon points="3,9 21,9 21,19 3,19"/>
             <path d="M 6,9 C 6,5 18,5 18,9 Z" fill="#0077CC"/>
@@ -555,10 +555,10 @@
 </g>
 <g id="label_M6_Flat Washer" transform="translate(133.23,126.22)">
 <rect x="0" y="0" width="34.0" height="10.0" rx="1.0" fill="#EAF4EB" stroke="#CCCCCC" stroke-width="0.2"/>
-<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.8,0 L 2.8,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#2E7D32"/>
-<text x="4.0" y="4.1" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="3.6" fill="#111111" textLength="20.80" lengthAdjust="spacingAndGlyphs">M6 Flat</text>
-<text x="4.0" y="6.7" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="1.9" fill="#444444" textLength="20.80" lengthAdjust="spacingAndGlyphs"></text>
-<text x="4.0" y="8.8" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="1.9" fill="#2E7D32" textLength="20.80" lengthAdjust="spacingAndGlyphs">Steel</text>
+<path d="M 0,1.0 A 1.0,1.0 0 0,1 1.0,0 L 2.6,0 L 2.6,10.0 L 1.0,10.0 A 1.0,1.0 0 0,1 0,9.0 Z" fill="#2E7D32"/>
+<text x="3.8" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="3.0" fill="#111111">M6 Flat</text>
+<text x="3.8" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="1.7" fill="#444444"></text>
+<text x="3.8" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="1.7" fill="#2E7D32">Steel</text>
 <g transform="translate(25.80,1.50) scale(0.2833,0.2833)" fill="#222222">
             <circle cx="12" cy="12" r="9"/>
             <circle cx="12" cy="12" r="4.5" fill="#FFFFFF"/>

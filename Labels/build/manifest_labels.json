@@ -1,5 +1,5 @@
 {
-  "format": "Cricut Print-Then-Cut Fastener Label Sheets",
+  "format": "Cricut Print-Then-Cut Fastener Label Sheets (Standard Font Sizes)",
   "standard_strip_dimensions_mm": [
     34.0,
     10.0
@@ -12,6 +12,11 @@
     23.0,
     58.5
   ],
+  "typography": {
+    "title_size_mm": 3.0,
+    "sub1_size_mm": 1.7,
+    "sub2_size_mm": 1.7
+  },
   "sheets": [
     {
       "title": "Metric M3 Fastener Assortment",
