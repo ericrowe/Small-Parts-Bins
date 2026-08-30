@@ -46,4 +46,4 @@ Plans 001 (14U carrier stack validation), 002 (cassette height optimization),
 003 (removable cassette dividers), 004 (smallest cassette & carrier finalization),
 010 (closure latch re-evaluation & clip reinforcement), and 011 (cassette removal features) are completed and archived.
 Plan 013 (direct 1x2 7U Gridfinity cassette bin) was canceled per user directive.
-Plan 012 (generate printable label sheets) is currently active in execution. The next queued plan is Plan 005.
+Plans 012 (generate printable label sheets) and 014 (develop 1x2 7U scooped Gridfinity bin) are currently active in execution. The next queued plan is Plan 005.
