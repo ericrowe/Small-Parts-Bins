@@ -19,7 +19,7 @@
   "files": [
     {
       "file": "gridfinity_cassette_body_1x2_7u_divided.stl",
-      "triangles": 1376,
+      "triangles": 1648,
       "bounds_min_mm": [
         -20.75,
         -41.75,
@@ -38,7 +38,7 @@
     },
     {
       "file": "gridfinity_cassette_body_1x2_7u.stl",
-      "triangles": 1128,
+      "triangles": 1400,
       "bounds_min_mm": [
         -20.75,
         -41.75,
@@ -95,7 +95,7 @@
     },
     {
       "file": "REFERENCE_closed_assembly_1x2_7u_DO_NOT_PRINT.stl",
-      "triangles": 1624,
+      "triangles": 1896,
       "bounds_min_mm": [
         -20.75,
         -43.5,
@@ -114,7 +114,7 @@
     },
     {
       "file": "REFERENCE_two_high_stack_1x2_14u_DO_NOT_PRINT.stl",
-      "triangles": 3248,
+      "triangles": 3792,
       "bounds_min_mm": [
         -20.75,
         -43.5,

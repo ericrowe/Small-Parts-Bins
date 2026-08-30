@@ -246,45 +246,65 @@ def build_corner_wedges(hx: float, hy: float, c: float, z0: float, z1: float, jo
 
 
 def build_stacking_lip() -> Mesh:
-    """Build the standard 1x2 Gridfinity stacking lip rim at the top of the body (Z in [49.00, 53.40 mm])."""
+    """Build the authoritative 1x2 Gridfinity stacking lip rim at the top of the body (Z in [49.00, 53.40 mm]).
+    
+    Uses exact standard Gridfinity 3D geometry:
+      - Z = 48.95: Outer 41.50 x 83.50 (r = 3.75), Inner 37.20 x 79.20 (r = 3.40) [Shelf throat]
+      - Z = 49.70: Outer 41.50 x 83.50 (r = 3.75), Inner 38.60 x 80.60 (r = 3.40) [45° shelf chamfer, dx = 0.70 mm]
+      - Z = 51.50: Outer 41.50 x 83.50 (r = 3.75), Inner 38.60 x 80.60 (r = 3.40) [1.80 mm straight vertical inner wall]
+      - Z = 53.40: Outer 41.30 x 83.30 (r = 3.65), Inner 41.00 x 83.00 (r = 3.50) [45° top lead-in slope, dx = 1.20 mm]
+    """
     m = Mesh("stacking_lip")
-    hx = OUTER_W / 2  # 20.75
-    hy = OUTER_L / 2  # 41.75
-    c_out = OUTER_R   # 3.75
-    c_in = 3.40       # 3.40 inner throat radius
-    ix = 18.60        # throat half-width (37.2 mm total)
-    iy = 39.60        # throat half-length (79.2 mm total)
-    z0 = ENGAGED_H    # 49.00 mm
-    z_top = TOTAL_H   # 53.40 mm
-    join = 0.05
+    z_shelf = ENGAGED_H - 0.05  # 48.95 mm
+    z_slope1 = 49.70
+    z_slope2 = 51.50
+    z_top = TOTAL_H             # 53.40 mm
 
-    xp = [(ix, z0 - join), (hx, z0 - join), (hx, z0 + 2.00), (hx - 0.40, z_top), (ix + 0.70, z_top), (ix + 0.70, z0 + 1.80), (ix, z0 + 1.10)]
-    xn = [(-x, z) for x, z in xp]
-    yp = [(iy, z0 - join), (hy, z0 - join), (hy, z0 + 2.00), (hy - 0.40, z_top), (iy + 0.70, z_top), (iy + 0.70, z0 + 1.80), (iy, z0 + 1.10)]
-    yn = [(-y, z) for y, z in yp]
-
-    # 4 Straight lip segments:
-    m.extend(prism_y("lip_right", xp, -hy + c_out - join, hy - c_out + join))
-    m.extend(prism_y("lip_left", xn, -hy + c_out - join, hy - c_out + join))
-    m.extend(prism_x("lip_back", yp, -hx + c_out - join, hx - c_out + join))
-    m.extend(prism_x("lip_front", yn, -hx + c_out - join, hx - c_out + join))
-
-    # 4 Hollow corner arcs (ring polygons between outer and inner throat radius):
-    corners = [
-        (hx - c_out, -hy + c_out, ix - c_in, -iy + c_in, 270),
-        (hx - c_out, hy - c_out, ix - c_in, iy - c_in, 0),
-        (-hx + c_out, hy - c_out, -ix + c_in, iy - c_in, 90),
-        (-hx + c_out, -hy + c_out, -ix + c_in, -iy + c_in, 180),
+    n = 8
+    outer_rings = [
+        (z_shelf, rounded_rect(41.50, 83.50, 3.75, n)),
+        (z_slope1, rounded_rect(41.50, 83.50, 3.75, n)),
+        (z_slope2, rounded_rect(41.50, 83.50, 3.75, n)),
+        (z_top, rounded_rect(41.30, 83.30, 3.65, n)),
     ]
-    for cx_o, cy_o, cx_i, cy_i, start in corners:
-        poly = []
-        for i in range(7):
-            a = math.radians(start + i * 90 / 6)
-            poly.append((round(cx_o + c_out * math.cos(a), 4), round(cy_o + c_out * math.sin(a), 4)))
-        for i in range(6, -1, -1):
-            a = math.radians(start + i * 90 / 6)
-            poly.append((round(cx_i + c_in * math.cos(a), 4), round(cy_i + c_in * math.sin(a), 4)))
-        m.extend(prism(f"lip_corner_{int(start)}", poly, z0 - join, z_top))
+
+    inner_rings = [
+        (z_shelf, rounded_rect(37.20, 79.20, 3.40, n)),
+        (z_slope1, rounded_rect(38.60, 80.60, 3.40, n)),
+        (z_slope2, rounded_rect(38.60, 80.60, 3.40, n)),
+        (z_top, rounded_rect(41.00, 83.00, 3.50, n)),
+    ]
+
+    # Outer wall sleeve:
+    count = len(outer_rings[0][1])
+    for i in range(len(outer_rings) - 1):
+        z0, p0 = outer_rings[i]
+        z1, p1 = outer_rings[i + 1]
+        for j in range(count):
+            k = (j + 1) % count
+            m.quad((p0[j][0], p0[j][1], z0), (p0[k][0], p0[k][1], z0), (p1[k][0], p1[k][1], z1), (p1[j][0], p1[j][1], z1))
+
+    # Inner receiver sleeve:
+    for i in range(len(inner_rings) - 1):
+        z0, p0 = inner_rings[i]
+        z1, p1 = inner_rings[i + 1]
+        for j in range(count):
+            k = (j + 1) % count
+            m.quad((p0[k][0], p0[k][1], z0), (p0[j][0], p0[j][1], z0), (p1[j][0], p1[j][1], z1), (p1[k][0], p1[k][1], z1))
+
+    # Top rim cap:
+    _, p_out_top = outer_rings[-1]
+    _, p_in_top = inner_rings[-1]
+    for j in range(count):
+        k = (j + 1) % count
+        m.quad((p_out_top[j][0], p_out_top[j][1], z_top), (p_in_top[j][0], p_in_top[j][1], z_top), (p_in_top[k][0], p_in_top[k][1], z_top), (p_out_top[k][0], p_out_top[k][1], z_top))
+
+    # Bottom shelf cap:
+    _, p_out_bot = outer_rings[0]
+    _, p_in_bot = inner_rings[0]
+    for j in range(count):
+        k = (j + 1) % count
+        m.quad((p_out_bot[k][0], p_out_bot[k][1], z_shelf), (p_in_bot[k][0], p_in_bot[k][1], z_shelf), (p_in_bot[j][0], p_in_bot[j][1], z_shelf), (p_out_bot[j][0], p_out_bot[j][1], z_shelf))
 
     return m
 
