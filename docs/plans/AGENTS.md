@@ -32,7 +32,7 @@ Every plan MUST include all 7 mandatory sections:
 ## 3. Master Plan Registry
 
 ### Master Cross-Subsystem Plans (`MNN`):
-- **`M01`**: Repository Categorization, Subsystem Restructuring & Web Catalog Server Staging ([`docs/plans/M01_repository_categorization_and_server_staging_plan.md`](M01_repository_categorization_and_server_staging_plan.md)) (`IN_PLANNING`)
+- **`M01`**: Repository Categorization, Subsystem Restructuring & Web Catalog Server Staging ([`docs/plans/complete/2026-09-02-M01_repository_categorization_and_server_staging_plan.md`](complete/2026-09-02-M01_repository_categorization_and_server_staging_plan.md)) (`ARCHIVED`)
 
 ### Hardware Subsystem Plans (`HNN`):
 - *(No active hardware plans)*
@@ -43,4 +43,4 @@ Every plan MUST include all 7 mandatory sections:
 ---
 
 ## 4. Prioritized Active Execution Queue
-1. **`M01`**: **Repository Categorization, Subsystem Restructuring & Web Catalog Server Staging** ([`docs/plans/M01_repository_categorization_and_server_staging_plan.md`](M01_repository_categorization_and_server_staging_plan.md))
+*(Queue currently clear — ready for backlog triage from [`docs/plans/IDEAS.md`](IDEAS.md))*
