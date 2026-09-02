@@ -32,3 +32,18 @@ temp/
 htmlcov/
 
 # Generated release assets under build/ are intentionally versioned.
+
+# ------------------------------------------------------------------------------
+# 10. Multi-User Vault Storage, Databases & User Credentials
+# ------------------------------------------------------------------------------
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+__support/data/
+staged_backups/
+users.json
+!.users.json.example
+!users.json.example
+.restic_password
+*.password
