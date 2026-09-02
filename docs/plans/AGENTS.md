@@ -26,7 +26,7 @@ Every plan MUST include all 7 mandatory sections:
 Plans are named with a zero-padded two-digit prefix: `docs/plans/NN_<feature_name>_plan.md`.
 
 ### Master Plan Registry:
-- *(No active plans registered yet)*
+- **`01`**: Repository Categorization, Directory Restructuring & Web Catalog Server Staging ([`docs/plans/01_repository_categorization_and_server_staging_plan.md`](01_repository_categorization_and_server_staging_plan.md)) (`IN_PLANNING`)
 
 ### Prioritized Active Execution Queue:
-- *(Queue empty)*
+1. **`01`**: **Repository Categorization, Directory Restructuring & Web Catalog Server Staging** ([`docs/plans/01_repository_categorization_and_server_staging_plan.md`](01_repository_categorization_and_server_staging_plan.md))
