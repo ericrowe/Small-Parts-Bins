@@ -79,12 +79,12 @@ In densely packed $3 \times 4$ carrier arrays:
 
 | Artifact | Description | Audit Status |
 |---|---|---|
-| [`cassette_body_v0_8_divided.stl`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/Cassettes/glass_slide_cassette_40x80/build/cassette_body_v0_8_divided.stl) | Divided body with monolithic reinforced boss keyway & $45^\circ$ lead-in | Passed (0 boundary / 0 non-manifold) |
-| [`cassette_body_v0_8.stl`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/Cassettes/glass_slide_cassette_40x80/build/cassette_body_v0_8.stl) | Undivided body with monolithic reinforced boss keyway & $45^\circ$ lead-in | Passed (0 boundary / 0 non-manifold) |
-| [`cassette_lid_v0_8_print.stl`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/Cassettes/glass_slide_cassette_40x80/build/cassette_lid_v0_8_print.stl) | Lid with $15.0\text{ mm}$ sloppy through-cutout & $1.20\text{ mm}$ glass clip | Passed (0 boundary / 0 non-manifold) |
-| [`pull_tab_v0_8.stl`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/Cassettes/glass_slide_cassette_40x80/build/pull_tab_v0_8.stl) | Production pull tab (+0.10 mm verified fit standard) | Passed (0 boundary / 0 non-manifold) |
-| [`pull_tab_v0_8_multiview.png`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/docs/images/pull_tab_v0_8_multiview.png) | 3D multi-view engineering drawing of pull tab | Complete |
-| [`cassette_lid_v0_8_multiview.png`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/docs/images/cassette_lid_v0_8_multiview.png) | 3D multi-view engineering drawing of lid with pull tab cutout | Complete |
-| [`cassette_body_v0_8_divided_multiview.png`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/docs/images/cassette_body_v0_8_divided_multiview.png) | 3D multi-view engineering drawing of divided body | Complete |
+| [`cassette_body_v0_8_divided.stl`](../../Cassettes/glass_slide_cassette_40x80/build/cassette_body_v0_8_divided.stl) | Divided body with monolithic reinforced boss keyway & $45^\circ$ lead-in | Passed (0 boundary / 0 non-manifold) |
+| [`cassette_body_v0_8.stl`](../../Cassettes/glass_slide_cassette_40x80/build/cassette_body_v0_8.stl) | Undivided body with monolithic reinforced boss keyway & $45^\circ$ lead-in | Passed (0 boundary / 0 non-manifold) |
+| [`cassette_lid_v0_8_print.stl`](../../Cassettes/glass_slide_cassette_40x80/build/cassette_lid_v0_8_print.stl) | Lid with $15.0\text{ mm}$ sloppy through-cutout & $1.20\text{ mm}$ glass clip | Passed (0 boundary / 0 non-manifold) |
+| [`pull_tab_v0_8.stl`](../../Cassettes/glass_slide_cassette_40x80/build/pull_tab_v0_8.stl) | Production pull tab (+0.10 mm verified fit standard) | Passed (0 boundary / 0 non-manifold) |
+| [`pull_tab_v0_8_multiview.png`](../../docs/images/pull_tab_v0_8_multiview.png) | 3D multi-view engineering drawing of pull tab | Complete |
+| [`cassette_lid_v0_8_multiview.png`](../../docs/images/cassette_lid_v0_8_multiview.png) | 3D multi-view engineering drawing of lid with pull tab cutout | Complete |
+| [`cassette_body_v0_8_divided_multiview.png`](../../docs/images/cassette_body_v0_8_divided_multiview.png) | 3D multi-view engineering drawing of divided body | Complete |
 
 Plan 011 is complete and archived.

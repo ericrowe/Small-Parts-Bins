@@ -11,10 +11,10 @@ Labels are formatted in the standard **$34.0 \times 10.0\text{ mm}$ strip layout
 By packing labels into a **4-column × 18-row grid (up to 72 labels per Letter sheet)**, your entire shop's hardware collection can be printed and cut on **just 2 sheets of sticker paper**:
 
 ### Sheet 1: Master Metric Fasteners & Heat-Set Inserts (70 Labels)
-* **Print Artwork Layer (Color Laser):** [`Labels/build/master_metric_and_inserts_assortment_print.svg`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/Labels/build/master_metric_and_inserts_assortment_print.svg)
-* **Cut Path Layer (Cricut Kiss-Cut):** [`Labels/build/master_metric_and_inserts_assortment_cut.svg`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/Labels/build/master_metric_and_inserts_assortment_cut.svg)
+* **Print Artwork Layer (Color Laser):** [`Labels/build/master_metric_and_inserts_assortment_print.svg`](./build/master_metric_and_inserts_assortment_print.svg)
+* **Cut Path Layer (Cricut Kiss-Cut):** [`Labels/build/master_metric_and_inserts_assortment_cut.svg`](./build/master_metric_and_inserts_assortment_cut.svg)
 
-![Master Metric Sheet Preview](../../docs/images/master_metric_and_inserts_assortment_preview.png)
+![Master Metric Sheet Preview](../docs/images/master_metric_and_inserts_assortment_preview.png)
 
 #### Contents of Sheet 1:
 1. **M2 & M2.5 Micro Screws (Elegoo Blue):** SHCS $4\text{ to }16\text{ mm}$, Hex Nuts, Flat Washers (16 labels).
@@ -25,10 +25,10 @@ By packing labels into a **4-column × 18-row grid (up to 72 labels per Letter s
 ---
 
 ### Sheet 2: Master Imperial Hardware & Wood / Specialty (72 Labels)
-* **Print Artwork Layer (Color Laser):** [`Labels/build/master_imperial_and_wood_specialty_assortment_print.svg`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/Labels/build/master_imperial_and_wood_specialty_assortment_print.svg)
-* **Cut Path Layer (Cricut Kiss-Cut):** [`Labels/build/master_imperial_and_wood_specialty_assortment_cut.svg`](file:///Volumes/T9/Sync/Working/Shop/Projects/_Gridfinity/_Small%20Parts%20Bins/Labels/build/master_imperial_and_wood_specialty_assortment_cut.svg)
+* **Print Artwork Layer (Color Laser):** [`Labels/build/master_imperial_and_wood_specialty_assortment_print.svg`](./build/master_imperial_and_wood_specialty_assortment_print.svg)
+* **Cut Path Layer (Cricut Kiss-Cut):** [`Labels/build/master_imperial_and_wood_specialty_assortment_cut.svg`](./build/master_imperial_and_wood_specialty_assortment_cut.svg)
 
-![Master Imperial & Wood Sheet Preview](../../docs/images/master_imperial_and_wood_specialty_assortment_preview.png)
+![Master Imperial & Wood Sheet Preview](../docs/images/master_imperial_and_wood_specialty_assortment_preview.png)
 
 #### Contents of Sheet 2:
 1. **Imperial #4-40, #6-32, #8-32, 1/4"-20 Screws (Elegoo Orange):** SHCS $1/4"\text{ to }1-1/4"$, Hex Nuts, Nyloc Nuts, Flat Washers (37 labels).
