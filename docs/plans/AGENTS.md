@@ -7,11 +7,19 @@
 
 ---
 
-## 2. Standardized 5-Step Plan Lifecycle
-All feature development, schema creation, and frontend work must strictly adhere to the universal plan lifecycle documented in the root [`AGENTS.md`](../../AGENTS.md) and [`plan-pipeline skill`](../../.agents/skills/plan-pipeline/SKILL.md).
+## 2. Multi-Prefix Plan Lifecycle Standard
+
+To cleanly manage both physical workshop fabrication and software engineering, `Parts-Database` uses a standardized 3-prefix hierarchy:
+
+1. **`MNN_<name>_plan.md` (Master / Cross-Subsystem Plans)**:
+   - Covers end-to-end integration across hardware, labels, web catalog, and server infrastructure (e.g. End-to-end QR code generation $\leftrightarrow$ camera scanning $\leftrightarrow$ SQLite database resolution).
+2. **`HNN_<name>_plan.md` (Hardware Subsystem Plans)**:
+   - Governs 3D CAD models, Gridfinity carriers, slide cassettes, divider cards, Cricut cut templates, and physical tolerances under `hardware/`.
+3. **`SNN_<name>_plan.md` (Server Subsystem Plans)**:
+   - Governs the FastAPI web application, SQLite schema/migrations, REST endpoints, HTML5 camera QR barcode scanner, and UI templates under `server/`.
 
 Every plan MUST include all 7 mandatory sections:
-1. `# Plan NN: <Title>`
+1. `# Plan <Prefix><NN>: <Title>`
 2. `## 1. Goal Description`
 3. `## 2. Architecture & Workflow Diagram (Mermaid)`
 4. `## 3. Code Modifications ([NEW], [MODIFY], [DELETE])`
@@ -21,12 +29,18 @@ Every plan MUST include all 7 mandatory sections:
 
 ---
 
-## 3. Plan Numbering & Master Registry
+## 3. Master Plan Registry
 
-Plans are named with a zero-padded two-digit prefix: `docs/plans/NN_<feature_name>_plan.md`.
+### Master Cross-Subsystem Plans (`MNN`):
+- **`M01`**: Repository Categorization, Subsystem Restructuring & Web Catalog Server Staging ([`docs/plans/M01_repository_categorization_and_server_staging_plan.md`](M01_repository_categorization_and_server_staging_plan.md)) (`IN_PLANNING`)
 
-### Master Plan Registry:
-- **`01`**: Repository Categorization, Directory Restructuring & Web Catalog Server Staging ([`docs/plans/01_repository_categorization_and_server_staging_plan.md`](01_repository_categorization_and_server_staging_plan.md)) (`IN_PLANNING`)
+### Hardware Subsystem Plans (`HNN`):
+- *(No active hardware plans)*
 
-### Prioritized Active Execution Queue:
-1. **`01`**: **Repository Categorization, Directory Restructuring & Web Catalog Server Staging** ([`docs/plans/01_repository_categorization_and_server_staging_plan.md`](01_repository_categorization_and_server_staging_plan.md))
+### Server Subsystem Plans (`SNN`):
+- *(No active server plans)*
+
+---
+
+## 4. Prioritized Active Execution Queue
+1. **`M01`**: **Repository Categorization, Subsystem Restructuring & Web Catalog Server Staging** ([`docs/plans/M01_repository_categorization_and_server_staging_plan.md`](M01_repository_categorization_and_server_staging_plan.md))

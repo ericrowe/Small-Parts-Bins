@@ -72,7 +72,7 @@ geometry for checked dimensions and exported-STL validation.
 - **Physically Verified (2026-08-28):** Both 7U carrier trays have been printed in PETG,
   installed into existing Gridfinity baseplates in the target drawer, and tested for
   stacking and clearance. The 14U stack fits with ample clearance and stable engagement
-  ([Plan 001](Plans/Completed/2026-08-28-001-validate-14u-carrier-stack.md)).
+  ([Plan 001](hardware/plans/Completed/2026-08-28-001-validate-14u-carrier-stack.md)).
 - Each carrier holds six modular cassettes in the reference 3 × 2 layout.
 - The cassette support floor is at Z = 6.75 mm and the stacking engagement shelf is at
   Z = 49.0 mm.
@@ -80,7 +80,7 @@ geometry for checked dimensions and exported-STL validation.
   feet extends $4.75\text{ mm}$ downward below the Z = 49.0 mm lip shelf into the lower tray's
   internal cavity (lowest upper foot surface sits at $Z = 44.25\text{ mm}$).
 - Total usable height inside a loaded lower carrier: $44.25 - 6.75 = \mathbf{37.50\text{ mm}}$.
-- Standard carrier release: `Carriers/carrier_3x4_14u_test/` version 0.1.
+- Standard carrier release: `hardware/carriers/carrier_3x4_14u_test/` version 0.1.
 
 ## Modular Cassette Family
 
@@ -269,7 +269,7 @@ Legacy v0.6 snap-retainer evidence:
 
 - The divider interface uses vertical wall channels and a continuous bottom floor groove to locate removable divider cards without reducing usable cavity volume when omitted.
 - **Physical Coupon Validation (2026-08-28):** The 1.20 mm test card in Station 2 (1.40 mm slot width, +0.20 mm total clearance, 0.60 mm wall recess, 0.60 mm floor groove) provides the preferred tactile slide fit without binding or excessive wobble.
-- **Physical Full-Size Body Validation (2026-08-28):** Full-size v0.8 divided body and 1.20 mm cards were printed in PETG and verified for tactile slide fit, retention, and non-interference with the closed lid/glass ([Plan 003](Plans/Completed/2026-08-28-003-develop-optional-cassette-dividers.md)).
+- **Physical Full-Size Body Validation (2026-08-28):** Full-size v0.8 divided body and 1.20 mm cards were printed in PETG and verified for tactile slide fit, retention, and non-interference with the closed lid/glass ([Plan 003](hardware/plans/Completed/2026-08-28-003-develop-optional-cassette-dividers.md)).
 - **Thickened Left Hinge Wall ($4.30\text{ mm}$):** Inner left face sits at $X = -15.00\text{ mm}$, providing **$+0.65\text{ mm}$ of clear vertical drop-in clearance** past the inward-sloping hinge knuckle peak ($X = -16.15\text{ mm}$) and eliminating long-wall flex along the 80 mm body span.
 - **Divider Station Layout:**
   - Two stations at thirds ($Y = \pm 12.87\text{ mm}$) divide the cavity into three equal **$24.53\text{ mm}$** compartments.
@@ -291,7 +291,7 @@ Legacy v0.6 snap-retainer evidence:
 - **Lid Sloppy Clearance Cutaway:**
   - $15.00\text{ mm}$ wide full-depth through-notch ($Y \in [14.00, 29.00\text{ mm}]$, $X \in [14.50, 19.30\text{ mm}]$, $Z \in [0.00, 3.60\text{ mm}]$).
   - Provides $+2.0\text{ mm}$ clear air on each side of the $11.0\text{ mm}$ pull tab grip fin.
-  - **Physical Print Validation (2026-08-29):** The lid closes, swings freely through 120°, and positively latches with zero rubbing or binding against the installed pull tab ([Plan 011](Plans/Completed/2026-08-29-011-develop-cassette-removal-features.md)).
+  - **Physical Print Validation (2026-08-29):** The lid closes, swings freely through 120°, and positively latches with zero rubbing or binding against the installed pull tab ([Plan 011](hardware/plans/Completed/2026-08-29-011-develop-cassette-removal-features.md)).
 - **Stacking Clearance:**
   - Pull tab apex sits at $Z = 40.40\text{ mm}$ (carrier $Z = 47.15\text{ mm}$), located in the upper tray's central inter-foot clearance valley (ceiling $Z = 49.00\text{ mm}$), preserving **$+1.85\text{ mm}$ of clear vertical air** below loaded upper trays.
 
@@ -352,7 +352,7 @@ This project uses an iterative Human-in-the-Loop (HITL) rapid prototyping and ph
 ### Role of the AI Agent
 1. **Parametric Modeling & Code Generation:** Writes and maintains clean, editable Python scripts that generate watertight, support-free printable STL meshes anchored to component directories.
 2. **Mesh Auditing & Mathematical Rigor:** Verifies binary integrity, manifoldness (0 boundary edges, 0 non-manifold edges), coordinate finiteness, shell connectivity, and computes vertical/lateral tolerance budgets.
-3. **Task Pipeline & Plan Management:** Maintains the structured plan queue, priorities table, checklists, and dependency gates under `Plans/`.
+3. **Task Pipeline & Plan Management:** Maintains the structured plan queue, priorities table, checklists, and dependency gates under `hardware/plans/`.
 4. **Continuous Documentation Synchronization:** Ensures that all repository documentation (top-level `README.md`, component READMEs, manifests, physical-test notes, and active plan files) is reviewed and kept 100% current with every commit.
 
 ## Design and Validation Workflow
@@ -360,12 +360,12 @@ This project uses an iterative Human-in-the-Loop (HITL) rapid prototyping and ph
 - Preserve the editable parametric Python generator, README, binary STLs,
   manifest, assembly reference, and preview images in each release.
 - Build outputs belong strictly inside each component's folder (e.g.
-  `Cassettes/<name>/build/` or `Carriers/<name>/build/`), never at the top-level
+  `hardware/cassettes/<name>/build/` or `hardware/carriers/<name>/build/`), never at the top-level
   repository root. Every parametric generator script must anchor its default
   output directory to `Path(__file__).resolve().parent / "build"` so executing it
   from any current working directory writes to the component's folder.
 - When rebuilding or iterating on a component in an active release directory
-  (such as `Cassettes/glass_slide_cassette_40x80/`), the generator must overwrite
+  (such as `hardware/cassettes/glass_slide_cassette_40x80/`), the generator must overwrite
   the `build/` directory inside that folder. Clean up superseded generated
   files in that folder and rely on Git history to preserve prior revisions.
 - Version every geometry change. The working release directory may replace old
@@ -404,14 +404,14 @@ This project uses an iterative Human-in-the-Loop (HITL) rapid prototyping and ph
   printable release must use explicit versions and document compatibility;
   never imply that current geometry, filenames, or cross-version fit will remain
   unchanged or compatible without notice and physical evidence.
-- Use the repository task pipeline in `IDEAS.md` and `Plans/` for project work.
+- Use the repository task pipeline in `IDEAS.md` and `hardware/plans/` for project work.
   Ideas are limited to three sentences. Fully developed future plans may wait
-  in `Plans/Queued/`; multiple numbered plans may be in work directly in
-  `Plans/` when their current steps can proceed independently. Implementation
+  in `hardware/plans/Queued/`; multiple numbered plans may be in work directly in
+  `hardware/plans/` when their current steps can proceed independently. Implementation
   must follow each plan's ordered checklist and dependency gates.
-- Maintain the documented queued-plan order in `Plans/PRIORITIES.md`. Plan
+- Maintain the documented queued-plan order in `hardware/plans/PRIORITIES.md`. Plan
   numbers are permanent identifiers, not priority ranks, and priority values
-  must appear only in `Plans/PRIORITIES.md`. Reassess priorities when physical
+  must appear only in `hardware/plans/PRIORITIES.md`. Reassess priorities when physical
   failures, dependencies, or user goals change. Higher-priority eligible work
   normally starts first, but independent plans may overlap while another plan
   waits on printing, measurement, material, or other external results.
@@ -420,7 +420,7 @@ This project uses an iterative Human-in-the-Loop (HITL) rapid prototyping and ph
   do not finalize a dependency-gated dimension before its prerequisite physical
   evidence exists.
 - Preserve continuity with plan-numbered Git checkpoints. When complete, move
-  the plan to `Plans/Completed/` with its ISO completion date prefixed and add
+  the plan to `hardware/plans/Completed/` with its ISO completion date prefixed and add
   the matching `-walkthrough.md` file before treating that plan as archived.
 - Read the top-level `README.md`, this file, the active plan, the current release
   README, manifest, and latest physical-test notes before changing geometry.
@@ -446,14 +446,14 @@ All repository documentation—including top-level `README.md`, component README
 - **Progressive Disclosure Skills (`.agents/skills/`):** Deep operational runbooks and helper scripts are encapsulated into modular skills:
   - `mesh-auditor`: `.agents/skills/mesh-auditor/scripts/audit_stl.py` for automated binary STL manifold/boundary audits.
   - `cad-renderer`: `.agents/skills/cad-renderer/scripts/render_multiview.py` for headless 3D multi-views.
-  - `plan-pipeline`: `.agents/skills/plan-pipeline/` for plan management and `Plans/check_pipeline.py`.
+  - `plan-pipeline`: `.agents/skills/plan-pipeline/` for plan management and `hardware/plans/check_pipeline.py`.
   - `hardware-prototyper`: `.agents/skills/hardware-prototyper/` for physical coupon calibration ladders.
 - **Remote Synchronization:** Push commits to the remote tracking branch (`git push origin main`) with each milestone to keep offsite GitHub storage in sync. The user's GitHub Personal Access Token (PAT) has a limited lifespan; if a push fails due to token expiry or authentication failure, notify the user promptly so they can refresh it.
 - **Never leave superseded version numbers, stale filenames, or outdated dimensions unrefreshed when committing changes.**
 
 ### Required Documentation Updates Before Every Plan Completion
 
-Before setting any plan to `Complete` or moving it into `Plans/Completed/`,
+Before setting any plan to `Complete` or moving it into `hardware/plans/Completed/`,
 review and update every applicable item below. An item may be recorded as
 “reviewed—no change required,” but it must not be silently skipped:
 
@@ -463,7 +463,7 @@ review and update every applicable item below. An item may be recorded as
    failure history, workflow rules, and any new non-regression constraint.
 3. **`IDEAS.md`:** remove promoted work and add only genuinely deferred or
    follow-up ideas, each in no more than three sentences.
-4. **`Plans/PRIORITIES.md`:** confirm the completed/in-work plan is absent from
+4. **`hardware/plans/PRIORITIES.md`:** confirm the completed/in-work plan is absent from
    the queued order, reassess remaining work using the documented criteria,
    renumber priority ranks contiguously, date the decision, and identify the next
    eligible queued plan.

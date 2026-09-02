@@ -276,7 +276,7 @@ def compose_high_density_sheets(
     labels: list[FastenerSpec],
     title: str,
     paper: tuple[float, float] = PAPER_LETTER,
-    output_dir: Path = Path("Labels/build"),
+    output_dir: Path = Path("hardware/labels/build"),
 ) -> list[dict[str, Any]]:
     """Chunk labels into high-density 72-label sheets with +1.0 mm bleed print artwork and exact vector cut paths."""
     output_dir.mkdir(parents=True, exist_ok=True)

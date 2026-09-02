@@ -380,9 +380,9 @@ def main():
     docs_img = Path('docs/images')
     docs_img.mkdir(parents=True, exist_ok=True)
     
-    body_stl = Path('Cassettes/glass_slide_cassette_40x80/build/cassette_body_v0_8.stl')
-    lid_stl = Path('Cassettes/glass_slide_cassette_40x80/build/cassette_lid_v0_8_print.stl')
-    carrier_stl = Path('Carriers/carrier_3x4_14u_test/build/carrier_3x4_7u_v0_1.stl')
+    body_stl = Path('hardware/cassettes/glass_slide_cassette_40x80/build/cassette_body_v0_8.stl')
+    lid_stl = Path('hardware/cassettes/glass_slide_cassette_40x80/build/cassette_lid_v0_8_print.stl')
+    carrier_stl = Path('hardware/carriers/carrier_3x4_14u_test/build/carrier_3x4_7u_v0_1.stl')
     
     # 1. Exploded Assembly
     render_exploded_cassette(body_stl, lid_stl, docs_img / 'cassette_v0_8_exploded_assembly.png')
@@ -409,11 +409,11 @@ def main():
                          docs_img / 'carrier_3x4_7u_multiview.png', color=(148, 163, 184))
 
     # Copy to component build folders
-    shutil.copy('docs/images/cassette_v0_8_exploded_assembly.png', 'Cassettes/glass_slide_cassette_40x80/build/cassette_v0_8_exploded_assembly.png')
-    shutil.copy('docs/images/cassette_body_v0_8_multiview.png', 'Cassettes/glass_slide_cassette_40x80/build/cassette_body_v0_8_multiview.png')
-    shutil.copy('docs/images/cassette_lid_v0_8_multiview.png', 'Cassettes/glass_slide_cassette_40x80/build/cassette_lid_v0_8_multiview.png')
-    shutil.copy('docs/images/carrier_3x4_14u_stack.png', 'Carriers/carrier_3x4_14u_test/build/carrier_3x4_14u_stack.png')
-    shutil.copy('docs/images/carrier_3x4_7u_multiview.png', 'Carriers/carrier_3x4_14u_test/build/carrier_3x4_7u_multiview.png')
+    shutil.copy('docs/images/cassette_v0_8_exploded_assembly.png', 'hardware/cassettes/glass_slide_cassette_40x80/build/cassette_v0_8_exploded_assembly.png')
+    shutil.copy('docs/images/cassette_body_v0_8_multiview.png', 'hardware/cassettes/glass_slide_cassette_40x80/build/cassette_body_v0_8_multiview.png')
+    shutil.copy('docs/images/cassette_lid_v0_8_multiview.png', 'hardware/cassettes/glass_slide_cassette_40x80/build/cassette_lid_v0_8_multiview.png')
+    shutil.copy('docs/images/carrier_3x4_14u_stack.png', 'hardware/carriers/carrier_3x4_14u_test/build/carrier_3x4_14u_stack.png')
+    shutil.copy('docs/images/carrier_3x4_7u_multiview.png', 'hardware/carriers/carrier_3x4_14u_test/build/carrier_3x4_7u_multiview.png')
     print('All CAD renders regenerated successfully.')
 
 if __name__ == '__main__':

@@ -1,13 +1,17 @@
-# Plan 01: Repository Categorization, Directory Restructuring & Web Catalog Server Staging
+# Plan M01: Repository Categorization, Subsystem Restructuring & Web Catalog Server Staging
 
 ## 1. Goal Description
 
 The `Parts-Database` repository currently houses both mechanical 3D print assets (carriers, cassettes, labels, render scripts) at the root level and is preparing to introduce a modern Web Catalog Server & QR Scanner microservice.
 
-This plan executes a clean, structured repository reorganization:
+This master plan executes a clean, structured repository reorganization and establishes the multi-prefix plan lifecycle:
 1. Group all physical 3D fabrication models, parametric generators, and label artwork into a dedicated **`hardware/`** directory (`hardware/carriers/`, `hardware/cassettes/`, `hardware/labels/`, `hardware/scripts/`, `hardware/plans/`).
 2. Scaffold the dedicated **`server/`** directory (`server/app/`, `server/database/`, `server/static/`, `server/templates/`, `server/tests/`) for the upcoming web catalog server.
-3. Update all documentation, generator scripts, and internal relative links to preserve 100% link portability and build integrity.
+3. Establish the centralized **Multi-Prefix Planning System** in `docs/plans/`:
+   - `MNN_<name>_plan.md`: Master cross-subsystem epics (e.g. End-to-end QR code generation $\leftrightarrow$ scanning $\leftrightarrow$ database resolution).
+   - `HNN_<name>_plan.md`: Hardware subsystem plans (CAD models, carrier trays, label cut sheets).
+   - `SNN_<name>_plan.md`: Server subsystem plans (FastAPI routes, SQLite models, HTML5 camera QR scanner UI).
+4. Update all documentation, generator scripts, and internal relative links to preserve 100% link portability and build integrity.
 
 ---
 
@@ -34,9 +38,13 @@ flowchart TD
             Tests["tests/ (Hermetic Test Suite)"]
         end
         
-        subgraph Docs["docs/ (Unified Docs & Active Plans)"]
-            Images["images/ (Preview Renders & Diagrams)"]
-            Plans["plans/ (Active Software Plans & Complete Archives)"]
+        subgraph Docs["docs/plans/ (Centralized Multi-Prefix Planning Hub)"]
+            P_Reg["AGENTS.md (Master Registry)"]
+            P_M["MNN_* (Master Cross-Subsystem Plans)"]
+            P_H["HNN_* (Hardware Subsystem Plans)"]
+            P_S["SNN_* (Server Subsystem Plans)"]
+            P_Comp["complete/ (Archived Plans & Walkthroughs)"]
+            P_Ideas["IDEAS.md (Categorized Backlog)"]
         end
     end
 ```
@@ -59,9 +67,11 @@ flowchart TD
 ### Component 3: Server Directory Scaffolding
 - **`[NEW]`** `server/`: Scaffold `app/`, `database/`, `static/`, `templates/`, and `tests/` directories with `.gitkeep` markers.
 
-### Component 4: Documentation Link Synchronization
+### Component 4: Planning Framework & Documentation Synchronization
+- **`[MODIFY]`** [`docs/plans/AGENTS.md`](./AGENTS.md): Codify the multi-prefix planning standard (`MNN_`, `HNN_`, `SNN_`).
+- **`[MODIFY]`** [`docs/plans/IDEAS.md`](./IDEAS.md): Structure categorized backlog sections.
 - **`[MODIFY]`** [`README.md`](../README.md): Update directory structure reference table and component links.
-- **`[MODIFY]`** [`AGENTS.md`](../AGENTS.md): Update hardware CAD generation rules and paths.
+- **`[MODIFY]`** [`AGENTS.md`](../AGENTS.md): Update hardware CAD generation rules and path invariants.
 
 ---
 
@@ -76,7 +86,7 @@ flowchart TD
 
 ## 5. Documentation Updates
 
-- **`[MODIFY]`** [`README.md`](../README.md): Document `hardware/` and `server/` root architecture.
+- **`[MODIFY]`** [`README.md`](../README.md): Document `hardware/`, `server/`, and `docs/plans/` architecture.
 - **`[MODIFY]`** [`AGENTS.md`](../AGENTS.md): Update path invariants.
 
 ---
@@ -94,4 +104,4 @@ python3 hardware/labels/generate_labels.py --help
 
 ### Manual Verification
 1. Inspect directory structure via `ls -la` and `tree -L 2`.
-2. Confirm clean separation between `hardware/`, `server/`, and `docs/`.
+2. Confirm clean separation between `hardware/`, `server/`, and `docs/plans/`.

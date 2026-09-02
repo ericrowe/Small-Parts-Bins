@@ -123,38 +123,35 @@ caused by front-wall outward deflection when removable dividers are installed.
 | Two-carrier stack | 14U, modeled 102.4 mm overall | **Physically verified** in target drawer (Plan 001 complete) |
 | Drawer ceiling | 111.125 mm | Measured absolute ceiling |
 
-## Development sequence
+## Development Sequence & Plan Lifecycle
 
-Multiple plans may be in work when their current steps are independent or one is
-waiting for a physical print. Plans 010 and 005–008
-are fully developed in [`Plans/Queued/`](Plans/Queued/) and cover latch re-evaluation, larger cassettes,
-mixed-layout carriers, durability/material testing, and the production baseline.
+The project utilizes a centralized multi-prefix plan lifecycle under [`docs/plans/`](docs/plans/):
+- **`MNN` (Master / Cross-Subsystem Plans)**: End-to-end integration across hardware, labels, web catalog, and server infrastructure.
+- **`HNN` (Hardware Subsystem Plans)**: 3D CAD models, Gridfinity carriers, slide cassettes, divider cards, and Cricut cut sheets under [`hardware/`](hardware/).
+- **`SNN` (Server Subsystem Plans)**: FastAPI web application, SQLite schema/migrations, REST endpoints, and HTML5 camera QR scanner under [`server/`](server/).
 
-The authoritative queue order and its rationale exist only in
-[`Plans/PRIORITIES.md`](Plans/PRIORITIES.md). Plans 001, 002, 003, 004, and 009 are completed and
-archived in [`Plans/Completed/`](Plans/Completed/). Next queued plan is Plan 010.
+Historical mechanical 3D print plans are archived in [`hardware/plans/Completed/`](hardware/plans/Completed/). Active software and cross-system plans are tracked in [`docs/plans/AGENTS.md`](docs/plans/AGENTS.md).
 
-The active cassette release is available in
-[`Cassettes/glass_slide_cassette_40x80/`](Cassettes/glass_slide_cassette_40x80/) as
-`cassette_body_v0_8.stl` and `cassette_lid_v0_8_print.stl`.
+The active cassette 3D models are located in [`hardware/cassettes/glass_slide_cassette_40x80/`](hardware/cassettes/glass_slide_cassette_40x80/) as `cassette_body_v0_8.stl` and `cassette_lid_v0_8_print.stl`.
 
-New ideas belong in [IDEAS.md](IDEAS.md) and must remain under three sentences.
-See the [plan pipeline](Plans/README.md) for promotion, execution, Git checkpoint,
-validation, and dated archive rules.
+New ideas belong in [`docs/plans/IDEAS.md`](docs/plans/IDEAS.md).
 
-## Repository map
+## Repository Architecture
 
-- [`AGENTS.md`](AGENTS.md) — binding dimensions, physical findings, validation
-  rules, compatibility history, and repository working agreements.
+- [`AGENTS.md`](AGENTS.md) — binding dimensions, physical findings, validation rules, compatibility history, and repository working agreements.
 - [`.agents/`](.agents/) — modular agent customization directory containing `skills/` (e.g. `mesh-auditor`, `cad-renderer`, `plan-pipeline`, `hardware-prototyper`) and `plugins/`.
-- [`CLAUDE.md`](CLAUDE.md) / [`.cursorrules`](.cursorrules) — cross-tool compatibility entry points for Claude Code, Cursor, and Copilot.
-- [`Cassettes/`](Cassettes/) — cassette generators, printable releases,
-  manifests, previews, and assembly references.
-- [`Carriers/`](Carriers/) — carrier generators, printable tests, manifests,
-  previews, and physical-test records.
-- [`Plans/`](Plans/) — in-work plans, the prioritized queue, templates, checker,
-  and completed-plan archive.
-- [`IDEAS.md`](IDEAS.md) — concise unprocessed project ideas.
+- [`hardware/`](hardware/) — physical 3D fabrication CAD models, printable releases, manifests, previews, labels, and mechanical test archives:
+  - [`hardware/carriers/`](hardware/carriers/) — Gridfinity modular trays and rocker inserts.
+  - [`hardware/cassettes/`](hardware/cassettes/) — glass slide storage cassettes and divider cards.
+  - [`hardware/labels/`](hardware/labels/) — SVG vector label generators, fastener database, and Cricut print-then-cut sheets.
+  - [`hardware/scripts/`](hardware/scripts/) — batch STL rendering and CAD build automation.
+  - [`hardware/plans/`](hardware/plans/) — historical mechanical 3D design plan archives.
+- [`server/`](server/) — web catalog microservice, inventory database, and QR code scanner:
+  - `server/app/` — FastAPI application and catalog routes.
+  - `server/database/` — SQLite parts/bins schema and models.
+  - `server/static/` & `server/templates/` — responsive web UI and HTML5 camera QR barcode scanner.
+  - `server/tests/` — hermetic test suite.
+- [`docs/plans/`](docs/plans/) — centralized multi-prefix plan lifecycle, master registry ([`docs/plans/AGENTS.md`](docs/plans/AGENTS.md)), and backlog ([`docs/plans/IDEAS.md`](docs/plans/IDEAS.md)).
 
 ## Working rules
 
