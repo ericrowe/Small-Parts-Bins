@@ -16,11 +16,11 @@ Key features:
 6. **Loose-Fit Gravity Drop-In Dividers:** $33.00\text{ mm}$ wide divider cards provide **$+1.10\text{ mm}$ of lateral float clearance** across the $34.10\text{ mm}$ channel bottom span, completely eliminating outward wall wedging while maintaining $\ge 0.75\text{ mm}$ of positive capture overlap past the channel lips.
 7. **Reinforced $0.85\text{ mm}$ Closure Clasp:** $1.25\text{ mm}$ thick cantilever beam on the lid with $0.85\text{ mm}$ undercut catch on the front body wall guarantees firm, positive snap retention in both divided and undivided configurations.
 
-![v0.8 Body Divided 3D Multi-View](../../docs/images/cassette_body_v0_8_divided_multiview.png)
+![v0.8 Body Divided 3D Multi-View](../../../docs/images/cassette_body_v0_8_divided_multiview.png)
 
-![v0.8 Lid 3D Multi-View](../../docs/images/cassette_lid_v0_8_multiview.png)
+![v0.8 Lid 3D Multi-View](../../../docs/images/cassette_lid_v0_8_multiview.png)
 
-![v0.8 Pull Tab 3D Multi-View](../../docs/images/pull_tab_v0_8_multiview.png)
+![v0.8 Pull Tab 3D Multi-View](../../../docs/images/pull_tab_v0_8_multiview.png)
 
 ## Print these files
 

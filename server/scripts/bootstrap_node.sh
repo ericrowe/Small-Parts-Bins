@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # bootstrap_node.sh - Bare-Metal Bootstrap & Restoration for Parts-Database
-# Provisions packages, mounts SSD, builds venv, restores data, & starts service
+# Deployed on Node 02 (tasker-pi) co-located with Personal-Assistant on port :8090
 # ==============================================================================
 set -euo pipefail
 
@@ -13,8 +13,15 @@ APP_DIR="/opt/parts-database"
 APP_USER="${USER:-detour}"
 APP_GROUP="www-data"
 
+# Check for persistent SSD mount on tasker-pi (/srv/database)
+if [ -d "/srv/database" ]; then
+    DB_DIR="/srv/database/parts"
+else
+    DB_DIR="$APP_DIR/server/data"
+fi
+
 echo "======================================================================"
-echo " Starting Automated Bootstrap for Parts-Database (Node 09)"
+echo " Starting Automated Bootstrap for Parts-Database (Node 02: tasker-pi)"
 echo "======================================================================"
 
 # 1. Install System Packages
@@ -23,10 +30,11 @@ sudo apt-get update -qq
 sudo apt-get install -y -qq python3-venv python3-pip sqlite3 restic curl git rsync
 echo "[+] System packages installed."
 
-# 2. Setup Application Directory & Python Virtual Environment
+# 2. Setup Application Directory, SSD Database Path & Virtual Environment
 echo "[2/6] Building application directory and Python virtualenv..."
-sudo mkdir -p "$APP_DIR" "$APP_DIR/server" "$APP_DIR/server/data" "$APP_DIR/server/logs"
-sudo chown -R "$APP_USER:$APP_GROUP" "$APP_DIR"
+sudo mkdir -p "$APP_DIR" "$APP_DIR/server" "$APP_DIR/server/data" "$APP_DIR/server/logs" "$DB_DIR"
+sudo chown -R "$APP_USER:$APP_GROUP" "$APP_DIR" "$DB_DIR"
+sudo chmod 775 "$DB_DIR"
 
 if [ ! -d "$APP_DIR/server/.venv" ]; then
     python3 -m venv "$APP_DIR/server/.venv"
@@ -47,10 +55,10 @@ export RESTIC_PASSWORD
 if restic -r "$RESTIC_REPO" snapshots >/dev/null 2>&1; then
     restic -r "$RESTIC_REPO" restore latest --target "$RESTORE_TMP" --tag parts-database
     
-    # Restore database files
+    # Restore database files to persistent storage
     if [ -d "$RESTORE_TMP/data" ]; then
-        rsync -av "$RESTORE_TMP/data/" "$APP_DIR/server/data/"
-        echo "[+] Database files restored from backup."
+        rsync -av "$RESTORE_TMP/data/" "$DB_DIR/"
+        echo "[+] Database files restored to $DB_DIR."
     fi
     
     # Restore configuration files
@@ -65,8 +73,8 @@ rm -rf "$RESTORE_TMP"
 
 # 4. Validate Database Integrity
 echo "[4/6] Validating database integrity..."
-if [ -f "$APP_DIR/server/data/parts.db" ]; then
-    integrity=$(sqlite3 "$APP_DIR/server/data/parts.db" "PRAGMA integrity_check;" 2>/dev/null || echo "failed")
+if [ -f "$DB_DIR/parts.db" ]; then
+    integrity=$(sqlite3 "$DB_DIR/parts.db" "PRAGMA integrity_check;" 2>/dev/null || echo "failed")
     if [ "$integrity" != "ok" ]; then
         echo "ERROR: Restored database integrity check failed ($integrity)!"
         exit 1
@@ -90,7 +98,7 @@ ExecStart=$APP_DIR/server/.venv/bin/python -m uvicorn server.app.main:app --host
 Restart=always
 RestartSec=5s
 Environment=PYTHONPATH=$APP_DIR
-Environment=DATABASE_URL=sqlite+aiosqlite:///$APP_DIR/server/data/parts.db
+Environment=DATABASE_URL=sqlite+aiosqlite:///$DB_DIR/parts.db
 
 [Install]
 WantedBy=multi-user.target
@@ -99,7 +107,7 @@ SYSTEMD_UNIT
 sudo systemctl daemon-reload
 sudo systemctl enable parts-database.service
 sudo systemctl restart parts-database.service
-echo "[+] Systemd service parts-database.service enabled and started."
+echo "[+] Systemd service parts-database.service enabled and started on :8090."
 
 # 6. Configure Daily Backup Cron
 echo "[6/6] Configuring daily backup cron job..."

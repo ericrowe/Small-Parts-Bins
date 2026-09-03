@@ -4,7 +4,7 @@
 
 ## 1. Overview & Data Protection Architecture
 
-The **Parts-Database** Web Catalog microservice maintains a persistent SQLite database (`server/data/parts.db`) in Write-Ahead Logging (WAL) mode.
+The **Parts-Database** Web Catalog microservice is deployed on **Node 02 (`tasker-pi`, Pi 4B)** on port `:8090` co-located alongside Personal-Assistant. It maintains a persistent SQLite database at `/srv/database/parts/parts.db` residing on the external Samsung SSD in Write-Ahead Logging (WAL) mode (with local fallback to `server/data/parts.db` on workstations).
 
 To ensure zero-downtime backups, continuous data protection, and turnkey bare-metal recovery across the 10-node 2U rack infrastructure, the platform implements:
 1. **Atomic SQLite Snapshots (`VACUUM INTO`)**: Creates defragmented point-in-time snapshots without blocking live catalog reads or quantity updates.
@@ -19,7 +19,7 @@ To ensure zero-downtime backups, continuous data protection, and turnkey bare-me
 
 ```mermaid
 flowchart LR
-    LiveDB[("Live SQLite DB (WAL)\nserver/data/parts.db")] -->|VACUUM INTO| Staging["Staging Area\nparts.db (Snapshot)"]
+    LiveDB[("Live SQLite DB (WAL)\n/srv/database/parts/parts.db")] -->|VACUUM INTO| Staging["Staging Area\nparts.db (Snapshot)"]
     Staging -->|PRAGMA integrity_check| Check{"Valid?"}
     Check -- Yes --> Restic["Restic Encrypted SFTP"]
     Check -- No --> Abort["Abort & Alert"]

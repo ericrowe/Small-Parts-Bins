@@ -7,11 +7,18 @@ from server.app.models import Base
 
 logger = logging.getLogger(__name__)
 
-# Default database location in server/data/parts.db
-DEFAULT_DB_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
-os.makedirs(DEFAULT_DB_DIR, exist_ok=True)
-DEFAULT_DB_PATH = os.path.join(DEFAULT_DB_DIR, "parts.db")
-DATABASE_URL = os.environ.get("DATABASE_URL", f"sqlite+aiosqlite:///{DEFAULT_DB_PATH}")
+def resolve_database_url() -> str:
+    """Resolve database URL with production SSD mount detection and workstation fallback."""
+    if "DATABASE_URL" in os.environ:
+        return os.environ["DATABASE_URL"]
+    ssd_dir = "/srv/database/parts"
+    if os.path.isdir(ssd_dir):
+        return f"sqlite+aiosqlite:///{os.path.join(ssd_dir, 'parts.db')}"
+    local_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
+    os.makedirs(local_dir, exist_ok=True)
+    return f"sqlite+aiosqlite:///{os.path.join(local_dir, 'parts.db')}"
+
+DATABASE_URL = resolve_database_url()
 
 connect_args = {"timeout": 30} if "sqlite" in DATABASE_URL else {}
 engine = create_async_engine(

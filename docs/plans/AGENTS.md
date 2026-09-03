@@ -40,8 +40,9 @@ Every plan MUST include all 7 mandatory sections:
 
 ### Server Subsystem Plans (`SNN`):
 - **`S01`**: FastAPI Web Catalog Server & SQLite Parts Database ([`docs/plans/complete/2026-09-02-S01_fastapi_web_catalog_server_and_sqlite_database_plan.md`](complete/2026-09-02-S01_fastapi_web_catalog_server_and_sqlite_database_plan.md)) (`ARCHIVED`)
+- **`S02`**: Production Deployment & Provisioning on Node 02 (tasker-pi) ([`docs/plans/S02_production_deployment_and_provisioning_tasker_pi_plan.md`](S02_production_deployment_and_provisioning_tasker_pi_plan.md)) (`IN_PLANNING`)
 
 ---
 
 ## 4. Prioritized Active Execution Queue
-*(Queue currently clear — ready for backlog triage from [`docs/plans/IDEAS.md`](IDEAS.md))*
+1. **`S02`**: **Production Deployment & Provisioning on Node 02 (tasker-pi)** ([`docs/plans/S02_production_deployment_and_provisioning_tasker_pi_plan.md`](S02_production_deployment_and_provisioning_tasker_pi_plan.md))

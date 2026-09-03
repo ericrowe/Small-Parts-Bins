@@ -74,12 +74,12 @@ This project uses an iterative Human-in-the-Loop (HITL) engineering methodology.
 ## Current status — 2026-08-28
 
 The 14U vertical carrier stack architecture has been **physically verified**
-([Plan 001](Plans/Completed/2026-08-28-001-validate-14u-carrier-stack.md)): two 3 × 4 × 7U
+([Plan 001](hardware/plans/Completed/2026-08-28-001-validate-14u-carrier-stack.md)): two 3 × 4 × 7U
 carrier trays seat onto standard Gridfinity baseplates in the target drawer with ample
 clearance below the 111.125 mm drawer ceiling.
 
 The height-optimized cassette standard is **physically verified** as **v0.8**
-([Plan 002](Plans/Completed/2026-08-28-002-optimize-cassette-and-carrier-height.md)):
+([Plan 002](hardware/plans/Completed/2026-08-28-002-optimize-cassette-and-carrier-height.md)):
 closed envelope of **$39.55 \times 80.0 \times 36.0\text{ mm}$** (body height $32.80\text{ mm}$,
 lid height $3.20\text{ mm}$), providing **$30.80\text{ mm}$ of usable internal depth**
 (+35.1% capacity increase over the $28.0\text{ mm}$ baseline) and tested non-interference
@@ -88,12 +88,12 @@ The physically verified v0.7 lid, glass slide channel, 6.75 mm compliant PETG la
 3-knuckle filament hinge are 100% reusable.
 
 The removable divider system is **physically verified**
-([Plan 003](Plans/Completed/2026-08-28-003-develop-optional-cassette-dividers.md)):
+([Plan 003](hardware/plans/Completed/2026-08-28-003-develop-optional-cassette-dividers.md)):
 $1.40\text{ mm}$ recessed side-wall channels and floor groove with a thickened $4.30\text{ mm}$
 left wall providing $+0.65\text{ mm}$ unobstructed vertical drop-in clearance past the hinge knuckle,
 and two stations at $Y = \pm 12.87\text{ mm}$ creating three equal $24.53\text{ mm}$ compartments.
 
-The active queued plan is **[Plan 010](Plans/Queued/010-re-evaluate-cassette-closure-latch.md)**
+The verified closure latch plan is **[Plan 010](hardware/plans/Completed/2026-08-29-010-re-evaluate-cassette-closure-latch.md)**
 (Priority 1): re-evaluate and redesign the cassette closure latch to prevent disengagement
 caused by front-wall outward deflection when removable dividers are installed.
 
@@ -157,15 +157,15 @@ New ideas belong in [`docs/plans/IDEAS.md`](docs/plans/IDEAS.md).
 
 ## Web Catalog Server & Inventory Microservice
 
-The server provides a responsive web UI and REST API for searching hardware specifications, reviewing tap drills, and managing bin inventory:
+The server provides a responsive web UI and REST API for searching hardware specifications, reviewing tap drills, and managing bin inventory. In production, it is deployed to **Node 02 (`tasker-pi`, Pi 4B)** on port `:8090` with persistent storage on the external Samsung SSD at `/srv/database/parts/parts.db`:
 
-1. **Setup & Start Server:**
+1. **Setup & Start Server (Local Workstation):**
    ```bash
    cd server
    ./run.sh  # Starts on http://0.0.0.0:8090
    ```
 2. **Access Points:**
-   - **Dashboard:** [http://localhost:8090/](http://localhost:8090/) — Overview metrics, category distribution, and active physical bins.
+   - **Dashboard:** [http://localhost:8090/](http://localhost:8090/) (or `http://tasker-pi.local:8090/`) — Overview metrics, category distribution, and active physical bins.
    - **Fastener Catalog:** [http://localhost:8090/parts](http://localhost:8090/parts) — Full-text searchable database with bi-directional column sorting, thread pitches, and tap drills.
    - **Fastener Technical Specs:** [http://localhost:8090/p/{part_id}](http://localhost:8090/p/M3-12mm-SHCS) — Detailed engineering specs and physical bin locations.
    - **Cassette Bin Management:** [http://localhost:8090/b/{bin_id}](http://localhost:8090/b/BIN-001) — Visual 1, 2, or 3-compartment cassette layout with dynamic part mapper dropdowns and one-tap stock adjusters.
@@ -173,6 +173,8 @@ The server provides a responsive web UI and REST API for searching hardware spec
 
 ## Automated Backup & Turnkey Disaster Recovery
 
+- **Target Host**: Node 02 (`tasker-pi.local`, `192.168.0.191`) co-located with Personal-Assistant.
+- **Database Location**: Persistent Samsung SSD at `/srv/database/parts/parts.db` (Write-Ahead Logging).
 - **Atomic SQLite Snapshots (`VACUUM INTO`)**: Daily zero-downtime snapshots captured via [`server/scripts/backup_parts.sh`](server/scripts/backup_parts.sh).
 - **Encrypted Node 04 Storage**: Shipped encrypted via `restic` over SFTP to Node 04 (`pi-backup.local:/srv/backups/restic/parts-database/`).
 - **Retention**: 14 daily, 8 weekly, 12 monthly snapshots.

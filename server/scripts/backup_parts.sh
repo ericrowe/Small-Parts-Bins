@@ -7,7 +7,13 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SERVER_DIR="$(dirname "$SCRIPT_DIR")"
-DATA_DIR="${DATA_DIR:-$SERVER_DIR/data}"
+
+# Detect production SSD database directory on tasker-pi or local workstation
+if [ -d "/srv/database/parts" ] && [ -f "/srv/database/parts/parts.db" ]; then
+    DATA_DIR="/srv/database/parts"
+else
+    DATA_DIR="${DATA_DIR:-$SERVER_DIR/data}"
+fi
 DB_FILE="$DATA_DIR/parts.db"
 
 BACKUP_HOST="${BACKUP_HOST:-pi-backup.local}"

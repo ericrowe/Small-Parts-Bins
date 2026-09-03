@@ -64,3 +64,12 @@ def test_backup_script_syntax_and_dry_run():
     # Run bash syntax validation
     res_syntax = subprocess.run(["bash", "-n", script_path], capture_output=True, text=True)
     assert res_syntax.returncode == 0
+
+def test_bootstrap_script_syntax():
+    """Verify that bootstrap_node.sh passes bash syntax validation."""
+    script_path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts", "bootstrap_node.sh"
+    )
+    assert os.path.exists(script_path)
+    res_syntax = subprocess.run(["bash", "-n", script_path], capture_output=True, text=True)
+    assert res_syntax.returncode == 0
