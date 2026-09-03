@@ -32,17 +32,57 @@
     <!-- Parts Table -->
     <div class="bg-slate-900 border border-slate-800 rounded-xl shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-slate-300">
+            <table id="parts-table" class="w-full text-left text-sm text-slate-300">
                 <thead class="bg-slate-950/80 text-xs uppercase font-semibold text-slate-400 border-b border-slate-800">
                     <tr>
-                        <th class="px-4 py-3.5">Part ID</th>
-                        <th class="px-4 py-3.5">Description</th>
-                        <th class="px-4 py-3.5">Category</th>
-                        <th class="px-4 py-3.5">Thread / Pitch</th>
-                        <th class="px-4 py-3.5">Tap Drill</th>
-                        <th class="px-4 py-3.5">Drive / Tool</th>
-                        <th class="px-4 py-3.5">Material</th>
-                        <th class="px-4 py-3.5 text-right">Bins</th>
+                        <th onclick="sortTable(0)" class="px-4 py-3.5 cursor-pointer select-none hover:text-sky-300 transition group">
+                            <div class="flex items-center space-x-1">
+                                <span>Part ID</span>
+                                <span class="sort-icon text-slate-600 group-hover:text-slate-400 font-mono text-[10px]">↕</span>
+                            </div>
+                        </th>
+                        <th onclick="sortTable(1)" class="px-4 py-3.5 cursor-pointer select-none hover:text-sky-300 transition group">
+                            <div class="flex items-center space-x-1">
+                                <span>Description</span>
+                                <span class="sort-icon text-slate-600 group-hover:text-slate-400 font-mono text-[10px]">↕</span>
+                            </div>
+                        </th>
+                        <th onclick="sortTable(2)" class="px-4 py-3.5 cursor-pointer select-none hover:text-sky-300 transition group">
+                            <div class="flex items-center space-x-1">
+                                <span>Category</span>
+                                <span class="sort-icon text-slate-600 group-hover:text-slate-400 font-mono text-[10px]">↕</span>
+                            </div>
+                        </th>
+                        <th onclick="sortTable(3)" class="px-4 py-3.5 cursor-pointer select-none hover:text-sky-300 transition group">
+                            <div class="flex items-center space-x-1">
+                                <span>Thread / Pitch</span>
+                                <span class="sort-icon text-slate-600 group-hover:text-slate-400 font-mono text-[10px]">↕</span>
+                            </div>
+                        </th>
+                        <th onclick="sortTable(4)" class="px-4 py-3.5 cursor-pointer select-none hover:text-sky-300 transition group">
+                            <div class="flex items-center space-x-1">
+                                <span>Tap Drill</span>
+                                <span class="sort-icon text-slate-600 group-hover:text-slate-400 font-mono text-[10px]">↕</span>
+                            </div>
+                        </th>
+                        <th onclick="sortTable(5)" class="px-4 py-3.5 cursor-pointer select-none hover:text-sky-300 transition group">
+                            <div class="flex items-center space-x-1">
+                                <span>Drive / Tool</span>
+                                <span class="sort-icon text-slate-600 group-hover:text-slate-400 font-mono text-[10px]">↕</span>
+                            </div>
+                        </th>
+                        <th onclick="sortTable(6)" class="px-4 py-3.5 cursor-pointer select-none hover:text-sky-300 transition group">
+                            <div class="flex items-center space-x-1">
+                                <span>Material</span>
+                                <span class="sort-icon text-slate-600 group-hover:text-slate-400 font-mono text-[10px]">↕</span>
+                            </div>
+                        </th>
+                        <th onclick="sortTable(7)" class="px-4 py-3.5 text-right cursor-pointer select-none hover:text-sky-300 transition group">
+                            <div class="flex items-center justify-end space-x-1">
+                                <span>Bins</span>
+                                <span class="sort-icon text-slate-600 group-hover:text-slate-400 font-mono text-[10px]">↕</span>
+                            </div>
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-800/60">
@@ -86,4 +126,65 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentSortColumn = -1;
+let currentSortDirection = 'asc';
+
+function sortTable(columnIndex) {
+    const table = document.getElementById('parts-table');
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    
+    // If empty row exists, return
+    if (rows.length === 1 && rows[0].querySelector('td[colspan]')) {
+        return;
+    }
+
+    if (currentSortColumn === columnIndex) {
+        currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+        currentSortColumn = columnIndex;
+        currentSortDirection = 'asc';
+    }
+
+    // Update Header Icons
+    const headers = table.querySelectorAll('th');
+    headers.forEach((th, idx) => {
+        const icon = th.querySelector('.sort-icon');
+        if (icon) {
+            if (idx === columnIndex) {
+                icon.innerText = currentSortDirection === 'asc' ? '▲' : '▼';
+                icon.className = 'sort-icon text-sky-400 font-mono text-[10px] font-bold';
+            } else {
+                icon.innerText = '↕';
+                icon.className = 'sort-icon text-slate-600 group-hover:text-slate-400 font-mono text-[10px]';
+            }
+        }
+    });
+
+    rows.sort((a, b) => {
+        const cellA = a.children[columnIndex] ? a.children[columnIndex].innerText.trim() : '';
+        const cellB = b.children[columnIndex] ? b.children[columnIndex].innerText.trim() : '';
+
+        // Check if values are numeric
+        const numA = parseFloat(cellA.replace(/[^0-9.-]/g, ''));
+        const numB = parseFloat(cellB.replace(/[^0-9.-]/g, ''));
+
+        let comparison = 0;
+        if (!isNaN(numA) && !isNaN(numB) && cellA.startsWith(numA.toString()) && cellB.startsWith(numB.toString())) {
+            comparison = numA - numB;
+        } else {
+            comparison = cellA.localeCompare(cellB, undefined, { numeric: true, sensitivity: 'base' });
+        }
+
+        return currentSortDirection === 'asc' ? comparison : -comparison;
+    });
+
+    // Re-append sorted rows
+    rows.forEach(row => tbody.appendChild(row));
+}
+</script>
 {% endblock %}
