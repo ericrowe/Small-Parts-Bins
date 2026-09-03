@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Fastener Parts Catalog — Parts Database{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header & Search Controls -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-white tracking-tight">Fastener Parts Catalog</h1>
+            <p class="text-xs sm:text-sm text-slate-400 mt-1">Full-text searchable database with thread standards, pitch, tap drill charts, and hex key sizes.</p>
+        </div>
+        
+        <!-- Search & Filter Form -->
+        <form action="/parts" method="GET" class="flex flex-wrap items-center gap-2.5">
+            <input type="text" name="q" value="{{ current_query }}" placeholder="Filter parts..." class="px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 transition">
+            
+            <select name="category" onchange="this.form.submit()" class="px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs sm:text-sm text-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 transition">
+                <option value="">All Categories</option>
+                {% for cat in categories %}
+                <option value="{{ cat.id }}" {% if current_category == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+            
+            <button type="submit" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs sm:text-sm font-semibold transition">Search</button>
+            {% if current_query or current_category %}
+            <a href="/parts" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white text-xs sm:text-sm transition">Clear</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Parts Table -->
+    <div class="bg-slate-900 border border-slate-800 rounded-xl shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-slate-300">
+                <thead class="bg-slate-950/80 text-xs uppercase font-semibold text-slate-400 border-b border-slate-800">
+                    <tr>
+                        <th class="px-4 py-3.5">Part ID</th>
+                        <th class="px-4 py-3.5">Description</th>
+                        <th class="px-4 py-3.5">Category</th>
+                        <th class="px-4 py-3.5">Thread / Pitch</th>
+                        <th class="px-4 py-3.5">Tap Drill</th>
+                        <th class="px-4 py-3.5">Drive / Tool</th>
+                        <th class="px-4 py-3.5">Material</th>
+                        <th class="px-4 py-3.5 text-right">Bins</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/60">
+                    {% for part in parts %}
+                    <tr class="hover:bg-slate-800/40 transition">
+                        <td class="px-4 py-3 font-mono text-xs text-sky-400 font-semibold">{{ part.id }}</td>
+                        <td class="px-4 py-3 font-medium text-white">
+                            {{ part.name }}
+                            {% if part.extra_note %}
+                            <div class="text-xs text-slate-500">{{ part.extra_note }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-3">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold" style="background-color: {{ part.category.color_bg }}; color: {{ part.category.color_hex }};">
+                                {{ part.category.name }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 font-mono text-xs text-slate-300">{{ part.pitch or "Standard" }}</td>
+                        <td class="px-4 py-3 font-mono text-xs text-emerald-400 font-medium">{{ part.tap_drill or "N/A" }}</td>
+                        <td class="px-4 py-3 font-mono text-xs text-amber-300">{{ part.tool_key or "N/A" }}</td>
+                        <td class="px-4 py-3 text-xs text-slate-400">{{ part.material or "PETG / Steel" }}</td>
+                        <td class="px-4 py-3 text-right">
+                            {% for b in part.bins %}
+                            <a href="/b/{{ b.id }}" class="inline-block px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800 text-xs font-mono hover:bg-sky-900 transition">
+                                {{ b.quantity_on_hand }}x
+                            </a>
+                            {% else %}
+                            <span class="text-xs text-slate-600">Unassigned</span>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="px-4 py-8 text-center text-slate-500">
+                            No fastener parts found matching the filter query.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

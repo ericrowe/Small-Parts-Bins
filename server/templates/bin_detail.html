@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}{{ bin.part.name }} — Bin {{ bin.id }}{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto space-y-6">
+    <!-- Breadcrumb -->
+    <div class="flex items-center space-x-2 text-xs text-slate-400">
+        <a href="/" class="hover:text-white">Dashboard</a>
+        <span>/</span>
+        <a href="/parts" class="hover:text-white">Parts</a>
+        <span>/</span>
+        <span class="text-sky-400 font-mono">{{ bin.id }}</span>
+    </div>
+
+    <!-- Main Mobile-Optimized Bin Card -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
+        <!-- Top Category Accent Banner -->
+        <div class="px-6 py-4 flex items-center justify-between border-b border-slate-800" style="background-color: {{ bin.part.category.color_bg }};">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-white/90 shadow-sm" style="color: {{ bin.part.category.color_hex }};">
+                {{ bin.part.category.name }}
+            </span>
+            <span class="font-mono text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-900/80 text-white">
+                Slot #{{ bin.slot_index }}
+            </span>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-6">
+            <!-- Part Title & Dimensions -->
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">{{ bin.part.name }}</h1>
+                <div class="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                    <span class="px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700 text-slate-300 font-mono">Part ID: {{ bin.part_id }}</span>
+                    <span class="px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700 text-slate-300 font-mono">{{ bin.cassette_type }}</span>
+                </div>
+            </div>
+
+            <!-- Quick Specs Grid (Tap Drill & Wrench) -->
+            <div class="grid grid-cols-3 gap-3">
+                <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3 text-center">
+                    <div class="text-xs text-slate-500 font-semibold uppercase">Tool / Drive</div>
+                    <div class="mt-1 text-sm sm:text-base font-bold text-amber-300 font-mono">{{ bin.part.tool_key or "N/A" }}</div>
+                </div>
+                <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3 text-center">
+                    <div class="text-xs text-slate-500 font-semibold uppercase">Tap Drill</div>
+                    <div class="mt-1 text-sm sm:text-base font-bold text-emerald-400 font-mono">{{ bin.part.tap_drill or "N/A" }}</div>
+                </div>
+                <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3 text-center">
+                    <div class="text-xs text-slate-500 font-semibold uppercase">Pitch / Spec</div>
+                    <div class="mt-1 text-sm sm:text-base font-bold text-sky-400 font-mono">{{ bin.part.pitch or "Standard" }}</div>
+                </div>
+            </div>
+
+            <!-- Location Details -->
+            <div class="bg-slate-950/40 border border-slate-800/80 rounded-xl p-4 flex items-center justify-between text-xs">
+                <div>
+                    <span class="text-slate-500 font-semibold">Location:</span>
+                    <span class="ml-1.5 text-slate-200 font-medium">{{ bin.carrier.location.name if bin.carrier and bin.carrier.location else "Shop Floor" }}</span>
+                </div>
+                <div>
+                    <span class="text-slate-500 font-semibold">Carrier:</span>
+                    <span class="ml-1.5 font-mono text-sky-400 font-medium">{{ bin.carrier_id or "Unassigned" }}</span>
+                </div>
+            </div>
+
+            <!-- Interactive Stock Counter & Fast Adjuster -->
+            <div class="border-t border-slate-800 pt-6 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="text-xs uppercase font-bold tracking-wider text-slate-400">Current Stock Level</div>
+                        <div class="text-xs text-slate-500 mt-0.5">Reorder Threshold: {{ bin.reorder_threshold }} units</div>
+                    </div>
+                    <div id="stock-display" class="text-4xl font-black text-emerald-400 font-mono">
+                        {{ bin.quantity_on_hand }}
+                    </div>
+                </div>
+
+                <!-- One-Tap Increment / Decrement Buttons -->
+                <div class="grid grid-cols-4 gap-2.5 pt-2">
+                    <button onclick="adjustQuantity(-10)" class="py-3 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold text-sm border border-slate-700 transition">-10</button>
+                    <button onclick="adjustQuantity(-1)" class="py-3 rounded-xl bg-rose-950/60 hover:bg-rose-900/60 active:scale-95 text-rose-300 font-bold text-base border border-rose-800/60 transition">-1</button>
+                    <button onclick="adjustQuantity(1)" class="py-3 rounded-xl bg-emerald-950/60 hover:bg-emerald-900/60 active:scale-95 text-emerald-300 font-bold text-base border border-emerald-800/60 transition">+1</button>
+                    <button onclick="adjustQuantity(10)" class="py-3 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold text-sm border border-slate-700 transition">+10</button>
+                </div>
+
+                <div id="status-toast" class="hidden text-center text-xs font-semibold py-1.5 px-3 rounded-lg bg-emerald-950 text-emerald-400 border border-emerald-800">
+                    Stock updated successfully!
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function adjustQuantity(delta) {
+    try {
+        const res = await fetch('/api/bins/{{ bin.id }}/quantity', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ delta: delta })
+        });
+        if (res.ok) {
+            const data = await res.json();
+            document.getElementById('stock-display').innerText = data.quantity_on_hand;
+            const toast = document.getElementById('status-toast');
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2000);
+        } else {
+            alert('Failed to update stock quantity');
+        }
+    } catch (e) {
+        console.error(e);
+        alert('Network error communicating with catalog server');
+    }
+}
+</script>
+{% endblock %}

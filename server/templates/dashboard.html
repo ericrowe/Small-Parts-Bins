@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Workshop Fastener Dashboard — Parts Database{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Top Hero / Overview Banner -->
+    <div class="bg-gradient-to-r from-sky-950/50 via-slate-900 to-indigo-950/50 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
+        <div class="relative z-10 max-w-3xl">
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Workshop Parts & Bin Catalog</h1>
+            <p class="mt-2 text-sm sm:text-base text-slate-300">
+                Precision hardware inventory linked directly to 3D-printed Gridfinity modular cassettes with optical QR codes, thread specifications, and tap drill charts.
+            </p>
+            
+            <!-- Quick Search Bar -->
+            <form action="/parts" method="GET" class="mt-5 flex items-center max-w-lg">
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        🔍
+                    </div>
+                    <input type="text" name="q" placeholder="Search fastener (e.g. M3, 1/4-20, Heat-Set, Nyloc)..." class="block w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition">
+                </div>
+                <button type="submit" class="ml-2.5 px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold shadow-lg shadow-sky-900/30 transition">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Metric Stat Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+            <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Cataloged Parts</div>
+            <div class="mt-2 text-3xl font-extrabold text-white">{{ total_parts }}</div>
+            <div class="mt-1 text-xs text-slate-500">Fastener sizes & specs</div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+            <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Physical Bins</div>
+            <div class="mt-2 text-3xl font-extrabold text-sky-400">{{ total_bins }}</div>
+            <div class="mt-1 text-xs text-slate-500">Modular slide cassettes</div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+            <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Fasteners</div>
+            <div class="mt-2 text-3xl font-extrabold text-emerald-400">{{ total_stock }}</div>
+            <div class="mt-1 text-xs text-slate-500">Units on hand in shop</div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+            <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Low Stock Alerts</div>
+            <div class="mt-2 text-3xl font-extrabold {% if low_stock > 0 %}text-amber-400{% else %}text-slate-400{% endif %}">{{ low_stock }}</div>
+            <div class="mt-1 text-xs text-slate-500">Bins below threshold</div>
+        </div>
+    </div>
+
+    <!-- Hardware Taxonomy & Categories -->
+    <div class="space-y-4">
+        <div class="flex items-center justify-between">
+            <h2 class="text-lg font-bold text-white tracking-tight">Hardware Categories & Color Codes</h2>
+            <a href="/parts" class="text-xs font-semibold text-sky-400 hover:text-sky-300">View All Parts →</a>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {% for cat in categories %}
+            <a href="/parts?category={{ cat.id }}" class="group bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-4 transition duration-150 shadow-sm block relative overflow-hidden">
+                <div class="flex items-center space-x-3">
+                    <span class="w-4 h-4 rounded-full shadow" style="background-color: {{ cat.color_hex }};"></span>
+                    <div>
+                        <h3 class="text-sm font-semibold text-white group-hover:text-sky-400 transition">{{ cat.name }}</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">{{ cat.filament or "PETG" }}</p>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Recently Updated Bins Table -->
+    <div class="bg-slate-900 border border-slate-800 rounded-xl shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+            <h2 class="text-base font-bold text-white">Active Fastener Bins (Sample Drawer 01)</h2>
+            <span class="text-xs text-slate-500">Click any bin to inspect QR landing page</span>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-slate-300">
+                <thead class="bg-slate-950/60 text-xs uppercase font-semibold text-slate-400 border-b border-slate-800">
+                    <tr>
+                        <th class="px-5 py-3.5">Bin UUID / QR</th>
+                        <th class="px-5 py-3.5">Fastener Part</th>
+                        <th class="px-5 py-3.5">Category</th>
+                        <th class="px-5 py-3.5">Stock Level</th>
+                        <th class="px-5 py-3.5 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/60">
+                    {% for bin in recent_bins %}
+                    <tr class="hover:bg-slate-800/40 transition">
+                        <td class="px-5 py-3.5 font-mono text-xs text-sky-400">
+                            <a href="/b/{{ bin.id }}" class="hover:underline flex items-center space-x-1">
+                                <span>🏷️</span>
+                                <span>{{ bin.id }}</span>
+                            </a>
+                        </td>
+                        <td class="px-5 py-3.5 font-medium text-white">
+                            {{ bin.part.name }}
+                            <div class="text-xs text-slate-500 font-mono mt-0.5">Tool: {{ bin.part.tool_key or "N/A" }} · Tap: {{ bin.part.tap_drill or "N/A" }}</div>
+                        </td>
+                        <td class="px-5 py-3.5">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold" style="background-color: {{ bin.part.category.color_bg }}; color: {{ bin.part.category.color_hex }};">
+                                {{ bin.part.category.name }}
+                            </span>
+                        </td>
+                        <td class="px-5 py-3.5 font-semibold text-slate-200">
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700">{{ bin.quantity_on_hand }} units</span>
+                        </td>
+                        <td class="px-5 py-3.5 text-right">
+                            <a href="/b/{{ bin.id }}" class="px-3 py-1.5 rounded-lg bg-sky-600/20 hover:bg-sky-600/30 text-sky-400 text-xs font-semibold border border-sky-500/30 transition">
+                                Inspect QR →
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

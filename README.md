@@ -150,8 +150,32 @@ New ideas belong in [`docs/plans/IDEAS.md`](docs/plans/IDEAS.md).
   - `server/app/` — FastAPI application and catalog routes.
   - `server/database/` — SQLite parts/bins schema and models.
   - `server/static/` & `server/templates/` — responsive web UI and HTML5 camera QR barcode scanner.
+  - `server/scripts/` — automated SQLite atomic `VACUUM INTO` backup script ([`server/scripts/backup_parts.sh`](server/scripts/backup_parts.sh)) and turnkey bare-metal node provisioner ([`server/scripts/bootstrap_node.sh`](server/scripts/bootstrap_node.sh)).
+  - `server/docs/` — disaster recovery runbook ([`server/docs/BACKUP_AND_RECOVERY.md`](server/docs/BACKUP_AND_RECOVERY.md)).
   - `server/tests/` — hermetic test suite.
 - [`docs/plans/`](docs/plans/) — centralized multi-prefix plan lifecycle, master registry ([`docs/plans/AGENTS.md`](docs/plans/AGENTS.md)), and backlog ([`docs/plans/IDEAS.md`](docs/plans/IDEAS.md)).
+
+## Web Catalog Server & Inventory Microservice
+
+The server provides a responsive web UI and REST API for searching hardware specifications, reviewing tap drills, and managing bin inventory:
+
+1. **Setup & Start Server:**
+   ```bash
+   cd server
+   ./run.sh  # Starts on http://0.0.0.0:8090
+   ```
+2. **Access Points:**
+   - **Dashboard:** [http://localhost:8090/](http://localhost:8090/) — Overview metrics, category distribution, and quick search.
+   - **Fastener Catalog:** [http://localhost:8090/parts](http://localhost:8090/parts) — Full-text searchable database with thread pitches and tap drills.
+   - **Bin QR Landing:** [http://localhost:8090/b/{bin_id}](http://localhost:8090/b/BIN-M3-12mm-SHCS) — Mobile-friendly QR scan page with one-tap stock adjustments.
+   - **REST API Docs:** [http://localhost:8090/docs](http://localhost:8090/docs) — Interactive OpenAPI Swagger UI.
+
+## Automated Backup & Turnkey Disaster Recovery
+
+- **Atomic SQLite Snapshots (`VACUUM INTO`)**: Daily zero-downtime snapshots captured via [`server/scripts/backup_parts.sh`](server/scripts/backup_parts.sh).
+- **Encrypted Node 04 Storage**: Shipped encrypted via `restic` over SFTP to Node 04 (`pi-backup.local:/srv/backups/restic/parts-database/`).
+- **Retention**: 14 daily, 8 weekly, 12 monthly snapshots.
+- **Turnkey Provisioning**: Fresh nodes provisioned from bare-metal in under 5 minutes via [`server/scripts/bootstrap_node.sh`](server/scripts/bootstrap_node.sh). See [`server/docs/BACKUP_AND_RECOVERY.md`](server/docs/BACKUP_AND_RECOVERY.md).
 
 ## Working rules
 

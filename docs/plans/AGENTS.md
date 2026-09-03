@@ -38,9 +38,9 @@ Every plan MUST include all 7 mandatory sections:
 - *(No active hardware plans)*
 
 ### Server Subsystem Plans (`SNN`):
-- *(No active server plans)*
+- **`S01`**: FastAPI Web Catalog Server & SQLite Parts Database ([`docs/plans/S01_fastapi_web_catalog_server_and_sqlite_database_plan.md`](S01_fastapi_web_catalog_server_and_sqlite_database_plan.md)) (`IN_PLANNING`)
 
 ---
 
 ## 4. Prioritized Active Execution Queue
-*(Queue currently clear — ready for backlog triage from [`docs/plans/IDEAS.md`](IDEAS.md))*
+1. **`S01`**: **FastAPI Web Catalog Server & SQLite Parts Database** ([`docs/plans/S01_fastapi_web_catalog_server_and_sqlite_database_plan.md`](S01_fastapi_web_catalog_server_and_sqlite_database_plan.md))
