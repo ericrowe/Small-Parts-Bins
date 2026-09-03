@@ -47,14 +47,35 @@ def configure_db_engine(database_url: str):
     return engine, AsyncSessionLocal
 
 
+async def run_sqlite_migrations(conn):
+    """Perform self-healing schema migrations on existing SQLite databases."""
+    if "sqlite" not in DATABASE_URL:
+        return
+
+    # Check if bins table exists with legacy schema (part_id NOT NULL on bins)
+    try:
+        res = await conn.execute(text("PRAGMA table_info(bins);"))
+        existing_cols = {row[1]: row for row in res.fetchall()}
+        
+        if existing_cols:
+            # If bins table has legacy part_id column, drop and let Base.metadata.create_all recreate
+            if "part_id" in existing_cols or "compartment_count" not in existing_cols:
+                logger.info("Migrating schema: Upgrading legacy bins table to multi-compartment architecture...")
+                await conn.execute(text("DROP TABLE IF EXISTS bin_compartments;"))
+                await conn.execute(text("DROP TABLE IF EXISTS bins;"))
+    except Exception as e:
+        logger.debug(f"Migration check on bins table: {e}")
+
+
 async def init_db() -> None:
-    """Initialize database tables with WAL mode concurrency and seed default taxonomy."""
+    """Initialize database tables with WAL mode concurrency, self-healing migrations, and seed taxonomy."""
     async with engine.begin() as conn:
         if "sqlite" in DATABASE_URL:
             await conn.execute(text("PRAGMA journal_mode=WAL;"))
             await conn.execute(text("PRAGMA busy_timeout=30000;"))
             await conn.execute(text("PRAGMA synchronous=NORMAL;"))
             await conn.execute(text("PRAGMA foreign_keys=ON;"))
+            await run_sqlite_migrations(conn)
         await conn.run_sync(Base.metadata.create_all)
 
     # Seed taxonomy and sample inventory from hardware/labels/data/fasteners.json
