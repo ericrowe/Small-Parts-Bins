@@ -33,7 +33,7 @@ Every plan MUST include all 7 mandatory sections:
 
 ### Master Cross-Subsystem Plans (`MNN`):
 - **`M01`**: Repository Categorization, Subsystem Restructuring & Web Catalog Server Staging ([`docs/plans/complete/2026-09-02-M01_repository_categorization_and_server_staging_plan.md`](complete/2026-09-02-M01_repository_categorization_and_server_staging_plan.md)) (`ARCHIVED`)
-- **`M02`**: Cross-Subsystem QR Code Linking & Dynamic Bin-to-Part Compartment Management ([`docs/plans/M02_qr_code_linking_and_bin_compartment_management_plan.md`](M02_qr_code_linking_and_bin_compartment_management_plan.md)) (`IN_PLANNING`)
+- **`M02`**: Cross-Subsystem URL Linkages & Dynamic 1/2/3-Compartment Bin Management ([`docs/plans/complete/2026-09-02-M02_qr_code_linking_and_bin_compartment_management_plan.md`](complete/2026-09-02-M02_qr_code_linking_and_bin_compartment_management_plan.md)) (`ARCHIVED`)
 
 ### Hardware Subsystem Plans (`HNN`):
 - *(No active hardware plans)*
@@ -44,4 +44,4 @@ Every plan MUST include all 7 mandatory sections:
 ---
 
 ## 4. Prioritized Active Execution Queue
-1. **`M02`**: **Cross-Subsystem QR Code Linking & Dynamic Bin-to-Part Compartment Management** ([`docs/plans/M02_qr_code_linking_and_bin_compartment_management_plan.md`](M02_qr_code_linking_and_bin_compartment_management_plan.md))
+*(Queue currently clear — ready for backlog triage from [`docs/plans/IDEAS.md`](IDEAS.md))*
