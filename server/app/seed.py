@@ -215,6 +215,7 @@ async def seed_database_from_json():
                     cassette_type = "divided_3"
                     label_title = f"Bin #{bin_num:03d} (3-Way Divided)"
 
+                base_url = os.environ.get("BASE_URL", "http://tasker-pi.local:8090").rstrip("/")
                 bin_record = BinRecord(
                     id=bin_id,
                     carrier_id=carrier_id,
@@ -222,7 +223,7 @@ async def seed_database_from_json():
                     compartment_count=comp_count,
                     cassette_type=cassette_type,
                     label_title=label_title,
-                    qr_code_payload=f"https://parts.local/b/{bin_id}",
+                    qr_code_payload=f"{base_url}/b/{bin_id}",
                     updated_at=datetime.now(timezone.utc),
                 )
                 session.add(bin_record)
