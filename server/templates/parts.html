@@ -88,9 +88,16 @@
                 <tbody class="divide-y divide-slate-800/60">
                     {% for part in parts %}
                     <tr class="hover:bg-slate-800/40 transition">
-                        <td class="px-4 py-3 font-mono text-xs text-sky-400 font-semibold">{{ part.id }}</td>
+                        <td class="px-4 py-3 font-mono text-xs text-sky-400 font-semibold">
+                            <a href="/p/{{ part.id }}" class="hover:underline flex items-center space-x-1">
+                                <span>🔩</span>
+                                <span>{{ part.id }}</span>
+                            </a>
+                        </td>
                         <td class="px-4 py-3 font-medium text-white">
-                            {{ part.name }}
+                            <a href="/p/{{ part.id }}" class="hover:text-sky-400 transition block">
+                                {{ part.name }}
+                            </a>
                             {% if part.extra_note %}
                             <div class="text-xs text-slate-500">{{ part.extra_note }}</div>
                             {% endif %}
@@ -105,13 +112,15 @@
                         <td class="px-4 py-3 font-mono text-xs text-amber-300">{{ part.tool_key or "N/A" }}</td>
                         <td class="px-4 py-3 text-xs text-slate-400">{{ part.material or "PETG / Steel" }}</td>
                         <td class="px-4 py-3 text-right">
-                            {% for b in part.bins %}
-                            <a href="/b/{{ b.id }}" class="inline-block px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800 text-xs font-mono hover:bg-sky-900 transition">
-                                {{ b.quantity_on_hand }}x
-                            </a>
-                            {% else %}
-                            <span class="text-xs text-slate-600">Unassigned</span>
-                            {% endfor %}
+                            <div class="flex flex-wrap items-center justify-end gap-1">
+                                {% for comp in part.compartments %}
+                                <a href="/b/{{ comp.bin_id }}" title="Bin {{ comp.bin_id }} Slot #{{ comp.compartment_index }}" class="inline-block px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800 text-xs font-mono hover:bg-sky-900 transition">
+                                    {{ comp.bin_id }} ({{ comp.quantity_on_hand }}x)
+                                </a>
+                                {% else %}
+                                <span class="text-xs text-slate-600">Unassigned</span>
+                                {% endfor %}
+                            </div>
                         </td>
                     </tr>
                     {% else %}

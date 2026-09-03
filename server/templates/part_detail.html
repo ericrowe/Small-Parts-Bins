@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}{{ part.name }} — Fastener Specs{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto space-y-6">
+    <!-- Breadcrumb -->
+    <div class="flex items-center space-x-2 text-xs text-slate-400">
+        <a href="/" class="hover:text-white">Dashboard</a>
+        <span>/</span>
+        <a href="/parts" class="hover:text-white">Fastener Catalog</a>
+        <span>/</span>
+        <span class="text-sky-400 font-mono">{{ part.id }}</span>
+    </div>
+
+    <!-- Main Fastener Spec Card -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
+        <!-- Accent Banner -->
+        <div class="px-6 py-4 flex items-center justify-between border-b border-slate-800" style="background-color: {{ part.category.color_bg }};">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-white/90 shadow-sm" style="color: {{ part.category.color_hex }};">
+                {{ part.category.name }}
+            </span>
+            <span class="font-mono text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-900/80 text-white">
+                Part ID: {{ part.id }}
+            </span>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-6">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">{{ part.name }}</h1>
+                {% if part.extra_note %}
+                <p class="text-xs sm:text-sm text-slate-400 mt-1">{{ part.extra_note }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Technical Specifications Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 text-center">
+                    <div class="text-[11px] text-slate-500 font-semibold uppercase">Tool / Drive</div>
+                    <div class="mt-1 text-sm sm:text-base font-bold text-amber-300 font-mono">{{ part.tool_key or "N/A" }}</div>
+                </div>
+                <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 text-center">
+                    <div class="text-[11px] text-slate-500 font-semibold uppercase">Tap Drill</div>
+                    <div class="mt-1 text-sm sm:text-base font-bold text-emerald-400 font-mono">{{ part.tap_drill or "N/A" }}</div>
+                </div>
+                <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 text-center">
+                    <div class="text-[11px] text-slate-500 font-semibold uppercase">Clearance Drill</div>
+                    <div class="mt-1 text-sm sm:text-base font-bold text-sky-400 font-mono">{{ part.clearance_drill or "N/A" }}</div>
+                </div>
+                <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 text-center">
+                    <div class="text-[11px] text-slate-500 font-semibold uppercase">Thread Pitch</div>
+                    <div class="mt-1 text-sm sm:text-base font-bold text-slate-200 font-mono">{{ part.pitch or "Standard" }}</div>
+                </div>
+            </div>
+
+            <!-- Material & Properties -->
+            <div class="bg-slate-950/40 border border-slate-800/80 rounded-xl p-4 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div>
+                    <span class="text-slate-500 font-semibold">Material:</span>
+                    <span class="ml-1.5 text-slate-200 font-medium">{{ part.material or "PETG / Stainless Steel" }}</span>
+                </div>
+                <div>
+                    <span class="text-slate-500 font-semibold">Drive Style:</span>
+                    <span class="ml-1.5 text-slate-200 font-medium capitalize">{{ part.drive }} ({{ part.head }} head)</span>
+                </div>
+            </div>
+
+            <!-- Workshop Locations & Bins -->
+            <div class="border-t border-slate-800 pt-6 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-white">Physical Storage Bins & Compartments</h2>
+                    <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-950 border border-emerald-800 text-emerald-400 font-mono">
+                        Total Stock: {{ total_stock }} units
+                    </span>
+                </div>
+
+                <div class="space-y-3">
+                    {% for comp in part.compartments %}
+                    <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <a href="/b/{{ comp.bin_id }}" class="text-sky-400 font-mono font-bold hover:underline flex items-center space-x-1.5">
+                                <span>🏷️</span>
+                                <span>{{ comp.bin_id }}</span>
+                                <span class="text-slate-400 text-xs font-normal">(Slot #{{ comp.compartment_index }} of {{ comp.bin.cassette_type }})</span>
+                            </a>
+                            <div class="text-xs text-slate-500 mt-1">
+                                Location: {{ comp.bin.carrier.location.name if comp.bin.carrier and comp.bin.carrier.location else "Shop Floor" }} · Carrier: {{ comp.bin.carrier_id }}
+                            </div>
+                        </div>
+
+                        <!-- Stock Level & Fast Adjuster -->
+                        <div class="flex items-center space-x-3">
+                            <div id="stock-{{ comp.id }}" class="text-xl font-bold font-mono text-emerald-400 min-w-[3rem] text-right">
+                                {{ comp.quantity_on_hand }}x
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <button onclick="adjustCompartment('{{ comp.id }}', -5)" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 text-xs font-bold rounded-lg transition">-5</button>
+                                <button onclick="adjustCompartment('{{ comp.id }}', -1)" class="px-2 py-1 bg-rose-950 hover:bg-rose-900 active:scale-95 text-rose-300 text-xs font-bold rounded-lg border border-rose-800 transition">-1</button>
+                                <button onclick="adjustCompartment('{{ comp.id }}', 1)" class="px-2 py-1 bg-emerald-950 hover:bg-emerald-900 active:scale-95 text-emerald-300 text-xs font-bold rounded-lg border border-emerald-800 transition">+1</button>
+                                <button onclick="adjustCompartment('{{ comp.id }}', 5)" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 text-xs font-bold rounded-lg transition">+5</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="bg-slate-950/40 border border-slate-800 rounded-xl p-6 text-center text-slate-500 text-sm">
+                        This fastener is not currently assigned to any physical cassette bins.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function adjustCompartment(compId, delta) {
+    try {
+        const res = await fetch(`/api/compartments/${compId}/quantity`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ delta: delta })
+        });
+        if (res.ok) {
+            const data = await res.json();
+            const el = document.getElementById(`stock-${compId}`);
+            if (el) {
+                el.innerText = `${data.quantity_on_hand}x`;
+            }
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+</script>
+{% endblock %}

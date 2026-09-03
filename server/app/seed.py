@@ -3,7 +3,7 @@ import json
 import logging
 from datetime import datetime, timezone
 from sqlalchemy import select
-from server.app.models import CategoryRecord, PartRecord, StorageLocationRecord, CarrierRecord, BinRecord
+from server.app.models import CategoryRecord, PartRecord, StorageLocationRecord, CarrierRecord, BinRecord, BinCompartmentRecord
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +22,7 @@ def find_fasteners_json() -> str:
 
 
 async def seed_database_from_json():
-    """Ingest taxonomy and hardware specifications from fasteners.json into SQLite ledger."""
+    """Ingest taxonomy, parts, and numbered 1/2/3-compartment physical bins into SQLite ledger."""
     from server.app.database import AsyncSessionLocal
 
     json_path = find_fasteners_json()
@@ -38,7 +38,6 @@ async def seed_database_from_json():
         return
 
     async with AsyncSessionLocal() as session:
-        # Check if categories already exist
         res = await session.execute(select(CategoryRecord))
         if res.scalars().first() is not None:
             logger.debug("Database already seeded. Skipping taxonomy ingestion.")
@@ -62,7 +61,7 @@ async def seed_database_from_json():
             )
             session.add(category)
 
-        # 2. Ingest Storage Location & Default Carriers
+        # 2. Ingest Storage Location & Carriers
         loc = StorageLocationRecord(
             id="DRAWER-01",
             name="Modular Fastener Drawer 01 (Gridfinity 14U Stack)",
@@ -91,8 +90,9 @@ async def seed_database_from_json():
         )
         session.add(carrier_upper)
 
-        # 3. Ingest Metric Threads
-        slot_idx = 1
+        all_created_part_ids = []
+
+        # 3. Ingest Metric Fastener Parts
         metric_threads = threads_dict.get("metric", [])
         for thread in metric_threads:
             sz = thread.get("size", "")
@@ -123,23 +123,9 @@ async def seed_database_from_json():
                     extra_note="DIN 912 / ISO 4762 Standard",
                 )
                 session.add(part)
+                all_created_part_ids.append(part_id)
 
-                bin_id = f"BIN-{part_id}"
-                bin_record = BinRecord(
-                    id=bin_id,
-                    part_id=part_id,
-                    carrier_id="CARRIER-TRAY-L01" if slot_idx <= 6 else "CARRIER-TRAY-U01",
-                    slot_index=slot_idx,
-                    quantity_on_hand=50,
-                    reorder_threshold=15,
-                    cassette_type="40x80_standard",
-                    qr_code_payload=f"https://parts.local/b/{bin_id}",
-                    updated_at=datetime.now(timezone.utc),
-                )
-                session.add(bin_record)
-                slot_idx += 1
-
-        # 4. Ingest Imperial Threads
+        # 4. Ingest Imperial Fastener Parts
         imperial_threads = threads_dict.get("imperial", [])
         for thread in imperial_threads:
             sz = thread.get("size", "")
@@ -172,23 +158,9 @@ async def seed_database_from_json():
                     extra_note="ASME B18.3 Standard",
                 )
                 session.add(part)
+                all_created_part_ids.append(part_id)
 
-                bin_id = f"BIN-{part_id}"
-                bin_record = BinRecord(
-                    id=bin_id,
-                    part_id=part_id,
-                    carrier_id="CARRIER-TRAY-U01",
-                    slot_index=slot_idx,
-                    quantity_on_hand=40,
-                    reorder_threshold=10,
-                    cassette_type="40x80_standard",
-                    qr_code_payload=f"https://parts.local/b/{bin_id}",
-                    updated_at=datetime.now(timezone.utc),
-                )
-                session.add(bin_record)
-                slot_idx += 1
-
-        # 5. Ingest Sample Heat-Set Inserts
+        # 5. Ingest Heat-Set Inserts
         for sz, depth, hole in [("M2", "4.0 mm", "3.2 mm"), ("M2.5", "5.0 mm", "3.6 mm"), ("M3", "4.0 mm (Short)", "4.0 mm"), ("M3", "5.7 mm (Standard)", "4.0 mm"), ("M4", "8.0 mm", "5.6 mm"), ("M5", "9.5 mm", "7.1 mm")]:
             clean_sz = sz.replace(" ", "")
             clean_dp = depth.split()[0].replace(".", "_")
@@ -212,21 +184,61 @@ async def seed_database_from_json():
                 extra_note=f"Recommended Hole Ø: {hole}",
             )
             session.add(part)
+            all_created_part_ids.append(part_id)
 
-            bin_id = f"BIN-{part_id}"
+        # 6. Instantiate Numbered Physical Bins (BIN-001 through BIN-024)
+        # Mix of 1-compartment (single), 2-compartment (divided_2), and 3-compartment (divided_3)
+        part_ptr = 0
+        total_parts = len(all_created_part_ids)
+
+        for bin_num in range(1, 25):
+            bin_id = f"BIN-{bin_num:03d}"
+            carrier_id = "CARRIER-TRAY-L01" if bin_num <= 12 else "CARRIER-TRAY-U01"
+            slot_idx = ((bin_num - 1) % 12) + 1
+
+            # Determine cassette compartment count (1, 2, or 3)
+            if bin_num % 3 == 1:
+                comp_count = 1
+                cassette_type = "single"
+                label_title = f"Bin #{bin_num:03d} (Single 40x80)"
+            elif bin_num % 3 == 2:
+                comp_count = 2
+                cassette_type = "divided_2"
+                label_title = f"Bin #{bin_num:03d} (2-Way Divided)"
+            else:
+                comp_count = 3
+                cassette_type = "divided_3"
+                label_title = f"Bin #{bin_num:03d} (3-Way Divided)"
+
             bin_record = BinRecord(
                 id=bin_id,
-                part_id=part_id,
-                carrier_id="CARRIER-TRAY-U01",
+                carrier_id=carrier_id,
                 slot_index=slot_idx,
-                quantity_on_hand=100,
-                reorder_threshold=25,
-                cassette_type="40x80_divided",
+                compartment_count=comp_count,
+                cassette_type=cassette_type,
+                label_title=label_title,
                 qr_code_payload=f"https://parts.local/b/{bin_id}",
                 updated_at=datetime.now(timezone.utc),
             )
             session.add(bin_record)
-            slot_idx += 1
+
+            # Create 1, 2, or 3 compartments for this physical bin
+            for c_idx in range(1, comp_count + 1):
+                assigned_part = all_created_part_ids[part_ptr % total_parts] if total_parts > 0 else None
+                part_ptr += 1
+
+                comp_id = f"{bin_id}-C{c_idx}"
+                comp_record = BinCompartmentRecord(
+                    id=comp_id,
+                    bin_id=bin_id,
+                    compartment_index=c_idx,
+                    part_id=assigned_part,
+                    quantity_on_hand=50 if comp_count == 1 else (30 if comp_count == 2 else 20),
+                    reorder_threshold=15,
+                    notes=f"Compartment {c_idx} of {comp_count}",
+                    updated_at=datetime.now(timezone.utc),
+                )
+                session.add(comp_record)
 
         await session.commit()
-        logger.info(f"Database successfully seeded with {slot_idx - 1} fastener parts and bins.")
+        logger.info(f"Database seeded with {len(all_created_part_ids)} parts and 24 physical bins (1, 2, and 3 compartments).")

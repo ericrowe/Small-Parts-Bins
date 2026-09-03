@@ -81,37 +81,46 @@
             <table class="w-full text-left text-sm text-slate-300">
                 <thead class="bg-slate-950/60 text-xs uppercase font-semibold text-slate-400 border-b border-slate-800">
                     <tr>
-                        <th class="px-5 py-3.5">Bin UUID / QR</th>
-                        <th class="px-5 py-3.5">Fastener Part</th>
-                        <th class="px-5 py-3.5">Category</th>
-                        <th class="px-5 py-3.5">Stock Level</th>
+                        <th class="px-5 py-3.5">Bin Number / Type</th>
+                        <th class="px-5 py-3.5">Compartments & Parts</th>
+                        <th class="px-5 py-3.5">Carrier Location</th>
                         <th class="px-5 py-3.5 text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-800/60">
                     {% for bin in recent_bins %}
                     <tr class="hover:bg-slate-800/40 transition">
-                        <td class="px-5 py-3.5 font-mono text-xs text-sky-400">
-                            <a href="/b/{{ bin.id }}" class="hover:underline flex items-center space-x-1">
+                        <td class="px-5 py-3.5 font-mono text-xs">
+                            <a href="/b/{{ bin.id }}" class="text-sky-400 font-bold hover:underline flex items-center space-x-1.5">
                                 <span>🏷️</span>
                                 <span>{{ bin.id }}</span>
                             </a>
-                        </td>
-                        <td class="px-5 py-3.5 font-medium text-white">
-                            {{ bin.part.name }}
-                            <div class="text-xs text-slate-500 font-mono mt-0.5">Tool: {{ bin.part.tool_key or "N/A" }} · Tap: {{ bin.part.tap_drill or "N/A" }}</div>
+                            <span class="text-[11px] text-slate-500 font-sans block mt-0.5">{{ bin.compartment_count }}-way ({{ bin.cassette_type }})</span>
                         </td>
                         <td class="px-5 py-3.5">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold" style="background-color: {{ bin.part.category.color_bg }}; color: {{ bin.part.category.color_hex }};">
-                                {{ bin.part.category.name }}
-                            </span>
+                            <div class="flex flex-wrap items-center gap-1.5">
+                                {% for comp in bin.compartments %}
+                                {% if comp.part %}
+                                <a href="/p/{{ comp.part.id }}" class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium border border-slate-700 bg-slate-800 hover:border-sky-500 transition">
+                                    <span class="w-2 h-2 rounded-full mr-1.5" style="background-color: {{ comp.part.category.color_hex }};"></span>
+                                    <span class="text-slate-200">{{ comp.part.name }}</span>
+                                    <span class="ml-1.5 font-mono text-sky-400 font-bold">({{ comp.quantity_on_hand }}x)</span>
+                                </a>
+                                {% else %}
+                                <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-slate-900 text-slate-600 border border-slate-800">
+                                    Slot {{ comp.compartment_index }}: Empty
+                                </span>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
                         </td>
-                        <td class="px-5 py-3.5 font-semibold text-slate-200">
-                            <span class="px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700">{{ bin.quantity_on_hand }} units</span>
+                        <td class="px-5 py-3.5 text-xs text-slate-400">
+                            {{ bin.carrier.location.name if bin.carrier and bin.carrier.location else "Shop Floor" }}
+                            <span class="block font-mono text-slate-500">{{ bin.carrier_id }} · Slot #{{ bin.slot_index }}</span>
                         </td>
                         <td class="px-5 py-3.5 text-right">
-                            <a href="/b/{{ bin.id }}" class="px-3 py-1.5 rounded-lg bg-sky-600/20 hover:bg-sky-600/30 text-sky-400 text-xs font-semibold border border-sky-500/30 transition">
-                                Inspect QR →
+                            <a href="/b/{{ bin.id }}" class="px-3 py-1.5 rounded-lg bg-sky-600/20 hover:bg-sky-600/30 text-sky-400 text-xs font-semibold border border-sky-500/30 transition whitespace-nowrap">
+                                Manage Bin →
                             </a>
                         </td>
                     </tr>

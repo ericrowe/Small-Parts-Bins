@@ -8,7 +8,7 @@ from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from server.app.database import get_db
-from server.app.models import CategoryRecord, PartRecord, BinRecord, CarrierRecord, StorageLocationRecord
+from server.app.models import CategoryRecord, PartRecord, BinRecord, BinCompartmentRecord, CarrierRecord, StorageLocationRecord
 
 router = APIRouter(include_in_schema=False)
 
@@ -21,8 +21,8 @@ async def dashboard_view(request: Request, db: AsyncSession = Depends(get_db)):
     """Render main workshop dashboard with inventory stats, category pills, and quick search."""
     total_parts = (await db.execute(select(func.count(PartRecord.id)))).scalar() or 0
     total_bins = (await db.execute(select(func.count(BinRecord.id)))).scalar() or 0
-    total_stock = (await db.execute(select(func.sum(BinRecord.quantity_on_hand)))).scalar() or 0
-    low_stock = (await db.execute(select(func.count(BinRecord.id)).where(BinRecord.quantity_on_hand <= BinRecord.reorder_threshold))).scalar() or 0
+    total_stock = (await db.execute(select(func.sum(BinCompartmentRecord.quantity_on_hand)))).scalar() or 0
+    low_stock = (await db.execute(select(func.count(BinCompartmentRecord.id)).where(BinCompartmentRecord.quantity_on_hand <= BinCompartmentRecord.reorder_threshold))).scalar() or 0
 
     cats_res = await db.execute(select(CategoryRecord).order_by(CategoryRecord.id))
     categories = cats_res.scalars().all()
@@ -30,11 +30,11 @@ async def dashboard_view(request: Request, db: AsyncSession = Depends(get_db)):
     recent_bins_res = await db.execute(
         select(BinRecord)
         .options(
-            selectinload(BinRecord.part).selectinload(PartRecord.category),
             selectinload(BinRecord.carrier).selectinload(CarrierRecord.location),
+            selectinload(BinRecord.compartments).selectinload(BinCompartmentRecord.part).selectinload(PartRecord.category),
         )
-        .order_by(BinRecord.updated_at.desc())
-        .limit(10)
+        .order_by(BinRecord.id)
+        .limit(12)
     )
     recent_bins = recent_bins_res.scalars().all()
 
@@ -60,7 +60,11 @@ async def parts_catalog_view(
     db: AsyncSession = Depends(get_db),
 ):
     """Render searchable fastener parts catalog table with thread details and tap drills."""
-    stmt = select(PartRecord).options(selectinload(PartRecord.category), selectinload(PartRecord.bins)).order_by(PartRecord.size, PartRecord.length)
+    stmt = select(PartRecord).options(
+        selectinload(PartRecord.category),
+        selectinload(PartRecord.compartments).selectinload(BinCompartmentRecord.bin),
+    ).order_by(PartRecord.size, PartRecord.length)
+    
     if category:
         stmt = stmt.where(PartRecord.category_id == category)
     if q:
@@ -93,22 +97,48 @@ async def parts_catalog_view(
     )
 
 
+@router.get("/p/{part_id}", response_class=HTMLResponse)
+async def part_detail_view(request: Request, part_id: str, db: AsyncSession = Depends(get_db)):
+    """Render mobile-optimized technical specifications page for a single fastener part."""
+    stmt = select(PartRecord).options(
+        selectinload(PartRecord.category),
+        selectinload(PartRecord.compartments).selectinload(BinCompartmentRecord.bin).selectinload(BinRecord.carrier).selectinload(CarrierRecord.location),
+    ).where(PartRecord.id == part_id)
+    res = await db.execute(stmt)
+    part = res.scalars().first()
+    if not part:
+        raise HTTPException(status_code=404, detail=f"Part '{part_id}' not found")
+
+    return templates.TemplateResponse(
+        request=request,
+        name="part_detail.html",
+        context={
+            "part": part,
+        },
+    )
+
+
 @router.get("/b/{bin_id}", response_class=HTMLResponse)
 async def bin_detail_view(request: Request, bin_id: str, db: AsyncSession = Depends(get_db)):
-    """Render mobile-optimized Bin landing page for QR barcode scans with quick quantity buttons."""
+    """Render mobile-optimized Bin landing page showing 1, 2, or 3 compartments and dynamic part mapper."""
     stmt = select(BinRecord).options(
-        selectinload(BinRecord.part).selectinload(PartRecord.category),
         selectinload(BinRecord.carrier).selectinload(CarrierRecord.location),
+        selectinload(BinRecord.compartments).selectinload(BinCompartmentRecord.part).selectinload(PartRecord.category),
     ).where(BinRecord.id == bin_id)
     res = await db.execute(stmt)
     bin_rec = res.scalars().first()
     if not bin_rec:
         raise HTTPException(status_code=404, detail=f"Bin '{bin_id}' not found")
 
+    # Fetch all parts for assignment dropdown
+    all_parts_res = await db.execute(select(PartRecord).order_by(PartRecord.size, PartRecord.length))
+    all_parts = all_parts_res.scalars().all()
+
     return templates.TemplateResponse(
         request=request,
         name="bin_detail.html",
         context={
             "bin": bin_rec,
+            "all_parts": all_parts,
         },
     )

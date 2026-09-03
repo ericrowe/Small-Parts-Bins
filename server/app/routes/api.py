@@ -7,15 +7,22 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 
 from server.app.database import get_db
-from server.app.models import CategoryRecord, PartRecord, BinRecord, CarrierRecord, StorageLocationRecord
+from server.app.models import CategoryRecord, PartRecord, BinRecord, BinCompartmentRecord, CarrierRecord, StorageLocationRecord
 
 router = APIRouter(prefix="/api", tags=["API"])
 
 
-# Pydantic Schemas
+# Pydantic Request Schemas
 class QuantityUpdateRequest(BaseModel):
     delta: Optional[int] = None
     set_quantity: Optional[int] = None
+
+
+class CompartmentAssignmentPayload(BaseModel):
+    compartment_index: int  # 1, 2, or 3
+    part_id: Optional[str] = None
+    quantity_on_hand: Optional[int] = None
+    reorder_threshold: Optional[int] = None
 
 
 @router.get("/status")
@@ -24,7 +31,7 @@ async def get_system_status() -> Dict[str, Any]:
     return {
         "status": "online",
         "service": "Parts-Database Catalog Microservice",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
@@ -56,7 +63,11 @@ async def list_parts(
     db: AsyncSession = Depends(get_db),
 ) -> List[Dict[str, Any]]:
     """List parts with optional search query and category filtering."""
-    stmt = select(PartRecord).options(selectinload(PartRecord.category)).order_by(PartRecord.size, PartRecord.length)
+    stmt = select(PartRecord).options(
+        selectinload(PartRecord.category),
+        selectinload(PartRecord.compartments).selectinload(BinCompartmentRecord.bin),
+    ).order_by(PartRecord.size, PartRecord.length)
+    
     if category:
         stmt = stmt.where(PartRecord.category_id == category)
     if q:
@@ -91,6 +102,8 @@ async def list_parts(
             "clearance_drill": p.clearance_drill,
             "pitch": p.pitch,
             "extra_note": p.extra_note,
+            "total_quantity": sum(c.quantity_on_hand for c in p.compartments),
+            "compartments_count": len(p.compartments),
         }
         for p in parts
     ]
@@ -98,8 +111,11 @@ async def list_parts(
 
 @router.get("/parts/{part_id}")
 async def get_part_detail(part_id: str, db: AsyncSession = Depends(get_db)) -> Dict[str, Any]:
-    """Retrieve full detail for a single fastener part."""
-    stmt = select(PartRecord).options(selectinload(PartRecord.category), selectinload(PartRecord.bins)).where(PartRecord.id == part_id)
+    """Retrieve full technical specs and containing bins/compartments for a fastener part."""
+    stmt = select(PartRecord).options(
+        selectinload(PartRecord.category),
+        selectinload(PartRecord.compartments).selectinload(BinCompartmentRecord.bin).selectinload(BinRecord.carrier).selectinload(CarrierRecord.location),
+    ).where(PartRecord.id == part_id)
     res = await db.execute(stmt)
     part = res.scalars().first()
     if not part:
@@ -111,6 +127,7 @@ async def get_part_detail(part_id: str, db: AsyncSession = Depends(get_db)) -> D
         "category_id": part.category_id,
         "category_name": part.category.name if part.category else "",
         "category_color": part.category.color_hex if part.category else "#0077CC",
+        "category_bg": part.category.color_bg if part.category else "#E6F3FA",
         "size": part.size,
         "length": part.length,
         "head": part.head,
@@ -122,45 +139,58 @@ async def get_part_detail(part_id: str, db: AsyncSession = Depends(get_db)) -> D
         "clearance_drill": part.clearance_drill,
         "pitch": part.pitch,
         "extra_note": part.extra_note,
-        "bins": [
+        "total_stock": sum(c.quantity_on_hand for c in part.compartments),
+        "compartments": [
             {
-                "id": b.id,
-                "carrier_id": b.carrier_id,
-                "slot_index": b.slot_index,
-                "quantity_on_hand": b.quantity_on_hand,
-                "reorder_threshold": b.reorder_threshold,
-                "cassette_type": b.cassette_type,
-                "qr_code_payload": b.qr_code_payload,
+                "id": c.id,
+                "bin_id": c.bin_id,
+                "compartment_index": c.compartment_index,
+                "quantity_on_hand": c.quantity_on_hand,
+                "reorder_threshold": c.reorder_threshold,
+                "is_low_stock": c.quantity_on_hand <= c.reorder_threshold,
+                "cassette_type": c.bin.cassette_type if c.bin else "",
+                "carrier_id": c.bin.carrier_id if c.bin else "",
+                "location_name": c.bin.carrier.location.name if c.bin and c.bin.carrier and c.bin.carrier.location else "",
             }
-            for b in part.bins
+            for c in part.compartments
         ],
     }
 
 
 @router.get("/bins")
 async def list_bins(db: AsyncSession = Depends(get_db)) -> List[Dict[str, Any]]:
-    """List all physical storage bins with assigned parts and locations."""
+    """List all physical cassette bins with their 1, 2, or 3 compartments."""
     stmt = select(BinRecord).options(
-        selectinload(BinRecord.part).selectinload(PartRecord.category),
         selectinload(BinRecord.carrier).selectinload(CarrierRecord.location),
+        selectinload(BinRecord.compartments).selectinload(BinCompartmentRecord.part).selectinload(PartRecord.category),
     ).order_by(BinRecord.id)
     res = await db.execute(stmt)
     bins = res.scalars().all()
     return [
         {
             "id": b.id,
-            "part_id": b.part_id,
-            "part_name": b.part.name if b.part else "",
-            "category_name": b.part.category.name if b.part and b.part.category else "",
-            "category_color": b.part.category.color_hex if b.part and b.part.category else "#0077CC",
             "carrier_id": b.carrier_id,
-            "location_name": b.carrier.location.name if b.carrier and b.carrier.location else "",
             "slot_index": b.slot_index,
-            "quantity_on_hand": b.quantity_on_hand,
-            "reorder_threshold": b.reorder_threshold,
-            "is_low_stock": b.quantity_on_hand <= b.reorder_threshold,
+            "compartment_count": b.compartment_count,
             "cassette_type": b.cassette_type,
+            "label_title": b.label_title,
             "qr_code_payload": b.qr_code_payload,
+            "location_name": b.carrier.location.name if b.carrier and b.carrier.location else "",
+            "total_quantity": sum(c.quantity_on_hand for c in b.compartments),
+            "compartments": [
+                {
+                    "id": c.id,
+                    "compartment_index": c.compartment_index,
+                    "part_id": c.part_id,
+                    "part_name": c.part.name if c.part else "Unassigned / Empty",
+                    "category_name": c.part.category.name if c.part and c.part.category else "",
+                    "category_color": c.part.category.color_hex if c.part and c.part.category else "#64748b",
+                    "quantity_on_hand": c.quantity_on_hand,
+                    "reorder_threshold": c.reorder_threshold,
+                    "is_low_stock": c.quantity_on_hand <= c.reorder_threshold,
+                }
+                for c in b.compartments
+            ],
             "updated_at": b.updated_at.isoformat(),
         }
         for b in bins
@@ -169,10 +199,10 @@ async def list_bins(db: AsyncSession = Depends(get_db)) -> List[Dict[str, Any]]:
 
 @router.get("/bins/{bin_id}")
 async def get_bin_detail(bin_id: str, db: AsyncSession = Depends(get_db)) -> Dict[str, Any]:
-    """Retrieve full detail for a physical bin (scanned via QR code)."""
+    """Retrieve full detail for a physical cassette bin (scanned via QR code / URL)."""
     stmt = select(BinRecord).options(
-        selectinload(BinRecord.part).selectinload(PartRecord.category),
         selectinload(BinRecord.carrier).selectinload(CarrierRecord.location),
+        selectinload(BinRecord.compartments).selectinload(BinCompartmentRecord.part).selectinload(PartRecord.category),
     ).where(BinRecord.id == bin_id)
     res = await db.execute(stmt)
     bin_rec = res.scalars().first()
@@ -181,54 +211,118 @@ async def get_bin_detail(bin_id: str, db: AsyncSession = Depends(get_db)) -> Dic
 
     return {
         "id": bin_rec.id,
-        "part_id": bin_rec.part_id,
-        "part_name": bin_rec.part.name if bin_rec.part else "",
-        "size": bin_rec.part.size if bin_rec.part else "",
-        "length": bin_rec.part.length if bin_rec.part else "",
-        "tool_key": bin_rec.part.tool_key if bin_rec.part else "",
-        "tap_drill": bin_rec.part.tap_drill if bin_rec.part else "",
-        "category_name": bin_rec.part.category.name if bin_rec.part and bin_rec.part.category else "",
-        "category_color": bin_rec.part.category.color_hex if bin_rec.part and bin_rec.part.category else "#0077CC",
-        "category_bg": bin_rec.part.category.color_bg if bin_rec.part and bin_rec.part.category else "#E6F3FA",
         "carrier_id": bin_rec.carrier_id,
-        "location_name": bin_rec.carrier.location.name if bin_rec.carrier and bin_rec.carrier.location else "",
         "slot_index": bin_rec.slot_index,
-        "quantity_on_hand": bin_rec.quantity_on_hand,
-        "reorder_threshold": bin_rec.reorder_threshold,
-        "is_low_stock": bin_rec.quantity_on_hand <= bin_rec.reorder_threshold,
+        "compartment_count": bin_rec.compartment_count,
         "cassette_type": bin_rec.cassette_type,
+        "label_title": bin_rec.label_title,
         "qr_code_payload": bin_rec.qr_code_payload,
+        "location_name": bin_rec.carrier.location.name if bin_rec.carrier and bin_rec.carrier.location else "",
+        "compartments": [
+            {
+                "id": c.id,
+                "compartment_index": c.compartment_index,
+                "part_id": c.part_id,
+                "part_name": c.part.name if c.part else "Unassigned / Empty",
+                "size": c.part.size if c.part else "",
+                "length": c.part.length if c.part else "",
+                "tool_key": c.part.tool_key if c.part else "",
+                "tap_drill": c.part.tap_drill if c.part else "",
+                "category_name": c.part.category.name if c.part and c.part.category else "",
+                "category_color": c.part.category.color_hex if c.part and c.part.category else "#64748b",
+                "category_bg": c.part.category.color_bg if c.part and c.part.category else "#1e293b",
+                "quantity_on_hand": c.quantity_on_hand,
+                "reorder_threshold": c.reorder_threshold,
+                "is_low_stock": c.quantity_on_hand <= c.reorder_threshold,
+                "notes": c.notes,
+            }
+            for c in bin_rec.compartments
+        ],
         "updated_at": bin_rec.updated_at.isoformat(),
     }
 
 
-@router.patch("/bins/{bin_id}/quantity")
-async def update_bin_quantity(
+@router.post("/bins/{bin_id}/compartments")
+async def update_bin_compartment_assignment(
     bin_id: str,
-    payload: QuantityUpdateRequest,
+    payload: CompartmentAssignmentPayload,
     db: AsyncSession = Depends(get_db),
 ) -> Dict[str, Any]:
-    """Adjust quantity on hand for a bin via delta (+/-) or absolute set."""
-    stmt = select(BinRecord).where(BinRecord.id == bin_id)
+    """Assign or swap a part in compartment slot 1, 2, or 3 of a physical bin."""
+    stmt = select(BinRecord).options(selectinload(BinRecord.compartments)).where(BinRecord.id == bin_id)
     res = await db.execute(stmt)
     bin_rec = res.scalars().first()
     if not bin_rec:
         raise HTTPException(status_code=404, detail=f"Bin '{bin_id}' not found")
 
+    # Find existing compartment or create if index within count
+    comp = next((c for c in bin_rec.compartments if c.compartment_index == payload.compartment_index), None)
+    if not comp:
+        if payload.compartment_index > bin_rec.compartment_count or payload.compartment_index < 1:
+            raise HTTPException(status_code=400, detail=f"Invalid compartment index {payload.compartment_index} for {bin_rec.cassette_type}")
+        comp = BinCompartmentRecord(
+            id=f"{bin_id}-C{payload.compartment_index}",
+            bin_id=bin_id,
+            compartment_index=payload.compartment_index,
+        )
+        db.add(comp)
+
+    # If part_id provided, verify it exists
+    if payload.part_id:
+        p_res = await db.execute(select(PartRecord).where(PartRecord.id == payload.part_id))
+        if not p_res.scalars().first():
+            raise HTTPException(status_code=404, detail=f"Part '{payload.part_id}' not found")
+        comp.part_id = payload.part_id
+    elif payload.part_id == "":
+        comp.part_id = None
+
+    if payload.quantity_on_hand is not None:
+        comp.quantity_on_hand = max(0, payload.quantity_on_hand)
+    if payload.reorder_threshold is not None:
+        comp.reorder_threshold = max(0, payload.reorder_threshold)
+
+    comp.updated_at = datetime.now(timezone.utc)
+    bin_rec.updated_at = datetime.now(timezone.utc)
+    await db.commit()
+
+    return {
+        "status": "success",
+        "bin_id": bin_id,
+        "compartment_id": comp.id,
+        "compartment_index": comp.compartment_index,
+        "part_id": comp.part_id,
+        "quantity_on_hand": comp.quantity_on_hand,
+    }
+
+
+@router.patch("/compartments/{comp_id}/quantity")
+async def update_compartment_quantity(
+    comp_id: str,
+    payload: QuantityUpdateRequest,
+    db: AsyncSession = Depends(get_db),
+) -> Dict[str, Any]:
+    """Adjust inventory stock for an individual compartment via delta (+/-) or absolute set."""
+    stmt = select(BinCompartmentRecord).where(BinCompartmentRecord.id == comp_id)
+    res = await db.execute(stmt)
+    comp = res.scalars().first()
+    if not comp:
+        raise HTTPException(status_code=404, detail=f"Compartment '{comp_id}' not found")
+
     if payload.set_quantity is not None:
-        bin_rec.quantity_on_hand = max(0, payload.set_quantity)
+        comp.quantity_on_hand = max(0, payload.set_quantity)
     elif payload.delta is not None:
-        bin_rec.quantity_on_hand = max(0, bin_rec.quantity_on_hand + payload.delta)
+        comp.quantity_on_hand = max(0, comp.quantity_on_hand + payload.delta)
     else:
         raise HTTPException(status_code=400, detail="Must provide 'delta' or 'set_quantity'")
 
-    bin_rec.updated_at = datetime.now(timezone.utc)
+    comp.updated_at = datetime.now(timezone.utc)
     await db.commit()
-    await db.refresh(bin_rec)
+    await db.refresh(comp)
 
     return {
-        "id": bin_rec.id,
-        "quantity_on_hand": bin_rec.quantity_on_hand,
-        "updated_at": bin_rec.updated_at.isoformat(),
         "status": "success",
+        "id": comp.id,
+        "compartment_index": comp.compartment_index,
+        "quantity_on_hand": comp.quantity_on_hand,
+        "updated_at": comp.updated_at.isoformat(),
     }

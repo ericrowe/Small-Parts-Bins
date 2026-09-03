@@ -165,9 +165,10 @@ The server provides a responsive web UI and REST API for searching hardware spec
    ./run.sh  # Starts on http://0.0.0.0:8090
    ```
 2. **Access Points:**
-   - **Dashboard:** [http://localhost:8090/](http://localhost:8090/) — Overview metrics, category distribution, and quick search.
-   - **Fastener Catalog:** [http://localhost:8090/parts](http://localhost:8090/parts) — Full-text searchable database with thread pitches and tap drills.
-   - **Bin QR Landing:** [http://localhost:8090/b/{bin_id}](http://localhost:8090/b/BIN-M3-12mm-SHCS) — Mobile-friendly QR scan page with one-tap stock adjustments.
+   - **Dashboard:** [http://localhost:8090/](http://localhost:8090/) — Overview metrics, category distribution, and active physical bins.
+   - **Fastener Catalog:** [http://localhost:8090/parts](http://localhost:8090/parts) — Full-text searchable database with bi-directional column sorting, thread pitches, and tap drills.
+   - **Fastener Technical Specs:** [http://localhost:8090/p/{part_id}](http://localhost:8090/p/M3-12mm-SHCS) — Detailed engineering specs and physical bin locations.
+   - **Cassette Bin Management:** [http://localhost:8090/b/{bin_id}](http://localhost:8090/b/BIN-001) — Visual 1, 2, or 3-compartment cassette layout with dynamic part mapper dropdowns and one-tap stock adjusters.
    - **REST API Docs:** [http://localhost:8090/docs](http://localhost:8090/docs) — Interactive OpenAPI Swagger UI.
 
 ## Automated Backup & Turnkey Disaster Recovery

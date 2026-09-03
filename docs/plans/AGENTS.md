@@ -33,14 +33,15 @@ Every plan MUST include all 7 mandatory sections:
 
 ### Master Cross-Subsystem Plans (`MNN`):
 - **`M01`**: Repository Categorization, Subsystem Restructuring & Web Catalog Server Staging ([`docs/plans/complete/2026-09-02-M01_repository_categorization_and_server_staging_plan.md`](complete/2026-09-02-M01_repository_categorization_and_server_staging_plan.md)) (`ARCHIVED`)
+- **`M02`**: Cross-Subsystem QR Code Linking & Dynamic Bin-to-Part Compartment Management ([`docs/plans/M02_qr_code_linking_and_bin_compartment_management_plan.md`](M02_qr_code_linking_and_bin_compartment_management_plan.md)) (`IN_PLANNING`)
 
 ### Hardware Subsystem Plans (`HNN`):
 - *(No active hardware plans)*
 
 ### Server Subsystem Plans (`SNN`):
-- **`S01`**: FastAPI Web Catalog Server & SQLite Parts Database ([`docs/plans/S01_fastapi_web_catalog_server_and_sqlite_database_plan.md`](S01_fastapi_web_catalog_server_and_sqlite_database_plan.md)) (`IN_PLANNING`)
+- **`S01`**: FastAPI Web Catalog Server & SQLite Parts Database ([`docs/plans/complete/2026-09-02-S01_fastapi_web_catalog_server_and_sqlite_database_plan.md`](complete/2026-09-02-S01_fastapi_web_catalog_server_and_sqlite_database_plan.md)) (`ARCHIVED`)
 
 ---
 
 ## 4. Prioritized Active Execution Queue
-1. **`S01`**: **FastAPI Web Catalog Server & SQLite Parts Database** ([`docs/plans/S01_fastapi_web_catalog_server_and_sqlite_database_plan.md`](S01_fastapi_web_catalog_server_and_sqlite_database_plan.md))
+1. **`M02`**: **Cross-Subsystem QR Code Linking & Dynamic Bin-to-Part Compartment Management** ([`docs/plans/M02_qr_code_linking_and_bin_compartment_management_plan.md`](M02_qr_code_linking_and_bin_compartment_management_plan.md))

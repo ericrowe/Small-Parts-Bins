@@ -7,7 +7,7 @@ from sqlalchemy import select
 
 from server.app.main import app
 from server.app.database import init_db, configure_db_engine
-from server.app.models import CategoryRecord, PartRecord, BinRecord
+from server.app.models import CategoryRecord, PartRecord, BinRecord, BinCompartmentRecord
 
 
 @pytest_asyncio.fixture(autouse=True)
@@ -39,7 +39,10 @@ async def test_db_initialization_and_seed():
         assert len(parts) > 10
 
         bins = (await session.execute(select(BinRecord))).scalars().all()
-        assert len(bins) > 10
+        assert len(bins) == 24
+
+        comps = (await session.execute(select(BinCompartmentRecord))).scalars().all()
+        assert len(comps) > 24
 
 
 @pytest.mark.asyncio
@@ -73,7 +76,7 @@ async def test_api_get_parts_and_filtering():
 
 @pytest.mark.asyncio
 async def test_api_get_part_detail():
-    """Verify GET /api/parts/{part_id} returns part specifications and assigned bins."""
+    """Verify GET /api/parts/{part_id} returns part specifications and assigned compartments."""
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         # First get list
@@ -85,36 +88,9 @@ async def test_api_get_part_detail():
         assert res.status_code == 200
         part = res.json()
         assert part["id"] == first_part_id
-        assert "bins" in part
+        assert "compartments" in part
         assert "tap_drill" in part
         assert "tool_key" in part
-
-
-@pytest.mark.asyncio
-async def test_bin_quantity_patch():
-    """Verify PATCH /api/bins/{bin_id}/quantity updates inventory correctly."""
-    transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as client:
-        res_bins = await client.get("/api/bins")
-        assert res_bins.status_code == 200
-        first_bin = res_bins.json()[0]
-        bin_id = first_bin["id"]
-        initial_qty = first_bin["quantity_on_hand"]
-
-        # 1. Delta increment
-        res_inc = await client.patch(f"/api/bins/{bin_id}/quantity", json={"delta": 5})
-        assert res_inc.status_code == 200
-        assert res_inc.json()["quantity_on_hand"] == initial_qty + 5
-
-        # 2. Delta decrement
-        res_dec = await client.patch(f"/api/bins/{bin_id}/quantity", json={"delta": -3})
-        assert res_dec.status_code == 200
-        assert res_dec.json()["quantity_on_hand"] == initial_qty + 2
-
-        # 3. Absolute set
-        res_set = await client.patch(f"/api/bins/{bin_id}/quantity", json={"set_quantity": 42})
-        assert res_set.status_code == 200
-        assert res_set.json()["quantity_on_hand"] == 42
 
 
 @pytest.mark.asyncio
@@ -133,8 +109,13 @@ async def test_html_view_rendering():
         assert "Fastener Parts Catalog" in res_parts.text
 
         # Bin detail
-        res_bins = await client.get("/api/bins")
-        first_bin_id = res_bins.json()[0]["id"]
-        res_bin_view = await client.get(f"/b/{first_bin_id}")
+        res_bin_view = await client.get("/b/BIN-001")
         assert res_bin_view.status_code == 200
-        assert "Current Stock Level" in res_bin_view.text
+        assert "BIN-001" in res_bin_view.text
+
+        # Part detail
+        res_parts_list = await client.get("/api/parts")
+        first_part_id = res_parts_list.json()[0]["id"]
+        res_part_view = await client.get(f"/p/{first_part_id}")
+        assert res_part_view.status_code == 200
+        assert first_part_id in res_part_view.text

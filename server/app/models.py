@@ -41,7 +41,7 @@ class PartRecord(Base):
     extra_note: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
 
     category: Mapped["CategoryRecord"] = relationship("CategoryRecord", back_populates="parts")
-    bins: Mapped[List["BinRecord"]] = relationship("BinRecord", back_populates="part", cascade="all, delete-orphan")
+    compartments: Mapped[List["BinCompartmentRecord"]] = relationship("BinCompartmentRecord", back_populates="part")
 
 
 class StorageLocationRecord(Base):
@@ -66,21 +66,38 @@ class CarrierRecord(Base):
     position_col: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
 
     location: Mapped["StorageLocationRecord"] = relationship("StorageLocationRecord", back_populates="carriers")
-    bins: Mapped[List["BinRecord"]] = relationship("BinRecord", back_populates="carrier", cascade="all, delete-orphan")
+    bins: Mapped[List["BinRecord"]] = relationship("BinRecord", back_populates="carrier")
 
 
 class BinRecord(Base):
+    """Represents a physical small-parts cassette in the workshop with 1, 2, or 3 internal compartments."""
     __tablename__ = "bins"
 
-    id: Mapped[str] = mapped_column(String(64), primary_key=True)
-    part_id: Mapped[str] = mapped_column(String(64), ForeignKey("parts.id"), nullable=False)
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)  # e.g. BIN-001
     carrier_id: Mapped[Optional[str]] = mapped_column(String(64), ForeignKey("carriers.id"), nullable=True)
     slot_index: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
-    quantity_on_hand: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    reorder_threshold: Mapped[int] = mapped_column(Integer, nullable=False, default=10)
-    cassette_type: Mapped[str] = mapped_column(String(64), nullable=False, default="40x80_standard")
+    compartment_count: Mapped[int] = mapped_column(Integer, nullable=False, default=1)  # 1, 2, or 3
+    cassette_type: Mapped[str] = mapped_column(String(64), nullable=False, default="single")  # single, divided_2, divided_3
+    label_title: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
     qr_code_payload: Mapped[str] = mapped_column(String(256), nullable=False)
     updated_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
 
-    part: Mapped["PartRecord"] = relationship("PartRecord", back_populates="bins")
     carrier: Mapped[Optional["CarrierRecord"]] = relationship("CarrierRecord", back_populates="bins")
+    compartments: Mapped[List["BinCompartmentRecord"]] = relationship("BinCompartmentRecord", back_populates="bin", cascade="all, delete-orphan", order_by="BinCompartmentRecord.compartment_index")
+
+
+class BinCompartmentRecord(Base):
+    """Represents a single compartment (slot 1, 2, or 3) inside a physical bin cassette."""
+    __tablename__ = "bin_compartments"
+
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)  # e.g. BIN-001-C1
+    bin_id: Mapped[str] = mapped_column(String(64), ForeignKey("bins.id"), nullable=False)
+    compartment_index: Mapped[int] = mapped_column(Integer, nullable=False, default=1)  # 1, 2, or 3
+    part_id: Mapped[Optional[str]] = mapped_column(String(64), ForeignKey("parts.id"), nullable=True)
+    quantity_on_hand: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    reorder_threshold: Mapped[int] = mapped_column(Integer, nullable=False, default=10)
+    notes: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+
+    bin: Mapped["BinRecord"] = relationship("BinRecord", back_populates="compartments")
+    part: Mapped[Optional["PartRecord"]] = relationship("PartRecord", back_populates="compartments")
