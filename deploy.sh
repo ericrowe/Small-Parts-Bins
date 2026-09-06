@@ -19,8 +19,12 @@ else
   echo "🚀 Deploying Parts-Database to Node 02 ($PI_HOST)..."
 fi
 
-# 1. Ensure target directory structure exists with correct permissions
+# Pre-flight reachability check
 if [[ -z "$DRY_RUN" ]]; then
+  if ! ssh -o ConnectTimeout=5 -o BatchMode=yes "$PI_USER@$PI_HOST" "true" >/dev/null 2>&1; then
+    echo "❌ Error: Node 02 ($PI_HOST) is unreachable via SSH. Aborting deployment." >&2
+    exit 1
+  fi
   ssh "$PI_USER@$PI_HOST" "sudo mkdir -p $TARGET_DIR /srv/database/parts && sudo chown -R $PI_USER:www-data $TARGET_DIR /srv/database/parts && sudo chmod 775 /srv/database/parts"
 fi
 
