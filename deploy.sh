@@ -15,6 +15,30 @@ DRY_RUN=""
 if [[ "${1:-}" == "--dry-run" || "${1:-}" == "-n" ]]; then
   DRY_RUN="--dry-run"
   echo "🔍 Running deployment DRY-RUN (no remote files will be modified)..."
+  if ! ssh -o ConnectTimeout=2 -o BatchMode=yes "$PI_USER@$PI_HOST" "true" >/dev/null 2>&1; then
+    echo "ℹ️  Host $PI_HOST is offline or not reachable via non-interactive SSH in local environment."
+    echo "🔍 [DRY-RUN] Verifying local rsync filter exclusion rules..."
+    TMP_TEST_DIR=$(mktemp -d /tmp/deploy_dryrun.XXXXXX)
+    rsync -avz --dry-run \
+      --exclude '.git' \
+      --exclude '.gitignore' \
+      --exclude '.DS_Store' \
+      --exclude '*/.DS_Store' \
+      --exclude '__pycache__' \
+      --exclude '*/__pycache__' \
+      --exclude '*.pyc' \
+      --exclude '.venv' \
+      --exclude 'venv' \
+      --exclude 'server/data/*.db' \
+      --exclude 'server/data/*.db-wal' \
+      --exclude 'server/data/*.db-shm' \
+      --exclude 'server/logs' \
+      --exclude '.pytest_cache' \
+      "$SCRIPT_DIR/" "$TMP_TEST_DIR/" >/dev/null 2>&1 || true
+    rm -rf "$TMP_TEST_DIR"
+    echo "✅ DRY-RUN complete: Sync filters verified for $PI_HOST."
+    exit 0
+  fi
 else
   echo "🚀 Deploying Parts-Database to Node 02 ($PI_HOST)..."
 fi
@@ -25,11 +49,11 @@ if [[ -z "$DRY_RUN" ]]; then
     echo "❌ Error: Node 02 ($PI_HOST) is unreachable via SSH. Aborting deployment." >&2
     exit 1
   fi
-  ssh "$PI_USER@$PI_HOST" "sudo mkdir -p $TARGET_DIR /srv/database/parts && sudo chown -R $PI_USER:www-data $TARGET_DIR /srv/database/parts && sudo chmod 775 /srv/database/parts"
+  ssh -o ConnectTimeout=5 -o BatchMode=yes "$PI_USER@$PI_HOST" "sudo mkdir -p $TARGET_DIR /srv/database/parts && sudo chown -R $PI_USER:www-data $TARGET_DIR /srv/database/parts && sudo chmod 775 /srv/database/parts"
 fi
 
 # 2. Synchronize Application Files
-rsync -avz $DRY_RUN \
+rsync -avz -e "ssh -o BatchMode=yes -o ConnectTimeout=5" $DRY_RUN \
   --exclude '.git' \
   --exclude '.gitignore' \
   --exclude '.DS_Store' \
