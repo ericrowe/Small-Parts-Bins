@@ -25,6 +25,29 @@ Persistent asynchronous backlog for database schema design, QR code generation, 
 - **Proposed Solution**: Integrated HTML5 QR scanner using WebRTC / `html5-qrcode` library pointing to `/scan`.
 - **Status**: Queued for S02.
 
+### [FEATURE] Household Consumables & Fleet Maintenance Inventory Expansion (`S03`)
+- **Context**: The database is currently focused on small modular fastener bins. Household maintenance items (HVAC air filters, water filters, LED light bulbs, lawnmower blades) and vehicle maintenance items (motor oil, oil filters, spark plugs, brake pads) require tracking larger items in shelves, cabinets, and closets.
+- **Proposed Solution**: Expand schema to support broader location hierarchies (e.g. `Garage Shelf B2`, `Utility Closet Rack`), multi-pack quantities, item specification attributes (e.g. `16x25x1 MERV 11`, `5W-30 Full Synthetic`), and minimum stock reorder thresholds.
+- **Status**: Triaged Idea (Backlog)
+
+### [FEATURE] Computer Vision Camera Fastener Counter (Snapshot Piece Counting) (`S04`)
+- **Context**: Counting small fasteners (screws, nuts, washers, pins) by hand is slow, and weight scales can suffer from tare/tolerance inaccuracies. Spreading fasteners across a tray or bin and taking a quick smartphone photo provides an instant, auditable count.
+- **Proposed Solution**:
+  1. Add a camera snapshot / file upload dialog on the restock page.
+  2. Process the image using computer vision / contour blob detection (or local vision AI inference) to segment and count individual items.
+  3. Overlay detected dot markers / count badges on the image with the calculated count (e.g. "Detected: 48 pieces"), allowing 1-tap manual adjustment before committing to `parts.db`.
+- **Status**: Triaged Idea (Backlog)
+
+### [FEATURE] Standardized Batch Label Sheet Generator & Cricut Print-Then-Cut Exporter (`S05`)
+- **Context**: Setting up workshop storage requires batch-generating labels for dozens or hundreds of bins at once. The visual format must remain strictly standardized and consistent across all physical media types, whether using pre-cut label templates, continuous thermal tape, or uncut sticker paper cut on a digital crafting cutter.
+- **Proposed Solution**:
+  1. Define a strict canonical label specification (QR code placement, high-contrast typography, part description, pitch/drive icon, bin coordinate ID).
+  2. Implement batch export in the web catalog supporting:
+     - **Pre-cut Label Sheets**: Standard Avery templates (e.g. Avery 5160, 5167).
+     - **Continuous Thermal Rolls**: Brother QL / Dymo label streams.
+     - **Cricut "Print Then Cut"**: Full-sheet SVG/PDF generator with standard registration marks and precision cut-boundary vector paths for kiss-cutting on uncut vinyl/sticker sheets.
+- **Status**: Triaged Idea (Backlog)
+
 ---
 
 ## 3. Hardware Subsystem Backlog (`HNN`)
