@@ -48,7 +48,7 @@ Every plan MUST include all 7 mandatory sections:
 - **`S02`**: Production Deployment & Provisioning on Node 02 (tasker-pi) ([`docs/plans/complete/2026-09-02-S02_production_deployment_and_provisioning_tasker_pi_plan.md`](complete/2026-09-02-S02_production_deployment_and_provisioning_tasker_pi_plan.md)) (`ARCHIVED`)
 - **`S03`**: Household Consumables & Fleet Maintenance Inventory Expansion ([`docs/plans/S03_household_consumables_and_fleet_inventory_plan.md`](S03_household_consumables_and_fleet_inventory_plan.md)) (`QUEUED`)
 - **`S04`**: Computer Vision Camera Fastener Counter (Snapshot Piece Counting) ([`docs/plans/S04_cv_camera_fastener_counter_plan.md`](S04_cv_camera_fastener_counter_plan.md)) (`QUEUED`)
-- **`S05`**: Standardized Batch Label Sheet Generator & Cricut Print-Then-Cut Exporter ([`docs/plans/S05_standardized_batch_labels_and_cricut_exporter_plan.md`](S05_standardized_batch_labels_and_cricut_exporter_plan.md)) (`QUEUED`)
+- **`S05`**: Standardized Batch Label Sheet Generator & Cricut Print-Then-Cut Exporter ([`docs/plans/complete/2026-09-08-S05_standardized_batch_labels_and_cricut_exporter_plan.md`](complete/2026-09-08-S05_standardized_batch_labels_and_cricut_exporter_plan.md)) (`ARCHIVED`)
 
 ---
 
@@ -56,7 +56,6 @@ Every plan MUST include all 7 mandatory sections:
 
 | Priority | Plan ID | Title | Target Scope | Status |
 | :---: | :---: | :--- | :--- | :---: |
-| **P1** | **S05** | Standardized Batch Label Sheet Generator & Cricut Exporter ([`docs/plans/S05_standardized_batch_labels_and_cricut_exporter_plan.md`](S05_standardized_batch_labels_and_cricut_exporter_plan.md)) | Canonical layout, Avery & Cricut Print-Then-Cut | `QUEUED` |
-| **P2** | **S03** | Household Consumables & Fleet Maintenance Inventory Expansion ([`docs/plans/S03_household_consumables_and_fleet_inventory_plan.md`](S03_household_consumables_and_fleet_inventory_plan.md)) | Location hierarchy, large consumables & specs | `QUEUED` |
-| **P3** | **S04** | Computer Vision Camera Fastener Counter ([`docs/plans/S04_cv_camera_fastener_counter_plan.md`](S04_cv_camera_fastener_counter_plan.md)) | Smartphone photo CV piece counting & overlay | `QUEUED` |
-| **P4** | **H01** | Mixed-Layout Gridfinity Carriers & Deep Bin Cassettes ([`docs/plans/H01_mixed_gridfinity_carriers_and_cassettes_plan.md`](H01_mixed_gridfinity_carriers_and_cassettes_plan.md)) | Parametric Build123d CAD & large bolt bins | `QUEUED` |
+| **P1** | **S03** | Household Consumables & Fleet Maintenance Inventory Expansion ([`docs/plans/S03_household_consumables_and_fleet_inventory_plan.md`](S03_household_consumables_and_fleet_inventory_plan.md)) | Location hierarchy, large consumables & specs | `QUEUED` |
+| **P2** | **S04** | Computer Vision Camera Fastener Counter ([`docs/plans/S04_cv_camera_fastener_counter_plan.md`](S04_cv_camera_fastener_counter_plan.md)) | Smartphone photo CV piece counting & overlay | `QUEUED` |
+| **P3** | **H01** | Mixed-Layout Gridfinity Carriers & Deep Bin Cassettes ([`docs/plans/H01_mixed_gridfinity_carriers_and_cassettes_plan.md`](H01_mixed_gridfinity_carriers_and_cassettes_plan.md)) | Parametric Build123d CAD & large bolt bins | `QUEUED` |

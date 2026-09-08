@@ -1,44 +1,44 @@
-# Printable Fastener Label System (High-Density Master Sheets)
+# Printable Fastener Label System & Multi-Medium Batch Exporter
 
-This toolchain generates high-density, standardized, professional hardware labels for the **Gridfinity Glass-Window Cassette System**.
+This toolchain generates high-density, standardized, professional hardware labels for the **Gridfinity Glass-Window Cassette System** and workshop parts storage.
 
-Labels are formatted in the standard **$34.0 \times 10.0\text{ mm}$ strip layout** with $R = 1.0\text{ mm}$ rounded corners, designed to fit the front solid label band on all cassette lids (`cassette_lid_v0_8_print.stl`).
-
----
-
-## Master Combined Sheets (Print Your Entire Shop on 2 Sheets!)
-
-By packing labels into a **4-column × 18-row grid (up to 72 labels per Letter sheet)**, your entire shop's hardware collection can be printed and cut on **just 2 sheets of sticker paper**:
-
-### Sheet 1: Master Metric Fasteners & Heat-Set Inserts (70 Labels)
-* **Print Artwork Layer (Color Laser):** [`hardware/labels/build/master_metric_and_inserts_assortment_print.svg`](./build/master_metric_and_inserts_assortment_print.svg)
-* **Cut Path Layer (Cricut Kiss-Cut):** [`hardware/labels/build/master_metric_and_inserts_assortment_cut.svg`](./build/master_metric_and_inserts_assortment_cut.svg)
-
-![Master Metric Sheet Preview](../../docs/images/master_metric_and_inserts_assortment_preview.png)
-
-#### Contents of Sheet 1:
-1. **M2 & M2.5 Micro Screws (Elegoo Blue):** SHCS $4\text{ to }16\text{ mm}$, Hex Nuts, Flat Washers (16 labels).
-2. **M3 Complete Assortment (Elegoo Blue):** SHCS $4\text{ to }30\text{ mm}$, BHCS $6\text{ to }16\text{ mm}$, Hex Nuts, Nylocs, Flat Washers, Split Lock Washers (22 labels).
-3. **M4, M5, M6 Structural Screws (Elegoo Blue):** SHCS $8\text{ to }30\text{ mm}$, Hex Nuts, Nylocs, Flat Washers (25 labels).
-4. **Brass Heat-Set Inserts (Black Body / Gold):** M2, M2.5, M3 (Short/Std/Voron), M4, M5 inserts with hole diameter and depth specifications (9 labels).
+Labels adhere to the standard **$34.0 \times 10.0\text{ mm}$ strip layout** ($R = 1.0\text{ mm}$ rounded corners) with color-coded taxonomy bars, high-contrast typography, head/drive silhouette icons, and pure vector QR codes.
 
 ---
 
-### Sheet 2: Master Imperial Hardware & Wood / Specialty (72 Labels)
-* **Print Artwork Layer (Color Laser):** [`hardware/labels/build/master_imperial_and_wood_specialty_assortment_print.svg`](./build/master_imperial_and_wood_specialty_assortment_print.svg)
-* **Cut Path Layer (Cricut Kiss-Cut):** [`hardware/labels/build/master_imperial_and_wood_specialty_assortment_cut.svg`](./build/master_imperial_and_wood_specialty_assortment_cut.svg)
+## 1. Supported Export Formats & Mediums
 
-![Master Imperial & Wood Sheet Preview](../../docs/images/master_imperial_and_wood_specialty_assortment_preview.png)
+The batch generation engine supports 4 distinct physical output mediums:
 
-#### Contents of Sheet 2:
-1. **Imperial #4-40, #6-32, #8-32, 1/4"-20 Screws (Elegoo Orange):** SHCS $1/4"\text{ to }1-1/4"$, Hex Nuts, Nyloc Nuts, Flat Washers (37 labels).
-2. **Set / Grub Screws (Elegoo Yellow):** Metric M3, M4, M5 and Imperial #4, #6, #8, 1/4" cup point grub screws with hex wrench sizes (12 labels).
-3. **Countersunk Wood Screws (Elegoo Yellow):** #4, #6, #8 flat head wood screws (13 labels).
-4. **Dowel Pins, Standoffs & Plastic Screws (Elegoo Yellow):** Ground dowel pins, brass hex standoffs, and plastic thread-forming screws (10 labels).
+1. **✂️ Cricut Print-Then-Cut (Letter SVG)**:
+   - Multi-up Letter sheets (4 columns $\times$ 15 rows = up to 60 labels per sheet).
+   - $+1.0\text{ mm}$ full bleed artwork envelope ($36 \times 12\text{ mm}$, $R=2.0\text{ mm}$) to absorb printer/Cricut mechanical drift.
+   - Precision vector cut paths ($34 \times 10\text{ mm}$, $R=1.0\text{ mm}$) on red `#FF0000` stroke layer.
+   - High-contrast optical registration bounding box for sensor tracking.
+2. **📄 Avery 5160 / 8160 Pre-Cut Sheets (30-Up Letter)**:
+   - Standard 3 columns $\times$ 10 rows on Letter paper ($1" \times 2-5/8"$ / $66.7 \times 25.4\text{ mm}$).
+   - Fastener specs formatted to fit standard commercial laser/inkjet label sheets.
+3. **📄 Avery 5167 / 8167 Pre-Cut Micro Sheets (80-Up Letter)**:
+   - High-density 4 columns $\times$ 20 rows on Letter paper ($1/2" \times 1-3/4"$ / $44.5 \times 12.7\text{ mm}$).
+   - Perfectly centers canonical $34 \times 10\text{ mm}$ labels within micro die-cut cells.
+4. **📜 Continuous Thermal Roll Stream**:
+   - Continuous vertical stream for Brother QL, Dymo LabelWriter, or Rollo thermal tape printers.
+   - Configurable margins, gap spacing, and dashed cut guides.
 
 ---
 
-## Hardware Taxonomy & Filament Color Mapping
+## 2. Interactive Web Catalog Exporter (`:8090/labels`)
+
+Access the batch export UI directly in your browser:
+- Open [`http://tasker-pi.local:8090/labels`](http://tasker-pi.local:8090/labels) (or `http://localhost:8090/labels` in staging).
+- Filter items by category (Metric, Imperial, Washers, Inserts, Specialty).
+- Select individual parts or use "Select All".
+- Choose output medium (Cricut, Avery 5160, Avery 5167, Thermal Roll).
+- Preview live SVG sheet in-browser and 1-click download print-ready SVGs.
+
+---
+
+## 3. Hardware Taxonomy & Filament Color Mapping
 
 | Category | Primary Hardware | Filament Material / Color | Label Accent Color |
 |---|---|---|---|
@@ -51,19 +51,17 @@ By packing labels into a **4-column × 18-row grid (up to 72 labels per Letter s
 
 ---
 
-## Fabrication & Cricut Print-Then-Cut Workflow
+## 4. Fabrication & Cricut Print-Then-Cut Workflow
 
-1. **Generate Sheets:**
-   ```bash
-   python3 hardware/labels/generate_labels.py
-   ```
-2. **Load into Cricut Design Space:**
-   * Import `master_*_print.svg` as the **Print Artwork Layer**.
-   * Import `master_*_cut.svg` as the **Cut Path Layer** (Operation: "Basic Cut").
-   * Align the two layers over the matching corner registration frame and click **Attach**.
+1. **Export Batch Sheet:**
+   - Download SVG from `/labels` or generate via `generate_labels.py`.
+2. **Load into Cricut Design Space / Silhouette Studio:**
+   - Import the SVG into Cricut Design Space.
+   - Ungroup layers: assign the `cut-lines` layer to **Basic Cut** and `print-artwork` to **Standard Print**.
+   - Align both groups to $(0,0)$ and click **Attach**.
 3. **Print:**
-   * Print on full-sheet printable vinyl/polyester sticker paper with color laser printer at 100% scale ("Actual Size").
+   - Print on full-sheet printable vinyl/polyester sticker paper with a color laser or inkjet printer at 100% scale ("Actual Size").
 4. **Cut:**
-   * Place printed sheet on Cricut mat. Optical sensor registers fiducial corner frame and performs precision kiss-cutting ($R = 1.0\text{ mm}$ corners).
+   - Place printed sheet on Cricut mat. Optical sensor registers fiducial corner frame and performs precision kiss-cutting ($R = 1.0\text{ mm}$ corners).
 5. **Apply:**
-   * Peel and apply directly to the $34 \times 10\text{ mm}$ front recessed zone of assembled cassette lids.
+   - Peel and apply directly to the $34 \times 10\text{ mm}$ front recessed zone of assembled cassette lids.

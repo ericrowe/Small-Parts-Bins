@@ -46,7 +46,7 @@ Persistent asynchronous backlog for database schema design, QR code generation, 
      - **Pre-cut Label Sheets**: Standard Avery templates (e.g. Avery 5160, 5167).
      - **Continuous Thermal Rolls**: Brother QL / Dymo label streams.
      - **Cricut "Print Then Cut"**: Full-sheet SVG/PDF generator with standard registration marks and precision cut-boundary vector paths for kiss-cutting on uncut vinyl/sticker sheets.
-- **Status**: Triaged Idea (Backlog)
+- **Status**: Completed & Operational ([`Plan S05`](complete/2026-09-08-S05_standardized_batch_labels_and_cricut_exporter_plan.md)).
 
 ---
 

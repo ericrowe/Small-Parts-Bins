@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy import select, or_
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -8,8 +8,17 @@ from pydantic import BaseModel
 
 from server.app.database import get_db
 from server.app.models import CategoryRecord, PartRecord, BinRecord, BinCompartmentRecord, CarrierRecord, StorageLocationRecord
+from server.app.services.label_service import get_labels_for_parts, export_labels_to_format
 
 router = APIRouter(prefix="/api", tags=["API"])
+
+
+class BatchLabelExportRequest(BaseModel):
+    part_ids: Optional[List[str]] = None
+    category_id: Optional[str] = None
+    format: str = "cricut_print_cut"
+    title: Optional[str] = "Hardware Labels"
+    include_qr: bool = True
 
 
 # Pydantic Request Schemas
@@ -326,3 +335,55 @@ async def update_compartment_quantity(
         "quantity_on_hand": comp.quantity_on_hand,
         "updated_at": comp.updated_at.isoformat(),
     }
+
+
+@router.post("/labels/export-batch")
+async def export_batch_labels_post(
+    req: BatchLabelExportRequest,
+    db: AsyncSession = Depends(get_db),
+) -> Response:
+    """Generate and return batch label SVG package (Cricut, Avery, or Thermal) via POST."""
+    labels = await get_labels_for_parts(db, part_ids=req.part_ids, category_id=req.category_id)
+    try:
+        export_res = export_labels_to_format(
+            labels=labels,
+            export_format=req.format,
+            title=req.title or "Hardware Labels",
+            include_qr=req.include_qr,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    return Response(
+        content=export_res["content"],
+        media_type=export_res["media_type"],
+        headers={"Content-Disposition": f'attachment; filename="{export_res["filename"]}"'},
+    )
+
+
+@router.get("/labels/export-batch")
+async def export_batch_labels_get(
+    format: str = Query("cricut_print_cut", description="Target format: cricut_print_cut, avery_5160, avery_5167, thermal_roll"),
+    category_id: Optional[str] = Query(None, description="Filter by category ID"),
+    part_ids: Optional[List[str]] = Query(None, description="Specific list of part IDs"),
+    title: Optional[str] = Query("Hardware Labels", description="Sheet header title"),
+    include_qr: bool = Query(True, description="Include QR codes on labels"),
+    db: AsyncSession = Depends(get_db),
+) -> Response:
+    """Generate and return batch label SVG package via GET URL parameters."""
+    labels = await get_labels_for_parts(db, part_ids=part_ids, category_id=category_id)
+    try:
+        export_res = export_labels_to_format(
+            labels=labels,
+            export_format=format,
+            title=title or "Hardware Labels",
+            include_qr=include_qr,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    return Response(
+        content=export_res["content"],
+        media_type=export_res["media_type"],
+        headers={"Content-Disposition": f'attachment; filename="{export_res["filename"]}"'},
+    )

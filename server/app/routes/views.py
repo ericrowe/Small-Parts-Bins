@@ -142,3 +142,34 @@ async def bin_detail_view(request: Request, bin_id: str, db: AsyncSession = Depe
             "all_parts": all_parts,
         },
     )
+
+
+@router.get("/labels", response_class=HTMLResponse)
+async def label_batch_export_view(
+    request: Request,
+    category: Optional[str] = Query(None),
+    db: AsyncSession = Depends(get_db),
+):
+    """Render interactive batch label generation and Cricut/Avery exporter interface."""
+    cats_res = await db.execute(select(CategoryRecord).order_by(CategoryRecord.id))
+    categories = cats_res.scalars().all()
+
+    stmt = select(PartRecord).options(
+        selectinload(PartRecord.category),
+        selectinload(PartRecord.compartments).selectinload(BinCompartmentRecord.bin),
+    ).order_by(PartRecord.size, PartRecord.length)
+    if category:
+        stmt = stmt.where(PartRecord.category_id == category)
+
+    res = await db.execute(stmt)
+    parts = res.scalars().all()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="label_batch_export.html",
+        context={
+            "categories": categories,
+            "parts": parts,
+            "current_category": category or "",
+        },
+    )

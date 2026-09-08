@@ -1,0 +1,435 @@
+{% extends "base.html" %}
+
+{% block title %}Batch Label Sheet Generator — Parts Database{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Page Title & Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+        <div>
+            <h1 class="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+                <span>🏷️</span> Standardized Batch Label Generator
+            </h1>
+            <p class="text-sm text-slate-400 mt-1">
+                Batch multi-up layout engine supporting Cricut Print-Then-Cut, Avery pre-cut sheets, and thermal continuous rolls.
+            </p>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="text-xs px-3 py-1.5 rounded-lg bg-sky-950/60 border border-sky-800/60 text-sky-300 font-mono">
+                Standard: 34×10mm (R1mm)
+            </span>
+        </div>
+    </div>
+
+    <!-- Category Filter Bar -->
+    <div class="flex flex-wrap items-center gap-2">
+        <a href="/labels" class="px-3 py-1.5 rounded-lg text-xs font-medium transition {% if not current_category %}bg-sky-600 text-white shadow-sm{% else %}bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white{% endif %}">
+            All Hardware
+        </a>
+        {% for cat in categories %}
+        <a href="/labels?category={{ cat.id }}" class="px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition {% if current_category == cat.id %}bg-slate-700 text-white border border-slate-600 shadow-sm{% else %}bg-slate-900 text-slate-400 hover:bg-slate-800 hover:text-white border border-slate-800{% endif %}">
+            <span class="w-2.5 h-2.5 rounded-full inline-block" style="background-color: {{ cat.color_hex }}"></span>
+            <span>{{ cat.name }}</span>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Main Layout: Sidebar Export Controls + Parts Selection Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Left: Export Configuration Form -->
+        <div class="lg:col-span-1 space-y-4">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
+                <h2 class="text-base font-semibold text-white flex items-center gap-2">
+                    <span>⚙️</span> Export Settings
+                </h2>
+
+                <!-- Output Medium Selector -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-2">Target Output Medium</label>
+                    <div class="space-y-2" id="format-options">
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-700 bg-slate-800/60 hover:border-sky-500/60 cursor-pointer transition">
+                            <input type="radio" name="export_format" value="cricut_print_cut" checked class="mt-1 text-sky-500 focus:ring-sky-500">
+                            <div>
+                                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                                    <span>✂️</span> Cricut Print-Then-Cut
+                                </div>
+                                <div class="text-[11px] text-slate-400 mt-0.5">
+                                    Letter sheet, +1mm bleed layer, 34x10mm cut paths & sensor marks (60/sheet).
+                                </div>
+                            </div>
+                        </label>
+
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-700 bg-slate-800/60 hover:border-sky-500/60 cursor-pointer transition">
+                            <input type="radio" name="export_format" value="avery_5160" class="mt-1 text-sky-500 focus:ring-sky-500">
+                            <div>
+                                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                                    <span>📄</span> Avery 5160 / 8160 (30-up)
+                                </div>
+                                <div class="text-[11px] text-slate-400 mt-0.5">
+                                    Letter sheet, 3×10 grid, 1" × 2-5/8" (66.7×25.4mm) pre-cut labels.
+                                </div>
+                            </div>
+                        </label>
+
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-700 bg-slate-800/60 hover:border-sky-500/60 cursor-pointer transition">
+                            <input type="radio" name="export_format" value="avery_5167" class="mt-1 text-sky-500 focus:ring-sky-500">
+                            <div>
+                                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                                    <span>📄</span> Avery 5167 / 8167 (80-up)
+                                </div>
+                                <div class="text-[11px] text-slate-400 mt-0.5">
+                                    Letter sheet, 4×20 micro-grid, 1/2" × 1-3/4" (44.5×12.7mm) labels.
+                                </div>
+                            </div>
+                        </label>
+
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-700 bg-slate-800/60 hover:border-sky-500/60 cursor-pointer transition">
+                            <input type="radio" name="export_format" value="thermal_roll" class="mt-1 text-sky-500 focus:ring-sky-500">
+                            <div>
+                                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                                    <span>📜</span> Continuous Thermal Roll
+                                </div>
+                                <div class="text-[11px] text-slate-400 mt-0.5">
+                                    Continuous vertical tape roll (Brother QL / Dymo) with cut dividers.
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Sheet Header Title -->
+                <div>
+                    <label for="sheet-title" class="block text-xs font-semibold text-slate-300 mb-1">Sheet Title Header</label>
+                    <input type="text" id="sheet-title" value="Workshop Fastener Labels" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500">
+                </div>
+
+                <!-- Options -->
+                <div class="pt-2 border-t border-slate-800 space-y-2">
+                    <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                        <input type="checkbox" id="include-qr" checked class="rounded bg-slate-950 border-slate-700 text-sky-500 focus:ring-sky-500">
+                        <span>Include Pure Vector QR Code Matrix</span>
+                    </label>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="pt-3 border-t border-slate-800 space-y-2">
+                    <button type="button" id="btn-download-svg" class="w-full py-2.5 px-4 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition flex items-center justify-center gap-2 shadow-md">
+                        <span>⬇️</span> Download Batch SVG
+                    </button>
+                    <button type="button" id="btn-preview-svg" class="w-full py-2 px-4 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition border border-slate-700 flex items-center justify-center gap-2">
+                        <span>👁️</span> Live SVG Preview
+                    </button>
+                </div>
+            </div>
+
+            <!-- Format Info Card -->
+            <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-xs text-slate-400 space-y-2">
+                <div class="font-bold text-slate-300">💡 Cricut Workflow Guide</div>
+                <p>1. Download SVG and upload to Cricut Design Space.</p>
+                <p>2. Ungroup layers: attach "cut-lines" to Basic Cut and "print-artwork" to Standard Print.</p>
+                <p>3. Align both groups to (0,0) and click "Make It" on standard Letter vinyl/sticker paper.</p>
+            </div>
+        </div>
+
+        <!-- Right: Items Selection Table & Batch Selector -->
+        <div class="lg:col-span-2 space-y-4">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
+                <!-- Selection Toolbar -->
+                <div class="p-4 bg-slate-800/60 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <button type="button" id="btn-select-all" class="px-2.5 py-1 rounded bg-slate-700 hover:bg-slate-600 text-xs text-slate-200 font-medium transition">
+                            Select All
+                        </button>
+                        <button type="button" id="btn-deselect-all" class="px-2.5 py-1 rounded bg-slate-700 hover:bg-slate-600 text-xs text-slate-200 font-medium transition">
+                            Deselect All
+                        </button>
+                        <span class="text-xs text-slate-400 ml-2">
+                            Selected: <strong id="selected-count" class="text-sky-400 font-mono">0</strong> / {{ parts|length }}
+                        </span>
+                    </div>
+
+                    <!-- Quick Filter Search -->
+                    <div class="w-full sm:w-64">
+                        <input type="text" id="quick-filter" placeholder="Filter items by size, thread..." class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500">
+                    </div>
+                </div>
+
+                <!-- Parts Table -->
+                <div class="overflow-x-auto max-h-[640px] overflow-y-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="bg-slate-800/90 sticky top-0 z-10 border-b border-slate-700 text-slate-300 uppercase tracking-wider font-mono">
+                            <tr>
+                                <th class="p-3 w-10 text-center">
+                                    <input type="checkbox" id="th-select-all" class="rounded bg-slate-950 border-slate-600 text-sky-500 focus:ring-sky-500">
+                                </th>
+                                <th class="p-3">Part Details</th>
+                                <th class="p-3">Category</th>
+                                <th class="p-3">Thread / Tap</th>
+                                <th class="p-3">Tool / Drive</th>
+                                <th class="p-3 text-right">Location</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 text-slate-300" id="parts-table-body">
+                            {% for p in parts %}
+                            <tr class="hover:bg-slate-800/40 transition part-row" data-id="{{ p.id }}" data-search="{{ p.id }} {{ p.name }} {{ p.size }} {{ p.length }} {{ p.material }} {{ p.pitch }}">
+                                <td class="p-3 text-center">
+                                    <input type="checkbox" class="part-checkbox rounded bg-slate-950 border-slate-600 text-sky-500 focus:ring-sky-500" value="{{ p.id }}" checked>
+                                </td>
+                                <td class="p-3 font-medium text-white">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: {{ p.category.color_hex if p.category else '#0077CC' }}"></span>
+                                        <div>
+                                            <div class="font-bold text-slate-100">{{ p.name }}</div>
+                                            <div class="text-[11px] text-slate-400 font-mono">{{ p.id }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-3">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                                        {{ p.category.name if p.category else "General" }}
+                                    </span>
+                                </td>
+                                <td class="p-3 font-mono text-slate-400">
+                                    <div>{{ p.pitch if p.pitch else '—' }}</div>
+                                    {% if p.tap_drill %}<div class="text-[10px] text-slate-500">Tap {{ p.tap_drill }}</div>{% endif %}
+                                </td>
+                                <td class="p-3 text-slate-400">
+                                    <div class="capitalize">{{ p.head }} · {{ p.drive }}</div>
+                                    {% if p.tool_key %}<div class="text-[10px] text-sky-400 font-mono">Key {{ p.tool_key }}</div>{% endif %}
+                                </td>
+                                <td class="p-3 text-right font-mono">
+                                    {% if p.compartments %}
+                                        <span class="px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/60 text-emerald-400 text-[11px]">
+                                            {{ p.compartments[0].bin_id }}
+                                        </span>
+                                    {% else %}
+                                        <span class="text-slate-600 text-[11px]">—</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% if not parts %}
+                            <tr>
+                                <td colspan="6" class="p-8 text-center text-slate-500">
+                                    No parts found matching current filter.
+                                </td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live SVG Preview Modal / Container -->
+    <div id="preview-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-5xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            <!-- Modal Header -->
+            <div class="p-4 bg-slate-800/80 border-b border-slate-700 flex items-center justify-between">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <span>👁️</span> Live SVG Sheet Preview
+                </h3>
+                <div class="flex items-center gap-2">
+                    <button type="button" id="btn-modal-download" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition">
+                        Download File
+                    </button>
+                    <button type="button" id="btn-close-modal" class="px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs font-bold transition">
+                        ✕ Close
+                    </button>
+                </div>
+            </div>
+            <!-- Modal Body -->
+            <div class="p-6 overflow-auto flex items-center justify-center bg-slate-950/60 min-h-[400px]">
+                <div id="preview-container" class="bg-white rounded-lg shadow-inner max-w-full overflow-auto p-4 flex items-center justify-center">
+                    <span class="text-slate-400 text-xs">Loading SVG rendering...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const checkboxes = document.querySelectorAll('.part-checkbox');
+    const thSelectAll = document.getElementById('th-select-all');
+    const btnSelectAll = document.getElementById('btn-select-all');
+    const btnDeselectAll = document.getElementById('btn-deselect-all');
+    const selectedCountEl = document.getElementById('selected-count');
+    const quickFilterInput = document.getElementById('quick-filter');
+    const partRows = document.querySelectorAll('.part-row');
+
+    const btnDownload = document.getElementById('btn-download-svg');
+    const btnPreview = document.getElementById('btn-preview-svg');
+    const previewModal = document.getElementById('preview-modal');
+    const btnCloseModal = document.getElementById('btn-close-modal');
+    const btnModalDownload = document.getElementById('btn-modal-download');
+    const previewContainer = document.getElementById('preview-container');
+
+    let currentSvgData = "";
+    let currentFilename = "fastener_labels.svg";
+
+    function updateSelectedCount() {
+        const checked = Array.from(checkboxes).filter(cb => cb.checked && cb.closest('tr').style.display !== 'none');
+        selectedCountEl.textContent = checked.length;
+        if (thSelectAll) {
+            thSelectAll.checked = checked.length > 0 && checked.length === checkboxes.length;
+        }
+    }
+
+    if (btnSelectAll) {
+        btnSelectAll.addEventListener('click', () => {
+            checkboxes.forEach(cb => {
+                if (cb.closest('tr').style.display !== 'none') {
+                    cb.checked = true;
+                }
+            });
+            updateSelectedCount();
+        });
+    }
+
+    if (btnDeselectAll) {
+        btnDeselectAll.addEventListener('click', () => {
+            checkboxes.forEach(cb => cb.checked = false);
+            updateSelectedCount();
+        });
+    }
+
+    if (thSelectAll) {
+        thSelectAll.addEventListener('change', () => {
+            checkboxes.forEach(cb => {
+                if (cb.closest('tr').style.display !== 'none') {
+                    cb.checked = thSelectAll.checked;
+                }
+            });
+            updateSelectedCount();
+        });
+    }
+
+    checkboxes.forEach(cb => cb.addEventListener('change', updateSelectedCount));
+
+    // Quick text filter
+    if (quickFilterInput) {
+        quickFilterInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase().trim();
+            partRows.forEach(row => {
+                const searchTxt = (row.getAttribute('data-search') || "").toLowerCase();
+                if (!val || searchTxt.includes(val)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            updateSelectedCount();
+        });
+    }
+
+    // Initial count
+    updateSelectedCount();
+
+    function getPayload() {
+        const selectedIds = Array.from(checkboxes)
+            .filter(cb => cb.checked && cb.closest('tr').style.display !== 'none')
+            .map(cb => cb.value);
+        
+        const formatRadio = document.querySelector('input[name="export_format"]:checked');
+        const format = formatRadio ? formatRadio.value : 'cricut_print_cut';
+        const title = document.getElementById('sheet-title').value || 'Workshop Fastener Labels';
+        const includeQr = document.getElementById('include-qr').checked;
+
+        return {
+            part_ids: selectedIds,
+            format: format,
+            title: title,
+            include_qr: includeQr
+        };
+    }
+
+    async function fetchSvgContent() {
+        const payload = getPayload();
+        const res = await fetch('/api/labels/export-batch', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+            const err = await res.text();
+            throw new Error(`Export error (${res.status}): ${err}`);
+        }
+
+        const disposition = res.headers.get('content-disposition') || '';
+        const match = disposition.match(/filename="?([^"]+)"?/);
+        if (match && match[1]) {
+            currentFilename = match[1];
+        }
+
+        const text = await res.text();
+        currentSvgData = text;
+        return text;
+    }
+
+    function triggerDownload(content, filename) {
+        const blob = new Blob([content], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    if (btnDownload) {
+        btnDownload.addEventListener('click', async () => {
+            btnDownload.disabled = true;
+            btnDownload.innerHTML = '<span>⏳</span> Generating SVG...';
+            try {
+                const svg = await fetchSvgContent();
+                triggerDownload(svg, currentFilename);
+            } catch (err) {
+                alert(err.message);
+            } finally {
+                btnDownload.disabled = false;
+                btnDownload.innerHTML = '<span>⬇️</span> Download Batch SVG';
+            }
+        });
+    }
+
+    if (btnPreview) {
+        btnPreview.addEventListener('click', async () => {
+            btnPreview.disabled = true;
+            btnPreview.innerHTML = '<span>⏳</span> Loading...';
+            try {
+                const svg = await fetchSvgContent();
+                previewContainer.innerHTML = svg;
+                previewModal.classList.remove('hidden');
+            } catch (err) {
+                alert(err.message);
+            } finally {
+                btnPreview.disabled = false;
+                btnPreview.innerHTML = '<span>👁️</span> Live SVG Preview';
+            }
+        });
+    }
+
+    if (btnCloseModal) {
+        btnCloseModal.addEventListener('click', () => {
+            previewModal.classList.add('hidden');
+        });
+    }
+
+    if (btnModalDownload) {
+        btnModalDownload.addEventListener('click', () => {
+            if (currentSvgData) {
+                triggerDownload(currentSvgData, currentFilename);
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -26,7 +26,12 @@ from typing import Any
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 
-from vector_icons import get_component_icon_svg, get_drive_icon_svg, get_head_icon_svg
+try:
+    from hardware.labels.canonical_label import LabelData, render_canonical_label_svg
+    from hardware.labels.vector_icons import get_component_icon_svg, get_drive_icon_svg, get_head_icon_svg
+except ImportError:
+    from canonical_label import LabelData, render_canonical_label_svg
+    from vector_icons import get_component_icon_svg, get_drive_icon_svg, get_head_icon_svg
 
 # ==============================================================================
 # DIMENSIONAL CONSTANTS (millimeters)
@@ -144,62 +149,35 @@ def format_label_strings(spec: FastenerSpec) -> tuple[str, str, str]:
 # ==============================================================================
 
 def render_strip_label_svg(spec: FastenerSpec, x: float = 0.0, y: float = 0.0, include_bleed: bool = True) -> str:
-    """Render a standard cassette lid strip label as SVG with +1.0 mm bleed protection."""
-    color = spec.accent_color or "#0077CC"
-    bg = spec.bg_color or "#FFFFFF"
-
-    main_title, sub_text_1, sub_text_2 = format_label_strings(spec)
-    icon_x = x + STRIP_W - 8.5
-    node_id = clean_id("label", spec.size, spec.length, int(x), int(y))
-
-    svg_parts = [
-        f'<g id="{node_id}" transform="translate({x:.2f},{y:.2f})">'
-    ]
-
-    if include_bleed:
-        # Full Bleed Background Rectangle (extends -1.0 mm to +35.0 mm):
-        svg_parts.append(
-            f'<rect x="{-BLEED:.2f}" y="{-BLEED:.2f}" width="{BLEED_W:.2f}" height="{BLEED_H:.2f}" rx="{BLEED_R:.2f}" fill="{bg}" stroke="none"/>'
-        )
-        # Bleed Left Accent Bar (extends from X=-1.0 to X=3.6 mm, Y=-1.0 to Y=11.0 mm with rounded outer corners):
-        svg_parts.append(
-            f'<path d="M {-BLEED:.2f},{BLEED_R - BLEED:.2f} A {BLEED_R:.2f},{BLEED_R:.2f} 0 0,1 {BLEED_R - BLEED:.2f},{-BLEED:.2f} L 3.60,{-BLEED:.2f} L 3.60,{STRIP_H + BLEED:.2f} L {BLEED_R - BLEED:.2f},{STRIP_H + BLEED:.2f} A {BLEED_R:.2f},{BLEED_R:.2f} 0 0,1 {-BLEED:.2f},{STRIP_H + BLEED - BLEED_R:.2f} Z" fill="{color}"/>'
-        )
-    else:
-        # Exact Cut Box:
-        svg_parts.append(
-            f'<rect x="0" y="0" width="{STRIP_W}" height="{STRIP_H}" rx="{STRIP_R}" fill="{bg}" stroke="#CCCCCC" stroke-width="0.2"/>'
-        )
-        svg_parts.append(
-            f'<path d="M 0,{STRIP_R} A {STRIP_R},{STRIP_R} 0 0,1 {STRIP_R},0 L 2.6,0 L 2.6,{STRIP_H} L {STRIP_R},{STRIP_H} A {STRIP_R},{STRIP_R} 0 0,1 0,{STRIP_H - STRIP_R} Z" fill="{color}"/>'
-        )
-
-    # Main Title (Safe Inset Bold Font with XML escaping):
-    svg_parts.append(
-        f'<text x="{TEXT_X0}" y="3.8" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="{FONT_TITLE_SIZE_MM:.1f}" fill="#111111">{escape_xml(main_title)}</text>'
+    """Render a standard cassette lid strip label with strict text keepout and bleed protection."""
+    label_item = LabelData(
+        part_id=clean_id("part", spec.size, spec.length),
+        name=f"{spec.size} {spec.length}".strip(),
+        size=spec.size,
+        length=spec.length,
+        head=spec.head,
+        drive=spec.drive,
+        comp_type=spec.comp_type,
+        pitch=spec.pitch,
+        tap_drill=spec.tap_drill,
+        clearance_drill=spec.clearance_drill,
+        tool_key=spec.tool_key,
+        material=spec.material,
+        accent_color=spec.accent_color,
+        bg_color=spec.bg_color,
+        extra_note=spec.extra_note,
+        qr_payload="",
     )
-    # Subtext line 1 (Pitch / Tap):
-    svg_parts.append(
-        f'<text x="{TEXT_X0}" y="6.4" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="{FONT_SUB1_SIZE_MM:.1f}" fill="#444444">{escape_xml(sub_text_1)}</text>'
+    return render_canonical_label_svg(
+        label_item,
+        x=x,
+        y=y,
+        width=STRIP_W,
+        height=STRIP_H,
+        corner_radius=STRIP_R,
+        include_bleed=include_bleed,
+        include_qr=False,
     )
-    # Subtext line 2 (Drive Tool / Material):
-    svg_parts.append(
-        f'<text x="{TEXT_X0}" y="8.6" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="{FONT_SUB2_SIZE_MM:.1f}" fill="{color}">{escape_xml(sub_text_2)}</text>'
-    )
-
-    # Render silhouette icons (safely within cut perimeter):
-    if spec.comp_type in ("nut", "nyloc", "insert", "washer", "split"):
-        svg_parts.append(get_component_icon_svg(spec.comp_type, icon_x - x, 1.5, 6.8, 6.8, color="#222222"))
-    else:
-        # Head icon:
-        if spec.head and spec.head != "none":
-            svg_parts.append(get_head_icon_svg(spec.head, icon_x - x, 0.8, 6.5, 4.2, color="#222222"))
-        # Drive icon:
-        if spec.drive and spec.drive != "none":
-            svg_parts.append(get_drive_icon_svg(spec.drive, icon_x - x + 1.2, 5.2, 4.0, color=color))
-
-    svg_parts.append("</g>")
-    return "\n".join(svg_parts)
 
 
 # ==============================================================================
