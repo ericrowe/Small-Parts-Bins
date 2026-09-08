@@ -63,7 +63,7 @@ flowchart TD
 ---
 
 ## 5. Documentation Updates
-- `[MODIFY]` [`Parts-Database/README.md`](../README.md): Document camera piece-counter instructions and lighting tips for best accuracy.
+- `[MODIFY]` [`Parts-Database/README.md`](../../README.md): Document camera piece-counter instructions and lighting tips for best accuracy.
 - `[MODIFY]` [`Parts-Database/docs/plans/AGENTS.md`](AGENTS.md): Register Plan S04.
 
 ---

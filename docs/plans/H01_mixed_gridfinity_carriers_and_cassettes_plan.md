@@ -40,7 +40,7 @@ flowchart TD
 ### Hardware CAD & Automation Scripts
 - `[NEW]` `hardware/cad/generate_deep_bins.py`: Parametric Build123d script generating deep 2x2 and 3x3 Gridfinity carriers and slide-lid cassettes.
 - `[MODIFY]` [`hardware/scripts/generate_all_renders.py`](../../hardware/scripts/generate_all_renders.py): Add build targets for large cassettes and carriers.
-- `[MODIFY]` [`server/app/templates/catalog.html`](../../server/app/templates/catalog.html): Link 3D STL download buttons for large bins.
+- `[MODIFY]` [`server/templates/parts.html`](../../server/templates/parts.html): Link 3D STL download buttons for large bins.
 
 ### Tests
 - `[NEW]` `hardware/tests/test_cad_generation.py`: Unit tests asserting non-empty STL generation and valid geometric bounding boxes.
@@ -57,7 +57,7 @@ flowchart TD
 ---
 
 ## 5. Documentation Updates
-- `[MODIFY]` [`Parts-Database/README.md`](../README.md): Document new hardware carrier specs and print recommendations (PETG / PLA).
+- `[MODIFY]` [`Parts-Database/README.md`](../../README.md): Document new hardware carrier specs and print recommendations (PETG / PLA).
 - `[MODIFY]` [`Parts-Database/docs/plans/AGENTS.md`](AGENTS.md): Register Plan H01.
 
 ---

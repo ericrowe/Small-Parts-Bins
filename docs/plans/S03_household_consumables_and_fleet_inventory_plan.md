@@ -45,7 +45,7 @@ flowchart TD
 - `[MODIFY]` [`server/app/models.py`](../../server/app/models.py): Add `LocationHierarchy`, `ItemCategory` (Fastener, HVAC, Fleet, Plumbing, Electrical), `item_attributes` JSON field, and `reorder_threshold`.
 - `[MODIFY]` [`server/app/database.py`](../../server/app/database.py): Add schema migration for new location and category columns.
 - `[MODIFY]` [`server/app/main.py`](../../server/app/main.py): Add `/api/parts/search` and `/api/parts/{part_id}/decrement` endpoints.
-- `[MODIFY]` [`server/app/templates/catalog.html`](../../server/app/templates/catalog.html): Add category filters (Hardware, HVAC, Fleet, Electrical) and location hierarchy breadcrumbs.
+- `[MODIFY]` [`server/templates/parts.html`](../../server/templates/parts.html): Add category filters (Hardware, HVAC, Fleet, Electrical) and location hierarchy breadcrumbs.
 
 ### Tests
 - `[NEW]` `server/tests/test_consumables_inventory.py`: Automated tests verifying location hierarchy creation, attribute queries, reorder threshold alerts, and stock decrements.
@@ -64,7 +64,7 @@ flowchart TD
 ---
 
 ## 5. Documentation Updates
-- `[MODIFY]` [`Parts-Database/README.md`](../README.md): Document expanded taxonomy and API specifications.
+- `[MODIFY]` [`Parts-Database/README.md`](../../README.md): Document expanded taxonomy and API specifications.
 - `[MODIFY]` [`Parts-Database/docs/plans/AGENTS.md`](AGENTS.md): Register Plan S03.
 
 ---
