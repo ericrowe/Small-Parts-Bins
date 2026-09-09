@@ -53,7 +53,7 @@ Plan S05 implemented a unified, production-ready **Batch Label Sheet Generator a
 ```text
 ============================= test session starts ==============================
 platform darwin -- Python 3.14.6, pytest-9.1.1, pluggy-1.6.0
-rootdir: /Volumes/T9/Sync/Working/Server Rack/Parts-Database/server
+rootdir: Parts-Database/server
 collected 22 items
 
 server/tests/test_backup_pipeline.py ....                                [ 18%]
