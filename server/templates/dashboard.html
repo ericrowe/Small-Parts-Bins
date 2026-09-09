@@ -49,6 +49,36 @@
         </div>
     </div>
 
+    {% if replenish_alerts %}
+    <!-- Replenishment Needed Alert Banner -->
+    <div class="bg-amber-950/40 border border-amber-800/80 rounded-2xl p-5 shadow-lg space-y-3">
+        <div class="flex items-center justify-between">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-amber-300 flex items-center space-x-2">
+                <span>⚠️</span>
+                <span>Restock Required from Bulk Overstock ({{ replenish_alerts | length }})</span>
+            </h2>
+            <span class="text-xs text-amber-400 font-medium">Bulk reserves available in workshop</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {% for alert in replenish_alerts %}
+            <div class="bg-slate-900/90 border border-amber-900/50 rounded-xl p-3.5 flex items-center justify-between">
+                <div>
+                    <a href="/p/{{ alert.part.id }}" class="text-sm font-bold text-white hover:text-sky-400 transition">
+                        {{ alert.part.name }}
+                    </a>
+                    <div class="text-xs text-slate-400 mt-0.5">
+                        Primary: <span class="text-rose-400 font-bold font-mono">{{ alert.primary_compartment.quantity_on_hand }}x</span> (Threshold: {{ alert.primary_compartment.reorder_threshold }}) · Bulk: <span class="text-amber-400 font-bold font-mono">{{ alert.bulk_total }}x</span>
+                    </div>
+                </div>
+                <a href="/p/{{ alert.part.id }}" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold shadow transition whitespace-nowrap">
+                    Restock →
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Hardware Taxonomy & Categories -->
     <div class="space-y-4">
         <div class="flex items-center justify-between">

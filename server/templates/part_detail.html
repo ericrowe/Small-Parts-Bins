@@ -65,26 +65,51 @@
                 </div>
             </div>
 
-            <!-- Workshop Locations & Bins -->
-            <div class="border-t border-slate-800 pt-6 space-y-4">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-white">Physical Storage Bins & Compartments</h2>
-                    <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-950 border border-emerald-800 text-emerald-400 font-mono">
-                        Total Stock: {{ total_stock }} units
-                    </span>
+            <!-- Workshop Locations & Bins (Multi-Tier Inventory) -->
+            <div class="border-t border-slate-800 pt-6 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                        <h2 class="text-sm font-bold uppercase tracking-wider text-white">Physical Storage Bins & Inventory Tiers</h2>
+                        <p class="text-xs text-slate-400">Tracked across primary benchtop cassettes and deep bulk overstock drawers.</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-sky-950/80 border border-sky-800 text-sky-400 font-mono">
+                            Primary: {{ primary_stock }}x
+                        </span>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-amber-950/80 border border-amber-800 text-amber-400 font-mono">
+                            Bulk: {{ bulk_stock }}x
+                        </span>
+                        <span class="text-xs font-bold px-3 py-1 rounded-lg bg-emerald-950 border border-emerald-800 text-emerald-400 font-mono">
+                            Total: {{ total_stock }}x
+                        </span>
+                    </div>
                 </div>
 
+                <!-- Primary Workstation Storage -->
                 <div class="space-y-3">
-                    {% for comp in part.compartments %}
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center space-x-1.5">
+                            <span>⚡</span>
+                            <span>Primary Workstation Bins (Benchtop Gridfinity)</span>
+                        </h3>
+                        {% if bulk_comps and primary_comps %}
+                        <button onclick="openTransferModal()" class="px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold shadow transition flex items-center space-x-1">
+                            <span>🔄</span>
+                            <span>Transfer from Bulk</span>
+                        </button>
+                        {% endif %}
+                    </div>
+
+                    {% for comp in primary_comps %}
                     <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
                             <a href="/b/{{ comp.bin_id }}" class="text-sky-400 font-mono font-bold hover:underline flex items-center space-x-1.5">
                                 <span>🏷️</span>
                                 <span>{{ comp.bin_id }}</span>
-                                <span class="text-slate-400 text-xs font-normal">(Slot #{{ comp.compartment_index }} of {{ comp.bin.cassette_type }})</span>
+                                <span class="text-slate-400 text-xs font-normal">(Slot #{{ comp.compartment_index }} · {{ comp.bin.cassette_type }})</span>
                             </a>
                             <div class="text-xs text-slate-500 mt-1">
-                                Location: {{ comp.bin.carrier.location.name if comp.bin.carrier and comp.bin.carrier.location else "Shop Floor" }} · Carrier: {{ comp.bin.carrier_id }}
+                                Location: <span class="text-slate-300 font-medium">{{ comp.bin.carrier.location.name if comp.bin.carrier and comp.bin.carrier.location else "Shop Floor" }}</span> · Carrier: <span class="font-mono text-slate-400">{{ comp.bin.carrier_id }}</span>
                             </div>
                         </div>
 
@@ -102,12 +127,102 @@
                         </div>
                     </div>
                     {% else %}
-                    <div class="bg-slate-950/40 border border-slate-800 rounded-xl p-6 text-center text-slate-500 text-sm">
-                        This fastener is not currently assigned to any physical cassette bins.
+                    <div class="bg-slate-950/40 border border-slate-800/80 rounded-xl p-4 text-center text-slate-500 text-xs">
+                        No primary benchtop bins assigned.
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Bulk Overstock / Deep Storage -->
+                <div class="space-y-3 pt-2">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center space-x-1.5">
+                        <span>📦</span>
+                        <span>Bulk Overstock & Deep Storage</span>
+                    </h3>
+
+                    {% for comp in bulk_comps %}
+                    <div class="bg-slate-950/70 border border-amber-900/30 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <a href="/b/{{ comp.bin_id }}" class="text-amber-400 font-mono font-bold hover:underline flex items-center space-x-1.5">
+                                <span>🏷️</span>
+                                <span>{{ comp.bin_id }}</span>
+                                <span class="text-slate-400 text-xs font-normal">({{ comp.notes or "Bulk Reserve" }})</span>
+                            </a>
+                            <div class="text-xs text-slate-500 mt-1">
+                                Location: <span class="text-slate-300 font-medium">{{ comp.bin.carrier.location.name if comp.bin.carrier and comp.bin.carrier.location else "Deep Storage" }}</span> · Carrier: <span class="font-mono text-slate-400">{{ comp.bin.carrier_id }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Bulk Stock Level & Fast Adjuster -->
+                        <div class="flex items-center space-x-3">
+                            <div id="stock-{{ comp.id }}" class="text-xl font-bold font-mono text-amber-300 min-w-[3rem] text-right">
+                                {{ comp.quantity_on_hand }}x
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <button onclick="adjustCompartment('{{ comp.id }}', -25)" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 text-xs font-bold rounded-lg transition">-25</button>
+                                <button onclick="adjustCompartment('{{ comp.id }}', -5)" class="px-2 py-1 bg-rose-950 hover:bg-rose-900 active:scale-95 text-rose-300 text-xs font-bold rounded-lg border border-rose-800 transition">-5</button>
+                                <button onclick="adjustCompartment('{{ comp.id }}', 5)" class="px-2 py-1 bg-emerald-950 hover:bg-emerald-900 active:scale-95 text-emerald-300 text-xs font-bold rounded-lg border border-emerald-800 transition">+5</button>
+                                <button onclick="adjustCompartment('{{ comp.id }}', 50)" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 text-xs font-bold rounded-lg transition">+50</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="bg-slate-950/40 border border-slate-800/80 rounded-xl p-4 text-center text-slate-500 text-xs">
+                        No bulk overstock bins assigned for this fastener.
                     </div>
                     {% endfor %}
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Restock / Transfer Modal -->
+<div id="transfer-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 class="text-base font-bold text-white flex items-center space-x-2">
+                <span>🔄</span>
+                <span>Restock / Transfer Inventory</span>
+            </h3>
+            <button onclick="closeTransferModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
+        </div>
+
+        <div class="space-y-3 text-xs">
+            <div>
+                <label class="block font-semibold text-slate-400 uppercase tracking-wider mb-1">Source Bulk Bin</label>
+                <select id="transfer-from" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-slate-200">
+                    {% for comp in bulk_comps %}
+                    <option value="{{ comp.id }}">{{ comp.bin_id }} ({{ comp.quantity_on_hand }}x available)</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label class="block font-semibold text-slate-400 uppercase tracking-wider mb-1">Target Primary Bin</label>
+                <select id="transfer-to" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-slate-200">
+                    {% for comp in primary_comps %}
+                    <option value="{{ comp.id }}">{{ comp.bin_id }} Slot #{{ comp.compartment_index }} (Currently {{ comp.quantity_on_hand }}x)</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label class="block font-semibold text-slate-400 uppercase tracking-wider mb-1">Transfer Quantity</label>
+                <div class="flex items-center space-x-2">
+                    <input type="number" id="transfer-qty" min="1" value="25" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white font-mono text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <div class="flex space-x-1">
+                        <button type="button" onclick="setTransferQty(10)" class="px-2.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-lg">10</button>
+                        <button type="button" onclick="setTransferQty(25)" class="px-2.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-lg">25</button>
+                        <button type="button" onclick="setTransferQty(50)" class="px-2.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-lg">50</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-end space-x-2 pt-2 border-t border-slate-800">
+            <button onclick="closeTransferModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl text-xs transition">Cancel</button>
+            <button onclick="executeTransfer()" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-xl text-xs shadow transition">Transfer Stock</button>
         </div>
     </div>
 </div>
@@ -131,6 +246,52 @@ async function adjustCompartment(compId, delta) {
         }
     } catch (e) {
         console.error(e);
+    }
+}
+
+function openTransferModal() {
+    document.getElementById('transfer-modal').classList.remove('hidden');
+}
+
+function closeTransferModal() {
+    document.getElementById('transfer-modal').classList.add('hidden');
+}
+
+function setTransferQty(qty) {
+    document.getElementById('transfer-qty').value = qty;
+}
+
+async function executeTransfer() {
+    const fromCompId = document.getElementById('transfer-from').value;
+    const toCompId = document.getElementById('transfer-to').value;
+    const qty = parseInt(document.getElementById('transfer-qty').value, 10);
+
+    if (!fromCompId || !toCompId || isNaN(qty) || qty <= 0) {
+        alert('Please select valid compartments and quantity');
+        return;
+    }
+
+    try {
+        const res = await fetch('/api/inventory/transfer', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                from_compartment_id: fromCompId,
+                to_compartment_id: toCompId,
+                quantity: qty,
+                reason: 'Restock primary bin from bulk overstock'
+            })
+        });
+
+        if (res.ok) {
+            window.location.reload();
+        } else {
+            const err = await res.json();
+            alert('Transfer failed: ' + (err.detail || 'Unknown error'));
+        }
+    } catch (e) {
+        console.error(e);
+        alert('Network error while transferring inventory');
     }
 }
 </script>

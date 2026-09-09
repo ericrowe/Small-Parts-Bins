@@ -41,9 +41,14 @@
         <div class="bg-slate-900 border border-slate-800 rounded-2xl shadow-md overflow-hidden flex flex-col justify-between">
             <!-- Compartment Header -->
             <div class="px-5 py-3.5 flex items-center justify-between border-b border-slate-800 {% if comp.part %}bg-slate-950/80{% else %}bg-slate-950/40{% endif %}">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">
-                    Slot {{ comp.compartment_index }} of {{ bin.compartment_count }}
-                </span>
+                <div class="flex items-center space-x-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">
+                        Slot {{ comp.compartment_index }} of {{ bin.compartment_count }}
+                    </span>
+                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded {% if comp.storage_role == 'BULK_RESERVE' %}bg-amber-950 text-amber-400 border border-amber-800{% elif comp.storage_role == 'OVERFLOW' %}bg-purple-950 text-purple-400 border border-purple-800{% else %}bg-sky-950 text-sky-400 border border-sky-800{% endif %}">
+                        {{ comp.storage_role }}
+                    </span>
+                </div>
                 {% if comp.part %}
                 <span class="text-xs font-bold px-2 py-0.5 rounded" style="background-color: {{ comp.part.category.color_bg }}; color: {{ comp.part.category.color_hex }};">
                     {{ comp.part.category.name }}
@@ -85,7 +90,7 @@
                         <span class="text-xs uppercase font-bold text-slate-400 block">Stock Level</span>
                         <span class="text-xs text-slate-500">Reorder at {{ comp.reorder_threshold }}</span>
                     </div>
-                    <div id="stock-{{ comp.id }}" class="text-3xl font-black font-mono text-emerald-400">
+                    <div id="stock-{{ comp.id }}" class="text-3xl font-black font-mono {% if comp.storage_role == 'BULK_RESERVE' %}text-amber-300{% else %}text-emerald-400{% endif %}">
                         {{ comp.quantity_on_hand }}
                     </div>
                 </div>
@@ -107,11 +112,11 @@
             </div>
 
             <!-- Dynamic Part Mapper Dropdown Form -->
-            <div class="p-4 bg-slate-950/90 border-t border-slate-800">
-                <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-                    Assign Fastener Part
+            <div class="p-4 bg-slate-950/90 border-t border-slate-800 space-y-2">
+                <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                    Assign Fastener & Storage Role
                 </label>
-                <div class="flex items-center space-x-2">
+                <div class="space-y-2">
                     <select id="select-comp-{{ comp.compartment_index }}" class="w-full px-2.5 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500 transition">
                         <option value="">-- Unassigned / Empty --</option>
                         {% for p in all_parts %}
@@ -120,9 +125,16 @@
                         </option>
                         {% endfor %}
                     </select>
-                    <button onclick="assignPart('{{ bin.id }}', {{ comp.compartment_index }})" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold whitespace-nowrap transition">
-                        Save
-                    </button>
+                    <div class="flex items-center space-x-2">
+                        <select id="role-comp-{{ comp.compartment_index }}" class="w-full px-2.5 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500 transition">
+                            <option value="PRIMARY" {% if comp.storage_role == 'PRIMARY' %}selected{% endif %}>Role: PRIMARY (Benchtop)</option>
+                            <option value="BULK_RESERVE" {% if comp.storage_role == 'BULK_RESERVE' %}selected{% endif %}>Role: BULK_RESERVE (Overstock)</option>
+                            <option value="OVERFLOW" {% if comp.storage_role == 'OVERFLOW' %}selected{% endif %}>Role: OVERFLOW (Auxiliary)</option>
+                        </select>
+                        <button onclick="assignPart('{{ bin.id }}', {{ comp.compartment_index }})" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold whitespace-nowrap transition">
+                            Save
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -155,7 +167,9 @@ async function adjustCompartment(compId, delta) {
 
 async function assignPart(binId, compIndex) {
     const selectEl = document.getElementById(`select-comp-${compIndex}`);
+    const roleEl = document.getElementById(`role-comp-${compIndex}`);
     const partId = selectEl.value;
+    const role = roleEl ? roleEl.value : 'PRIMARY';
     
     try {
         const res = await fetch(`/api/bins/${binId}/compartments`, {
@@ -163,7 +177,8 @@ async function assignPart(binId, compIndex) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 compartment_index: compIndex,
-                part_id: partId
+                part_id: partId,
+                storage_role: role
             })
         });
         if (res.ok) {

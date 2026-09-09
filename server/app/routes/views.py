@@ -18,7 +18,7 @@ templates = Jinja2Templates(directory=templates_dir)
 
 @router.get("/", response_class=HTMLResponse)
 async def dashboard_view(request: Request, db: AsyncSession = Depends(get_db)):
-    """Render main workshop dashboard with inventory stats, category pills, and quick search."""
+    """Render main workshop dashboard with inventory stats, category pills, quick search, and restock alerts."""
     total_parts = (await db.execute(select(func.count(PartRecord.id)))).scalar() or 0
     total_bins = (await db.execute(select(func.count(BinRecord.id)))).scalar() or 0
     total_stock = (await db.execute(select(func.sum(BinCompartmentRecord.quantity_on_hand)))).scalar() or 0
@@ -38,6 +38,40 @@ async def dashboard_view(request: Request, db: AsyncSession = Depends(get_db)):
     )
     recent_bins = recent_bins_res.scalars().all()
 
+    # Replenishment Alerts
+    alerts_stmt = select(BinCompartmentRecord).options(
+        selectinload(BinCompartmentRecord.part).selectinload(PartRecord.category),
+        selectinload(BinCompartmentRecord.bin).selectinload(BinRecord.carrier).selectinload(CarrierRecord.location),
+    ).where(
+        BinCompartmentRecord.storage_role == "PRIMARY",
+        BinCompartmentRecord.part_id.isnot(None),
+        BinCompartmentRecord.quantity_on_hand <= BinCompartmentRecord.reorder_threshold,
+    )
+    res_alerts = await db.execute(alerts_stmt)
+    low_primary_comps = res_alerts.scalars().all()
+    replenish_alerts = []
+    for comp in low_primary_comps:
+        p_clean = comp.part_id.lower().replace("-", "_").replace("mm", "")
+        bulk_stmt = select(BinCompartmentRecord).options(
+            selectinload(BinCompartmentRecord.bin).selectinload(BinRecord.carrier).selectinload(CarrierRecord.location),
+        ).where(
+            BinCompartmentRecord.id != comp.id,
+            BinCompartmentRecord.storage_role.in_(["BULK_RESERVE", "OVERFLOW"]),
+            BinCompartmentRecord.quantity_on_hand > 0,
+        )
+        bulk_res = await db.execute(bulk_stmt)
+        sources = [
+            s for s in bulk_res.scalars().all()
+            if s.part_id and (s.part_id == comp.part_id or s.part_id.lower().replace("-", "_").replace("mm", "") == p_clean)
+        ]
+        if sources:
+            replenish_alerts.append({
+                "part": comp.part,
+                "primary_compartment": comp,
+                "bulk_sources": sources,
+                "bulk_total": sum(s.quantity_on_hand for s in sources),
+            })
+
     return templates.TemplateResponse(
         request=request,
         name="dashboard.html",
@@ -48,6 +82,7 @@ async def dashboard_view(request: Request, db: AsyncSession = Depends(get_db)):
             "low_stock": low_stock,
             "categories": categories,
             "recent_bins": recent_bins,
+            "replenish_alerts": replenish_alerts,
         },
     )
 
@@ -59,10 +94,10 @@ async def parts_catalog_view(
     category: Optional[str] = Query(None),
     db: AsyncSession = Depends(get_db),
 ):
-    """Render searchable fastener parts catalog table with thread details and tap drills."""
+    """Render searchable fastener parts catalog table with thread details, tap drills, and multi-tier stock."""
     stmt = select(PartRecord).options(
         selectinload(PartRecord.category),
-        selectinload(PartRecord.compartments).selectinload(BinCompartmentRecord.bin),
+        selectinload(PartRecord.compartments).selectinload(BinCompartmentRecord.bin).selectinload(BinRecord.carrier).selectinload(CarrierRecord.location),
     ).order_by(PartRecord.size, PartRecord.length)
     
     if category:
@@ -103,17 +138,34 @@ async def part_detail_view(request: Request, part_id: str, db: AsyncSession = De
     stmt = select(PartRecord).options(
         selectinload(PartRecord.category),
         selectinload(PartRecord.compartments).selectinload(BinCompartmentRecord.bin).selectinload(BinRecord.carrier).selectinload(CarrierRecord.location),
-    ).where(PartRecord.id == part_id)
+    ).where(
+        or_(
+            PartRecord.id == part_id,
+            func.lower(PartRecord.id) == func.lower(part_id),
+            func.replace(func.replace(func.lower(PartRecord.id), '-', '_'), 'mm', '') == func.replace(func.replace(func.lower(part_id), '-', '_'), 'mm', '')
+        )
+    )
     res = await db.execute(stmt)
     part = res.scalars().first()
     if not part:
         raise HTTPException(status_code=404, detail=f"Part '{part_id}' not found")
+
+    primary_comps = [c for c in part.compartments if getattr(c, "storage_role", "PRIMARY") == "PRIMARY"]
+    bulk_comps = [c for c in part.compartments if getattr(c, "storage_role", "PRIMARY") in ("BULK_RESERVE", "OVERFLOW")]
+    primary_stock = sum(c.quantity_on_hand for c in primary_comps)
+    bulk_stock = sum(c.quantity_on_hand for c in bulk_comps)
+    total_stock = sum(c.quantity_on_hand for c in part.compartments)
 
     return templates.TemplateResponse(
         request=request,
         name="part_detail.html",
         context={
             "part": part,
+            "primary_comps": primary_comps,
+            "bulk_comps": bulk_comps,
+            "primary_stock": primary_stock,
+            "bulk_stock": bulk_stock,
+            "total_stock": total_stock,
         },
     )
 

@@ -39,7 +39,7 @@ async def test_db_initialization_and_seed():
         assert len(parts) > 10
 
         bins = (await session.execute(select(BinRecord))).scalars().all()
-        assert len(bins) == 24
+        assert len(bins) >= 24
 
         comps = (await session.execute(select(BinCompartmentRecord))).scalars().all()
         assert len(comps) > 24

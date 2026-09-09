@@ -63,9 +63,19 @@ async def seed_database_from_json():
                 id="DRAWER-01",
                 name="Modular Fastener Drawer 01 (Gridfinity 14U Stack)",
                 location_type="GRIDFINITY_DRAWER",
+                tier="PRIMARY_BENCH",
                 notes="Target drawer with measured 111.125 mm ceiling. Houses 3x4 7U stacked carrier trays.",
             )
             session.add(loc)
+
+            loc_bulk = StorageLocationRecord(
+                id="DRAWER-06",
+                name="Deep Storage Drawer 06 (Bulk Hardware & Overstock)",
+                location_type="DEEP_DRAWER",
+                tier="BULK_OVERSTOCK",
+                notes="Deep storage drawer for high-capacity bulk hardware bins and 500-count boxes.",
+            )
+            session.add(loc_bulk)
 
             carrier_lower = CarrierRecord(
                 id="CARRIER-TRAY-L01",
@@ -86,6 +96,16 @@ async def seed_database_from_json():
                 position_col=1,
             )
             session.add(carrier_upper)
+
+            carrier_bulk = CarrierRecord(
+                id="CARRIER-BULK-01",
+                location_id="DRAWER-06",
+                layout="2x3",
+                height_u=14,
+                position_row=1,
+                position_col=1,
+            )
+            session.add(carrier_bulk)
 
             # 3. Ingest Metric Fastener Parts
             threads_dict = data.get("threads", {})
@@ -186,7 +206,7 @@ async def seed_database_from_json():
         has_compartments = comp_res.scalars().first() is not None
 
         if not has_compartments:
-            logger.info("Seeding physical 1, 2, and 3-compartment bins (BIN-001 through BIN-024)...")
+            logger.info("Seeding physical 1, 2, and 3-compartment bins (BIN-001 through BIN-024) and bulk reserve bins...")
             
             # Fetch all parts
             parts_res = await session.execute(select(PartRecord))
@@ -197,6 +217,9 @@ async def seed_database_from_json():
             # Delete any legacy bin records that don't have compartments
             await session.execute(delete(BinRecord))
 
+            base_url = os.environ.get("BASE_URL", "http://tasker-pi.local:8090").rstrip("/")
+
+            # 1. Primary Bins (BIN-001 to BIN-024) in DRAWER-01
             for bin_num in range(1, 25):
                 bin_id = f"BIN-{bin_num:03d}"
                 carrier_id = "CARRIER-TRAY-L01" if bin_num <= 12 else "CARRIER-TRAY-U01"
@@ -215,7 +238,6 @@ async def seed_database_from_json():
                     cassette_type = "divided_3"
                     label_title = f"Bin #{bin_num:03d} (3-Way Divided)"
 
-                base_url = os.environ.get("BASE_URL", "http://tasker-pi.local:8090").rstrip("/")
                 bin_record = BinRecord(
                     id=bin_id,
                     carrier_id=carrier_id,
@@ -238,12 +260,49 @@ async def seed_database_from_json():
                         bin_id=bin_id,
                         compartment_index=c_idx,
                         part_id=assigned_part,
+                        storage_role="PRIMARY",
                         quantity_on_hand=50 if comp_count == 1 else (30 if comp_count == 2 else 20),
                         reorder_threshold=15,
-                        notes=f"Compartment {c_idx} of {comp_count}",
+                        notes=f"Primary Compartment {c_idx} of {comp_count}",
                         updated_at=datetime.now(timezone.utc),
                     )
                     session.add(comp_record)
+
+            # 2. Bulk Reserve Bins in DRAWER-06 (BIN-080 to BIN-085)
+            bulk_assignments = [
+                ("BIN-080", "M3-8mm-SHCS", 500, "Bulk Box M3x8mm (500-pack)"),
+                ("BIN-081", "M3-12mm-SHCS", 480, "Bulk Box M3x12mm (500-pack)"),
+                ("BIN-082", "M4-16mm-SHCS", 400, "Bulk Box M4x16mm (400-pack)"),
+                ("BIN-083", "INSERT-M3-5_7", 350, "Bulk Tub M3 Standard Inserts"),
+            ]
+            for idx, (b_id, p_id, b_qty, b_title) in enumerate(bulk_assignments, start=1):
+                # Verify part exists
+                p_match = next((p for p in all_parts if p == p_id or p.lower().replace("-", "_") == p_id.lower().replace("-", "_")), all_parts[0] if all_parts else None)
+                
+                bulk_bin = BinRecord(
+                    id=b_id,
+                    carrier_id="CARRIER-BULK-01",
+                    slot_index=idx,
+                    compartment_count=1,
+                    cassette_type="single",
+                    label_title=b_title,
+                    qr_code_payload=f"{base_url}/b/{b_id}",
+                    updated_at=datetime.now(timezone.utc),
+                )
+                session.add(bulk_bin)
+
+                bulk_comp = BinCompartmentRecord(
+                    id=f"{b_id}-C1",
+                    bin_id=b_id,
+                    compartment_index=1,
+                    part_id=p_match,
+                    storage_role="BULK_RESERVE",
+                    quantity_on_hand=b_qty,
+                    reorder_threshold=50,
+                    notes=b_title,
+                    updated_at=datetime.now(timezone.utc),
+                )
+                session.add(bulk_comp)
 
         await session.commit()
         logger.info("Database seed check completed successfully.")

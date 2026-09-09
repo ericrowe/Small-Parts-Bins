@@ -50,6 +50,7 @@ class StorageLocationRecord(Base):
     id: Mapped[str] = mapped_column(String(64), primary_key=True)
     name: Mapped[str] = mapped_column(String(128), nullable=False)
     location_type: Mapped[str] = mapped_column(String(64), nullable=False, default="DRAWER")
+    tier: Mapped[str] = mapped_column(String(32), nullable=False, default="PRIMARY_BENCH")  # PRIMARY_BENCH, SECONDARY_DRAWER, BULK_OVERSTOCK, DEEP_STORAGE
     notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 
     carriers: Mapped[List["CarrierRecord"]] = relationship("CarrierRecord", back_populates="location", cascade="all, delete-orphan")
@@ -94,6 +95,7 @@ class BinCompartmentRecord(Base):
     bin_id: Mapped[str] = mapped_column(String(64), ForeignKey("bins.id"), nullable=False)
     compartment_index: Mapped[int] = mapped_column(Integer, nullable=False, default=1)  # 1, 2, or 3
     part_id: Mapped[Optional[str]] = mapped_column(String(64), ForeignKey("parts.id"), nullable=True)
+    storage_role: Mapped[str] = mapped_column(String(32), nullable=False, default="PRIMARY")  # PRIMARY, BULK_RESERVE, OVERFLOW, SECONDARY
     quantity_on_hand: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     reorder_threshold: Mapped[int] = mapped_column(Integer, nullable=False, default=10)
     notes: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
@@ -101,3 +103,21 @@ class BinCompartmentRecord(Base):
 
     bin: Mapped["BinRecord"] = relationship("BinRecord", back_populates="compartments")
     part: Mapped[Optional["PartRecord"]] = relationship("PartRecord", back_populates="compartments")
+
+
+class StockTransferLogRecord(Base):
+    """Auditable log record for stock transfers between compartments/bins."""
+    __tablename__ = "stock_transfers"
+
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)  # e.g. XFER-UUID
+    part_id: Mapped[str] = mapped_column(String(64), ForeignKey("parts.id"), nullable=False)
+    from_compartment_id: Mapped[str] = mapped_column(String(64), ForeignKey("bin_compartments.id"), nullable=False)
+    to_compartment_id: Mapped[str] = mapped_column(String(64), ForeignKey("bin_compartments.id"), nullable=False)
+    quantity: Mapped[int] = mapped_column(Integer, nullable=False)
+    reason: Mapped[Optional[str]] = mapped_column(String(256), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+
+    part: Mapped["PartRecord"] = relationship("PartRecord")
+    from_compartment: Mapped["BinCompartmentRecord"] = relationship("BinCompartmentRecord", foreign_keys=[from_compartment_id])
+    to_compartment: Mapped["BinCompartmentRecord"] = relationship("BinCompartmentRecord", foreign_keys=[to_compartment_id])
+
