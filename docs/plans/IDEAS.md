@@ -28,7 +28,7 @@ Persistent asynchronous backlog for database schema design, QR code generation, 
 ### [FEATURE] Household Consumables & Fleet Maintenance Inventory Expansion (`S03`)
 - **Context**: The database is currently focused on small modular fastener bins. Household maintenance items (HVAC air filters, water filters, LED light bulbs, lawnmower blades) and vehicle maintenance items (motor oil, oil filters, spark plugs, brake pads) require tracking larger items in shelves, cabinets, and closets.
 - **Proposed Solution**: Expand schema to support broader location hierarchies (e.g. `Garage Shelf B2`, `Utility Closet Rack`), multi-pack quantities, item specification attributes (e.g. `16x25x1 MERV 11`, `5W-30 Full Synthetic`), and minimum stock reorder thresholds.
-- **Status**: Triaged Idea (Backlog)
+- **Status**: Triaged -> Queued in [Plan S03](S03_household_consumables_and_fleet_inventory_plan.md) (P1 in Active Execution Queue)
 
 ### [FEATURE] Computer Vision Camera Fastener Counter (Snapshot Piece Counting) (`S04`)
 - **Context**: Counting small fasteners (screws, nuts, washers, pins) by hand is slow, and weight scales can suffer from tare/tolerance inaccuracies. Spreading fasteners across a tray or bin and taking a quick smartphone photo provides an instant, auditable count.
