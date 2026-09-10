@@ -63,7 +63,7 @@ flowchart TD
 ## 4. Test Verification & Coverage Ratchet Scorecard
 
 ```
-🧪 Running Parts-Database tests with: /Volumes/T9/Sync/Working/Server Rack/Parts-Database/server/.venv/bin/python
+🧪 Running Parts-Database tests with: <workspace-root>/Parts-Database/server/.venv/bin/python
 ============================= test session starts ==============================
 collected 29 items
 
