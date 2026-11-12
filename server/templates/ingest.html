@@ -1,0 +1,822 @@
+{% extends "base.html" %}
+{% block title %}Parts Ingestor — Homebox Cartridge Cataloging{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Top Banner & Sequential Bin Header -->
+    <div class="rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/60 border border-slate-800 p-6 shadow-xl">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div>
+                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-semibold mb-2">
+                    <span>🎯 Target Homebox Location: Barn &gt; Tool Chest A &gt; Gridfinity Cartridges</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                    Cartridge Parts Ingestor (Photo CV + Form Entry)
+                </h1>
+                <p class="mt-1 text-sm text-slate-400 max-w-3xl">
+                    Take a photo of spilled cartridge hardware (with optional label cutout or ruler in frame) or use direct Form Entry.
+                    Automatically splits <span class="text-slate-200 font-medium">Black Oxide</span> vs. <span class="text-slate-200 font-medium">Silver / Stainless</span> fasteners into separate items inside a single sequential bin without sub-compartment clutter.
+                </p>
+            </div>
+
+            <!-- Sequential Bin Badge -->
+            <div class="flex items-center space-x-4 bg-slate-950/90 border border-emerald-700/50 rounded-xl px-5 py-3.5 shrink-0">
+                <div>
+                    <div class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Next Sequential Bin</div>
+                    <div class="flex items-center space-x-2 mt-0.5">
+                        <input id="bin-id-input" type="text" value="{{ next_bin_id }}"
+                            class="w-28 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xl font-black text-emerald-400 tracking-wide focus:outline-none focus:border-emerald-500" />
+                        <span class="text-xs text-slate-500">(Auto-assigned)</span>
+                    </div>
+                </div>
+                <a href="{{ homebox_base_url }}" target="_blank"
+                    class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-sky-400 border border-slate-700 transition">
+                    Open Homebox ↗
+                </a>
+            </div>
+        </div>
+
+        <!-- Mode Selector Tabs (User Choice: Photo vs Form Entry) -->
+        <div class="mt-6 flex flex-wrap gap-3 border-t border-slate-800/80 pt-5">
+            <button id="tab-photo-mode" type="button" onclick="switchIngestMode('photo')"
+                class="px-5 py-2.5 rounded-xl font-bold text-sm flex items-center space-x-2 bg-emerald-600 text-white shadow-lg shadow-emerald-900/40 transition">
+                <span>📸 Photo Ingestor (Label OCR + CV Piece Count & Head ID)</span>
+            </button>
+            <button id="tab-form-mode" type="button" onclick="switchIngestMode('form')"
+                class="px-5 py-2.5 rounded-xl font-bold text-sm flex items-center space-x-2 bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition">
+                <span>📝 Direct Form Entry Mode</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Homebox REST API v1 Connection Banner -->
+    <div id="homebox-auth-banner" class="rounded-xl border {% if homebox_authenticated %}border-emerald-700/40 bg-emerald-950/30{% else %}border-amber-600/50 bg-amber-950/30{% endif %} p-4">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+            <div class="flex items-center space-x-2 text-xs sm:text-sm">
+                <span id="hb-auth-dot" class="w-2.5 h-2.5 rounded-full {% if homebox_authenticated %}bg-emerald-400{% else %}bg-amber-400 animate-pulse{% endif %}"></span>
+                <span id="hb-auth-status-text" class="font-semibold {% if homebox_authenticated %}text-emerald-300{% else %}text-amber-200{% endif %}">
+                    {% if homebox_authenticated %}
+                        Connected to Homebox Official REST API ({{ homebox_base_url }}/api/v1)
+                    {% else %}
+                        Sign in once to Homebox REST API ({{ homebox_base_url }}/api/v1) to enable safe API-backed commits:
+                    {% endif %}
+                </span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <input id="hb-url-input" type="text" value="{{ homebox_base_url }}" placeholder="http://tasker-pi.local:7745"
+                    class="w-48 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200" />
+                <input id="hb-user-input" type="text" placeholder="Homebox Email / Username"
+                    class="w-44 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200" />
+                <input id="hb-pass-input" type="password" placeholder="Homebox Password"
+                    class="w-36 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200" />
+                <button type="button" onclick="connectHomeboxApi()"
+                    class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition">
+                    🔑 Connect API
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status / Commit Banner -->
+    <div id="commit-alert" class="hidden rounded-xl border p-4 text-sm"></div>
+
+    <!-- Main 2-Column Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- Left Column: Photo Upload / Ruler Calibration / Clarification Questions (7 cols) -->
+        <div id="photo-panel" class="lg:col-span-6 space-y-6">
+            <div class="rounded-2xl bg-slate-900 border border-slate-800 p-6 space-y-5">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+                        <span>📷 Step 1: Capture or Upload Cartridge Photo</span>
+                    </h2>
+                    <span class="text-xs px-2.5 py-1 rounded bg-slate-800 text-slate-400 border border-slate-700">
+                        Supports Label Cutout & Ruler
+                    </span>
+                </div>
+
+                <!-- File / Camera Input -->
+                <div class="border-2 border-dashed border-slate-700 hover:border-emerald-500/60 rounded-xl p-6 text-center transition bg-slate-950/50">
+                    <input id="photo-file-input" type="file" accept="image/*" capture="environment" class="hidden" onchange="onPhotoSelected(event)" />
+                    <label for="photo-file-input" class="cursor-pointer flex flex-col items-center space-y-2">
+                        <div class="w-12 h-12 rounded-full bg-emerald-500/15 border border-emerald-500/40 flex items-center justify-center text-2xl">
+                            📸
+                        </div>
+                        <span class="text-base font-bold text-white">Tap to Take Cartridge Photo or Choose Image</span>
+                        <span class="text-xs text-slate-400">
+                            Include your label cutout (e.g. <code class="text-emerald-300">M4 × 6</code>) if available, or place a ruler in frame!
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Optional Hints & Ruler Calibration Controls -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Optional Size Hint</label>
+                        <input id="hint-size" type="text" placeholder="Auto from label (e.g. M4)"
+                            class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white focus:border-sky-500 focus:outline-none" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Optional Length Hint</label>
+                        <input id="hint-length" type="text" placeholder="Auto (e.g. 6 mm)"
+                            class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white focus:border-sky-500 focus:outline-none" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Ruler Scale (mm / px)</label>
+                        <div class="flex space-x-1.5">
+                            <input id="ruler-scale-input" type="number" step="0.001" placeholder="Optional"
+                                class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-2 text-sm text-white focus:border-sky-500 focus:outline-none" />
+                            <button type="button" onclick="startRulerCalibration()" title="Click 2 points 10mm apart on the photo"
+                                class="px-2.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-amber-300 border border-slate-700 shrink-0">
+                                📏 10mm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="analyze-btn" type="button" onclick="analyzeUploadedPhoto()"
+                    class="w-full py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm shadow-lg transition flex items-center justify-center space-x-2">
+                    <span>🔍 Analyze Photo (Detect Label, Split Black/Silver, Count & ID Head)</span>
+                </button>
+
+                <!-- Annotated Image Preview & Interactive Ruler Canvas -->
+                <div id="preview-container" class="hidden space-y-3 pt-2">
+                    <div class="flex items-center justify-between text-xs">
+                        <span id="preview-status-badge" class="font-semibold text-emerald-400">Annotated CV Detection</span>
+                        <span id="ruler-instruction" class="text-amber-300 hidden">Click 2 points exactly 10 mm apart on your ruler...</span>
+                    </div>
+                    <div class="relative rounded-xl overflow-hidden border border-slate-700 bg-slate-950">
+                        <img id="annotated-preview-img" src="" alt="Annotated Cartridge Preview"
+                            onclick="onPreviewImageClick(event)"
+                            class="w-full h-auto object-contain max-h-[520px] cursor-crosshair" />
+                    </div>
+                    <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400 bg-slate-950/80 px-3.5 py-2 rounded-lg border border-slate-800">
+                        <span>🟩 <strong class="text-emerald-400">Green Box</strong>: Detected Label Cutout</span>
+                        <span>🟧 <strong class="text-amber-400">Amber Badges</strong>: Black Oxide Screws</span>
+                        <span>🟦 <strong class="text-sky-400">Blue Badges</strong>: Silver / Stainless Screws</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Clarification Questions Box -->
+            <div id="questions-panel" class="hidden rounded-2xl bg-amber-950/30 border border-amber-600/40 p-6 space-y-4">
+                <div class="flex items-center space-x-2">
+                    <span class="text-xl">💬</span>
+                    <div>
+                        <h3 class="text-base font-bold text-amber-200">Clarification Questions About This Cartridge</h3>
+                        <p class="text-xs text-amber-300/80">
+                            Confirm or adjust the educated guesses below to automatically update all part cards in this bin:
+                        </p>
+                    </div>
+                </div>
+                <div id="questions-list" class="space-y-4"></div>
+            </div>
+        </div>
+
+        <!-- Right Column: Cartridge Contents Review & Form Entry Cards (6 cols, or 12 in Form Mode) -->
+        <div id="review-panel" class="lg:col-span-6 space-y-6">
+            <div class="rounded-2xl bg-slate-900 border border-slate-800 p-6 space-y-5">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-800 pb-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-white">
+                            Step 2: Cartridge Contents for <span id="target-bin-label" class="text-emerald-400">{{ next_bin_id }}</span>
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-0.5">
+                            Each distinct finish (e.g. Black vs. Silver) or head type is saved as a separate item in the same bin.
+                        </p>
+                    </div>
+                    <button type="button" onclick="addHardwareGroupCard()"
+                        class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold text-emerald-300 border border-emerald-700/50 transition shrink-0">
+                        + Add Variant in Same Bin
+                    </button>
+                </div>
+
+                <!-- Cartridge Overall Label / Note -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Cartridge Summary Label</label>
+                        <input id="cartridge-label-input" type="text" placeholder="e.g. M4 × 6"
+                            class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white font-semibold focus:border-emerald-500 focus:outline-none" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Cartridge Notes (Optional)</label>
+                        <input id="cartridge-notes-input" type="text" placeholder="e.g. Black SHCS & Silver BHCS"
+                            class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white focus:border-emerald-500 focus:outline-none" />
+                    </div>
+                </div>
+
+                <!-- Dynamic Hardware Variant Group Cards -->
+                <div id="groups-container" class="space-y-4"></div>
+
+                <!-- Commit Action Button -->
+                <div class="pt-3 border-t border-slate-800">
+                    <button id="commit-btn" type="button" onclick="commitCartridgeToHomebox()"
+                        class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-base shadow-lg shadow-emerald-950/60 transition flex items-center justify-center space-x-2">
+                        <span>✅ Save Cartridge to Homebox & Advance to Next Bin</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recently Cataloged Sequential Bins in Homebox -->
+    <div class="rounded-2xl bg-slate-900 border border-slate-800 p-6 space-y-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-bold text-white">📦 Cataloged Cartridge Bins in Homebox ({{ total_ingested_bins }})</h2>
+                <p class="text-xs text-slate-400">
+                    Sequential temporary bins currently stored in Homebox (<code class="text-sky-400">{{ homebox_base_url }}</code>).
+                </p>
+            </div>
+        </div>
+
+        <div id="history-bins-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for b in ingested_bins %}
+            <div class="rounded-xl bg-slate-950 border border-slate-800 p-4 space-y-2.5">
+                <div class="flex items-center justify-between">
+                    <span class="px-2.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 text-xs font-extrabold">
+                        {{ b.bin_code }}
+                    </span>
+                    <div class="flex items-center gap-2">
+                        <a href="/labels?bin={{ b.bin_4digit }}" class="text-xs text-emerald-400 hover:underline font-semibold">🏷️ Label</a>
+                        <a href="{{ b.homebox_url }}" target="_blank" class="text-xs text-sky-400 hover:underline">Homebox ↗</a>
+                    </div>
+                </div>
+                <div class="font-bold text-sm text-white">{{ b.name }}</div>
+                <div class="space-y-1.5 pt-1">
+                    {% for item in b.items %}
+                    <div class="flex items-center justify-between text-xs bg-slate-900 px-2.5 py-1.5 rounded border border-slate-800/80">
+                        <span class="text-slate-200 truncate pr-2">{{ item.name }}</span>
+                        <span class="font-bold text-emerald-400 shrink-0">{{ item.quantity }} pcs</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <div class="col-span-full text-center py-8 text-sm text-slate-500">
+                No sequential cartridge bins ingested yet. Upload your first cartridge photo or submit a form entry above!
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let currentMode = "photo";
+    let currentGroups = [];
+    let currentQuestions = [];
+    let selectedAnswers = {};
+    let currentPhotoBase64 = null;
+    let rulerCalibPoints = [];
+    let isCalibratingRuler = false;
+
+    async function parseApiJson(res) {
+        const rawText = await res.text();
+        try {
+            return JSON.parse(rawText);
+        } catch (_) {
+            throw new Error(rawText ? rawText.slice(0, 240) : `HTTP ${res.status} ${res.statusText}`);
+        }
+    }
+
+    const HEAD_OPTIONS = [
+        { value: "shcs", label: "Socket Head Cap (SHCS — Tall Cylindrical)" },
+        { value: "bhcs", label: "Button Head (BHCS — Low-Profile Dome)" },
+        { value: "fhcs", label: "Flat / Countersunk (FHCS — Conical)" },
+        { value: "hex", label: "Hex Head Bolt" },
+        { value: "pan", label: "Pan Head" },
+        { value: "nut", label: "Hex Nut" },
+        { value: "washer", label: "Flat Washer" },
+        { value: "insert", label: "Brass Heat-Set Insert" }
+    ];
+
+    const FINISH_OPTIONS = [
+        { key: "black", label: "Black Oxide Steel" },
+        { key: "silver", label: "Stainless Steel (Silver)" },
+        { key: "zinc", label: "Zinc Plated (Silver)" },
+        { key: "brass", label: "Brass" },
+        { key: "nylon", label: "Nylon / Plastic" }
+    ];
+
+    document.getElementById("bin-id-input").addEventListener("input", (e) => {
+        document.getElementById("target-bin-label").textContent = e.target.value;
+    });
+
+    function switchIngestMode(mode) {
+        currentMode = mode;
+        const photoPanel = document.getElementById("photo-panel");
+        const reviewPanel = document.getElementById("review-panel");
+        const tabPhoto = document.getElementById("tab-photo-mode");
+        const tabForm = document.getElementById("tab-form-mode");
+
+        if (mode === "form") {
+            photoPanel.classList.add("hidden");
+            reviewPanel.classList.remove("lg:col-span-6");
+            reviewPanel.classList.add("lg:col-span-12");
+            tabForm.className = "px-5 py-2.5 rounded-xl font-bold text-sm flex items-center space-x-2 bg-emerald-600 text-white shadow-lg shadow-emerald-900/40 transition";
+            tabPhoto.className = "px-5 py-2.5 rounded-xl font-bold text-sm flex items-center space-x-2 bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition";
+        } else {
+            photoPanel.classList.remove("hidden");
+            reviewPanel.classList.remove("lg:col-span-12");
+            reviewPanel.classList.add("lg:col-span-6");
+            tabPhoto.className = "px-5 py-2.5 rounded-xl font-bold text-sm flex items-center space-x-2 bg-emerald-600 text-white shadow-lg shadow-emerald-900/40 transition";
+            tabForm.className = "px-5 py-2.5 rounded-xl font-bold text-sm flex items-center space-x-2 bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition";
+        }
+    }
+
+    function onPhotoSelected(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            currentPhotoBase64 = e.target.result;
+            const img = document.getElementById("annotated-preview-img");
+            img.src = currentPhotoBase64;
+            document.getElementById("preview-container").classList.remove("hidden");
+            analyzeUploadedPhoto();
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function startRulerCalibration() {
+        const previewContainer = document.getElementById("preview-container");
+        if (previewContainer.classList.contains("hidden")) {
+            alert("Please select or take a photo first, then click two points 10 mm apart on the ruler in your photo.");
+            return;
+        }
+        rulerCalibPoints = [];
+        isCalibratingRuler = true;
+        document.getElementById("ruler-instruction").classList.remove("hidden");
+    }
+
+    function onPreviewImageClick(event) {
+        if (!isCalibratingRuler) return;
+        const img = event.target;
+        const rect = img.getBoundingClientRect();
+        const scaleX = img.naturalWidth / rect.width;
+        const scaleY = img.naturalHeight / rect.height;
+        const x = (event.clientX - rect.left) * scaleX;
+        const y = (event.clientY - rect.top) * scaleY;
+        rulerCalibPoints.push({ x, y });
+
+        if (rulerCalibPoints.length === 2) {
+            const dx = rulerCalibPoints[1].x - rulerCalibPoints[0].x;
+            const dy = rulerCalibPoints[1].y - rulerCalibPoints[0].y;
+            const distPx = Math.sqrt(dx * dx + dy * dy);
+            if (distPx > 5) {
+                const mmPerPx = (10.0 / distPx).toFixed(4);
+                document.getElementById("ruler-scale-input").value = mmPerPx;
+            }
+            isCalibratingRuler = false;
+            document.getElementById("ruler-instruction").classList.add("hidden");
+            analyzeUploadedPhoto();
+        }
+    }
+
+    async function analyzeUploadedPhoto() {
+        const fileInput = document.getElementById("photo-file-input");
+        if (!fileInput.files || !fileInput.files[0]) {
+            alert("Please choose or capture a cartridge photo first.");
+            return;
+        }
+
+        const btn = document.getElementById("analyze-btn");
+        btn.disabled = true;
+        btn.innerHTML = "<span>⏳ Analyzing Label Cutout, Finish Groups & Bolt Heads...</span>";
+
+        const formData = new FormData();
+        formData.append("photo", fileInput.files[0]);
+
+        const sizeHint = document.getElementById("hint-size").value.trim();
+        const lenHint = document.getElementById("hint-length").value.trim();
+        const rulerScale = document.getElementById("ruler-scale-input").value.trim();
+        if (sizeHint) formData.append("size_hint", sizeHint);
+        if (lenHint) formData.append("length_hint", lenHint);
+        if (rulerScale) formData.append("ruler_mm_per_px", rulerScale);
+
+        try {
+            const res = await fetch("/api/ingest/analyze-photo", {
+                method: "POST",
+                body: formData
+            });
+            const data = await parseApiJson(res);
+            if (!res.ok) {
+                throw new Error(data.detail || "Failed to analyze photo");
+            }
+
+            if (data.next_bin_id) {
+                document.getElementById("bin-id-input").value = data.next_bin_id;
+                document.getElementById("target-bin-label").textContent = data.next_bin_id;
+            }
+            if (data.cartridge_label) {
+                document.getElementById("cartridge-label-input").value = data.cartridge_label;
+            }
+            if (data.annotated_image_base64) {
+                document.getElementById("annotated-preview-img").src = data.annotated_image_base64;
+                document.getElementById("preview-container").classList.remove("hidden");
+            }
+
+            const badge = document.getElementById("preview-status-badge");
+            if (data.label_detected) {
+                badge.textContent = `✅ Label Cutout Read: ${data.detected_specs.size} × ${data.detected_specs.length} (Pitch ${data.detected_specs.pitch}) · ${data.total_pieces_detected} total pcs`;
+                badge.className = "font-semibold text-emerald-400";
+            } else {
+                badge.textContent = `⚠️ No Label Cutout Found — Guessed ${data.detected_specs.size} × ${data.detected_specs.length} · ${data.total_pieces_detected} total pcs`;
+                badge.className = "font-semibold text-amber-400";
+            }
+
+            currentGroups = data.groups || [];
+            currentQuestions = data.questions || [];
+            selectedAnswers = {
+                size: (data.detected_specs && data.detected_specs.size) || (currentGroups[0] && currentGroups[0].size) || "",
+                length: (data.detected_specs && data.detected_specs.length) || (currentGroups[0] && currentGroups[0].length) || "",
+                head: (currentGroups[0] && currentGroups[0].head) || ""
+            };
+            renderGroupCards();
+            renderQuestions(currentQuestions);
+        } catch (err) {
+            alert("Error analyzing photo: " + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = "<span>🔍 Re-Analyze Photo</span>";
+        }
+    }
+
+    function normalizeOptionValue(field, val) {
+        const s = String(val || "").trim().toLowerCase();
+        if (field === "length") {
+            return s.replace(/\s*mm$/i, "").trim();
+        }
+        return s;
+    }
+
+    function renderQuestions(questions) {
+        const panel = document.getElementById("questions-panel");
+        const list = document.getElementById("questions-list");
+        list.innerHTML = "";
+        if (!questions || questions.length === 0) {
+            panel.classList.add("hidden");
+            return;
+        }
+        panel.classList.remove("hidden");
+
+        questions.forEach((q) => {
+            const activeVal = selectedAnswers[q.field] || (currentGroups[0] && currentGroups[0][q.field]) || "";
+            const normActive = normalizeOptionValue(q.field, activeVal);
+
+            const div = document.createElement("div");
+            div.className = "bg-slate-950/80 border border-amber-700/40 rounded-xl p-3.5 space-y-2";
+            const optionsHtml = (q.options || []).map((opt) => {
+                const rawVal = opt.split(" (")[0].trim();
+                const isSelected = normActive !== "" && normalizeOptionValue(q.field, rawVal) === normActive;
+                const btnClasses = isSelected
+                    ? "px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-extrabold border-2 border-emerald-300 ring-2 ring-emerald-400/50 shadow-md shadow-emerald-950/60 transition"
+                    : "px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 border border-slate-700 transition";
+                const prefix = isSelected ? "✓ " : "";
+                return `<button type="button" aria-pressed="${isSelected ? 'true' : 'false'}" onclick="applyQuestionAnswer('${q.field}', '${rawVal.replace(/'/g, "\\'")}')"
+                    class="${btnClasses}">
+                    ${prefix}${opt}
+                </button>`;
+            }).join(" ");
+
+            const statusBadge = activeVal
+                ? `<span class="px-2 py-0.5 rounded-full bg-emerald-900/80 border border-emerald-500/50 text-emerald-300 text-[11px] font-bold shrink-0">✓ Applied: ${activeVal}</span>`
+                : "";
+
+            div.innerHTML = `
+                <div class="flex items-center justify-between gap-2">
+                    <div class="text-xs font-bold text-amber-100">${q.question}</div>
+                    ${statusBadge}
+                </div>
+                <div class="flex flex-wrap gap-1.5 pt-1">${optionsHtml}</div>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    async function applyQuestionAnswer(field, value) {
+        selectedAnswers[field] = value;
+        renderQuestions(currentQuestions);
+
+        for (let i = 0; i < currentGroups.length; i++) {
+            if (field === "size") {
+                currentGroups[i].size = value;
+                try {
+                    const res = await fetch(`/api/ingest/specs?size=${encodeURIComponent(value)}&head=${encodeURIComponent(currentGroups[i].head || 'shcs')}`);
+                    if (res.ok) {
+                        const sp = await res.json();
+                        if (sp.pitch) currentGroups[i].pitch = sp.pitch;
+                        if (sp.tap_drill) currentGroups[i].tap_drill = sp.tap_drill;
+                        if (sp.clearance_drill) currentGroups[i].clearance_drill = sp.clearance_drill;
+                        if (sp.tool_key) currentGroups[i].tool_key = sp.tool_key;
+                    }
+                } catch (_) {}
+            } else if (field === "length") {
+                currentGroups[i].length = value;
+            } else if (field === "head") {
+                currentGroups[i].head = value;
+            }
+            rebuildGroupName(i);
+        }
+        if (currentGroups.length > 0) {
+            const sz = currentGroups[0].size || "";
+            const ln = (currentGroups[0].length || "").replace(" mm", "");
+            document.getElementById("cartridge-label-input").value = `${sz} × ${ln}`.trim();
+        }
+        renderGroupCards();
+        renderQuestions(currentQuestions);
+    }
+
+    function rebuildGroupName(idx) {
+        const g = currentGroups[idx];
+        const headObj = HEAD_OPTIONS.find(h => h.value === g.head);
+        const headTitle = headObj ? headObj.label.split(" (")[0] + " Screw" : "Fastener";
+        g.name = `${g.size || ''} × ${g.length || ''} ${headTitle} (${g.finish || 'Steel'})`.replace(/\s+/g, " ").trim();
+    }
+
+    function addHardwareGroupCard(defaults = null) {
+        const baseSize = currentGroups.length > 0 ? currentGroups[0].size : "M4";
+        const baseLen = currentGroups.length > 0 ? currentGroups[0].length : "6 mm";
+        const basePitch = currentGroups.length > 0 ? currentGroups[0].pitch : "0.7 mm";
+        const newGrp = defaults || {
+            finish_key: currentGroups.length === 0 ? "black" : "silver",
+            finish: currentGroups.length === 0 ? "Black Oxide Steel" : "Stainless Steel (Silver)",
+            quantity: 20,
+            size: baseSize,
+            length: baseLen,
+            pitch: basePitch,
+            head: currentGroups.length === 0 ? "shcs" : "bhcs",
+            drive: "hex",
+            comp_type: "bolt",
+            tool_key: "3.0 mm",
+            tap_drill: "3.30 mm (#30)",
+            clearance_drill: "4.5 mm (#16)",
+            name: "",
+            notes: ""
+        };
+        currentGroups.push(newGrp);
+        rebuildGroupName(currentGroups.length - 1);
+        renderGroupCards();
+    }
+
+    function removeGroupCard(idx) {
+        currentGroups.splice(idx, 1);
+        renderGroupCards();
+    }
+
+    function adjustQuantity(idx, delta) {
+        syncInputsToState();
+        currentGroups[idx].quantity = Math.max(1, (parseInt(currentGroups[idx].quantity, 10) || 1) + delta);
+        renderGroupCards();
+    }
+
+    async function onGroupSpecChange(idx, field, val) {
+        syncInputsToState();
+        currentGroups[idx][field] = val;
+        if (idx === 0 && (field === "size" || field === "length" || field === "head")) {
+            selectedAnswers[field] = val;
+            renderQuestions(currentQuestions);
+        }
+        if (field === "size" || field === "head") {
+            try {
+                const res = await fetch(`/api/ingest/specs?size=${encodeURIComponent(currentGroups[idx].size)}&head=${encodeURIComponent(currentGroups[idx].head)}`);
+                if (res.ok) {
+                    const sp = await res.json();
+                    if (sp.pitch) currentGroups[idx].pitch = sp.pitch;
+                    if (sp.tap_drill) currentGroups[idx].tap_drill = sp.tap_drill;
+                    if (sp.clearance_drill) currentGroups[idx].clearance_drill = sp.clearance_drill;
+                    if (sp.tool_key) currentGroups[idx].tool_key = sp.tool_key;
+                }
+            } catch (_) {}
+        }
+        rebuildGroupName(idx);
+        renderGroupCards();
+    }
+
+    function syncInputsToState() {
+        currentGroups.forEach((g, idx) => {
+            const nameEl = document.getElementById(`grp-name-${idx}`);
+            const qtyEl = document.getElementById(`grp-qty-${idx}`);
+            const szEl = document.getElementById(`grp-size-${idx}`);
+            const lenEl = document.getElementById(`grp-len-${idx}`);
+            const pitchEl = document.getElementById(`grp-pitch-${idx}`);
+            const headEl = document.getElementById(`grp-head-${idx}`);
+            const finEl = document.getElementById(`grp-finish-${idx}`);
+            const keyEl = document.getElementById(`grp-key-${idx}`);
+            if (nameEl) g.name = nameEl.value;
+            if (qtyEl) g.quantity = parseInt(qtyEl.value, 10) || 1;
+            if (szEl) g.size = szEl.value;
+            if (lenEl) g.length = lenEl.value;
+            if (pitchEl) g.pitch = pitchEl.value;
+            if (headEl) g.head = headEl.value;
+            if (finEl) g.finish = finEl.value;
+            if (keyEl) g.tool_key = keyEl.value;
+        });
+    }
+
+    function renderGroupCards() {
+        const container = document.getElementById("groups-container");
+        container.innerHTML = "";
+
+        currentGroups.forEach((g, idx) => {
+            const isBlack = (g.finish || "").toLowerCase().includes("black") || g.finish_key === "black";
+            const badgeClass = isBlack
+                ? "bg-amber-950/80 text-amber-300 border-amber-700/60"
+                : "bg-sky-950/80 text-sky-300 border-sky-700/60";
+
+            const headOptsHtml = HEAD_OPTIONS.map(h =>
+                `<option value="${h.value}" ${g.head === h.value ? 'selected' : ''}>${h.label}</option>`
+            ).join("");
+
+            const finishOptsHtml = FINISH_OPTIONS.map(f =>
+                `<option value="${f.label}" ${g.finish === f.label ? 'selected' : ''}>${f.label}</option>`
+            ).join("");
+
+            const card = document.createElement("div");
+            card.className = "rounded-xl bg-slate-950 border border-slate-800 p-4 space-y-3";
+            card.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border ${badgeClass}">
+                        Part Variant #${idx + 1}: ${g.finish || 'Hardware'}
+                    </span>
+                    ${currentGroups.length > 1 ? `<button type="button" onclick="removeGroupCard(${idx})" class="text-xs text-rose-400 hover:underline">Remove</button>` : ''}
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+                    <div class="sm:col-span-8">
+                        <label class="block text-xs text-slate-400 mb-1">Homebox Item Title</label>
+                        <input id="grp-name-${idx}" type="text" value="${g.name || ''}"
+                            class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-sm font-bold text-white" />
+                    </div>
+                    <div class="sm:col-span-4">
+                        <label class="block text-xs text-slate-400 mb-1">Piece Count</label>
+                        <div class="flex items-center space-x-1">
+                            <button type="button" onclick="adjustQuantity(${idx}, -1)" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm">-</button>
+                            <input id="grp-qty-${idx}" type="number" min="1" value="${g.quantity || g.count || 1}"
+                                class="w-full text-center bg-slate-900 border border-emerald-600/60 rounded-lg py-1.5 text-sm font-extrabold text-emerald-400" />
+                            <button type="button" onclick="adjustQuantity(${idx}, 1)" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Thread Size</label>
+                        <input id="grp-size-${idx}" type="text" value="${g.size || ''}" onchange="onGroupSpecChange(${idx}, 'size', this.value)"
+                            class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white font-semibold" />
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Length</label>
+                        <input id="grp-len-${idx}" type="text" value="${g.length || ''}" onchange="onGroupSpecChange(${idx}, 'length', this.value)"
+                            class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white font-semibold" />
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Pitch</label>
+                        <input id="grp-pitch-${idx}" type="text" value="${g.pitch || ''}"
+                            class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-300" />
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Hex / Tool Key</label>
+                        <input id="grp-key-${idx}" type="text" value="${g.tool_key || ''}"
+                            class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-300" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Bolt Head Style</label>
+                        <select id="grp-head-${idx}" onchange="onGroupSpecChange(${idx}, 'head', this.value)"
+                            class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white">
+                            ${headOptsHtml}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Finish / Material (Kept Separate in Bin)</label>
+                        <select id="grp-finish-${idx}" onchange="onGroupSpecChange(${idx}, 'finish', this.value)"
+                            class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white">
+                            ${finishOptsHtml}
+                        </select>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    async function connectHomeboxApi() {
+        const base_url = document.getElementById("hb-url-input").value.trim();
+        const username = document.getElementById("hb-user-input").value.trim();
+        const password = document.getElementById("hb-pass-input").value;
+        if (!username || !password) {
+            alert("Please enter your Homebox email/username and password.");
+            return;
+        }
+        try {
+            const res = await fetch("/api/ingest/homebox-login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password, base_url })
+            });
+            const data = await parseApiJson(res);
+            if (!res.ok) {
+                throw new Error(data.detail || "Homebox login failed");
+            }
+            const banner = document.getElementById("homebox-auth-banner");
+            banner.className = "rounded-xl border border-emerald-700/40 bg-emerald-950/30 p-4";
+            document.getElementById("hb-auth-dot").className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
+            document.getElementById("hb-auth-status-text").className = "font-semibold text-emerald-300";
+            document.getElementById("hb-auth-status-text").textContent = `Connected to Homebox Official REST API (${data.base_url}/api/v1) as ${data.username}`;
+            if (data.next_bin_id) {
+                document.getElementById("bin-id-input").value = data.next_bin_id;
+                document.getElementById("target-bin-label").textContent = data.next_bin_id;
+            }
+        } catch (err) {
+            alert("Homebox API Login Error: " + err.message);
+        }
+    }
+
+    async function commitCartridgeToHomebox() {
+        syncInputsToState();
+        if (currentGroups.length === 0) {
+            alert("Please add at least one hardware group before saving.");
+            return;
+        }
+
+        const btn = document.getElementById("commit-btn");
+        btn.disabled = true;
+        btn.innerHTML = "<span>⏳ Saving Cartridge to Homebox...</span>";
+
+        const payload = {
+            bin_id: document.getElementById("bin-id-input").value.trim(),
+            cartridge_label: document.getElementById("cartridge-label-input").value.trim(),
+            mode: currentMode,
+            notes: document.getElementById("cartridge-notes-input").value.trim(),
+            photo_base64: currentPhotoBase64,
+            groups: currentGroups
+        };
+
+        try {
+            const res = await fetch("/api/ingest/commit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            const data = await parseApiJson(res);
+            if (!res.ok) {
+                throw new Error(data.detail || "Failed to save cartridge to Homebox");
+            }
+
+            const alertBox = document.getElementById("commit-alert");
+            alertBox.className = "rounded-xl border border-emerald-600/50 bg-emerald-950/50 p-4 text-sm text-emerald-200";
+            const itemsSummary = data.created_items.map(i => `<strong>${i.name}</strong> (${i.quantity} pcs)`).join(" + ");
+            alertBox.innerHTML = `
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <div>
+                        🎉 Cataloged <strong>${data.bin_display_name}</strong> into Homebox: ${itemsSummary}.
+                        Ready for next cartridge: <strong class="text-white">${data.next_bin_id}</strong>!
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <a href="/labels?bin=${encodeURIComponent(data.bin_id)}" class="px-3 py-1 rounded bg-sky-700 hover:bg-sky-600 text-white text-xs font-bold">
+                            🏷️ Print Label
+                        </a>
+                        <a href="${data.homebox_bin_url}" target="_blank" class="px-3 py-1 rounded bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold">
+                            Open ${data.bin_id} in Homebox ↗
+                        </a>
+                    </div>
+                </div>
+            `;
+            alertBox.classList.remove("hidden");
+
+            // Advance bin ID to next sequential bin
+            document.getElementById("bin-id-input").value = data.next_bin_id;
+            document.getElementById("target-bin-label").textContent = data.next_bin_id;
+            currentPhotoBase64 = null;
+        } catch (err) {
+            alert("Error committing to Homebox: " + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = "<span>✅ Save Cartridge to Homebox & Advance to Next Bin</span>";
+        }
+    }
+
+    // Initialize with default Black + Silver cards so Form Mode or immediate entry is ready
+    addHardwareGroupCard({
+        finish_key: "black",
+        finish: "Black Oxide Steel",
+        quantity: 20,
+        size: "M4",
+        length: "6 mm",
+        pitch: "0.7 mm",
+        head: "shcs",
+        drive: "hex",
+        comp_type: "bolt",
+        tool_key: "3.0 mm",
+        tap_drill: "3.30 mm (#30)",
+        clearance_drill: "4.5 mm (#16)",
+        name: "M4 × 6 mm Socket Head Cap Screw (Black Oxide Steel)",
+        notes: ""
+    });
+</script>
+{% endblock %}

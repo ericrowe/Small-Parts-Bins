@@ -1,7 +1,8 @@
 import uuid
+import base64
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any
-from fastapi import APIRouter, Depends, HTTPException, Query, Response
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, UploadFile, File, Form
 from sqlalchemy import select, or_, func
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -18,6 +19,22 @@ from server.app.models import (
     StockTransferLogRecord,
 )
 from server.app.services.label_service import get_labels_for_parts, export_labels_to_format
+from server.app.services.homebox_service import (
+    get_next_sequential_bin_name,
+    commit_cartridge_to_homebox,
+    list_ingested_bins,
+    resolve_homebox_paths,
+    login_to_homebox,
+    get_homebox_connection_status,
+    list_qr_forwarding_entries,
+    register_qr_forwarding_entry,
+    delete_qr_forwarding_entry,
+    _get_qr_forwarding_file_path,
+)
+from server.app.services.part_ingestor_service import (
+    analyze_cartridge_photo,
+    lookup_fastener_specs,
+)
 
 router = APIRouter(prefix="/api", tags=["API"])
 
@@ -25,8 +42,9 @@ router = APIRouter(prefix="/api", tags=["API"])
 class BatchLabelExportRequest(BaseModel):
     part_ids: Optional[List[str]] = None
     category_id: Optional[str] = None
-    format: str = "cricut_print_cut"
-    title: Optional[str] = "Hardware Labels"
+    custom_labels: Optional[List[Dict[str, Any]]] = None
+    format: str = "split_vertical_12x35"
+    title: Optional[str] = "Homebox Cartridge Labels"
     include_qr: bool = True
 
 
@@ -551,17 +569,26 @@ async def export_batch_labels_post(
     req: BatchLabelExportRequest,
     db: AsyncSession = Depends(get_db),
 ) -> Response:
-    """Generate and return batch label SVG package (Cricut, Avery, or Thermal) via POST."""
-    labels = await get_labels_for_parts(db, part_ids=req.part_ids, category_id=req.category_id)
+    """Generate and return batch label SVG package (12x35 Split Pair, Cricut, Avery, or Thermal) via POST."""
+    labels = await get_labels_for_parts(
+        db,
+        part_ids=req.part_ids,
+        category_id=req.category_id,
+        custom_labels=req.custom_labels,
+    )
     try:
         export_res = export_labels_to_format(
             labels=labels,
             export_format=req.format,
-            title=req.title or "Hardware Labels",
+            title=req.title or "Homebox Cartridge Labels",
             include_qr=req.include_qr,
         )
+    except PermissionError as e:
+        raise HTTPException(status_code=401, detail=str(e))
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Homebox API error: {e}")
 
     return Response(
         content=export_res["content"],
@@ -588,11 +615,246 @@ async def export_batch_labels_get(
             title=title or "Hardware Labels",
             include_qr=include_qr,
         )
+    except PermissionError as e:
+        raise HTTPException(status_code=401, detail=str(e))
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Homebox API error: {e}")
 
     return Response(
         content=export_res["content"],
         media_type=export_res["media_type"],
         headers={"Content-Disposition": f'attachment; filename="{export_res["filename"]}"'},
     )
+
+
+class IngestGroupItemPayload(BaseModel):
+    name: Optional[str] = None
+    size: Optional[str] = ""
+    length: Optional[str] = ""
+    pitch: Optional[str] = ""
+    head: Optional[str] = "shcs"
+    drive: Optional[str] = "hex"
+    comp_type: Optional[str] = "bolt"
+    finish: Optional[str] = "Black Oxide Steel"
+    finish_key: Optional[str] = ""
+    quantity: int = 1
+    tool_key: Optional[str] = ""
+    tap_drill: Optional[str] = ""
+    clearance_drill: Optional[str] = ""
+    notes: Optional[str] = ""
+
+
+class IngestCartridgeCommitRequest(BaseModel):
+    bin_id: Optional[str] = None
+    cartridge_label: Optional[str] = ""
+    mode: str = "photo"
+    notes: Optional[str] = ""
+    photo_base64: Optional[str] = None
+    groups: List[IngestGroupItemPayload]
+
+
+class HomeboxLoginRequest(BaseModel):
+    username: str
+    password: str
+    base_url: Optional[str] = None
+
+
+@router.post("/ingest/homebox-login")
+async def ingest_homebox_login(req: HomeboxLoginRequest) -> Dict[str, Any]:
+    """Authenticate against Homebox REST API (/api/v1/users/login) and cache the Bearer token."""
+    try:
+        auth_res = login_to_homebox(
+            username=req.username,
+            password=req.password,
+            base_url=req.base_url,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=401, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Homebox API connection error: {e}")
+
+    next_bin = get_next_sequential_bin_name(auth_res["base_url"])
+    return {
+        **auth_res,
+        "next_bin_id": next_bin,
+    }
+
+
+@router.get("/ingest/next-bin")
+async def get_ingest_next_bin() -> Dict[str, Any]:
+    """Return the next sequential temporary bin ID (e.g. BIN-001) and Homebox REST API connection status."""
+    paths = resolve_homebox_paths()
+    conn_status = get_homebox_connection_status()
+    next_bin = get_next_sequential_bin_name(paths["base_url"])
+    return {
+        "status": "ok",
+        "next_bin_id": next_bin,
+        "homebox_base_url": paths["base_url"],
+        "homebox_api_url": paths["api_url"],
+        "authenticated": conn_status["authenticated"],
+        "connection_message": conn_status["message"],
+    }
+
+
+@router.get("/ingest/specs")
+async def get_fastener_engineering_specs(
+    size: str = Query(..., description="Thread size, e.g. M3, M4, #6-32"),
+    head: str = Query("shcs", description="Head style: shcs, bhcs, fhcs, hex, pan"),
+    drive: str = Query("hex", description="Drive type: hex, torx, phillips"),
+) -> Dict[str, Any]:
+    """Look up canonical pitch, tap drill, clearance drill, and hex key for a thread size & head."""
+    specs = lookup_fastener_specs(size=size, head=head, drive=drive)
+    return {
+        "size": size,
+        "head": head,
+        "drive": drive,
+        **specs,
+    }
+
+
+@router.post("/ingest/analyze-photo")
+async def analyze_ingest_photo_endpoint(
+    photo: UploadFile = File(...),
+    size_hint: Optional[str] = Form(None),
+    length_hint: Optional[str] = Form(None),
+    pitch_hint: Optional[str] = Form(None),
+    ruler_mm_per_px: Optional[float] = Form(None),
+) -> Dict[str, Any]:
+    """Analyze an uploaded cartridge photo (label cutout OCR, Black/Silver clustering, piece counts, head ID)."""
+    image_bytes = await photo.read()
+    if not image_bytes:
+        raise HTTPException(status_code=400, detail="Uploaded photo is empty.")
+
+    hints: Dict[str, Any] = {}
+    if size_hint:
+        hints["size"] = size_hint.strip()
+    if length_hint:
+        hints["length"] = length_hint.strip()
+    if pitch_hint:
+        hints["pitch"] = pitch_hint.strip()
+
+    try:
+        analysis = analyze_cartridge_photo(
+            image_bytes=image_bytes,
+            user_hints=hints,
+            ruler_mm_per_px=ruler_mm_per_px,
+        )
+    except PermissionError as e:
+        raise HTTPException(status_code=401, detail=str(e))
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Homebox API error: {e}")
+
+    next_bin = get_next_sequential_bin_name()
+    return {
+        "status": "success",
+        "next_bin_id": next_bin,
+        **analysis,
+    }
+
+
+@router.post("/ingest/commit")
+async def commit_ingest_cartridge_endpoint(req: IngestCartridgeCommitRequest) -> Dict[str, Any]:
+    """Commit a cataloged cartridge (from Photo Mode or Form Entry Mode) into Homebox (:7745)."""
+    if not req.groups:
+        raise HTTPException(status_code=400, detail="At least one hardware group must be provided.")
+
+    photo_bytes: Optional[bytes] = None
+    if req.photo_base64:
+        raw_b64 = req.photo_base64
+        if "," in raw_b64:
+            raw_b64 = raw_b64.split(",", 1)[1]
+        try:
+            photo_bytes = base64.b64decode(raw_b64)
+        except Exception:
+            photo_bytes = None
+
+    groups_dicts: List[Dict[str, Any]] = []
+    for g in req.groups:
+        g_dict = g.model_dump()
+        # Enrich missing drill/key specs from fasteners.json if size is known
+        if g_dict.get("size") and not g_dict.get("tap_drill"):
+            specs = lookup_fastener_specs(g_dict["size"], head=g_dict.get("head") or "shcs", drive=g_dict.get("drive") or "hex")
+            g_dict["pitch"] = g_dict.get("pitch") or specs.get("pitch", "")
+            g_dict["tap_drill"] = g_dict.get("tap_drill") or specs.get("tap_drill", "")
+            g_dict["clearance_drill"] = g_dict.get("clearance_drill") or specs.get("clearance_drill", "")
+            g_dict["tool_key"] = g_dict.get("tool_key") or specs.get("tool_key", "")
+        groups_dicts.append(g_dict)
+
+    try:
+        result = commit_cartridge_to_homebox(
+            payload={
+                "bin_id": req.bin_id,
+                "cartridge_label": req.cartridge_label,
+                "mode": req.mode,
+                "notes": req.notes,
+                "groups": groups_dicts,
+            },
+            photo_bytes=photo_bytes,
+            photo_filename="cartridge.jpg" if photo_bytes else None,
+        )
+    except PermissionError as e:
+        raise HTTPException(status_code=401, detail=str(e))
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Homebox API error: {e}")
+
+    return result
+
+
+@router.get("/ingest/history")
+async def get_ingest_history_endpoint(limit: int = Query(50, ge=1, le=200)) -> Dict[str, Any]:
+    """List sequential BIN-XXX cartridge locations and their hardware items in Homebox."""
+    return list_ingested_bins(limit=limit)
+
+
+class QrForwardingUpdateRequest(BaseModel):
+    bin_code: str
+    target_url: str
+    label: Optional[str] = ""
+
+
+@router.get("/qr-forwarding")
+async def get_qr_forwarding_table_endpoint() -> Dict[str, Any]:
+    """Return all 4-digit QR code forwarding rules and the qr_forwarding.json path."""
+    return {
+        "status": "ok",
+        "file_path": _get_qr_forwarding_file_path(),
+        "entries": list_qr_forwarding_entries(),
+    }
+
+
+@router.post("/qr-forwarding")
+async def update_qr_forwarding_entry_endpoint(req: QrForwardingUpdateRequest) -> Dict[str, Any]:
+    """Create or update a 4-digit QR forwarding rule (and mark it as a manual override)."""
+    if not req.bin_code.strip() or not req.target_url.strip():
+        raise HTTPException(status_code=400, detail="Both bin_code and target_url are required.")
+    entry = register_qr_forwarding_entry(
+        bin_code=req.bin_code,
+        target_url=req.target_url,
+        label=req.label or "",
+        manual_override=True,
+        preserve_existing=False,
+    )
+    return {
+        "status": "ok",
+        "entry": entry,
+        "entries": list_qr_forwarding_entries(),
+    }
+
+
+@router.delete("/qr-forwarding/{bin_code}")
+async def delete_qr_forwarding_entry_endpoint(bin_code: str) -> Dict[str, Any]:
+    """Remove a 4-digit QR forwarding rule so it resets or re-syncs from Homebox."""
+    deleted = delete_qr_forwarding_entry(bin_code)
+    return {
+        "status": "ok",
+        "deleted": deleted,
+        "entries": list_qr_forwarding_entries(),
+    }
+
+

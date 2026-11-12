@@ -247,3 +247,175 @@ async def test_label_batch_export_view():
         assert "Standardized Batch Label Generator" in res.text or "Label" in res.text
         assert "Cricut" in res.text
         assert "Avery" in res.text
+
+
+@pytest.mark.asyncio
+async def test_vertical_split_label_pair_12x35_and_qr_forwarding_service(monkeypatch, tmp_path):
+    """
+    Verify:
+      1. Clean 12x35mm vertical split-label pair (Label A + Label B, zero bleed):
+         - Label A: 'M4' overlaid on top color bar, '6' below (no 'mm' unit), no 'SHCS' or head designation,
+           no icons, blank lower region unless extra_note is set.
+         - Label B: Top color bar, 4-digit bin number '0001' (no 'BIN' prefix text), low-density QR code (<=25x25).
+      2. Forwarding service GET /0001 and GET /q/0001 redirects (HTTP 302) to the target Homebox / registered URL.
+    """
+    from hardware.labels.canonical_label import (
+        render_vertical_split_label_pair_svg,
+        generate_split_vertical_sheet_svg,
+    )
+    from server.app.services.homebox_service import register_qr_forwarding_entry
+
+    fwd_file = tmp_path / "qr_forwarding.json"
+    monkeypatch.setenv("QR_FORWARDING_FILE", str(fwd_file))
+
+    spec_default = LabelData(
+        part_id="M4-6",
+        name="M4 × 6mm SHCS",
+        size="M4",
+        length="6 mm",
+        head="shcs",
+        drive="hex",
+        comp_type="bolt",
+        pitch="0.7 mm",
+        tap_drill="3.3 mm",
+        tool_key="3.0 mm",
+        material="Black Oxide / SS",
+        accent_color="#0077CC",
+        extra_note="",
+        bin_id="BIN-001",
+    )
+
+    pair_svg = render_vertical_split_label_pair_svg(spec_default, x=0.0, y=0.0)
+    wrapped = f'<svg xmlns="http://www.w3.org/2000/svg">{pair_svg}</svg>'
+    root = ET.fromstring(wrapped)
+    assert root is not None
+
+    # Label A checks: M4 in color bar, bare '6' below, no 'mm', no 'SHCS', no 'BIN' word
+    assert ">M4<" in pair_svg
+    assert ">6<" in pair_svg
+    assert "6 mm" not in pair_svg
+    assert "SHCS" not in pair_svg
+    assert "Tap " not in pair_svg
+    assert "Key " not in pair_svg
+    # Label B checks: 4-digit bin number '0001' without 'BIN' prefix
+    assert ">0001<" in pair_svg
+    assert "BIN-001" not in pair_svg
+    assert ">BIN<" not in pair_svg
+
+    # Verify optional extra_note renders in lower space when explicitly provided (e.g. Fine Pitch / Nyloc)
+    spec_with_note = LabelData(
+        part_id="M4-6-FINE",
+        size="M4",
+        length="6 mm",
+        accent_color="#0077CC",
+        extra_note="Pitch 0.5 Fine",
+        bin_id="0002",
+    )
+    pair_note_svg = render_vertical_split_label_pair_svg(spec_with_note, x=0.0, y=0.0)
+    assert "Pitch" in pair_note_svg and "0.5 Fine" in pair_note_svg
+    assert ">0002<" in pair_note_svg
+
+    # Sheet generator & API batch export for 'split_vertical_12x35'
+    sheet_svg = generate_split_vertical_sheet_svg([spec_default, spec_with_note], title="Cartridge Split Labels")
+    ET.fromstring(sheet_svg)
+    assert 'width="12.00"' in sheet_svg
+    assert 'height="35.00"' in sheet_svg
+
+    # Register forwarding entry for 0001 and verify HTTP 302 redirect on GET /0001 and GET /q/0001
+    register_qr_forwarding_entry(
+        bin_code="0001",
+        target_url="http://tasker-pi.local:7745/locations/loc-uuid-0001",
+        label="M4 × 6",
+    )
+
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test", follow_redirects=False) as client:
+        res_batch = await client.post(
+            "/api/labels/export-batch",
+            json={
+                "format": "split_vertical_12x35",
+                "custom_labels": [
+                    {"bin_id": "0001", "size": "M4", "length": "6", "accent_color": "#0077CC", "extra_note": ""},
+                    {"bin_id": "0002", "size": "M4", "length": "8", "accent_color": "#0077CC", "extra_note": "Fine 0.5"},
+                ],
+            },
+        )
+        assert res_batch.status_code == 200
+        assert "<svg" in res_batch.text
+        assert ">M4<" in res_batch.text
+        assert ">0001<" in res_batch.text
+        assert ">0002<" in res_batch.text
+
+        res_root_fwd = await client.get("/0001")
+        assert res_root_fwd.status_code in (302, 307)
+        assert res_root_fwd.headers["location"] == "http://tasker-pi.local:7745/location/loc-uuid-0001"
+
+        res_q_fwd = await client.get("/q/0001")
+        assert res_q_fwd.status_code in (302, 307)
+        assert res_q_fwd.headers["location"] == "http://tasker-pi.local:7745/location/loc-uuid-0001"
+
+        # Unmapped bin code falls back to Homebox Location (:7745/location), NOT legacy Parts-Database
+        res_unmapped = await client.get("/0099")
+        assert res_unmapped.status_code in (302, 307)
+        assert "7745/location" in res_unmapped.headers["location"]
+
+        # Legacy /b/{bin_id} route redirects to Homebox when registered in qr_forwarding.json or unmapped in SQLite
+        res_b_fwd = await client.get("/b/BIN-001")
+        assert res_b_fwd.status_code in (302, 307)
+        assert res_b_fwd.headers["location"] == "http://tasker-pi.local:7745/location/loc-uuid-0001"
+
+        res_b_unmapped = await client.get("/b/BIN-099")
+        assert res_b_unmapped.status_code in (302, 307)
+        assert "7745/location" in res_b_unmapped.headers["location"]
+
+        # Custom Homebox label rows exported to horizontal formats (Avery 5160 / Cricut) auto-enrich pitch/tap/tool specs
+        res_avery_hb = await client.post(
+            "/api/labels/export-batch",
+            json={
+                "format": "avery_5160",
+                "custom_labels": [
+                    {"bin_id": "0001", "size": "M4", "length": "6 mm", "accent_color": "#0077CC"},
+                ],
+            },
+        )
+        assert res_avery_hb.status_code == 200
+        assert "0.7 mm" in res_avery_hb.text
+        assert "3.0 mm" in res_avery_hb.text
+        assert "0001" in res_avery_hb.text
+
+        # Deep-link query /labels?bin=0001 renders cleanly
+        res_labels_bin = await client.get("/labels?bin=0001")
+        assert res_labels_bin.status_code == 200
+        assert "4-Digit QR Forwarding Links" in res_labels_bin.text
+
+        # Verify manual override via POST /api/qr-forwarding is preserved when preserve_existing=True
+        post_fwd = await client.post(
+            "/api/qr-forwarding",
+            json={
+                "bin_code": "0001",
+                "target_url": "http://tasker-pi.local:7745/location/custom-override-uuid",
+                "label": "Custom Override Bin 0001",
+            },
+        )
+        assert post_fwd.status_code == 200
+        assert post_fwd.json()["entry"]["manual_override"] is True
+
+        # Simulate background Homebox sync attempting to overwrite 0001 with preserve_existing=True
+        register_qr_forwarding_entry(
+            bin_code="0001",
+            target_url="http://tasker-pi.local:7745/location/auto-synced-uuid",
+            label="Auto Synced",
+            preserve_existing=True,
+        )
+        res_after_sync = await client.get("/0001")
+        assert res_after_sync.headers["location"] == "http://tasker-pi.local:7745/location/custom-override-uuid"
+
+        get_fwd = await client.get("/api/qr-forwarding")
+        assert get_fwd.status_code == 200
+        assert any(e["code"] == "0001" and "custom-override-uuid" in e["target_url"] for e in get_fwd.json()["entries"])
+
+        del_fwd = await client.delete("/api/qr-forwarding/0001")
+        assert del_fwd.status_code == 200
+        assert del_fwd.json()["deleted"] is True
+
+

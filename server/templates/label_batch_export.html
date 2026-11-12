@@ -1,30 +1,39 @@
 {% extends "base.html" %}
 
-{% block title %}Batch Label Sheet Generator — Parts Database{% endblock %}
+{% block title %}Homebox Cartridge Label Generator — Standardized Batch Exporter{% endblock %}
 
 {% block content %}
 <div class="space-y-6">
     <!-- Page Title & Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
         <div>
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-semibold mb-2">
+                <span>🎯 Synced with Homebox Inventory ({{ homebox_base_url }})</span>
+            </div>
             <h1 class="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-                <span>🏷️</span> Standardized Batch Label Generator
+                <span>🏷️</span> Standardized Batch Label Generator (Homebox Cartridges)
             </h1>
             <p class="text-sm text-slate-400 mt-1">
-                Batch multi-up layout engine supporting Cricut Print-Then-Cut, Avery pre-cut sheets, and thermal continuous rolls.
+                Zero-bleed <strong class="text-slate-200">12×35mm Vertical Split Pairs</strong> (<code class="text-sky-300">[Label A: Size + Length | Label B: 4-Digit Bin + QR]</code>) and multi-medium sheets backed by Homebox locations.
             </p>
         </div>
-        <div class="flex items-center gap-2">
-            <span class="text-xs px-3 py-1.5 rounded-lg bg-sky-950/60 border border-sky-800/60 text-sky-300 font-mono">
-                Standard: 34×10mm (R1mm)
+        <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold border {% if homebox_authenticated %}bg-emerald-950/60 border-emerald-700/60 text-emerald-300{% else %}bg-amber-950/60 border-amber-700/60 text-amber-300{% endif %}">
+                {% if homebox_authenticated %}● Homebox API Connected{% else %}○ Homebox Auth via /ingest{% endif %}
             </span>
+            <a href="/ingest" class="px-3 py-1.5 rounded-lg bg-emerald-950/70 hover:bg-emerald-900/70 border border-emerald-700/60 text-emerald-300 text-xs font-semibold transition">
+                📸 + Ingest New Cartridge
+            </a>
+            <a href="{{ homebox_base_url }}/location" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sky-300 text-xs font-semibold transition">
+                Open Homebox Locations ↗
+            </a>
         </div>
     </div>
 
     <!-- Category Filter Bar -->
     <div class="flex flex-wrap items-center gap-2">
         <a href="/labels" class="px-3 py-1.5 rounded-lg text-xs font-medium transition {% if not current_category %}bg-sky-600 text-white shadow-sm{% else %}bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white{% endif %}">
-            All Hardware
+            All Homebox Bins ({{ homebox_bins|length }})
         </a>
         {% for cat in categories %}
         <a href="/labels?category={{ cat.id }}" class="px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition {% if current_category == cat.id %}bg-slate-700 text-white border border-slate-600 shadow-sm{% else %}bg-slate-900 text-slate-400 hover:bg-slate-800 hover:text-white border border-slate-800{% endif %}">
@@ -34,7 +43,7 @@
         {% endfor %}
     </div>
 
-    <!-- Main Layout: Sidebar Export Controls + Parts Selection Grid -->
+    <!-- Main Layout: Sidebar Export Controls + Homebox Bin Selection Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <!-- Left: Export Configuration Form -->
@@ -48,8 +57,20 @@
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-2">Target Output Medium</label>
                     <div class="space-y-2" id="format-options">
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-sky-600/80 bg-sky-950/30 hover:border-sky-500 cursor-pointer transition">
+                            <input type="radio" name="export_format" value="split_vertical_12x35" checked class="mt-1 text-sky-500 focus:ring-sky-500">
+                            <div>
+                                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                                    <span>🔪</span> 12×35mm Vertical Split Pair (Paper Cutter)
+                                </div>
+                                <div class="text-[11px] text-slate-300 mt-0.5">
+                                    Zero-bleed [Label A: M4 / 6 | Label B: 0001 + QR] pairs for horizontal drawer cartridges (56 pairs / 112 labels per sheet).
+                                </div>
+                            </div>
+                        </label>
+
                         <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-700 bg-slate-800/60 hover:border-sky-500/60 cursor-pointer transition">
-                            <input type="radio" name="export_format" value="cricut_print_cut" checked class="mt-1 text-sky-500 focus:ring-sky-500">
+                            <input type="radio" name="export_format" value="cricut_print_cut" class="mt-1 text-sky-500 focus:ring-sky-500">
                             <div>
                                 <div class="text-xs font-bold text-white flex items-center gap-1.5">
                                     <span>✂️</span> Cricut Print-Then-Cut
@@ -101,39 +122,85 @@
                 <!-- Sheet Header Title -->
                 <div>
                     <label for="sheet-title" class="block text-xs font-semibold text-slate-300 mb-1">Sheet Title Header</label>
-                    <input type="text" id="sheet-title" value="Workshop Fastener Labels" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500">
+                    <input type="text" id="sheet-title" value="Homebox Cartridge Labels" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500">
                 </div>
 
                 <!-- Options -->
                 <div class="pt-2 border-t border-slate-800 space-y-2">
                     <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
                         <input type="checkbox" id="include-qr" checked class="rounded bg-slate-950 border-slate-700 text-sky-500 focus:ring-sky-500">
-                        <span>Include Pure Vector QR Code Matrix</span>
+                        <span>Include 4-Digit Homebox QR Code (/0001)</span>
                     </label>
                 </div>
 
                 <!-- Action Buttons -->
                 <div class="pt-3 border-t border-slate-800 space-y-2">
-                    <button type="button" id="btn-download-svg" class="w-full py-2.5 px-4 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition flex items-center justify-center gap-2 shadow-md">
-                        <span>⬇️</span> Download Batch SVG
-                    </button>
-                    <button type="button" id="btn-preview-svg" class="w-full py-2 px-4 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition border border-slate-700 flex items-center justify-center gap-2">
+                    <button type="button" id="btn-preview-svg" class="w-full py-2.5 px-4 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition flex items-center justify-center gap-2 shadow-md">
                         <span>👁️</span> Live SVG Preview
+                    </button>
+                    <button type="button" id="btn-download-svg" class="w-full py-2 px-4 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition border border-slate-700 flex items-center justify-center gap-2">
+                        <span>⬇️</span> Download Batch SVG
                     </button>
                 </div>
             </div>
 
             <!-- Format Info Card -->
             <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-xs text-slate-400 space-y-2">
-                <div class="font-bold text-slate-300">💡 Cricut Workflow Guide</div>
-                <p>1. Download SVG and upload to Cricut Design Space.</p>
-                <p>2. Ungroup layers: attach "cut-lines" to Basic Cut and "print-artwork" to Standard Print.</p>
-                <p>3. Align both groups to (0,0) and click "Make It" on standard Letter vinyl/sticker paper.</p>
+                <div class="font-bold text-slate-300">🔪 12×35mm Split-Pair Spec</div>
+                <p>• <strong>Label A (Left)</strong>: Thread size (<code class="text-sky-300">M4</code>) in top color bar + bare length (<code class="text-slate-200">6</code>) below. Blank lower zone unless Special Note is entered.</p>
+                <p>• <strong>Label B (Right)</strong>: Top color bar + 4-digit bin (<code class="text-emerald-300">0001</code>) + low-density QR forwarding <code class="text-slate-300">/0001</code> → Homebox Location.</p>
             </div>
         </div>
 
-        <!-- Right: Items Selection Table & Batch Selector -->
+        <!-- Right: Quick-Add Builder + Homebox Bins Selection Table -->
         <div class="lg:col-span-2 space-y-4">
+            <!-- Quick-Add Custom / Series Homebox Labels -->
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-lg space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
+                        <span>➕</span> Add Custom or Series Labels to Print Queue
+                    </h3>
+                    <span class="text-[11px] text-slate-400">Next Available Bin: <strong class="text-emerald-400 font-mono" id="next-bin-hint">{{ next_bin_4digit }}</strong></span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-6 gap-2.5 items-end">
+                    <div>
+                        <label class="block text-[11px] text-slate-400 mb-1">Start 4-Digit Bin</label>
+                        <input type="text" id="add-bin-start" value="{{ next_bin_4digit }}" placeholder="0002"
+                            class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono text-emerald-300 focus:border-sky-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-slate-400 mb-1">Thread Size</label>
+                        <input type="text" id="add-size" value="M4" placeholder="M4, M3, #6-32"
+                            class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-bold text-white focus:border-sky-500 focus:outline-none">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] text-slate-400 mb-1">Length(s) (single or comma list)</label>
+                        <input type="text" id="add-lengths" placeholder="e.g. 8 or 6, 8, 10, 12, 16, 20"
+                            class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:border-sky-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-slate-400 mb-1">Color Bar</label>
+                        <select id="add-color" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white focus:border-sky-500 focus:outline-none">
+                            <option value="#0077CC">Metric Blue</option>
+                            <option value="#E65100">Imperial Orange</option>
+                            <option value="#2E7D32">Nuts/Washers Green</option>
+                            <option value="#C5A059">Inserts Gold</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="button" id="btn-add-rows"
+                            class="w-full py-1.5 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow">
+                            + Add Rows
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <input type="text" id="add-note" placeholder="Optional Special Detail for lower Label A zone (leave blank by default; e.g. Fine Pitch 0.5, Left-Hand, Nyloc)"
+                        class="w-full bg-slate-950/70 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-300 placeholder-slate-500 focus:border-sky-500 focus:outline-none">
+                </div>
+            </div>
+
+            <!-- Homebox Bins & Print Queue Table -->
             <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
                 <!-- Selection Toolbar -->
                 <div class="p-4 bg-slate-800/60 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
@@ -145,81 +212,167 @@
                             Deselect All
                         </button>
                         <span class="text-xs text-slate-400 ml-2">
-                            Selected: <strong id="selected-count" class="text-sky-400 font-mono">0</strong> / {{ parts|length }}
+                            Selected Cartridge Pairs: <strong id="selected-count" class="text-sky-400 font-mono">0</strong>
                         </span>
                     </div>
 
                     <!-- Quick Filter Search -->
                     <div class="w-full sm:w-64">
-                        <input type="text" id="quick-filter" placeholder="Filter items by size, thread..." class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500">
+                        <input type="text" id="quick-filter" placeholder="Filter by bin (0001), size (M4)..." class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500">
                     </div>
                 </div>
 
-                <!-- Parts Table -->
+                <!-- Bins Table -->
                 <div class="overflow-x-auto max-h-[640px] overflow-y-auto">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead class="bg-slate-800/90 sticky top-0 z-10 border-b border-slate-700 text-slate-300 uppercase tracking-wider font-mono">
                             <tr>
                                 <th class="p-3 w-10 text-center">
-                                    <input type="checkbox" id="th-select-all" class="rounded bg-slate-950 border-slate-600 text-sky-500 focus:ring-sky-500">
+                                    <input type="checkbox" id="th-select-all" checked class="rounded bg-slate-950 border-slate-600 text-sky-500 focus:ring-sky-500">
                                 </th>
-                                <th class="p-3">Part Details</th>
-                                <th class="p-3">Category</th>
-                                <th class="p-3">Thread / Tap</th>
-                                <th class="p-3">Tool / Drive</th>
-                                <th class="p-3 text-right">Location</th>
+                                <th class="p-3">Label B (4-Digit Bin)</th>
+                                <th class="p-3">Label A (Size & Bare Length)</th>
+                                <th class="p-3">Optional Lower Note</th>
+                                <th class="p-3">Homebox Inventory Contents</th>
+                                <th class="p-3 text-right">QR / Homebox</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-800/60 text-slate-300" id="parts-table-body">
-                            {% for p in parts %}
-                            <tr class="hover:bg-slate-800/40 transition part-row" data-id="{{ p.id }}" data-search="{{ p.id }} {{ p.name }} {{ p.size }} {{ p.length }} {{ p.material }} {{ p.pitch }}">
+                            {% for b in homebox_bins %}
+                            <tr class="hover:bg-slate-800/40 transition part-row"
+                                data-id="{{ b.bin_code }}"
+                                data-search="{{ b.bin_4digit }} {{ b.bin_code }} {{ b.name }} {{ b.size }} {{ b.length }} {{ b.finishes_summary }}">
                                 <td class="p-3 text-center">
-                                    <input type="checkbox" class="part-checkbox rounded bg-slate-950 border-slate-600 text-sky-500 focus:ring-sky-500" value="{{ p.id }}" checked>
+                                    <input type="checkbox" class="part-checkbox rounded bg-slate-950 border-slate-600 text-sky-500 focus:ring-sky-500" value="{{ b.bin_code }}" {% if not selected_bin_4d or b.bin_4digit == selected_bin_4d %}checked{% endif %}>
                                 </td>
-                                <td class="p-3 font-medium text-white">
+                                <td class="p-3">
                                     <div class="flex items-center gap-2">
-                                        <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: {{ p.category.color_hex if p.category else '#0077CC' }}"></span>
-                                        <div>
-                                            <div class="font-bold text-slate-100">{{ p.name }}</div>
-                                            <div class="text-[11px] text-slate-400 font-mono">{{ p.id }}</div>
-                                        </div>
+                                        <input type="color" class="row-color w-5 h-5 rounded cursor-pointer bg-transparent border-0" value="{{ b.accent_color }}">
+                                        <input type="text" class="row-bin w-16 bg-slate-950 border border-slate-700 rounded px-2 py-1 font-mono font-bold text-emerald-400 text-xs" value="{{ b.bin_4digit }}">
                                     </div>
                                 </td>
                                 <td class="p-3">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
-                                        {{ p.category.name if p.category else "General" }}
-                                    </span>
+                                    <div class="flex items-center gap-1.5">
+                                        <input type="text" class="row-size w-16 bg-slate-950 border border-slate-700 rounded px-2 py-1 font-bold text-white text-xs" value="{{ b.size }}" title="Top Color Bar Text (e.g. M4)">
+                                        <span class="text-slate-500 font-bold">×</span>
+                                        <input type="text" class="row-length w-14 bg-slate-950 border border-slate-700 rounded px-2 py-1 font-mono text-sky-300 text-xs" value="{{ b.length }}" placeholder="—" title="Bare Length Number (e.g. 6)">
+                                    </div>
                                 </td>
-                                <td class="p-3 font-mono text-slate-400">
-                                    <div>{{ p.pitch if p.pitch else '—' }}</div>
-                                    {% if p.tap_drill %}<div class="text-[10px] text-slate-500">Tap {{ p.tap_drill }}</div>{% endif %}
+                                <td class="p-3">
+                                    <input type="text" class="row-note w-full min-w-[130px] bg-slate-950/70 border border-slate-800 rounded px-2 py-1 text-slate-300 text-xs placeholder-slate-600" value="{{ b.extra_note }}" placeholder="(Blank by default)">
                                 </td>
-                                <td class="p-3 text-slate-400">
-                                    <div class="capitalize">{{ p.head }} · {{ p.drive }}</div>
-                                    {% if p.tool_key %}<div class="text-[10px] text-sky-400 font-mono">Key {{ p.tool_key }}</div>{% endif %}
+                                <td class="p-3">
+                                    <div class="font-semibold text-slate-200">{{ b.total_pieces }} pcs ({{ b.item_count }} group{{ 's' if b.item_count != 1 else '' }})</div>
+                                    <div class="text-[11px] text-slate-400">{{ b.finishes_summary }}</div>
                                 </td>
-                                <td class="p-3 text-right font-mono">
-                                    {% if p.compartments %}
-                                        <span class="px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/60 text-emerald-400 text-[11px]">
-                                            {{ p.compartments[0].bin_id }}
-                                        </span>
-                                    {% else %}
-                                        <span class="text-slate-600 text-[11px]">—</span>
-                                    {% endif %}
+                                <td class="p-3 text-right font-mono space-y-1">
+                                    <div>
+                                        <a href="{{ b.homebox_url }}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/60 text-emerald-300 hover:bg-emerald-900/60 text-[11px] inline-block">
+                                            Homebox ↗
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a href="/{{ b.bin_4digit }}" target="_blank" class="text-[10px] text-sky-400 hover:underline">
+                                            /{{ b.bin_4digit }}
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             {% endfor %}
-                            {% if not parts %}
-                            <tr>
-                                <td colspan="6" class="p-8 text-center text-slate-500">
-                                    No parts found matching current filter.
-                                </td>
-                            </tr>
-                            {% endif %}
                         </tbody>
                     </table>
                 </div>
             </div>
+
+            <!-- 4-Digit QR Forwarding Links Editor (qr_forwarding.json) -->
+            <details class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg group" open>
+                <summary class="p-4 bg-slate-800/60 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2 cursor-pointer select-none">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm font-bold text-white">🔗 4-Digit QR Forwarding Links (<code class="text-emerald-400">/0001</code> → Target URL)</span>
+                        <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-[11px] text-slate-400 font-mono">
+                            {{ qr_forwarding_file_path }}
+                        </span>
+                    </div>
+                    <span class="text-xs text-sky-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div class="p-4 space-y-3">
+                    <p class="text-xs text-slate-400">
+                        Each 4-digit QR code printed on Label B (<code class="text-slate-300">http://tasker-pi.local:8090/0001</code>) redirects via <code class="text-emerald-300">HTTP 302</code> to the target URL below. Manual edits here (or directly in <code class="text-slate-300">qr_forwarding.json</code>) are preserved across Homebox syncs and deployments.
+                    </p>
+
+                    <!-- Add / Update Forwarding Rule Bar -->
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-end bg-slate-950/70 border border-slate-800 rounded-lg p-3">
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] text-slate-400 mb-1">4-Digit Code</label>
+                            <input type="text" id="fwd-new-code" placeholder="0001"
+                                class="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-xs font-mono font-bold text-emerald-400">
+                        </div>
+                        <div class="sm:col-span-3">
+                            <label class="block text-[11px] text-slate-400 mb-1">Label / Description</label>
+                            <input type="text" id="fwd-new-label" placeholder="BIN-001 (M4 × 6)"
+                                class="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-white">
+                        </div>
+                        <div class="sm:col-span-5">
+                            <label class="block text-[11px] text-slate-400 mb-1">Target Redirect URL</label>
+                            <input type="text" id="fwd-new-url" placeholder="http://tasker-pi.local:7745/location/..."
+                                class="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-xs font-mono text-sky-300">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <button type="button" onclick="saveNewQrForwardingRule()"
+                                class="w-full py-1.5 px-3 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">
+                                💾 Save Link
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Existing Forwarding Rules Table -->
+                    <div class="overflow-x-auto max-h-64 overflow-y-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead class="bg-slate-800/80 border-b border-slate-700 text-slate-300 uppercase font-mono">
+                                <tr>
+                                    <th class="p-2.5">Short URL</th>
+                                    <th class="p-2.5">Label</th>
+                                    <th class="p-2.5">Target Redirect URL</th>
+                                    <th class="p-2.5 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="qr-forwarding-tbody" class="divide-y divide-slate-800/60 text-slate-300">
+                                {% for fwd in qr_forwarding_entries %}
+                                <tr id="fwd-row-{{ fwd.code }}" class="hover:bg-slate-800/40">
+                                    <td class="p-2.5 font-mono font-bold text-emerald-400 whitespace-nowrap">
+                                        <a href="/{{ fwd.code }}" target="_blank" class="hover:underline">/{{ fwd.code }} ↗</a>
+                                    </td>
+                                    <td class="p-2.5">
+                                        <input type="text" id="fwd-label-{{ fwd.code }}" value="{{ fwd.label }}"
+                                            class="w-full min-w-[120px] bg-slate-950 border border-slate-800 rounded px-2 py-1 text-xs text-slate-200">
+                                    </td>
+                                    <td class="p-2.5">
+                                        <input type="text" id="fwd-url-{{ fwd.code }}" value="{{ fwd.target_url }}"
+                                            class="w-full min-w-[260px] bg-slate-950 border border-slate-800 rounded px-2 py-1 text-xs font-mono text-sky-300">
+                                    </td>
+                                    <td class="p-2.5 text-right whitespace-nowrap space-x-1">
+                                        <button type="button" onclick="saveInlineQrForwarding('{{ fwd.code }}')"
+                                            class="px-2.5 py-1 rounded bg-sky-700 hover:bg-sky-600 text-white text-[11px] font-bold">
+                                            Save
+                                        </button>
+                                        <button type="button" onclick="deleteQrForwardingRule('{{ fwd.code }}')"
+                                            class="px-2 py-1 rounded bg-slate-800 hover:bg-rose-900/70 text-slate-300 hover:text-rose-200 text-[11px]">
+                                            Reset
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="4" class="p-4 text-center text-slate-500">
+                                        No forwarding entries registered yet. Ingest a cartridge or add a rule above.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </details>
         </div>
     </div>
 
@@ -254,13 +407,19 @@
 {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const checkboxes = document.querySelectorAll('.part-checkbox');
+    const tbody = document.getElementById('parts-table-body');
     const thSelectAll = document.getElementById('th-select-all');
     const btnSelectAll = document.getElementById('btn-select-all');
     const btnDeselectAll = document.getElementById('btn-deselect-all');
     const selectedCountEl = document.getElementById('selected-count');
     const quickFilterInput = document.getElementById('quick-filter');
-    const partRows = document.querySelectorAll('.part-row');
+
+    const btnAddRows = document.getElementById('btn-add-rows');
+    const addBinStart = document.getElementById('add-bin-start');
+    const addSize = document.getElementById('add-size');
+    const addLengths = document.getElementById('add-lengths');
+    const addColor = document.getElementById('add-color');
+    const addNote = document.getElementById('add-note');
 
     const btnDownload = document.getElementById('btn-download-svg');
     const btnPreview = document.getElementById('btn-preview-svg');
@@ -270,19 +429,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const previewContainer = document.getElementById('preview-container');
 
     let currentSvgData = "";
-    let currentFilename = "fastener_labels.svg";
+    let currentFilename = "homebox_cartridge_labels.svg";
+
+    function getCheckboxes() {
+        return Array.from(document.querySelectorAll('.part-checkbox'));
+    }
 
     function updateSelectedCount() {
-        const checked = Array.from(checkboxes).filter(cb => cb.checked && cb.closest('tr').style.display !== 'none');
+        const cbs = getCheckboxes();
+        const checked = cbs.filter(cb => cb.checked && cb.closest('tr').style.display !== 'none');
         selectedCountEl.textContent = checked.length;
         if (thSelectAll) {
-            thSelectAll.checked = checked.length > 0 && checked.length === checkboxes.length;
+            thSelectAll.checked = checked.length > 0 && checked.length === cbs.length;
         }
     }
 
+    function bindRowEvents(row) {
+        const cb = row.querySelector('.part-checkbox');
+        if (cb) {
+            cb.addEventListener('change', updateSelectedCount);
+        }
+    }
+
+    document.querySelectorAll('.part-row').forEach(bindRowEvents);
+
     if (btnSelectAll) {
         btnSelectAll.addEventListener('click', () => {
-            checkboxes.forEach(cb => {
+            getCheckboxes().forEach(cb => {
                 if (cb.closest('tr').style.display !== 'none') {
                     cb.checked = true;
                 }
@@ -293,14 +466,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnDeselectAll) {
         btnDeselectAll.addEventListener('click', () => {
-            checkboxes.forEach(cb => cb.checked = false);
+            getCheckboxes().forEach(cb => cb.checked = false);
             updateSelectedCount();
         });
     }
 
     if (thSelectAll) {
         thSelectAll.addEventListener('change', () => {
-            checkboxes.forEach(cb => {
+            getCheckboxes().forEach(cb => {
                 if (cb.closest('tr').style.display !== 'none') {
                     cb.checked = thSelectAll.checked;
                 }
@@ -309,13 +482,67 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    checkboxes.forEach(cb => cb.addEventListener('change', updateSelectedCount));
+    if (btnAddRows) {
+        btnAddRows.addEventListener('click', () => {
+            const startNum = parseInt((addBinStart.value || "1").replace(/\D/g, ""), 10) || 1;
+            const sizeVal = (addSize.value || "M4").trim();
+            const rawLengths = (addLengths.value || "").split(',').map(s => s.trim()).filter(Boolean);
+            const lengthsList = rawLengths.length > 0 ? rawLengths : [""];
+            const colorVal = addColor.value || "#0077CC";
+            const noteVal = (addNote.value || "").trim();
+
+            lengthsList.forEach((lenStr, idx) => {
+                const binNum = startNum + idx;
+                const bin4d = String(binNum).padStart(4, '0');
+                const bareLen = lenStr.replace(/\s*mm$/i, '');
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-800/40 transition part-row";
+                tr.setAttribute('data-id', `BIN-${bin4d}`);
+                tr.setAttribute('data-search', `${bin4d} ${sizeVal} ${bareLen} ${noteVal}`);
+                tr.innerHTML = `
+                    <td class="p-3 text-center">
+                        <input type="checkbox" class="part-checkbox rounded bg-slate-950 border-slate-600 text-sky-500 focus:ring-sky-500" value="BIN-${bin4d}" checked>
+                    </td>
+                    <td class="p-3">
+                        <div class="flex items-center gap-2">
+                            <input type="color" class="row-color w-5 h-5 rounded cursor-pointer bg-transparent border-0" value="${colorVal}">
+                            <input type="text" class="row-bin w-16 bg-slate-950 border border-slate-700 rounded px-2 py-1 font-mono font-bold text-emerald-400 text-xs" value="${bin4d}">
+                        </div>
+                    </td>
+                    <td class="p-3">
+                        <div class="flex items-center gap-1.5">
+                            <input type="text" class="row-size w-16 bg-slate-950 border border-slate-700 rounded px-2 py-1 font-bold text-white text-xs" value="${sizeVal}">
+                            <span class="text-slate-500 font-bold">×</span>
+                            <input type="text" class="row-length w-14 bg-slate-950 border border-slate-700 rounded px-2 py-1 font-mono text-sky-300 text-xs" value="${bareLen}" placeholder="—">
+                        </div>
+                    </td>
+                    <td class="p-3">
+                        <input type="text" class="row-note w-full min-w-[130px] bg-slate-950/70 border border-slate-800 rounded px-2 py-1 text-slate-300 text-xs placeholder-slate-600" value="${noteVal}" placeholder="(Blank by default)">
+                    </td>
+                    <td class="p-3">
+                        <div class="font-semibold text-sky-300">Queued for Homebox Bin ${bin4d}</div>
+                        <div class="text-[11px] text-slate-500">Custom / Pre-Printed Label Pair</div>
+                    </td>
+                    <td class="p-3 text-right font-mono">
+                        <a href="/${bin4d}" target="_blank" class="text-[10px] text-sky-400 hover:underline">/${bin4d}</a>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+                bindRowEvents(tr);
+            });
+
+            const nextAfter = startNum + lengthsList.length;
+            addBinStart.value = String(nextAfter).padStart(4, '0');
+            addLengths.value = "";
+            updateSelectedCount();
+        });
+    }
 
     // Quick text filter
     if (quickFilterInput) {
         quickFilterInput.addEventListener('input', (e) => {
             const val = e.target.value.toLowerCase().trim();
-            partRows.forEach(row => {
+            document.querySelectorAll('.part-row').forEach(row => {
                 const searchTxt = (row.getAttribute('data-search') || "").toLowerCase();
                 if (!val || searchTxt.includes(val)) {
                     row.style.display = '';
@@ -327,21 +554,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Initial count
     updateSelectedCount();
 
     function getPayload() {
-        const selectedIds = Array.from(checkboxes)
-            .filter(cb => cb.checked && cb.closest('tr').style.display !== 'none')
-            .map(cb => cb.value);
-        
+        const selectedRows = Array.from(document.querySelectorAll('.part-row')).filter(row => {
+            const cb = row.querySelector('.part-checkbox');
+            return cb && cb.checked && row.style.display !== 'none';
+        });
+
+        const customLabels = selectedRows.map(row => {
+            const binVal = (row.querySelector('.row-bin')?.value || "0001").trim();
+            const sizeVal = (row.querySelector('.row-size')?.value || "M4").trim();
+            const lenVal = (row.querySelector('.row-length')?.value || "").trim();
+            const colorVal = (row.querySelector('.row-color')?.value || "#0077CC").trim();
+            const noteVal = (row.querySelector('.row-note')?.value || "").trim();
+            return {
+                bin_id: binVal,
+                size: sizeVal,
+                length: lenVal,
+                accent_color: colorVal,
+                extra_note: noteVal
+            };
+        });
+
         const formatRadio = document.querySelector('input[name="export_format"]:checked');
-        const format = formatRadio ? formatRadio.value : 'cricut_print_cut';
-        const title = document.getElementById('sheet-title').value || 'Workshop Fastener Labels';
+        const format = formatRadio ? formatRadio.value : 'split_vertical_12x35';
+        const title = document.getElementById('sheet-title').value || 'Homebox Cartridge Labels';
         const includeQr = document.getElementById('include-qr').checked;
 
         return {
-            part_ids: selectedIds,
+            custom_labels: customLabels,
             format: format,
             title: title,
             include_qr: includeQr
@@ -431,5 +673,89 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+function renderQrForwardingTable(entries) {
+    const tbody = document.getElementById('qr-forwarding-tbody');
+    if (!tbody) return;
+    if (!entries || entries.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-500">No forwarding entries registered yet.</td></tr>';
+        return;
+    }
+    tbody.innerHTML = entries.map(fwd => `
+        <tr id="fwd-row-${fwd.code}" class="hover:bg-slate-800/40">
+            <td class="p-2.5 font-mono font-bold text-emerald-400 whitespace-nowrap">
+                <a href="/${fwd.code}" target="_blank" class="hover:underline">/${fwd.code} ↗</a>
+            </td>
+            <td class="p-2.5">
+                <input type="text" id="fwd-label-${fwd.code}" value="${(fwd.label || '').replace(/"/g, '&quot;')}"
+                    class="w-full min-w-[120px] bg-slate-950 border border-slate-800 rounded px-2 py-1 text-xs text-slate-200">
+            </td>
+            <td class="p-2.5">
+                <input type="text" id="fwd-url-${fwd.code}" value="${(fwd.target_url || '').replace(/"/g, '&quot;')}"
+                    class="w-full min-w-[260px] bg-slate-950 border border-slate-800 rounded px-2 py-1 text-xs font-mono text-sky-300">
+            </td>
+            <td class="p-2.5 text-right whitespace-nowrap space-x-1">
+                <button type="button" onclick="saveInlineQrForwarding('${fwd.code}')"
+                    class="px-2.5 py-1 rounded bg-sky-700 hover:bg-sky-600 text-white text-[11px] font-bold">
+                    Save
+                </button>
+                <button type="button" onclick="deleteQrForwardingRule('${fwd.code}')"
+                    class="px-2 py-1 rounded bg-slate-800 hover:bg-rose-900/70 text-slate-300 hover:text-rose-200 text-[11px]">
+                    Reset
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+async function saveNewQrForwardingRule() {
+    const bin_code = document.getElementById('fwd-new-code').value.trim();
+    const label = document.getElementById('fwd-new-label').value.trim();
+    const target_url = document.getElementById('fwd-new-url').value.trim();
+    if (!bin_code || !target_url) {
+        alert('Please enter both a 4-digit bin code and a target URL.');
+        return;
+    }
+    const res = await fetch('/api/qr-forwarding', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bin_code, target_url, label })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+        alert(data.detail || 'Failed to save QR forwarding link');
+        return;
+    }
+    document.getElementById('fwd-new-code').value = '';
+    document.getElementById('fwd-new-label').value = '';
+    document.getElementById('fwd-new-url').value = '';
+    renderQrForwardingTable(data.entries);
+}
+
+async function saveInlineQrForwarding(code) {
+    const label = document.getElementById(`fwd-label-${code}`).value.trim();
+    const target_url = document.getElementById(`fwd-url-${code}`).value.trim();
+    const res = await fetch('/api/qr-forwarding', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bin_code: code, target_url, label })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+        alert(data.detail || 'Failed to update QR forwarding link');
+        return;
+    }
+    renderQrForwardingTable(data.entries);
+}
+
+async function deleteQrForwardingRule(code) {
+    const res = await fetch(`/api/qr-forwarding/${encodeURIComponent(code)}`, {
+        method: 'DELETE'
+    });
+    const data = await res.json();
+    if (res.ok) {
+        renderQrForwardingTable(data.entries);
+    }
+}
 </script>
 {% endblock %}

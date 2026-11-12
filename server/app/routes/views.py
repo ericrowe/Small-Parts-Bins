@@ -1,7 +1,8 @@
 import os
+import re
 from typing import Optional
 from fastapi import APIRouter, Depends, Request, Query, HTTPException
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import select, func, or_
 from sqlalchemy.orm import selectinload
@@ -9,6 +10,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from server.app.database import get_db
 from server.app.models import CategoryRecord, PartRecord, BinRecord, BinCompartmentRecord, CarrierRecord, StorageLocationRecord
+from server.app.services.homebox_service import (
+    list_ingested_bins,
+    resolve_qr_forwarding_target,
+    has_qr_forwarding_entry,
+    list_qr_forwarding_entries,
+    _get_qr_forwarding_file_path,
+)
 
 router = APIRouter(include_in_schema=False)
 
@@ -72,6 +80,7 @@ async def dashboard_view(request: Request, db: AsyncSession = Depends(get_db)):
                 "bulk_total": sum(s.quantity_on_hand for s in sources),
             })
 
+    hb_summary = list_ingested_bins(limit=12)
     return templates.TemplateResponse(
         request=request,
         name="dashboard.html",
@@ -83,6 +92,10 @@ async def dashboard_view(request: Request, db: AsyncSession = Depends(get_db)):
             "categories": categories,
             "recent_bins": recent_bins,
             "replenish_alerts": replenish_alerts,
+            "homebox_bins": hb_summary.get("bins", []),
+            "homebox_base_url": hb_summary.get("homebox_base_url", "http://tasker-pi.local:7745"),
+            "homebox_authenticated": hb_summary.get("authenticated", False),
+            "next_bin_id": hb_summary.get("next_bin_id", "BIN-001"),
         },
     )
 
@@ -170,9 +183,12 @@ async def part_detail_view(request: Request, part_id: str, db: AsyncSession = De
     )
 
 
-@router.get("/b/{bin_id}", response_class=HTMLResponse)
+@router.get("/b/{bin_id}")
 async def bin_detail_view(request: Request, bin_id: str, db: AsyncSession = Depends(get_db)):
-    """Render mobile-optimized Bin landing page showing 1, 2, or 3 compartments and dynamic part mapper."""
+    """Redirect Homebox-registered bins to Homebox, or render legacy fallback bin detail view."""
+    if os.environ.get("QR_FORWARDING_FILE") and has_qr_forwarding_entry(bin_id):
+        return RedirectResponse(url=resolve_qr_forwarding_target(bin_id), status_code=302)
+
     stmt = select(BinRecord).options(
         selectinload(BinRecord.carrier).selectinload(CarrierRecord.location),
         selectinload(BinRecord.compartments).selectinload(BinCompartmentRecord.part).selectinload(PartRecord.category),
@@ -180,6 +196,8 @@ async def bin_detail_view(request: Request, bin_id: str, db: AsyncSession = Depe
     res = await db.execute(stmt)
     bin_rec = res.scalars().first()
     if not bin_rec:
+        if re.match(r"^(?:\d{1,6}|BIN-\d{1,6})$", bin_id.strip(), flags=re.IGNORECASE):
+            return RedirectResponse(url=resolve_qr_forwarding_target(bin_id), status_code=302)
         raise HTTPException(status_code=404, detail=f"Bin '{bin_id}' not found")
 
     # Fetch all parts for assignment dropdown
@@ -200,28 +218,79 @@ async def bin_detail_view(request: Request, bin_id: str, db: AsyncSession = Depe
 async def label_batch_export_view(
     request: Request,
     category: Optional[str] = Query(None),
+    bin: Optional[str] = Query(None),
     db: AsyncSession = Depends(get_db),
 ):
-    """Render interactive batch label generation and Cricut/Avery exporter interface."""
-    cats_res = await db.execute(select(CategoryRecord).order_by(CategoryRecord.id))
-    categories = cats_res.scalars().all()
-
-    stmt = select(PartRecord).options(
-        selectinload(PartRecord.category),
-        selectinload(PartRecord.compartments).selectinload(BinCompartmentRecord.bin),
-    ).order_by(PartRecord.size, PartRecord.length)
+    """Render interactive Homebox cartridge label generator and batch SVG exporter interface."""
+    hb_summary = list_ingested_bins(limit=200)
+    hb_bins = list(hb_summary.get("bins") or [])
+    hb_bins.sort(key=lambda b: b.get("bin_4digit") or b.get("bin_code") or "")
     if category:
-        stmt = stmt.where(PartRecord.category_id == category)
+        hb_bins = [b for b in hb_bins if b.get("category_id") == category]
 
-    res = await db.execute(stmt)
-    parts = res.scalars().all()
+    selected_bin_4d = ""
+    if bin:
+        m_sel = re.search(r"(\d+)", str(bin))
+        selected_bin_4d = f"{int(m_sel.group(1)):04d}" if m_sel else str(bin).strip().upper()
+
+    homebox_categories = [
+        {"id": "metric", "name": "Metric Fasteners", "color_hex": "#0077CC"},
+        {"id": "imperial", "name": "Imperial Fasteners", "color_hex": "#E65100"},
+        {"id": "nuts_washers", "name": "Nuts & Washers", "color_hex": "#2E7D32"},
+        {"id": "inserts", "name": "Inserts & Standoffs", "color_hex": "#C5A059"},
+    ]
+
+    next_bin_raw = hb_summary.get("next_bin_id", "BIN-001")
+    m_next = re.search(r"(\d+)", str(next_bin_raw))
+    next_bin_4digit = f"{int(m_next.group(1)):04d}" if m_next else "0001"
 
     return templates.TemplateResponse(
         request=request,
         name="label_batch_export.html",
         context={
-            "categories": categories,
-            "parts": parts,
+            "categories": homebox_categories,
+            "homebox_bins": hb_bins,
+            "homebox_base_url": hb_summary.get("homebox_base_url", "http://tasker-pi.local:7745"),
+            "homebox_authenticated": hb_summary.get("authenticated", False),
+            "next_bin_4digit": next_bin_4digit,
             "current_category": category or "",
+            "selected_bin_4d": selected_bin_4d,
+            "qr_forwarding_entries": list_qr_forwarding_entries(),
+            "qr_forwarding_file_path": _get_qr_forwarding_file_path(),
         },
     )
+
+
+@router.get("/ingest", response_class=HTMLResponse)
+async def parts_ingestor_view(request: Request):
+    """Render mobile and desktop Parts Ingestor (Photo OCR/CV + Form Entry) syncing to Homebox."""
+    hb_summary = list_ingested_bins(limit=25)
+    return templates.TemplateResponse(
+        request=request,
+        name="ingest.html",
+        context={
+            "next_bin_id": hb_summary["next_bin_id"],
+            "homebox_base_url": hb_summary["homebox_base_url"],
+            "homebox_authenticated": hb_summary.get("authenticated", False),
+            "ingested_bins": hb_summary["bins"],
+            "total_ingested_bins": hb_summary["total_bins"],
+        },
+    )
+
+
+@router.get("/q/{bin_code}")
+async def qr_forwarding_subroute(bin_code: str):
+    """Forwarding route (/q/0001 or /q/BIN-001) redirecting phone QR scans to Homebox or active catalog."""
+    target_url = resolve_qr_forwarding_target(bin_code)
+    return RedirectResponse(url=target_url, status_code=302)
+
+
+@router.get("/{bin_code}")
+async def qr_forwarding_root_route(bin_code: str):
+    """ Ultra-short root forwarding route (/0001) keeping QR codes at Version 1/2 (<=25x25 modules)."""
+    if not re.match(r"^(?:\d{1,6}|BIN-\d{1,6})$", bin_code.strip(), flags=re.IGNORECASE):
+        raise HTTPException(status_code=404, detail="Not found")
+    target_url = resolve_qr_forwarding_target(bin_code)
+    return RedirectResponse(url=target_url, status_code=302)
+
+

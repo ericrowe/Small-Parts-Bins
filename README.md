@@ -146,29 +146,32 @@ New ideas belong in [`docs/plans/IDEAS.md`](docs/plans/IDEAS.md).
   - [`hardware/labels/`](hardware/labels/) — SVG vector label generators, fastener database, and Cricut print-then-cut sheets.
   - [`hardware/scripts/`](hardware/scripts/) — batch STL rendering and CAD build automation.
   - [`hardware/plans/`](hardware/plans/) — historical mechanical 3D design plan archives.
-- [`server/`](server/) — web catalog microservice, inventory database, and QR code scanner:
-  - `server/app/` — FastAPI application and catalog routes.
-  - `server/database/` — SQLite parts/bins schema and models.
-  - `server/static/` & `server/templates/` — responsive web UI and HTML5 camera QR barcode scanner.
-  - `server/scripts/` — automated SQLite atomic `VACUUM INTO` backup script ([`server/scripts/backup_parts.sh`](server/scripts/backup_parts.sh)) and turnkey bare-metal node provisioner ([`server/scripts/bootstrap_node.sh`](server/scripts/bootstrap_node.sh)).
+- [`server/`](server/) — **Homebox Companion Microservice (`:8090` $\rightarrow$ Homebox `:7745`)**:
+  - **Active Homebox-Focused Subsystems**:
+    1. **Cartridge Parts Ingestor (`/ingest`, `part_ingestor_service.py`, `homebox_service.py`)**: Hybrid Photo CV/OCR + Manual Form Entry ingestor syncing sequential cartridge bins (`BIN-001`, `BIN-002`, ...) and hardware items directly into **Homebox (`http://tasker-pi.local:7745/api/v1`)**.
+    2. **4-Digit QR Link Redirector (`/0001`, `/q/0001`, `/b/BIN-001`)**: Ultra-compact Version 1/2 QR code forwarding service (`server/data/qr_forwarding.json` + live Homebox location lookup) redirecting scanned cartridge labels (`HTTP 302`) to their corresponding Homebox Location pages.
+    3. **Standardized Batch Label Generator (`/labels`, `label_service.py`, [`hardware/labels/`](hardware/labels/))**: Generates zero-bleed $12 \times 35\text{ mm}$ vertical split-label pairs (`[Label A: Size + Bare Length | Label B: 4-Digit Bin + QR]`) and multi-medium sheets (Cricut, Avery 5160/5167, Thermal Roll) backed by Homebox bins and `fasteners.json`.
+  - **Deprecated Legacy SQLite Catalog (`server/database/`, `/parts`, `/p/{id}`)**: The earlier standalone SQLite parts/bins/compartments catalog (`parts.db`) is **deprecated** in favor of Homebox (`:7745`) and retained only as a static thread/tap-drill engineering reference and hermetic test fixture.
+  - `server/scripts/` — automated backup script ([`server/scripts/backup_parts.sh`](server/scripts/backup_parts.sh)) and turnkey bare-metal node provisioner ([`server/scripts/bootstrap_node.sh`](server/scripts/bootstrap_node.sh)).
   - `server/docs/` — disaster recovery runbook ([`server/docs/BACKUP_AND_RECOVERY.md`](server/docs/BACKUP_AND_RECOVERY.md)).
   - `server/tests/` — hermetic test suite.
 - [`docs/plans/`](docs/plans/) — centralized multi-prefix plan lifecycle, master registry ([`docs/plans/AGENTS.md`](docs/plans/AGENTS.md)), and backlog ([`docs/plans/IDEAS.md`](docs/plans/IDEAS.md)).
 
-## Web Catalog Server & Inventory Microservice
+## Homebox Companion Microservice (`:8090` $\rightarrow$ Homebox `:7745`)
 
-The server provides a responsive web UI and REST API for searching hardware specifications, reviewing tap drills, and managing bin inventory. In production, it is deployed to **Node 02 (`tasker-pi`, Pi 4B)** on port `:8090` with persistent storage on the external Samsung SSD at `/srv/database/parts/parts.db`:
+> [!IMPORTANT]
+> **Deprecation of Legacy SQLite Parts Catalog**: Primary workshop inventory management has migrated to **Homebox (`http://tasker-pi.local:7745`)** on Node 02 (`tasker-pi`). The legacy SQLite catalog (`/parts`, `/p/{part_id}`, and 3-compartment SQLite bin tracking in `parts.db`) is **deprecated**. The `:8090` FastAPI service is retained specifically for three Homebox-integrated tools: **Parts Ingestor (`/ingest`)**, **Standardized Label Generator (`/labels`)**, and **QR Link Redirector (`/0001`)**.
 
 1. **Setup & Start Server (Local Workstation):**
    ```bash
    cd server
    ./run.sh  # Starts on http://0.0.0.0:8090
    ```
-2. **Access Points:**
-   - **Dashboard:** [http://localhost:8090/](http://localhost:8090/) (or `http://tasker-pi.local:8090/`) — Overview metrics, category distribution, and active physical bins.
-   - **Fastener Catalog:** [http://localhost:8090/parts](http://localhost:8090/parts) — Full-text searchable database with bi-directional column sorting, thread pitches, and tap drills.
-   - **Fastener Technical Specs:** [http://localhost:8090/p/{part_id}](http://localhost:8090/p/M3-12mm-SHCS) — Detailed engineering specs and physical bin locations.
-   - **Cassette Bin Management:** [http://localhost:8090/b/{bin_id}](http://localhost:8090/b/BIN-001) — Visual 1, 2, or 3-compartment cassette layout with dynamic part mapper dropdowns and one-tap stock adjusters.
+2. **Active Homebox Companion Endpoints:**
+   - **📸 Cartridge Parts Ingestor:** [http://localhost:8090/ingest](http://localhost:8090/ingest) (or `http://tasker-pi.local:8090/ingest`) — Hybrid Photo CV + Form Entry ingestor that detects label cutouts (`M4 × 6 / Pitch 0.7`), calibrates optional ruler scales, segments and counts **Black Oxide** vs. **Silver / Stainless** hardware separately within a single sequential bin (`BIN-001`, `BIN-002`, ...) using scale-invariant `r_p85` + convexity calibration, classifies bolt head styles (`SHCS` vs. `BHCS` vs. `FHCS`), asks clarification questions when unlabeled, and commits via Homebox's official **`/api/v1` REST API** (`http://tasker-pi.local:7745/api/v1`).
+   - **🏷️ Standardized Batch Label Generator:** [http://localhost:8090/labels](http://localhost:8090/labels) (or `http://tasker-pi.local:8090/labels`) — Pulls cataloged `BIN-XXX` locations live from Homebox (plus a Quick-Add custom/series queue builder) to export zero-bleed **$12 \times 35\text{ mm}$ vertical split-label pairs** (`[Label A | Label B]` for horizontal drawer cartridges, 56 pairs / 112 labels per sheet) alongside Cricut Print-Then-Cut, Avery 5160, Avery 5167, and Thermal Roll sheets.
+   - **🔗 4-Digit QR Link Redirector:** `http://tasker-pi.local:8090/{bin_4digit}` (e.g. `/0001`, `/q/0001`, or `/b/BIN-001`) — Keeps printed QR codes at Version 1/2 ($\le 25 \times 25$ modules) for instant phone camera scanning and issues an `HTTP 302` redirect to the corresponding Homebox Location (`http://tasker-pi.local:7745/locations/<uuid>`).
+   - **Companion Hub & Engineering Reference (Legacy Deprecated):** [http://localhost:8090/](http://localhost:8090/) and `/parts` — Companion overview hub and static fastener thread/tap-drill lookup table.
    - **REST API Docs:** [http://localhost:8090/docs](http://localhost:8090/docs) — Interactive OpenAPI Swagger UI.
 
 ## Automated Backup & Turnkey Disaster Recovery

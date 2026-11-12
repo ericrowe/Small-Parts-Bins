@@ -32,6 +32,8 @@ if [[ "${1:-}" == "--dry-run" || "${1:-}" == "-n" ]]; then
       --exclude 'server/data/*.db' \
       --exclude 'server/data/*.db-wal' \
       --exclude 'server/data/*.db-shm' \
+      --exclude 'server/data/homebox_auth.json' \
+      --exclude 'server/data/qr_forwarding.json' \
       --exclude 'server/logs' \
       --exclude '.pytest_cache' \
       "$SCRIPT_DIR/" "$TMP_TEST_DIR/" >/dev/null 2>&1 || true
@@ -49,7 +51,7 @@ if [[ -z "$DRY_RUN" ]]; then
     echo "❌ Error: Node 02 ($PI_HOST) is unreachable via SSH. Aborting deployment." >&2
     exit 1
   fi
-  ssh -o ConnectTimeout=5 -o BatchMode=yes "$PI_USER@$PI_HOST" "sudo mkdir -p $TARGET_DIR /srv/database/parts && sudo chown -R $PI_USER:www-data $TARGET_DIR /srv/database/parts && sudo chmod 775 /srv/database/parts"
+  ssh -o ConnectTimeout=5 -o BatchMode=yes "$PI_USER@$PI_HOST" "[ -d $TARGET_DIR ] || (sudo mkdir -p $TARGET_DIR /srv/database/parts && sudo chown -R $PI_USER:www-data $TARGET_DIR /srv/database/parts && sudo chmod 775 /srv/database/parts)"
 fi
 
 # 2. Synchronize Application Files
@@ -66,6 +68,8 @@ rsync -avz -e "ssh -o BatchMode=yes -o ConnectTimeout=5" $DRY_RUN \
   --exclude 'server/data/*.db' \
   --exclude 'server/data/*.db-wal' \
   --exclude 'server/data/*.db-shm' \
+  --exclude 'server/data/homebox_auth.json' \
+  --exclude 'server/data/qr_forwarding.json' \
   --exclude 'server/logs' \
   --exclude '.pytest_cache' \
   "$SCRIPT_DIR/" "$PI_USER@$PI_HOST:$TARGET_DIR/"
@@ -87,7 +91,8 @@ if [ -f "$APP_DIR/server/requirements.txt" ]; then
     "$APP_DIR/server/.venv/bin/python" -m pip install -q -r "$APP_DIR/server/requirements.txt"
 fi
 
-# Install systemd unit
+# Install systemd unit if not already present (M24 least-privilege compliant)
+if [ ! -f /etc/systemd/system/parts-database.service ]; then
 sudo tee /etc/systemd/system/parts-database.service >/dev/null << SYSTEMD_UNIT
 [Unit]
 Description=Parts-Database Web Catalog Microservice
@@ -103,13 +108,15 @@ Restart=always
 RestartSec=5s
 Environment=PYTHONPATH=$APP_DIR
 Environment=DATABASE_URL=sqlite+aiosqlite:////srv/database/parts/parts.db
+Environment=HOMEBOX_BASE_URL=http://tasker-pi.local:7745
 
 [Install]
 WantedBy=multi-user.target
 SYSTEMD_UNIT
-
 sudo systemctl daemon-reload
 sudo systemctl enable parts-database.service
+fi
+
 sudo systemctl restart parts-database.service
 
 # Setup automated backup cron if not present

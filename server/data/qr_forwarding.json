@@ -1,0 +1,9 @@
+{
+  "0001": {
+    "code": "0001",
+    "target_url": "http://tasker-pi.local:7745/location/7f80e4b9-3e92-4daf-8709-af9359ee2c07",
+    "label": "BIN-001 (M3 \u00d7 10)",
+    "location_id": "7f80e4b9-3e92-4daf-8709-af9359ee2c07",
+    "updated_at": "2026-11-12T18:12:48.782920+00:00"
+  }
+}

@@ -6,22 +6,34 @@
 <div class="space-y-8">
     <!-- Top Hero / Overview Banner -->
     <div class="bg-gradient-to-r from-sky-950/50 via-slate-900 to-indigo-950/50 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
-        <div class="relative z-10 max-w-3xl">
+        <div class="relative z-10 max-w-4xl">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-semibold mb-3">
+                <span>🎯 Active Homebox Companion Service (:8090 → Homebox :7745)</span>
+            </div>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Workshop Parts & Bin Catalog</h1>
             <p class="mt-2 text-sm sm:text-base text-slate-300">
-                Precision hardware inventory linked directly to 3D-printed Gridfinity modular cassettes with optical QR codes, thread specifications, and tap drill charts.
+                Primary inventory management is now hosted in <strong>Homebox (<code class="text-sky-300">{{ homebox_base_url or "http://tasker-pi.local:7745" }}</code>)</strong>. This companion service provides the <strong>Cartridge Parts Ingestor</strong>, <strong>Standardized Batch Label Generator</strong>, and <strong>4-Digit QR Link Redirector</strong>.
             </p>
             
-            <!-- Quick Search Bar -->
-            <form action="/parts" method="GET" class="mt-5 flex items-center max-w-lg">
-                <div class="relative w-full">
-                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                        🔍
-                    </div>
-                    <input type="text" name="q" placeholder="Search fastener (e.g. M3, 1/4-20, Heat-Set, Nyloc)..." class="block w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition">
-                </div>
-                <button type="submit" class="ml-2.5 px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold shadow-lg shadow-sky-900/30 transition">Search</button>
-            </form>
+            <!-- Active Homebox Companion Suite Actions -->
+            <div class="mt-5 flex flex-wrap items-center gap-3">
+                <a href="/ingest" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold shadow-lg shadow-emerald-900/40 transition flex items-center space-x-1.5">
+                    <span>📸 Parts Ingestor (Photo CV + Form)</span>
+                </a>
+                <a href="/labels" class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-sm font-bold shadow-lg shadow-sky-900/40 transition flex items-center space-x-1.5">
+                    <span>🏷️ Cartridge Label Generator</span>
+                </a>
+                <a href="{{ homebox_base_url or 'http://tasker-pi.local:7745' }}" target="_blank" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold transition flex items-center space-x-1.5">
+                    <span>📦 Open Homebox Inventory ↗</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deprecation Notice for Legacy SQLite Catalog -->
+    <div class="rounded-xl bg-amber-950/30 border border-amber-800/60 p-4 text-xs text-amber-200 flex items-center justify-between gap-4">
+        <div>
+            <strong>Legacy SQLite Catalog Deprecated:</strong> The local SQLite parts/compartments tables below are retained only as an engineering reference and hermetic fallback. All active workshop bins (`BIN-001`, `BIN-002`, ...) and stock counts are managed in <strong>Homebox (:7745)</strong> via <a href="/ingest" class="underline font-bold text-emerald-300">/ingest</a>, <a href="/labels" class="underline font-bold text-sky-300">/labels</a>, and the <code class="text-white">/0001</code> QR Link Redirector.
         </div>
     </div>
 

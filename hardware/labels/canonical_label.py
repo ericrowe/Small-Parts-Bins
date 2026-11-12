@@ -61,8 +61,12 @@ class LabelData:
     qr_payload: str = ""
 
     def __post_init__(self):
-        if not self.qr_payload and self.part_id:
-            self.qr_payload = f"http://tasker-pi.local:8090/p/{self.part_id}"
+        if not self.qr_payload:
+            if self.bin_id:
+                bin_4d = format_four_digit_bin(self.bin_id, fallback_num=1)
+                self.qr_payload = f"HTTP://TASKER-PI.LOCAL:8090/{bin_4d}"
+            elif self.part_id:
+                self.qr_payload = f"http://tasker-pi.local:8090/p/{self.part_id}"
 
 
 def generate_qr_svg_path(payload: str, size: float = 7.5, x: float = 0.0, y: float = 0.0, color: str = "#111111") -> str:
@@ -344,3 +348,259 @@ def render_canonical_label_svg(
     svg_parts.append('</g>')
     svg_parts.append("</g>")
     return "\n".join(svg_parts)
+
+
+# Vertical Split-Label Geometry for Horizontal Drawer Cartridges (mm, Zero Bleed)
+VERT_LABEL_W = 12.00
+VERT_LABEL_H = 35.00
+
+
+def format_four_digit_bin(raw_bin: str, fallback_num: int = 1) -> str:
+    """Normalize a bin identifier ('BIN-001', 'BIN-0001', '1', '0001') into a 4-digit string ('0001')."""
+    if raw_bin:
+        m = re.search(r"(\d+)", str(raw_bin))
+        if m:
+            return f"{int(m.group(1)):04d}"
+    return f"{max(1, int(fallback_num)):04d}"
+
+
+def format_bare_length(raw_length: str) -> str:
+    """Strip 'mm' units and prefixes from length strings so metric lengths display as bare numbers (e.g. '6')."""
+    if not raw_length:
+        return ""
+    cleaned = re.sub(r"(?i)\bL:\s*", "", str(raw_length)).strip()
+    cleaned = re.sub(r"(?i)\s*mm\b", "", cleaned).strip()
+    return cleaned
+
+
+def _contrast_text_color_for_bar(hex_color: str) -> str:
+    """Return high-contrast text color (#FFFFFF or #111111) for text overlaid on the category color bar."""
+    c = (hex_color or "#0077CC").lstrip("#")
+    if len(c) == 6:
+        try:
+            r = int(c[0:2], 16)
+            g = int(c[2:4], 16)
+            b = int(c[4:6], 16)
+            lum = 0.299 * r + 0.587 * g + 0.114 * b
+            return "#111111" if lum > 165 else "#FFFFFF"
+        except ValueError:
+            pass
+    return "#FFFFFF"
+
+
+def render_keepout_centered_text(
+    text: str,
+    cx: float,
+    y: float,
+    base_font_size: float,
+    max_width: float,
+    font_weight: str = "bold",
+    fill: str = "#111111",
+) -> str:
+    """Render horizontally centered SVG text with automatic font scaling keepout protection."""
+    if not text:
+        return ""
+    escaped = escape_xml(text)
+    char_factor = 0.60 if font_weight == "bold" else 0.52
+    est_width = len(text) * base_font_size * char_factor
+    font_size = base_font_size
+    text_length_attr = ""
+
+    if est_width > max_width and max_width > 0:
+        scale = max_width / est_width
+        font_size = max(base_font_size * scale, base_font_size * 0.60)
+        new_est = len(text) * font_size * char_factor
+        if new_est > max_width * 0.92:
+            text_length_attr = f' textLength="{max_width:.2f}" lengthAdjust="spacingAndGlyphs"'
+
+    return (
+        f'<text x="{cx:.2f}" y="{y:.2f}" text-anchor="middle" '
+        f'font-family="Arial, Helvetica, sans-serif" font-weight="{font_weight}" '
+        f'font-size="{font_size:.2f}" fill="{fill}"{text_length_attr}>{escaped}</text>'
+    )
+
+
+def render_vertical_split_label_pair_svg(
+    spec: LabelData,
+    x: float = 0.0,
+    y: float = 0.0,
+    label_w: float = VERT_LABEL_W,
+    label_h: float = VERT_LABEL_H,
+    forwarding_base_url: str = "HTTP://TASKER-PI.LOCAL:8090",
+    fallback_bin_num: int = 1,
+) -> str:
+    """
+    Render a zero-bleed vertical split-label pair ([Label A | Label B] = 24x35 mm) for a horizontally
+    oriented drawer cartridge:
+      - Label A (12x35 mm, Part Identity End):
+          * Category color bar at top with thread size (e.g. 'M4') overlaid in large bold text.
+          * Bare length number (e.g. '6') below color bar (no 'mm' unit, no 'SHCS' head text, no icons).
+          * Lower region left blank by default; renders `spec.extra_note` only if provided.
+      - Label B (12x35 mm, Bin & QR End):
+          * Matching category color bar at top.
+          * 4-digit bin number (e.g. '0001', no 'BIN' prefix) below color bar.
+          * Low-density QR code encoding `<forwarding_base_url>/<4-digit-id>` for fast camera scanning.
+    """
+    color = spec.accent_color or "#0077CC"
+    bg = spec.bg_color or "#FFFFFF"
+    bar_text_color = _contrast_text_color_for_bar(color)
+    bin_4digit = format_four_digit_bin(spec.bin_id, fallback_num=fallback_bin_num)
+    bare_len = format_bare_length(spec.length)
+    size_text = (spec.size or spec.name or "").strip()
+
+    pair_id = clean_id("vsplit", spec.part_id or size_text, bin_4digit, int(x), int(y))
+    cx_a = label_w / 2.0
+    cx_b = label_w + (label_w / 2.0)
+    max_txt_w = label_w - 1.6
+
+    svg_parts = [f'<g id="{pair_id}" transform="translate({x:.2f},{y:.2f})">']
+
+    # ==========================================================================
+    # LABEL A: Part Identity End (0 .. label_w, 0 .. label_h)
+    # ==========================================================================
+    bar_a_h = 9.00
+    svg_parts.append(
+        f'<rect x="0.00" y="0.00" width="{label_w:.2f}" height="{label_h:.2f}" fill="{bg}" stroke="#CCCCCC" stroke-width="0.18"/>'
+    )
+    svg_parts.append(
+        f'<rect x="0.00" y="0.00" width="{label_w:.2f}" height="{bar_a_h:.2f}" fill="{color}" stroke="none"/>'
+    )
+    # Size overlaid on the color bar (e.g. "M4")
+    if size_text:
+        svg_parts.append(
+            render_keepout_centered_text(
+                size_text,
+                cx=cx_a,
+                y=6.25,
+                base_font_size=4.60,
+                max_width=label_w - 1.2,
+                font_weight="bold",
+                fill=bar_text_color,
+            )
+        )
+
+    # Bare length below the color bar (e.g. "6")
+    if bare_len:
+        svg_parts.append(
+            render_keepout_centered_text(
+                bare_len,
+                cx=cx_a,
+                y=16.20,
+                base_font_size=4.80,
+                max_width=max_txt_w,
+                font_weight="bold",
+                fill="#111111",
+            )
+        )
+
+    # Optional special detail note in lower space (blank by default unless extra_note is provided)
+    note_text = (spec.extra_note or "").strip()
+    if note_text:
+        words = note_text.split()
+        if len(words) >= 2 and len(note_text) > 8:
+            mid = len(words) // 2
+            line1 = " ".join(words[:mid])
+            line2 = " ".join(words[mid:])
+            svg_parts.append(
+                render_keepout_centered_text(
+                    line1, cx=cx_a, y=25.50, base_font_size=2.10, max_width=max_txt_w, font_weight="bold", fill="#333333"
+                )
+            )
+            svg_parts.append(
+                render_keepout_centered_text(
+                    line2, cx=cx_a, y=28.40, base_font_size=2.10, max_width=max_txt_w, font_weight="bold", fill="#333333"
+                )
+            )
+        else:
+            svg_parts.append(
+                render_keepout_centered_text(
+                    note_text, cx=cx_a, y=26.80, base_font_size=2.20, max_width=max_txt_w, font_weight="bold", fill="#333333"
+                )
+            )
+
+    # ==========================================================================
+    # LABEL B: Bin Number & Low-Density QR End (label_w .. 2*label_w, 0 .. label_h)
+    # ==========================================================================
+    bar_b_h = 5.50
+    svg_parts.append(
+        f'<rect x="{label_w:.2f}" y="0.00" width="{label_w:.2f}" height="{label_h:.2f}" fill="{bg}" stroke="#CCCCCC" stroke-width="0.18"/>'
+    )
+    svg_parts.append(
+        f'<rect x="{label_w:.2f}" y="0.00" width="{label_w:.2f}" height="{bar_b_h:.2f}" fill="{color}" stroke="none"/>'
+    )
+
+    # 4-digit bin number below the color bar (no "BIN" text)
+    svg_parts.append(
+        render_keepout_centered_text(
+            bin_4digit,
+            cx=cx_b,
+            y=12.20,
+            base_font_size=3.80,
+            max_width=max_txt_w,
+            font_weight="bold",
+            fill="#111111",
+        )
+    )
+
+    # Low-density QR code encoding uppercase forwarding URL (Version 1/2 <= 25x25 modules)
+    qr_payload = f"{forwarding_base_url.rstrip('/')}/{bin_4digit}".upper()
+    qr_sz = 10.60
+    qr_x = label_w + (label_w - qr_sz) / 2.0
+    qr_y = label_h - qr_sz - 2.20
+    svg_parts.append(generate_qr_svg_path(qr_payload, size=qr_sz, x=qr_x, y=qr_y, color="#111111"))
+
+    svg_parts.append("</g>")
+    return "\n".join(svg_parts)
+
+
+def generate_split_vertical_sheet_svg(
+    labels: list[LabelData],
+    title: str = "Cartridge Split Labels (12x35mm Zero-Bleed)",
+    forwarding_base_url: str = "HTTP://TASKER-PI.LOCAL:8090",
+) -> str:
+    """
+    Compose a zero-bleed Letter sheet (215.9 x 279.4 mm) of vertical 12x35mm [Label A | Label B]
+    cartridge pairs (24x35mm per pair) with shared cut edges for fast straight-line paper cutter slicing.
+    """
+    page_w = 215.90
+    page_h = 279.40
+    pair_w = VERT_LABEL_W * 2.0  # 24.0 mm
+    pair_h = VERT_LABEL_H        # 35.0 mm
+
+    pair_cols = 8  # 8 pairs = 16 labels across (192.0 mm width)
+    rows = 7       # 7 rows = 245.0 mm height (56 cartridge pairs = 112 labels per sheet)
+    capacity = pair_cols * rows
+
+    grid_w = pair_cols * pair_w
+    grid_h = rows * pair_h
+    start_x = (page_w - grid_w) / 2.0
+    start_y = 18.00
+
+    batch = labels[:capacity]
+    svg_lines = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{page_w:.2f}mm" height="{page_h:.2f}mm" viewBox="0 0 {page_w:.2f} {page_h:.2f}">',
+        f'  <rect x="0" y="0" width="{page_w:.2f}" height="{page_h:.2f}" fill="#FFFFFF"/>',
+        f'  <text x="{start_x:.2f}" y="11.50" font-family="Arial, Helvetica, sans-serif" font-size="3.80" font-weight="bold" fill="#111111">{escape_xml(title)}</text>',
+        f'  <text x="{start_x + grid_w:.2f}" y="11.50" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="2.60" fill="#555555">Zero-Bleed Paper Cutter Grid: 12×35 mm Vertical Pairs ([Label A | Label B])</text>',
+        '  <g id="split-vertical-pairs">',
+    ]
+
+    for idx, spec in enumerate(batch):
+        r = idx // pair_cols
+        c = idx % pair_cols
+        px = start_x + c * pair_w
+        py = start_y + r * pair_h
+        svg_lines.append(
+            render_vertical_split_label_pair_svg(
+                spec,
+                x=px,
+                y=py,
+                forwarding_base_url=forwarding_base_url,
+                fallback_bin_num=idx + 1,
+            )
+        )
+
+    svg_lines.append("  </g>")
+    svg_lines.append("</svg>")
+    return "\n".join(svg_lines)
+

@@ -16,7 +16,7 @@ To cleanly manage both physical workshop fabrication and software engineering, `
 2. **`HNN_<name>_plan.md` (Hardware Subsystem Plans)**:
    - Governs 3D CAD models, Gridfinity carriers, slide cassettes, divider cards, Cricut cut templates, and physical tolerances under `hardware/`.
 3. **`SNN_<name>_plan.md` (Server Subsystem Plans)**:
-   - Governs the FastAPI web application, SQLite schema/migrations, REST endpoints, HTML5 camera QR barcode scanner, and UI templates under `server/`.
+   - Governs the **Homebox Companion FastAPI Microservice (`:8090` $\rightarrow$ Homebox `:7745`)**: Cartridge Parts Ingestor (`/ingest`), Standardized Batch Label Generator (`/labels`), and 4-Digit QR Link Redirector (`/0001`, `/q/0001`, `/b/BIN-001`) under `server/`. (The older standalone SQLite parts/compartments catalog is deprecated in favor of Homebox).
 
 Every plan MUST include all 7 mandatory sections:
 1. `# Plan <Prefix><NN>: <Title>`
@@ -44,12 +44,13 @@ Every plan MUST include all 7 mandatory sections:
 - **`H01`**: Mixed-Layout Gridfinity Carriers & Deep Bin Cassettes ([`docs/plans/H01_mixed_gridfinity_carriers_and_cassettes_plan.md`](H01_mixed_gridfinity_carriers_and_cassettes_plan.md)) (`QUEUED`)
 
 ### Server Subsystem Plans (`SNN`):
-- **`S01`**: FastAPI Web Catalog Server & SQLite Parts Database ([`docs/plans/complete/2026-09-02-S01_fastapi_web_catalog_server_and_sqlite_database_plan.md`](complete/2026-09-02-S01_fastapi_web_catalog_server_and_sqlite_database_plan.md)) (`ARCHIVED`)
+- **`S01`**: FastAPI Web Catalog Server & SQLite Parts Database ([`docs/plans/complete/2026-09-02-S01_fastapi_web_catalog_server_and_sqlite_database_plan.md`](complete/2026-09-02-S01_fastapi_web_catalog_server_and_sqlite_database_plan.md)) (`ARCHIVED — Legacy SQLite Catalog Deprecated`)
 - **`S02`**: Production Deployment & Provisioning on Node 02 (tasker-pi) ([`docs/plans/complete/2026-09-02-S02_production_deployment_and_provisioning_tasker_pi_plan.md`](complete/2026-09-02-S02_production_deployment_and_provisioning_tasker_pi_plan.md)) (`ARCHIVED`)
-- **`S03`**: Household Consumables & Fleet Maintenance Inventory Expansion ([`docs/plans/S03_household_consumables_and_fleet_inventory_plan.md`](S03_household_consumables_and_fleet_inventory_plan.md)) (`QUEUED`)
-- **`S04`**: Computer Vision Camera Fastener Counter (Snapshot Piece Counting) ([`docs/plans/S04_cv_camera_fastener_counter_plan.md`](S04_cv_camera_fastener_counter_plan.md)) (`QUEUED`)
+- **`S03`**: Household Consumables & Fleet Maintenance Inventory Expansion ([`docs/plans/S03_household_consumables_and_fleet_inventory_plan.md`](S03_household_consumables_and_fleet_inventory_plan.md)) (`SUPERSEDED BY HOMEBOX :7745`)
+- **`S04`**: Computer Vision Camera Fastener Counter (Snapshot Piece Counting) ([`docs/plans/S04_cv_camera_fastener_counter_plan.md`](S04_cv_camera_fastener_counter_plan.md)) (`SUPERSEDED BY PLAN S07`)
 - **`S05`**: Standardized Batch Label Sheet Generator & Cricut Print-Then-Cut Exporter ([`docs/plans/complete/2026-09-08-S05_standardized_batch_labels_and_cricut_exporter_plan.md`](complete/2026-09-08-S05_standardized_batch_labels_and_cricut_exporter_plan.md)) (`ARCHIVED`)
-- **`S06`**: Multi-Location Inventory Allocation, Bulk Overstock Storage & Transfer Management ([`docs/plans/complete/2026-09-08-S06_multi_location_inventory_and_bulk_overstock_plan.md`](complete/2026-09-08-S06_multi_location_inventory_and_bulk_overstock_plan.md)) (`ARCHIVED`)
+- **`S06`**: Multi-Location Inventory Allocation, Bulk Overstock Storage & Transfer Management ([`docs/plans/complete/2026-09-08-S06_multi_location_inventory_and_bulk_overstock_plan.md`](complete/2026-09-08-S06_multi_location_inventory_and_bulk_overstock_plan.md)) (`ARCHIVED — Legacy SQLite Catalog Deprecated`)
+- **`S07`**: Homebox Cartridge Photo & Form Parts Ingestor, Standardized Label Generator & 4-Digit QR Link Redirector ([`docs/plans/complete/2026-11-12-S07_homebox_photo_and_form_parts_ingestor_plan.md`](complete/2026-11-12-S07_homebox_photo_and_form_parts_ingestor_plan.md)) (`ARCHIVED`)
 
 ---
 
@@ -57,6 +58,4 @@ Every plan MUST include all 7 mandatory sections:
 
 | Priority | Plan ID | Title | Target Scope | Status |
 | :---: | :---: | :--- | :--- | :--- |
-| **P1** | **S03** | Household Consumables & Fleet Maintenance Inventory Expansion ([`docs/plans/S03_household_consumables_and_fleet_inventory_plan.md`](S03_household_consumables_and_fleet_inventory_plan.md)) | Location hierarchy, large consumables & specs | `QUEUED` |
-| **P2** | **S04** | Computer Vision Camera Fastener Counter ([`docs/plans/S04_cv_camera_fastener_counter_plan.md`](S04_cv_camera_fastener_counter_plan.md)) | Smartphone photo CV piece counting & overlay | `QUEUED` |
-| **P3** | **H01** | Mixed-Layout Gridfinity Carriers & Deep Bin Cassettes ([`docs/plans/H01_mixed_gridfinity_carriers_and_cassettes_plan.md`](H01_mixed_gridfinity_carriers_and_cassettes_plan.md)) | Parametric Build123d CAD & large bolt bins | `QUEUED` |
+| **P1** | **H01** | Mixed-Layout Gridfinity Carriers & Deep Bin Cassettes ([`docs/plans/H01_mixed_gridfinity_carriers_and_cassettes_plan.md`](H01_mixed_gridfinity_carriers_and_cassettes_plan.md)) | Parametric Build123d CAD & large bolt bins | `QUEUED` |

@@ -4,6 +4,11 @@
 
 {% block content %}
 <div class="space-y-6">
+    <!-- Deprecation Notice Banner -->
+    <div class="rounded-xl bg-amber-950/30 border border-amber-800/60 p-3.5 text-xs text-amber-200">
+        <strong>Deprecated Legacy Catalog View:</strong> Active workshop inventory has migrated to <strong>Homebox (:7745)</strong>. Use <a href="/ingest" class="underline font-bold text-emerald-300">Parts Ingestor (/ingest)</a> and <a href="/labels" class="underline font-bold text-sky-300">Label Generator (/labels)</a> for Homebox operations. This page remains available as a thread/tap-drill engineering reference.
+    </div>
+
     <!-- Header & Search Controls -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
