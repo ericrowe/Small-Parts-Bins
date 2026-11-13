@@ -464,12 +464,40 @@ async def test_manual_form_entry_mode_commit():
 
 @pytest.mark.asyncio
 async def test_ingest_view_renders_html():
-    """Verify GET /ingest renders the Photo + Form Entry web UI."""
+    """Verify GET /ingest renders the Photo + Form Entry web UI both when empty and when populated with bins."""
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
+        res_empty = await client.get("/ingest")
+        assert res_empty.status_code == 200
+        assert "BIN-001" in res_empty.text
+
+        # Commit a populated bin so ingested_bins is non-empty when rendering ingest.html
+        commit_res = await client.post(
+            "/api/ingest/commit",
+            json={
+                "mode": "form",
+                "cartridge_label": "M4 × 6",
+                "groups": [
+                    {
+                        "name": "M4 × 6 mm Socket Head Cap Screw",
+                        "size": "M4",
+                        "length": "6 mm",
+                        "pitch": "0.7 mm",
+                        "head": "shcs",
+                        "drive": "hex",
+                        "comp_type": "bolt",
+                        "finish": "Black Oxide Steel",
+                        "finish_key": "black",
+                        "quantity": 25,
+                    }
+                ],
+            },
+        )
+        assert commit_res.status_code == 200
+
         res = await client.get("/ingest")
         assert res.status_code == 200
         assert "Parts Ingestor" in res.text
-        assert "Photo" in res.text
-        assert "Form" in res.text
         assert "BIN-001" in res.text
+        assert "25 pcs" in res.text
+        assert "BIN-002" in res.text

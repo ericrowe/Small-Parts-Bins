@@ -51,6 +51,7 @@ Every plan MUST include all 7 mandatory sections:
 - **`S05`**: Standardized Batch Label Sheet Generator & Cricut Print-Then-Cut Exporter ([`docs/plans/complete/2026-09-08-S05_standardized_batch_labels_and_cricut_exporter_plan.md`](complete/2026-09-08-S05_standardized_batch_labels_and_cricut_exporter_plan.md)) (`ARCHIVED`)
 - **`S06`**: Multi-Location Inventory Allocation, Bulk Overstock Storage & Transfer Management ([`docs/plans/complete/2026-09-08-S06_multi_location_inventory_and_bulk_overstock_plan.md`](complete/2026-09-08-S06_multi_location_inventory_and_bulk_overstock_plan.md)) (`ARCHIVED — Legacy SQLite Catalog Deprecated`)
 - **`S07`**: Homebox Cartridge Photo & Form Parts Ingestor, Standardized Label Generator & 4-Digit QR Link Redirector ([`docs/plans/complete/2026-11-12-S07_homebox_photo_and_form_parts_ingestor_plan.md`](complete/2026-11-12-S07_homebox_photo_and_form_parts_ingestor_plan.md)) (`ARCHIVED`)
+- **`S08`**: Fix Jinja2 `dict.items` Collision on `/ingest` When Homebox Bins Are Populated ([`docs/plans/complete/2026-11-12-S08_ingest_template_dict_items_bugfix_plan.md`](complete/2026-11-12-S08_ingest_template_dict_items_bugfix_plan.md)) (`ARCHIVED`)
 
 ---
 
