@@ -501,3 +501,155 @@ async def test_ingest_view_renders_html():
         assert "BIN-001" in res.text
         assert "25 pcs" in res.text
         assert "BIN-002" in res.text
+        # Plan S09: Verify #photo-file-input has accept="image/*" and NO capture= attribute so iPhone shows native Take/Choose sheet
+        assert 'id="photo-file-input" type="file" accept="image/*"' in res.text
+        assert 'capture="environment"' not in res.text
+
+
+@pytest.mark.asyncio
+async def test_analyze_cartridge_photo_uses_agy_gemini_vision_callback(monkeypatch):
+    """Plan S10: Verify analyze_cartridge_photo() invokes guarded AGY Gemini Vision endpoint when configured."""
+    from server.app.services.part_ingestor_service import analyze_cartridge_photo
+
+    monkeypatch.setenv("AGY_BRIDGE_URL", "http://127.0.0.1:18765")
+    monkeypatch.setenv("AGY_BRIDGE_API_KEY", "test-agy-vision-key")
+
+    captured_req = {}
+
+    def fake_post(url, **kwargs):
+        captured_req["url"] = url
+        captured_req["headers"] = kwargs.get("headers", {})
+        captured_req["json"] = kwargs.get("json", {})
+        return httpx.Response(
+            200,
+            json={
+                "status": "success",
+                "analysis": {
+                    "label_detected": True,
+                    "label_ocr_text": "M3 x 8 FHCS + Brass Inserts",
+                    "detected_specs": {"size": "M3", "length": "8 mm", "pitch": "0.5 mm"},
+                    "groups": [
+                        {
+                            "finish_key": "black",
+                            "finish": "Black Oxide Steel",
+                            "comp_type": "bolt",
+                            "head": "fhcs",
+                            "drive": "hex",
+                            "size": "M3",
+                            "length": "8 mm",
+                            "count": 15,
+                            "notes": "Black countersunk flat head screws",
+                        },
+                        {
+                            "finish_key": "brass",
+                            "finish": "Brass",
+                            "comp_type": "insert",
+                            "head": "insert",
+                            "drive": "none",
+                            "size": "M3",
+                            "length": "4 mm",
+                            "count": 22,
+                            "notes": "Brass knurled heat-set inserts",
+                        },
+                    ],
+                    "questions": [],
+                },
+            },
+        )
+
+    monkeypatch.setattr("httpx.post", fake_post)
+    syn_bytes = _generate_synthetic_cartridge_photo(include_label=False, black_count=4, silver_count=0)
+    res = analyze_cartridge_photo(syn_bytes, user_hints={"size": "M3"})
+
+    assert captured_req["url"] == "http://127.0.0.1:18765/api/vision/analyze-parts"
+    assert captured_req["headers"].get("Authorization") == "Bearer test-agy-vision-key"
+    assert res["analysis_source"] == "agy_gemini_vision"
+    assert res["label_detected"] is True
+    assert res["detected_specs"]["size"] == "M3"
+    assert len(res["groups"]) == 2
+    assert res["groups"][0]["head"] == "fhcs"
+    assert res["groups"][0]["quantity"] == 15
+    assert "2.0 mm" in res["groups"][0]["tool_key"]
+    assert res["groups"][1]["head"] == "insert"
+    assert res["groups"][1]["finish"] == "Brass"
+    assert res["groups"][1]["quantity"] == 22
+
+
+@pytest.mark.asyncio
+async def test_analyze_cartridge_photo_falls_back_to_opencv_when_agy_bridge_offline(monkeypatch):
+    """Plan S10: Verify analyze_cartridge_photo() falls back to local OpenCV when AGY bridge is unreachable."""
+    from server.app.services.part_ingestor_service import analyze_cartridge_photo
+
+    monkeypatch.setenv("AGY_BRIDGE_URL", "http://127.0.0.1:19999")
+    monkeypatch.setenv("AGY_BRIDGE_API_KEY", "test-agy-vision-key")
+
+    def fake_offline_post(url, **kwargs):
+        raise httpx.ConnectError("Workstation bridge offline")
+
+    monkeypatch.setattr("httpx.post", fake_offline_post)
+    syn_bytes = _generate_synthetic_cartridge_photo(include_label=True, black_count=6, silver_count=8)
+    res = analyze_cartridge_photo(syn_bytes)
+
+    assert res["analysis_source"] == "opencv_fallback"
+    assert res["label_detected"] is True
+    assert res["detected_specs"]["size"] == "M4"
+
+
+@pytest.mark.asyncio
+async def test_ruler_exclusion_and_vision_bbox_overlay_on_img_6354(monkeypatch):
+    """Plan S10: Verify edge steel ruler is never flagged as bolts and overlay matches Gemini Vision count on IMG_6354.jpeg."""
+    import base64
+    from server.app.services.part_ingestor_service import analyze_cartridge_photo
+
+    img_6354_path = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "..", "..", "Temp", "IMG_6354.jpeg")
+    )
+    if not os.path.exists(img_6354_path):
+        return
+
+    monkeypatch.setenv("AGY_BRIDGE_URL", "http://127.0.0.1:18765")
+    monkeypatch.setenv("AGY_BRIDGE_API_KEY", "test-agy-vision-key")
+
+    def fake_gemini_6354(url, **kwargs):
+        return httpx.Response(
+            200,
+            json={
+                "status": "success",
+                "analysis": {
+                    "label_detected": True,
+                    "label_ocr_text": "M4 x 8 Pitch 0.7",
+                    "detected_specs": {"size": "M4", "length": "8 mm", "pitch": "0.7 mm"},
+                    "groups": [
+                        {
+                            "finish_key": "black",
+                            "finish": "Black Oxide Steel",
+                            "comp_type": "bolt",
+                            "head": "shcs",
+                            "drive": "hex",
+                            "size": "M4",
+                            "length": "8 mm",
+                            "count": 20,
+                            "notes": "20 M4x8 black oxide socket head cap screws",
+                        }
+                    ],
+                    "questions": [],
+                },
+            },
+        )
+
+    monkeypatch.setattr("httpx.post", fake_gemini_6354)
+    with open(img_6354_path, "rb") as f:
+        raw_bytes = f.read()
+
+    res = analyze_cartridge_photo(raw_bytes)
+    preview_out = os.path.join(os.path.dirname(img_6354_path), "img_6354_preview.jpeg")
+    b64_str = res["annotated_image_base64"].split(",", 1)[-1]
+    with open(preview_out, "wb") as out_f:
+        out_f.write(base64.b64decode(b64_str))
+
+    assert res["analysis_source"] == "agy_gemini_vision"
+    assert res["detected_specs"]["size"] == "M4"
+    assert res["detected_specs"]["length"] == "8 mm"
+    assert len(res["groups"]) == 1
+    assert res["groups"][0]["count"] == 20
+

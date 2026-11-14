@@ -25,6 +25,7 @@ import tempfile
 from typing import Any, Dict, List, Optional, Tuple
 
 import cv2
+import httpx
 import numpy as np
 
 # Prevent OpenCV pthreads/OpenMP thread-pool deadlocks under async FastAPI / Python 3.14
@@ -403,6 +404,46 @@ def detect_and_read_label_cutout(img_bgr: np.ndarray) -> Dict[str, Any]:
     blue_bar_mask = cv2.inRange(hsv, np.array([95, 110, 90]), np.array([135, 255, 255]))
     orange_bar_mask = cv2.inRange(hsv, np.array([5, 120, 110]), np.array([25, 255, 255]))
     combined_card_mask = cv2.bitwise_or(white_mask, cv2.bitwise_or(blue_bar_mask, orange_bar_mask))
+    img_area = float(wh * ww)
+
+    # If there is a prominent colored header bar (Elegoo blue/orange) in the frame, locate the paper card around it directly
+    for hdr_mask in (blue_bar_mask, orange_bar_mask):
+        hdr_cnts, _ = cv2.findContours(hdr_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        for hcnt in hdr_cnts:
+            h_area = cv2.contourArea(hcnt)
+            if img_area * 0.001 <= h_area <= img_area * 0.05:
+                hx, hy, hcw, hch = cv2.boundingRect(hcnt)
+                # Expand around the header bar to capture the full rectangular label card
+                pad_x = int(max(hcw, hch) * 1.1)
+                pad_y = int(max(hcw, hch) * 1.1)
+                rx0, ry0 = max(0, hx - pad_x), max(0, hy - pad_y)
+                rx1, ry1 = min(ww, hx + hcw + pad_x), min(wh, hy + hch + pad_y)
+                roi_card = combined_card_mask[ry0:ry1, rx0:rx1]
+                # Break thin bridges to light wood grain with a morphological opening
+                open_k = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
+                roi_clean = cv2.morphologyEx(roi_card, cv2.MORPH_OPEN, open_k, iterations=1)
+                rcnts, _ = cv2.findContours(roi_clean, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                for rcnt in rcnts:
+                    # Must overlap the header bar center
+                    hcx, hcy = hx + hcw // 2 - rx0, hy + hch // 2 - ry0
+                    rx, ry, rcw, rch = cv2.boundingRect(rcnt)
+                    if rx <= hcx <= rx + rcw and ry <= hcy <= ry + rch:
+                        ox = max(0, int((rx0 + rx - 6) / scale))
+                        oy = max(0, int((ry0 + ry - 6) / scale))
+                        ow = min(orig_w - ox, int((rcw + 12) / scale))
+                        oh = min(orig_h - oy, int((rch + 12) / scale))
+                        crop_orig = img_bgr[oy : oy + oh, ox : ox + ow]
+                        ocr_text = _run_tesseract_ocr_on_crop(crop_orig)
+                        parsed = parse_label_ocr_text(ocr_text)
+                        return {
+                            "detected": bool(parsed["size"]),
+                            "bbox": [ox, oy, ow, oh],
+                            "raw_text": ocr_text.strip(),
+                            "size": parsed["size"],
+                            "length": parsed["length"],
+                            "pitch": parsed["pitch"],
+                            "has_color_header": True,
+                        }
 
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 7))
     closed = cv2.morphologyEx(combined_card_mask, cv2.MORPH_CLOSE, kernel, iterations=2)
@@ -428,12 +469,13 @@ def detect_and_read_label_cutout(img_bgr: np.ndarray) -> Dict[str, Any]:
         # Check if this region contains a colored category bar (e.g. Elegoo Blue #0077CC or Orange)
         roi_blue = blue_bar_mask[y : y + ch, x : x + cw]
         roi_orange = orange_bar_mask[y : y + ch, x : x + cw]
-        has_color_header = float(np.count_nonzero(roi_blue) + np.count_nonzero(roi_orange)) / rect_area > 0.04
+        color_bar_ratio = float(np.count_nonzero(roi_blue) + np.count_nonzero(roi_orange)) / rect_area
+        has_color_header = color_bar_ratio > 0.04
 
-        score = area * (2.5 if has_color_header else 1.0) * solidity
+        score = area * (15.0 * (1.0 + color_bar_ratio) if has_color_header else 1.0) * solidity
         candidates.append((score, (x, y, cw, ch), has_color_header))
 
-    candidates.sort(key=lambda item: item[0], reverse=True)
+    candidates.sort(key=lambda item: (item[2], item[0]), reverse=True)
 
     for _, (x, y, cw, ch), has_header in candidates[:3]:
         # Map back to original high-resolution coordinates with a small margin
@@ -584,12 +626,67 @@ def _estimate_expected_bolt_area_px(
     return float(area_mm2 * (px_per_mm ** 2) * 0.52)
 
 
+def _detect_edge_ruler_mask(v_ch: np.ndarray, rb_signed: np.ndarray, v_diff: np.ndarray) -> np.ndarray:
+    """
+    Detect a straight steel/plastic ruler or scale placed along any frame edge
+    (left, right, top, or bottom) where >= 60% of the column/row length is dark or
+    neutral metallic (non-wood) so ruler ticks/numbers are never segmented as bolts.
+    """
+    wh, ww = v_ch.shape[:2]
+    ruler_mask = np.zeros((wh, ww), dtype=np.uint8)
+    non_wood = (v_diff >= 28) | ((rb_signed <= 10) & (v_ch <= 155))
+    col_fill = np.mean(non_wood, axis=0)
+    row_fill = np.mean(non_wood, axis=1)
+
+    max_x_scan = int(ww * 0.22)
+    left_end = 0
+    for x in range(max_x_scan):
+        if col_fill[x] >= 0.58:
+            left_end = x + 1
+        elif left_end > 0 and x - left_end > 8:
+            break
+    if left_end >= int(ww * 0.03):
+        ruler_mask[:, : min(ww, left_end + 10)] = 255
+
+    right_start = ww
+    for x in range(ww - 1, ww - max_x_scan, -1):
+        if col_fill[x] >= 0.58:
+            right_start = x
+        elif right_start < ww and (right_start - x) > 8:
+            break
+    if (ww - right_start) >= int(ww * 0.03):
+        ruler_mask[:, max(0, right_start - 10) :] = 255
+
+    max_y_scan = int(wh * 0.22)
+    top_end = 0
+    for y in range(max_y_scan):
+        if row_fill[y] >= 0.58:
+            top_end = y + 1
+        elif top_end > 0 and y - top_end > 8:
+            break
+    if top_end >= int(wh * 0.03):
+        ruler_mask[: min(wh, top_end + 10), :] = 255
+
+    bot_start = wh
+    for y in range(wh - 1, wh - max_y_scan, -1):
+        if row_fill[y] >= 0.58:
+            bot_start = y
+        elif bot_start < wh and (bot_start - y) > 8:
+            break
+    if (wh - bot_start) >= int(wh * 0.03):
+        ruler_mask[max(0, bot_start - 10) :, :] = 255
+
+    return ruler_mask
+
+
 def segment_and_classify_fasteners(
     img_bgr: np.ndarray,
     label_bbox: Optional[List[int]] = None,
     ruler_mm_per_px: Optional[float] = None,
     known_size: Optional[str] = None,
     known_length: Optional[str] = None,
+    ruler_bbox: Optional[List[int]] = None,
+    target_counts: Optional[Dict[str, int]] = None,
 ) -> Dict[str, Any]:
     """
     Segment individual fasteners on a wood/tray background, separate them into
@@ -636,6 +733,19 @@ def segment_and_classify_fasteners(
     v_bg = np.maximum(cv2.blur(v_ch, (85, 85)), int(bg_v_baseline * 0.90)).astype(np.int16)
     v_diff = v_bg - v_ch.astype(np.int16)
     rb_signed = r_ch.astype(np.int16) - b_ch.astype(np.int16)
+
+    # Mask out any edge ruler strip (e.g. Westcott steel ruler along frame edge) + optional Gemini ruler_bbox
+    edge_ruler_mask = _detect_edge_ruler_mask(v_ch, rb_signed, v_diff)
+    exclusion_mask = cv2.bitwise_or(exclusion_mask, edge_ruler_mask)
+    if ruler_bbox and len(ruler_bbox) == 4:
+        rx, ry, rw_b, rh_b = [int(v * scale) for v in ruler_bbox]
+        cv2.rectangle(
+            exclusion_mask,
+            (max(0, rx - 8), max(0, ry - 8)),
+            (min(ww, rx + rw_b + 8), min(wh, ry + rh_b + 8)),
+            255,
+            -1,
+        )
 
     # Compute fast separable 15x15 local extrema (MORPH_RECT is O(1) separable)
     k_15 = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))
@@ -773,12 +883,38 @@ def segment_and_classify_fasteners(
         min_sep = max(7, int(bolt_scale * (0.64 if finish_key == "black" else 0.76)))
 
         pieces: List[Dict[str, Any]] = []
-        for idx, area, (bx, by, bw, bh), (cx, cy), _sol, _rp80 in blobs:
-            if area < min_valid_piece_area:
-                continue
+        valid_blobs = [b for b in blobs if b[1] >= min_valid_piece_area]
+        if not valid_blobs:
+            return []
+
+        target_total = (target_counts or {}).get(finish_key)
+        if target_total is not None and target_total <= 0:
+            return []
+
+        # Allocate integer counts per blob: when target_total is provided by Gemini Vision,
+        # distribute counts across multi-screw clusters so the visual badges match the authoritative count.
+        blob_counts: List[int] = [
+            max(1, min(80, int(round(b[1] / (unit_area * 1.02)))))
+            for b in valid_blobs
+        ]
+        if target_total is not None and target_total >= len(valid_blobs):
+            while sum(blob_counts) < target_total:
+                # Increment the blob with the largest residual area per assigned screw
+                best_i = max(
+                    range(len(valid_blobs)),
+                    key=lambda i: valid_blobs[i][1] / float(blob_counts[i] + 0.35),
+                )
+                blob_counts[best_i] += 1
+            while sum(blob_counts) > target_total and any(c > 1 for c in blob_counts):
+                best_i = min(
+                    (i for i in range(len(valid_blobs)) if blob_counts[i] > 1),
+                    key=lambda i: valid_blobs[i][1] / float(blob_counts[i]),
+                )
+                blob_counts[best_i] -= 1
+
+        for b_idx, (idx, area, (bx, by, bw, bh), (cx, cy), _sol, _rp80) in enumerate(valid_blobs):
             comp_mask = np.where(lbl_img[by : by + bh, bx : bx + bw] == idx, 255, 0).astype(np.uint8)
-            est_count = max(1, int(round(area / (unit_area * 1.02))))
-            est_count = min(est_count, 80)
+            est_count = blob_counts[b_idx]
 
             if est_count == 1:
                 cand_pts = [(int(cx), int(cy))]
@@ -794,13 +930,27 @@ def segment_and_classify_fasteners(
 
                 cand_pts = []
                 temp_score = score_map.copy()
+                # Ensure separation radius covers at least a full single-screw minor diameter so head + thread of the same screw are never double-badged
+                sep_radius = max(min_sep, int(r_cap * 1.95))
                 for _ in range(est_count):
                     _, max_val, _, max_loc = cv2.minMaxLoc(temp_score)
-                    if max_val <= 1.8:
+                    if max_val <= 1.0:
                         break
                     px, py = max_loc
                     cand_pts.append((bx + px, by + py))
-                    cv2.circle(temp_score, (px, py), min_sep, 0.0, -1)
+                    cv2.circle(temp_score, (px, py), sep_radius, 0.0, -1)
+                # If est_count required more peaks than separated by sep_radius, relax radius to 1.45 * r_cap for remaining peaks
+                if len(cand_pts) < est_count:
+                    temp_score2 = score_map.copy()
+                    for ex_x, ex_y in cand_pts:
+                        cv2.circle(temp_score2, (ex_x - bx, ex_y - by), max(5, int(r_cap * 1.45)), 0.0, -1)
+                    while len(cand_pts) < est_count:
+                        _, max_val, _, max_loc = cv2.minMaxLoc(temp_score2)
+                        if max_val <= 1.0:
+                            break
+                        px, py = max_loc
+                        cand_pts.append((bx + px, by + py))
+                        cv2.circle(temp_score2, (px, py), max(5, int(r_cap * 1.45)), 0.0, -1)
                 if not cand_pts:
                     cand_pts = [(int(cx), int(cy))]
 
@@ -977,6 +1127,90 @@ def build_clarification_questions(
     return questions
 
 
+def get_agy_bridge_config() -> Tuple[Optional[str], Optional[str]]:
+    """Resolve AGY_BRIDGE_URL (or LLM_HOST) and AGY_BRIDGE_API_KEY from environment, .env files, or workstation config."""
+    bridge_url = (os.getenv("AGY_BRIDGE_URL") or os.getenv("LLM_HOST") or "").strip().rstrip("/")
+    api_key = (os.getenv("AGY_BRIDGE_API_KEY") or "").strip()
+
+    if (not bridge_url or not api_key) and not os.getenv("PYTEST_CURRENT_TEST"):
+        env_candidates = [
+            os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".env")),
+            "/opt/parts-database/server/.env",
+            "/opt/parts-database/.env",
+            "/opt/assistant/.env",
+            os.path.expanduser("~/personal-assistant/.env"),
+        ]
+        for env_path in env_candidates:
+            if os.path.isfile(env_path):
+                try:
+                    with open(env_path, "r", encoding="utf-8") as ef:
+                        for line in ef:
+                            s = line.strip()
+                            if not s or s.startswith("#") or "=" not in s:
+                                continue
+                            k, v = s.split("=", 1)
+                            k = k.strip()
+                            v = v.strip().strip('"').strip("'")
+                            if k in ("AGY_BRIDGE_URL", "LLM_HOST") and not bridge_url and v:
+                                bridge_url = v.rstrip("/")
+                            elif k == "AGY_BRIDGE_API_KEY" and not api_key and v:
+                                api_key = v
+                except OSError:
+                    pass
+
+    if not api_key and bridge_url:
+        key_file = os.path.expanduser("~/.config/agy_bridge/api_key")
+        if os.path.isfile(key_file):
+            try:
+                with open(key_file, "r", encoding="utf-8") as f:
+                    api_key = f.read().strip()
+            except OSError:
+                pass
+
+    return (bridge_url or None), (api_key or None)
+
+
+def call_agy_vision_part_analyzer(
+    image_bytes: bytes,
+    user_hints: Optional[Dict[str, Any]] = None,
+    ruler_mm_per_px: Optional[float] = None,
+) -> Optional[Dict[str, Any]]:
+    """
+    Invoke the guarded Workstation AGY Bridge vision endpoint (POST /api/vision/analyze-parts).
+    Returns the validated analysis dict on success, or None if unconfigured/unreachable.
+    """
+    bridge_url, api_key = get_agy_bridge_config()
+    if not bridge_url or not api_key:
+        return None
+
+    user_hints = user_hints or {}
+    payload: Dict[str, Any] = {
+        "image_base64": base64.b64encode(image_bytes).decode("ascii"),
+    }
+    if user_hints.get("size"):
+        payload["size_hint"] = str(user_hints["size"]).strip()[:24]
+    if user_hints.get("length"):
+        payload["length_hint"] = str(user_hints["length"]).strip()[:24]
+    if ruler_mm_per_px and ruler_mm_per_px > 0:
+        payload["ruler_mm_per_px"] = float(ruler_mm_per_px)
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+    endpoint = f"{bridge_url}/api/vision/analyze-parts"
+    try:
+        resp = httpx.post(endpoint, json=payload, headers=headers, timeout=90.0)
+        if resp.status_code == 200:
+            data = resp.json()
+            if isinstance(data, dict) and data.get("status") == "success" and isinstance(data.get("analysis"), dict):
+                return data["analysis"]
+        logger.warning(f"AGY Vision endpoint returned HTTP {resp.status_code}: {resp.text[:200]}")
+    except Exception as e:
+        logger.warning(f"AGY Vision callback unreachable ({endpoint}), falling back to local OpenCV: {e}")
+    return None
+
+
 def analyze_cartridge_photo(
     image_bytes: bytes,
     user_hints: Optional[Dict[str, Any]] = None,
@@ -984,8 +1218,8 @@ def analyze_cartridge_photo(
 ) -> Dict[str, Any]:
     """
     Full end-to-end computer vision & OCR analysis of a cartridge contents photo.
-    Detects label cutouts, separates Black vs Silver hardware groups, counts pieces,
-    classifies bolt head types, and generates clarification questions if needed.
+    Uses the guarded Workstation AGY Gemini Vision callback when configured, with
+    automatic fallback to local OpenCV segmentation & OCR.
     """
     user_hints = user_hints or {}
     arr = np.frombuffer(image_bytes, dtype=np.uint8)
@@ -993,20 +1227,152 @@ def analyze_cartridge_photo(
     if img_bgr is None:
         raise ValueError("Could not decode uploaded image bytes.")
 
-    # 1. Detect & OCR Label Cutout
-    label_info = detect_and_read_label_cutout(img_bgr)
+    head_names = {
+        "shcs": "Socket Head Cap Screw",
+        "bhcs": "Button Head Cap Screw",
+        "fhcs": "Flat Head Countersunk Screw",
+        "hex": "Hex Head Bolt",
+        "pan": "Pan Head Screw",
+        "nut": "Hex Nut",
+        "washer": "Flat Washer",
+        "insert": "Brass Heat-Set Insert",
+    }
 
-    # 2. Segment fasteners, separate Black vs Silver, and count pieces
+    # 0. Attempt guarded AGY Gemini Vision analysis first if configured
+    vision_res = call_agy_vision_part_analyzer(
+        image_bytes=image_bytes,
+        user_hints=user_hints,
+        ruler_mm_per_px=ruler_mm_per_px,
+    )
+
+    # 1. Detect & OCR Label Cutout + segment pieces locally for visual badge overlay
+    label_info = detect_and_read_label_cutout(img_bgr)
+    orig_h, orig_w = img_bgr.shape[:2]
+
+    ruler_bbox_px: Optional[List[int]] = None
+    target_counts: Optional[Dict[str, int]] = None
+    if vision_res and isinstance(vision_res.get("groups"), list) and len(vision_res["groups"]) > 0:
+        if isinstance(vision_res.get("ruler_bbox_pct"), list) and len(vision_res["ruler_bbox_pct"]) == 4:
+            rx_p, ry_p, rw_p, rh_p = vision_res["ruler_bbox_pct"]
+            ruler_bbox_px = [
+                int(orig_w * rx_p / 100.0),
+                int(orig_h * ry_p / 100.0),
+                int(orig_w * rw_p / 100.0),
+                int(orig_h * rh_p / 100.0),
+            ]
+        if not label_info.get("bbox") and isinstance(vision_res.get("label_bbox_pct"), list) and len(vision_res["label_bbox_pct"]) == 4:
+            lx_p, ly_p, lw_p, lh_p = vision_res["label_bbox_pct"]
+            label_info["bbox"] = [
+                int(orig_w * lx_p / 100.0),
+                int(orig_h * ly_p / 100.0),
+                int(orig_w * lw_p / 100.0),
+                int(orig_h * lh_p / 100.0),
+            ]
+        target_counts = {"black": 0, "silver": 0}
+        for vg in vision_res["groups"]:
+            fk = (vg.get("finish_key") or "black").lower()
+            qty = int(vg.get("count") or vg.get("quantity") or 0)
+            if fk == "black":
+                target_counts["black"] += qty
+            else:
+                target_counts["silver"] += qty
+
     seg_info = segment_and_classify_fasteners(
         img_bgr,
         label_bbox=label_info.get("bbox"),
         ruler_mm_per_px=ruler_mm_per_px,
-        known_size=user_hints.get("size") or label_info.get("size"),
-        known_length=user_hints.get("length") or label_info.get("length"),
+        known_size=user_hints.get("size") or (vision_res and vision_res.get("detected_specs", {}).get("size")) or label_info.get("size"),
+        known_length=user_hints.get("length") or (vision_res and vision_res.get("detected_specs", {}).get("length")) or label_info.get("length"),
+        ruler_bbox=ruler_bbox_px,
+        target_counts=target_counts,
     )
-
     black_pieces = seg_info["black_pieces"]
     silver_pieces = seg_info["silver_pieces"]
+
+    if vision_res and isinstance(vision_res.get("groups"), list) and len(vision_res["groups"]) > 0:
+        v_specs = vision_res.get("detected_specs") or {}
+        resolved_size = user_hints.get("size") or v_specs.get("size") or label_info.get("size") or "M4"
+        resolved_length = user_hints.get("length") or v_specs.get("length") or label_info.get("length") or "6 mm"
+        base_specs = lookup_fastener_specs(resolved_size, head="shcs")
+        resolved_pitch = user_hints.get("pitch") or v_specs.get("pitch") or base_specs.get("pitch") or "0.7 mm"
+
+        v_groups: List[Dict[str, Any]] = []
+        for idx, vg in enumerate(vision_res["groups"], start=1):
+            g_size = vg.get("size") or resolved_size
+            g_len = vg.get("length") or resolved_length
+            g_head = (vg.get("head") or "shcs").lower()
+            g_drive = (vg.get("drive") or "hex").lower()
+            g_finish_key = (vg.get("finish_key") or "black").lower()
+            g_finish = vg.get("finish") or ("Black Oxide Steel" if g_finish_key == "black" else "Stainless Steel (Silver)")
+            g_comp = vg.get("comp_type") or ("nut" if g_head == "nut" else "washer" if g_head == "washer" else "insert" if g_head == "insert" else "bolt")
+            g_qty = int(vg.get("count") or vg.get("quantity") or 1)
+            grp_specs = lookup_fastener_specs(g_size, head=g_head, drive=g_drive)
+            h_title = head_names.get(g_head, "Fastener")
+            size_len_prefix = f"{g_size} × {g_len}".strip() if g_len and g_head not in ("nut", "washer") else g_size
+            v_groups.append(
+                {
+                    "group_index": idx,
+                    "finish_key": g_finish_key,
+                    "finish": g_finish,
+                    "count": g_qty,
+                    "quantity": g_qty,
+                    "size": g_size,
+                    "length": g_len,
+                    "pitch": grp_specs.get("pitch") or resolved_pitch,
+                    "head": g_head,
+                    "head_name": h_title,
+                    "drive": g_drive,
+                    "comp_type": g_comp,
+                    "tool_key": grp_specs.get("tool_key", ""),
+                    "tap_drill": grp_specs.get("tap_drill", ""),
+                    "clearance_drill": grp_specs.get("clearance_drill", ""),
+                    "name": f"{size_len_prefix} {h_title} ({g_finish})".replace("  ", " ").strip(),
+                    "notes": vg.get("notes") or "",
+                }
+            )
+
+        v_label_detected = bool(vision_res.get("label_detected") or label_info.get("detected"))
+        ruler_calibrated = bool(ruler_mm_per_px and ruler_mm_per_px > 0)
+        v_questions = vision_res.get("questions") or build_clarification_questions(
+            label_detected=v_label_detected,
+            size=resolved_size if v_label_detected else None,
+            length=resolved_length if v_label_detected else None,
+            groups=v_groups,
+            ruler_calibrated=ruler_calibrated,
+        )
+        overlay_label_info = {
+            "bbox": label_info.get("bbox"),
+            "size": resolved_size,
+            "length": resolved_length,
+        }
+        annotated_b64 = render_annotated_overlay(
+            img_bgr=img_bgr,
+            label_info=overlay_label_info,
+            black_pieces=black_pieces,
+            silver_pieces=silver_pieces,
+        )
+        cartridge_label = f"{resolved_size} × {resolved_length.replace(' mm', '')}" if resolved_size and resolved_length else ""
+        return {
+            "analysis_source": "agy_gemini_vision",
+            "label_detected": v_label_detected,
+            "label_ocr_text": vision_res.get("label_ocr_text") or label_info.get("raw_text", ""),
+            "needs_clarification": not v_label_detected or len(v_questions) > 0,
+            "ruler_calibrated": ruler_calibrated,
+            "cartridge_label": cartridge_label,
+            "detected_specs": {
+                "size": resolved_size,
+                "length": resolved_length,
+                "pitch": resolved_pitch,
+                "tap_drill": base_specs.get("tap_drill", ""),
+                "clearance_drill": base_specs.get("clearance_drill", ""),
+                "estimated_length_mm": seg_info.get("estimated_length_mm"),
+                "estimated_size_guess": seg_info.get("estimated_size_guess"),
+            },
+            "total_pieces_detected": sum(g["count"] for g in v_groups),
+            "groups": v_groups,
+            "questions": v_questions,
+            "annotated_image_base64": annotated_b64,
+        }
 
     # Determine resolved size, length, and pitch (priority: user_hints -> label OCR -> ruler estimate -> educated guess)
     resolved_size = (
@@ -1134,6 +1500,7 @@ def analyze_cartridge_photo(
     cartridge_label = f"{resolved_size} × {resolved_length.replace(' mm', '')}" if resolved_size and resolved_length else ""
 
     return {
+        "analysis_source": "opencv_fallback",
         "label_detected": label_detected,
         "label_ocr_text": label_info.get("raw_text", ""),
         "needs_clarification": not label_detected,

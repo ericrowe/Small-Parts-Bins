@@ -6,6 +6,29 @@ Persistent asynchronous backlog for database schema design, QR code generation, 
 
 ## 1. Master & Cross-Subsystem Backlog (`MNN`)
 
+### [FEATURE] AGY / Gemini Vision Callback Integration for Cartridge Photo Parts Ingestor (`Parts-Database` + `Personal-Assistant` `agy_bridge`)
+- **Context**:
+  - Currently, `analyze_cartridge_photo()` in [`server/app/services/part_ingestor_service.py`](../../server/app/services/part_ingestor_service.py) relies solely on local OpenCV color-thresholding heuristics and `tesseract`/glyph matching. It misses obvious visual details, cannot recognize nuts, washers, countersunk (`fhcs`) screws, hex bolts, or brass heat-set inserts, hard-defaults black hardware to `"shcs"`, and falls back to `M4 × 6 mm` whenever a standardized blue/orange paper cutout isn't detected.
+  - Meanwhile, the task manager (`Personal-Assistant`) already operates the Workstation Antigravity Bridge (`agy_bridge_server`, port `8765`) and AGY web front end, which currently only handles text prompts (`/api/generate`).
+- **Proposed Solution & Required Scope**:
+  1. **Expand Workstation `agy_bridge` & Task Manager AGY Web Front End for Vision Tasks**:
+     - Extend `agy_bridge_server` and the AGY web front-end in `Personal-Assistant` with a dedicated multi-modal vision analysis endpoint (e.g. `POST /api/vision/analyze-parts` or task-scoped vision callback) capable of passing base64/multipart cartridge images to Gemini Vision via Antigravity.
+     - Surface vision request telemetry, status, and model/task controls in the Task Manager AGY web front end.
+  2. **Endpoint Security & Anti-Misuse Guardrails**:
+     - Enforce strict Bearer API key authentication (`AGY_BRIDGE_API_KEY`) and origin/IP allowlisting (limiting callers to authorized rack nodes / local workstation).
+     - Lock the endpoint to a fixed, non-overridable system prompt / task template (preventing arbitrary prompt injection or general-purpose LLM abuse through the vision endpoint).
+     - Enforce strict payload validation: MIME type allowlist (`image/jpeg`, `image/png`, `image/webp`), maximum image byte size cap, image dimension bounds, request rate limiting / concurrency caps, and strict JSON output schema validation before returning results.
+  3. **Prompt Engineering & Structured Output Contract**:
+     - Develop and benchmark a domain-specific fastener & hardware vision prompt that takes the cartridge photo (plus optional ruler/label context and canonical `fasteners.json` reference categories) and outputs a deterministic JSON schema:
+       - Detected label text (`size`, `length`, `pitch`, or handwritten/printed package notes).
+       - Distinct hardware groups present in the photo (`comp_type`: bolt/screw, hex nut, lock nut, flat washer, split washer, heat-set insert, standoff, pin; `head`: `shcs`, `bhcs`, `fhcs`, `hex`, `pan`, `grub`; `drive`: `hex`, `torx`, `phillips`, `slotted`; `finish`: Black Oxide, Stainless/Silver, Zinc, Brass, Nylon).
+       - Accurate per-group piece counts, bounding/center coordinates (or hybrid CV + Gemini verification), confidence scores, and targeted clarification questions only when genuinely ambiguous (e.g., M3 vs. M4 without scale reference).
+  4. **`Parts-Database` `/ingest` Integration (`part_ingestor_service.py`)**:
+     - Upgrade `analyze_cartridge_photo()` to invoke the guarded `agy_bridge` Gemini Vision callback as the primary analyzer (with local OpenCV contour coordinates/overlay or offline fallback if the bridge is unreachable).
+- **Target Components**: `Parts-Database` (`server/app/services/part_ingestor_service.py`) & `Personal-Assistant` (`agy_bridge_server`, AGY web front end) — requires paired sub-project plans per Cross-Subsystem Coupling Rule.
+- **Priority**: P1 (High-Leverage UX & Accuracy Upgrade)
+- **Status**: New Idea (Ready for Triage & Cross-Subsystem Planning)
+
 ### [FEATURE] End-to-End QR Fastener Tagging & Camera Scanner Resolution
 - **Context**: Need a seamless pipeline connecting vector SVG label generation with QR codes to immediate mobile camera scanning and SQLite record resolution.
 - **Proposed Solution**: Standardize QR payload format (e.g. `https://parts.local/b/<bin_uuid>` or `PARTS:<id>`), inject dynamic QR codes into SVG label sheets, and decode instantly in the web catalog.

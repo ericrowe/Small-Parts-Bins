@@ -97,7 +97,7 @@
 
                 <!-- File / Camera Input -->
                 <div class="border-2 border-dashed border-slate-700 hover:border-emerald-500/60 rounded-xl p-6 text-center transition bg-slate-950/50">
-                    <input id="photo-file-input" type="file" accept="image/*" capture="environment" class="hidden" onchange="onPhotoSelected(event)" />
+                    <input id="photo-file-input" type="file" accept="image/*" class="hidden" onchange="onPhotoSelected(event)" />
                     <label for="photo-file-input" class="cursor-pointer flex flex-col items-center space-y-2">
                         <div class="w-12 h-12 rounded-full bg-emerald-500/15 border border-emerald-500/40 flex items-center justify-center text-2xl">
                             📸
@@ -419,11 +419,12 @@
             }
 
             const badge = document.getElementById("preview-status-badge");
+            const srcTag = data.analysis_source === "agy_gemini_vision" ? "[🤖 AGY Gemini Vision] " : "[📷 Local CV] ";
             if (data.label_detected) {
-                badge.textContent = `✅ Label Cutout Read: ${data.detected_specs.size} × ${data.detected_specs.length} (Pitch ${data.detected_specs.pitch}) · ${data.total_pieces_detected} total pcs`;
+                badge.textContent = `${srcTag}✅ Label Cutout Read: ${data.detected_specs.size} × ${data.detected_specs.length} (Pitch ${data.detected_specs.pitch}) · ${data.total_pieces_detected} total pcs`;
                 badge.className = "font-semibold text-emerald-400";
             } else {
-                badge.textContent = `⚠️ No Label Cutout Found — Guessed ${data.detected_specs.size} × ${data.detected_specs.length} · ${data.total_pieces_detected} total pcs`;
+                badge.textContent = `${srcTag}⚠️ No Label Cutout Found — Guessed ${data.detected_specs.size} × ${data.detected_specs.length} · ${data.total_pieces_detected} total pcs`;
                 badge.className = "font-semibold text-amber-400";
             }
 
