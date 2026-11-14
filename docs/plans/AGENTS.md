@@ -52,6 +52,7 @@ Every plan MUST include all 7 mandatory sections:
 - **`S06`**: Multi-Location Inventory Allocation, Bulk Overstock Storage & Transfer Management ([`docs/plans/complete/2026-09-08-S06_multi_location_inventory_and_bulk_overstock_plan.md`](complete/2026-09-08-S06_multi_location_inventory_and_bulk_overstock_plan.md)) (`ARCHIVED — Legacy SQLite Catalog Deprecated`)
 - **`S07`**: Homebox Cartridge Photo & Form Parts Ingestor, Standardized Label Generator & 4-Digit QR Link Redirector ([`docs/plans/complete/2026-11-12-S07_homebox_photo_and_form_parts_ingestor_plan.md`](complete/2026-11-12-S07_homebox_photo_and_form_parts_ingestor_plan.md)) (`ARCHIVED`)
 - **`S08`**: Fix Jinja2 `dict.items` Collision on `/ingest` When Homebox Bins Are Populated ([`docs/plans/complete/2026-11-12-S08_ingest_template_dict_items_bugfix_plan.md`](complete/2026-11-12-S08_ingest_template_dict_items_bugfix_plan.md)) (`ARCHIVED`)
+- **`S09`**: Enable Native iOS Action Sheet ("Take Photo or Choose Image") on `/ingest` ([`docs/plans/S09_ios_photo_picker_action_sheet_plan.md`](S09_ios_photo_picker_action_sheet_plan.md)) (`QUEUED`)
 
 ---
 
@@ -59,4 +60,5 @@ Every plan MUST include all 7 mandatory sections:
 
 | Priority | Plan ID | Title | Target Scope | Status |
 | :---: | :---: | :--- | :--- | :--- |
+| **P0** | **S09** | Enable Native iOS Action Sheet ("Take Photo or Choose Image") on `/ingest` ([`docs/plans/S09_ios_photo_picker_action_sheet_plan.md`](S09_ios_photo_picker_action_sheet_plan.md)) | `/ingest` iOS Safari photo input | `QUEUED` |
 | **P1** | **H01** | Mixed-Layout Gridfinity Carriers & Deep Bin Cassettes ([`docs/plans/H01_mixed_gridfinity_carriers_and_cassettes_plan.md`](H01_mixed_gridfinity_carriers_and_cassettes_plan.md)) | Parametric Build123d CAD & large bolt bins | `QUEUED` |
