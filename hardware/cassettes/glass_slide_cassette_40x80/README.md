@@ -29,6 +29,8 @@ Key features:
 - `build/cassette_lid_v0_8_print.stl` (lid with $15.0\text{ mm}$ pull-tab clearance cutaway, dual 9 mm label zones, & $1.20\text{ mm}$ reinforced clip; print top/label-face down in PETG)
 - `build/pull_tab_v0_8.stl` (ergonomic rigid pull tab with physically verified $+0.10\text{ mm}$ fit; print flat on back face in PETG, ~1 min print)
 - `build/divider_card_1_2mm.stl` (baseline $33.00 \times 31.20 \times 1.20\text{ mm}$ divider card with top extraction notch and lead-in chamfers)
+- `build/divider_card_1_2_to_1_0mm.stl` (stepped divider card: bottom $2.0\text{ mm}$ is $1.20\text{ mm}$ thick to grip the floor/lower slot, upper $29.2\text{ mm}$ is $1.00\text{ mm}$ thick so the top does not push outward near the lid latch; symmetric step)
+- `build/divider_card_1_2_to_1_0mm_flat_back.stl` (same stepped $1.20\text{ mm} \rightarrow 1.00\text{ mm}$ divider card with a completely flat $-Y$ back face for laying flat on the print bed)
 
 Print all parts exactly as supplied without internal support. A 0.4 mm nozzle,
 0.20 mm layers, and four perimeters remain reasonable starting settings. Keep the

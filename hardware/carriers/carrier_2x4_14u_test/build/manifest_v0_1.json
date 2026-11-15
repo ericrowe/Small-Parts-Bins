@@ -1,0 +1,77 @@
+{
+  "design": "2x4 carrier 14U physical test",
+  "version": "0.1",
+  "units": "mm",
+  "print_quantity": {
+    "carrier_2x4_7u_v0_1.stl": 2
+  },
+  "gridfinity": {
+    "grid_units": [
+      2,
+      4
+    ],
+    "pitch_mm": 42,
+    "outer_dimensions_mm": [
+      83.5,
+      167.5,
+      53.4
+    ],
+    "foot_height_mm": 4.75,
+    "height_units_per_carrier": 7,
+    "engaged_height_per_carrier_mm": 49,
+    "lip_height_mm": 4.4,
+    "two_carrier_stack_mm": 102.4,
+    "wall_thickness_x_mm": 1.8,
+    "wall_thickness_y_mm": 2.6,
+    "profile_source": "Gridfinity standard 42 mm pitch; 1.80 mm X-walls and 2.60 mm Y-walls for 2x2 cassette packing"
+  },
+  "drawer": {
+    "measured_internal_height_mm": 111.125,
+    "nominal_clearance_above_14u_stack_mm": 8.725
+  },
+  "cassette_fit": {
+    "layout": "2 across x 2 deep (4 cassettes)",
+    "closed_envelope_mm": [
+      39.75,
+      80.0,
+      36.4
+    ],
+    "nominal_body_width_mm": 38.6,
+    "array_max_envelope_mm": [
+      79.5,
+      160.4
+    ],
+    "array_lower_body_mm": [
+      77.2,
+      160.4
+    ],
+    "lip_throat_mm": [
+      79.9,
+      162.3
+    ],
+    "lateral_clearance_at_hinge_knuckles_mm": 0.4,
+    "lateral_clearance_at_lower_bodies_mm": 2.7,
+    "axial_clearance_y_mm": 2.3,
+    "support_floor_z_mm": 6.75,
+    "cassette_top_z_mm": 43.15,
+    "stacking_engagement_plane_z_mm": 49.0,
+    "vertical_clearance_below_engagement_plane_mm": 5.85
+  },
+  "files": {
+    "carrier_2x4_7u_v0_1.stl": {
+      "triangles": 1996,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_triangles": 0,
+      "finite_coordinates": true
+    },
+    "REFERENCE_two_carrier_14u_stack_DO_NOT_PRINT.stl": {
+      "triangles": 3992,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_triangles": 0,
+      "finite_coordinates": true
+    }
+  },
+  "status": "provisional; ready for overnight physical print validation"
+}

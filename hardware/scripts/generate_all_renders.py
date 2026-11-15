@@ -288,7 +288,7 @@ def render_exploded_cassette(body_stl: Path, lid_stl: Path, out_png: Path):
     canvas.save(out_png)
     print(f"Rendered exploded cassette: {out_png}")
 
-def render_carrier_stack_sheet(carrier_stl: Path, out_png: Path):
+def render_carrier_stack_sheet(carrier_stl: Path, out_png: Path, title: str = "3 × 4 Gridfinity Carrier — 14U Stack Architecture"):
     c_verts = load_stl(carrier_stl)
     
     c_upper = c_verts.copy()
@@ -336,7 +336,7 @@ def render_carrier_stack_sheet(carrier_stl: Path, out_png: Path):
     
     canvas = Image.new('RGB', (1800, 1200), color=(248, 250, 252))
     draw = ImageDraw.Draw(canvas)
-    draw.text((50, 35), "3 × 4 Gridfinity Carrier — 14U Stack Architecture", fill=(15, 23, 42), font=FONT_TITLE)
+    draw.text((50, 35), title, fill=(15, 23, 42), font=FONT_TITLE)
     draw.text((50, 75), "Physically verified 2-tray vertical stack (Plan 001) with 8.725 mm drawer headroom clearance", fill=(71, 85, 105), font=FONT_SUBTITLE)
     
     canvas.paste(img_stack, (40, 120))
@@ -407,6 +407,17 @@ def main():
     make_multiview_sheet(carrier_verts, "3 × 4 Gridfinity Carrier Tray (7U Height)",
                          "125.5 × 167.5 × 53.4 mm outside · 120.3 × 162.3 mm throat · accommodates 6 cassettes",
                          docs_img / 'carrier_3x4_7u_multiview.png', color=(148, 163, 184))
+
+    carrier_2x4_stl = Path('hardware/carriers/carrier_2x4_14u_test/build/carrier_2x4_7u_v0_1.stl')
+    if carrier_2x4_stl.exists():
+        render_carrier_stack_sheet(carrier_2x4_stl, docs_img / 'carrier_2x4_14u_stack.png',
+                                   title="2 × 4 Gridfinity Carrier — 14U Stack Architecture")
+        carrier_2x4_verts = load_stl(carrier_2x4_stl)
+        make_multiview_sheet(carrier_2x4_verts, "2 × 4 Gridfinity Carrier Tray (7U Height)",
+                             "83.5 × 167.5 × 53.4 mm outside · 79.9 × 162.3 mm throat · accommodates 4 cassettes",
+                             docs_img / 'carrier_2x4_7u_multiview.png', color=(148, 163, 184))
+        shutil.copy('docs/images/carrier_2x4_14u_stack.png', 'hardware/carriers/carrier_2x4_14u_test/build/carrier_2x4_14u_stack.png')
+        shutil.copy('docs/images/carrier_2x4_7u_multiview.png', 'hardware/carriers/carrier_2x4_14u_test/build/carrier_2x4_7u_multiview.png')
 
     # Copy to component build folders
     shutil.copy('docs/images/cassette_v0_8_exploded_assembly.png', 'hardware/cassettes/glass_slide_cassette_40x80/build/cassette_v0_8_exploded_assembly.png')

@@ -820,6 +820,145 @@ def build_divider_card(thickness: float = 1.20,
     return prism_y(f"divider_card_{thickness:.1f}mm", pts_xz, -ht, ht)
 
 
+def build_stepped_divider_card(
+    bottom_thickness: float = 1.20,
+    top_thickness: float = 1.00,
+    bottom_height: float = 2.00,
+    notch_w: float = 10.0,
+    notch_d: float = 1.5,
+    bottom_chamfer: float = 0.8,
+    flat_back: bool = False,
+    name: str | None = None,
+) -> Mesh:
+    """Build a stepped divider card where the bottom `bottom_height` mm is `bottom_thickness` mm
+    thick to grab the floor/lower slot, and the upper body is `top_thickness` mm thick so the top
+    does not push outward on the cartridge walls near the lid lock mechanism."""
+    x_left = -15.60
+    x_right = 17.40
+    z_step = bottom_height
+    z_top = 31.20
+
+    if flat_back:
+        y0_top = -top_thickness / 2.0
+        y1_top = top_thickness / 2.0
+        y0_bot = y0_top
+        y1_bot = y0_top + bottom_thickness
+    else:
+        y0_bot = -bottom_thickness / 2.0
+        y1_bot = bottom_thickness / 2.0
+        y0_top = -top_thickness / 2.0
+        y1_top = top_thickness / 2.0
+
+    mesh_name = name or f"divider_card_{bottom_thickness:.1f}_to_{top_thickness:.1f}mm"
+    m = Mesh(mesh_name)
+
+    bot_xz: list[Vec2] = [
+        (x_left + bottom_chamfer, 0.0),
+        (x_right - bottom_chamfer, 0.0),
+        (x_right, bottom_chamfer),
+        (x_right, z_step),
+        (x_left, z_step),
+        (x_left, bottom_chamfer),
+    ]
+    top_xz: list[Vec2] = [
+        (x_left, z_step),
+        (x_right, z_step),
+        (x_right, z_top - 1.0),
+        (x_right - 1.0, z_top),
+        (notch_w / 2.0, z_top),
+        (notch_w / 4.0, z_top - notch_d),
+        (-notch_w / 4.0, z_top - notch_d),
+        (-notch_w / 2.0, z_top),
+        (x_left + 1.0, z_top),
+        (x_left, z_top - 1.0),
+    ]
+
+    # 1. Lower -Y and +Y faces (Z in [0.0, z_step])
+    b0_y0 = (bot_xz[0][0], y0_bot, bot_xz[0][1])
+    b0_y1 = (bot_xz[0][0], y1_bot, bot_xz[0][1])
+    for i in range(1, len(bot_xz) - 1):
+        p0 = (bot_xz[i][0], y0_bot, bot_xz[i][1])
+        q0 = (bot_xz[i + 1][0], y0_bot, bot_xz[i + 1][1])
+        p1 = (bot_xz[i][0], y1_bot, bot_xz[i][1])
+        q1 = (bot_xz[i + 1][0], y1_bot, bot_xz[i + 1][1])
+        m.add(b0_y0, p0, q0)
+        m.add(b0_y1, q1, p1)
+
+    # 2. Upper -Y and +Y faces (Z in [z_step, z_top])
+    t0_y0 = (top_xz[0][0], y0_top, top_xz[0][1])
+    t0_y1 = (top_xz[0][0], y1_top, top_xz[0][1])
+    for i in range(1, len(top_xz) - 1):
+        p0 = (top_xz[i][0], y0_top, top_xz[i][1])
+        q0 = (top_xz[i + 1][0], y0_top, top_xz[i + 1][1])
+        p1 = (top_xz[i][0], y1_top, top_xz[i][1])
+        q1 = (top_xz[i + 1][0], y1_top, top_xz[i + 1][1])
+        m.add(t0_y0, p0, q0)
+        m.add(t0_y1, q1, p1)
+
+    # 3. Horizontal step ledges at Z = z_step (normal +Z)
+    if y0_bot < y0_top - 1e-9:
+        m.quad(
+            (x_left, y0_bot, z_step),
+            (x_right, y0_bot, z_step),
+            (x_right, y0_top, z_step),
+            (x_left, y0_top, z_step),
+        )
+    if y1_top < y1_bot - 1e-9:
+        m.quad(
+            (x_left, y1_top, z_step),
+            (x_right, y1_top, z_step),
+            (x_right, y1_bot, z_step),
+            (x_left, y1_bot, z_step),
+        )
+
+    # 4. Upper perimeter walls (skipping bottom edge 0 -> 1 at Z = z_step)
+    for i in range(1, len(top_xz)):
+        j = (i + 1) % len(top_xz)
+        p0 = (top_xz[i][0], y0_top, top_xz[i][1])
+        q0 = (top_xz[j][0], y0_top, top_xz[j][1])
+        p1 = (top_xz[i][0], y1_top, top_xz[i][1])
+        q1 = (top_xz[j][0], y1_top, top_xz[j][1])
+        m.quad(p0, p1, q1, q0)
+
+    # 5. Lower perimeter walls: bottom edge (0->1) and bottom chamfers (1->2, 5->0)
+    for i, j in ((0, 1), (1, 2), (5, 0)):
+        p0 = (bot_xz[i][0], y0_bot, bot_xz[i][1])
+        q0 = (bot_xz[j][0], y0_bot, bot_xz[j][1])
+        p1 = (bot_xz[i][0], y1_bot, bot_xz[i][1])
+        q1 = (bot_xz[j][0], y1_bot, bot_xz[j][1])
+        m.quad(p0, p1, q1, q0)
+
+    # 6. Lower right wall (X = x_right, Z in [bottom_chamfer, z_step], normal +X)
+    right_loop: list[Vec3] = [
+        (x_right, y0_bot, bottom_chamfer),
+        (x_right, y1_bot, bottom_chamfer),
+        (x_right, y1_bot, z_step),
+        (x_right, y1_top, z_step),
+    ]
+    if y0_bot < y0_top - 1e-9:
+        right_loop.append((x_right, y0_top, z_step))
+    right_loop.append((x_right, y0_bot, z_step))
+    for i in range(1, len(right_loop) - 1):
+        m.add(right_loop[0], right_loop[i], right_loop[i + 1])
+
+    # 7. Lower left wall (X = x_left, Z in [bottom_chamfer, z_step], normal -X)
+    left_loop: list[Vec3] = [
+        (x_left, y0_bot, bottom_chamfer),
+        (x_left, y0_bot, z_step),
+    ]
+    if y0_bot < y0_top - 1e-9:
+        left_loop.append((x_left, y0_top, z_step))
+    left_loop.extend([
+        (x_left, y1_top, z_step),
+        (x_left, y1_bot, z_step),
+        (x_left, y1_bot, bottom_chamfer),
+    ])
+    for i in range(1, len(left_loop) - 1):
+        m.add(left_loop[0], left_loop[i], left_loop[i + 1])
+
+    return m.positive()
+
+
 def build_lid_local() -> Mesh:
     out = Mesh(f"cassette_lid_{VERSION_TAG}_local")
 
@@ -1979,6 +2118,20 @@ def main() -> None:
     card_1_2 = build_divider_card(1.20)
     card_1_0 = build_divider_card(1.00)
     card_1_4 = build_divider_card(1.40)
+    card_stepped = build_stepped_divider_card(
+        bottom_thickness=1.20,
+        top_thickness=1.00,
+        bottom_height=2.00,
+        flat_back=False,
+        name="divider_card_1_2_to_1_0mm",
+    )
+    card_stepped_flat = build_stepped_divider_card(
+        bottom_thickness=1.20,
+        top_thickness=1.00,
+        bottom_height=2.00,
+        flat_back=True,
+        name="divider_card_1_2_to_1_0mm_flat_back",
+    )
     tab_default = build_pull_tab(0.10, "")
     tab_default_print = pull_tab_print_orientation(tab_default, 17.80 - 0.10, "")
     tab_0_20 = build_pull_tab(0.20, "_fit_0_20")
@@ -2017,6 +2170,8 @@ def main() -> None:
         ("divider_card_1_2mm.stl", card_1_2),
         ("divider_card_1_0mm.stl", card_1_0),
         ("divider_card_1_4mm.stl", card_1_4),
+        ("divider_card_1_2_to_1_0mm.stl", card_stepped),
+        ("divider_card_1_2_to_1_0mm_flat_back.stl", card_stepped_flat),
         ("REFERENCE_closed_assembly_DO_NOT_PRINT.stl", closed_reference),
     ]
     for filename, mesh in files:
