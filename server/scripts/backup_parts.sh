@@ -122,6 +122,7 @@ restic -r "$RESTIC_REPO" $RESTIC_PASS_OPT "${SFTP_OPTS[@]}" backup \
 # 8. Enforce 14D / 8W / 12M Retention Pruning
 log "Applying snapshot retention policy (14 daily, 8 weekly, 12 monthly)..."
 restic -r "$RESTIC_REPO" $RESTIC_PASS_OPT "${SFTP_OPTS[@]}" forget \
+    --group-by host,tags \
     --tag parts-database \
     --keep-daily 14 \
     --keep-weekly 8 \
