@@ -54,6 +54,8 @@ Every plan MUST include all 7 mandatory sections:
 - **`S08`**: Fix Jinja2 `dict.items` Collision on `/ingest` When Homebox Bins Are Populated ([`docs/plans/complete/2026-11-12-S08_ingest_template_dict_items_bugfix_plan.md`](complete/2026-11-12-S08_ingest_template_dict_items_bugfix_plan.md)) (`ARCHIVED`)
 - **`S09`**: Enable Native iOS Action Sheet ("Take Photo or Choose Image") on `/ingest` ([`docs/plans/complete/2026-11-14-S09_ios_photo_picker_action_sheet_plan.md`](complete/2026-11-14-S09_ios_photo_picker_action_sheet_plan.md)) (`ARCHIVED`)
 - **`S10`**: AGY / Gemini Vision Callback Integration for Cartridge Photo Parts Ingestor (`/ingest`) ([`docs/plans/complete/2026-11-14-S10_agy_gemini_vision_photo_ingestor_callback_plan.md`](complete/2026-11-14-S10_agy_gemini_vision_photo_ingestor_callback_plan.md)) (`ARCHIVED`)
+- **`S11`**: Nut & Dual-Diameter Washer Support in Cartridge Parts Ingestor (`/ingest` & `/labels`) ([`docs/plans/complete/2026-11-17-S11_nut_and_dual_diameter_washer_ingestor_plan.md`](complete/2026-11-17-S11_nut_and_dual_diameter_washer_ingestor_plan.md)) (`ARCHIVED`)
+- **`S12`**: Fix Multi-Screw Cluster Patch Mask Shape Mismatch in `classify_bolt_head_type` (`IMG_6399.jpeg`) ([`docs/plans/complete/2026-11-16-S12_cluster_patch_mask_shape_mismatch_bugfix_plan.md`](complete/2026-11-16-S12_cluster_patch_mask_shape_mismatch_bugfix_plan.md)) (`ARCHIVED`)
 
 ---
 

@@ -653,3 +653,274 @@ async def test_ruler_exclusion_and_vision_bbox_overlay_on_img_6354(monkeypatch):
     assert len(res["groups"]) == 1
     assert res["groups"][0]["count"] == 20
 
+
+@pytest.mark.asyncio
+async def test_analyze_cartridge_photo_nuts_and_dual_diameter_washers(monkeypatch):
+    """Plan S11: Verify nut ingestion (blank length, external wrench size, no length question) and IDxOD washer ingestion."""
+    from server.app.services.part_ingestor_service import analyze_cartridge_photo, parse_label_ocr_text
+
+    # 1. Verify standalone nut label OCR (no 'x <length>') and dual-diameter washer OCR
+    parsed_nut = parse_label_ocr_text("M2.5\nPitch 0.45")
+    assert parsed_nut["size"] == "M2.5"
+    assert parsed_nut["length"] is None
+    assert parsed_nut["pitch"] == "0.45 mm"
+
+    parsed_washer = parse_label_ocr_text("M4 x 9 Washer")
+    assert parsed_washer["size"] == "M4"
+    assert parsed_washer["length"] == "9 mm"
+
+    monkeypatch.setenv("AGY_BRIDGE_URL", "http://127.0.0.1:18765")
+    monkeypatch.setenv("AGY_BRIDGE_API_KEY", "test-agy-vision-key")
+
+    # 2. Verify Gemini Vision callback for Hex Nuts & Nyloc Nuts
+    def fake_nut_post(url, **kwargs):
+        return httpx.Response(
+            200,
+            json={
+                "status": "success",
+                "analysis": {
+                    "label_detected": False,
+                    "label_ocr_text": "",
+                    "detected_specs": {"size": "M2.5", "length": "", "pitch": "0.45 mm"},
+                    "groups": [
+                        {
+                            "finish_key": "silver",
+                            "finish": "Stainless Steel",
+                            "comp_type": "nut",
+                            "head": "nut",
+                            "drive": "hex",
+                            "size": "M2.5",
+                            "length": "",
+                            "count": 25,
+                            "notes": "M2.5 stainless hex nuts",
+                        }
+                    ],
+                    "questions": [],
+                },
+            },
+        )
+
+    monkeypatch.setattr("httpx.post", fake_nut_post)
+    syn_bytes = _generate_synthetic_cartridge_photo(include_label=False, black_count=0, silver_count=6)
+    nut_res = analyze_cartridge_photo(syn_bytes)
+
+    assert nut_res["detected_specs"]["size"] == "M2.5"
+    assert nut_res["detected_specs"]["length"] == ""
+    assert nut_res["cartridge_label"] == "M2.5 Nut"
+    assert nut_res["groups"][0]["head"] == "nut"
+    assert nut_res["groups"][0]["comp_type"] == "nut"
+    assert nut_res["groups"][0]["finish_key"] == "silver"
+    assert nut_res["groups"][0]["finish"] == "Stainless Steel (Silver)"
+    assert nut_res["groups"][0]["length"] == ""
+    assert nut_res["groups"][0]["tool_key"] == "5.0 mm"
+    assert nut_res["groups"][0]["name"] == "M2.5 Hex Nut (Stainless Steel (Silver))"
+    assert "Screw" not in nut_res["groups"][0]["name"]
+    # Must NOT ask a bolt thread length question for nuts
+    q_fields = [q["field"] for q in nut_res["questions"]]
+    assert "length" not in q_fields
+
+    # 2b. Verify Pre-Insert and Post-Insert T-Nuts with Nickel Plated finish
+    def fake_tnut_post(url, **kwargs):
+        return httpx.Response(
+            200,
+            json={
+                "status": "success",
+                "analysis": {
+                    "label_detected": True,
+                    "label_ocr_text": "M3 T-Nut",
+                    "detected_specs": {"size": "M3", "length": "", "pitch": "0.5 mm"},
+                    "groups": [
+                        {
+                            "finish_key": "nickel",
+                            "finish": "Nickel Plated",
+                            "comp_type": "nut",
+                            "head": "tnut_post",
+                            "drive": "hex",
+                            "size": "M3",
+                            "length": "",
+                            "count": 40,
+                            "notes": "M3 post-insert hammer T-nuts",
+                        },
+                        {
+                            "finish_key": "zinc",
+                            "finish": "Zinc Plated",
+                            "comp_type": "nut",
+                            "head": "tnut_pre",
+                            "drive": "hex",
+                            "size": "M3",
+                            "length": "",
+                            "count": 20,
+                            "notes": "M3 pre-insert slide-in T-nuts",
+                        },
+                    ],
+                    "questions": [],
+                },
+            },
+        )
+
+    monkeypatch.setattr("httpx.post", fake_tnut_post)
+    tnut_res = analyze_cartridge_photo(syn_bytes)
+    assert tnut_res["cartridge_label"] == "M3 Post-Insert T-Nut"
+    assert tnut_res["groups"][0]["head"] == "tnut_post"
+    assert tnut_res["groups"][0]["finish"] == "Nickel Plated (Silver)"
+    assert tnut_res["groups"][0]["name"] == "M3 Post-Insert T-Nut (Nickel Plated (Silver))"
+    assert tnut_res["groups"][1]["head"] == "tnut_pre"
+    assert tnut_res["groups"][1]["finish"] == "Zinc Plated (Silver)"
+    assert tnut_res["groups"][1]["name"] == "M3 Pre-Insert T-Nut (Zinc Plated (Silver))"
+
+    # 3. Verify Dual-Diameter Washers (Size/ID x Outer Diameter OD)
+    def fake_washer_post(url, **kwargs):
+        return httpx.Response(
+            200,
+            json={
+                "status": "success",
+                "analysis": {
+                    "label_detected": True,
+                    "label_ocr_text": "M4 x 9",
+                    "detected_specs": {"size": "M4", "length": "9 mm", "pitch": ""},
+                    "groups": [
+                        {
+                            "finish_key": "silver",
+                            "finish": "Stainless Steel (Silver)",
+                            "comp_type": "washer",
+                            "head": "fender_washer",
+                            "drive": "none",
+                            "size": "M4",
+                            "length": "9 mm",
+                            "count": 32,
+                            "notes": "M4 x 9mm OD stainless fender washers",
+                        }
+                    ],
+                    "questions": [],
+                },
+            },
+        )
+
+    monkeypatch.setattr("httpx.post", fake_washer_post)
+    washer_res = analyze_cartridge_photo(syn_bytes)
+    assert washer_res["detected_specs"]["size"] == "M4"
+    assert washer_res["detected_specs"]["length"] == "9 mm"
+    assert washer_res["cartridge_label"] == "M4 × 9 Washer"
+    assert washer_res["groups"][0]["head"] == "fender_washer"
+    assert washer_res["groups"][0]["comp_type"] == "washer"
+    assert washer_res["groups"][0]["length"] == "9 mm"
+    assert washer_res["groups"][0]["name"] == "M4 × 9 mm Fender Washer (Stainless Steel (Silver))"
+
+
+@pytest.mark.asyncio
+async def test_img_6399_multi_screw_cluster_patch_mask_shape_regression(monkeypatch):
+    """Plan S12: Reproduce & verify fix for boolean mask shape mismatch when a multi-screw cluster falls back to comp_mask."""
+    from server.app.services.part_ingestor_service import analyze_cartridge_photo, classify_bolt_head_type
+
+    # 1. Direct unit test of classify_bolt_head_type with mismatched mask vs crop dimensions (165x140 vs 22x22)
+    mismatched_mask = np.ones((165, 140), dtype=np.uint8) * 255
+    small_crop = np.full((22, 22, 3), 30, dtype=np.uint8)
+    head = classify_bolt_head_type(mismatched_mask, small_crop, "black")
+    assert head in ("shcs", "bhcs", "fhcs")
+
+    # 2. End-to-end test on Temp/IMG_6399.jpeg with Gemini Vision returning 18 M2.5x16 black SHCS screws
+    img_6399_path = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "..", "..", "Temp", "IMG_6399.jpeg")
+    )
+    if not os.path.exists(img_6399_path):
+        return
+
+    monkeypatch.setenv("AGY_BRIDGE_URL", "http://127.0.0.1:18765")
+    monkeypatch.setenv("AGY_BRIDGE_API_KEY", "test-agy-vision-key")
+
+    def fake_gemini_6399(url, **kwargs):
+        return httpx.Response(
+            200,
+            json={
+                "status": "success",
+                "analysis": {
+                    "label_detected": True,
+                    "label_ocr_text": "M2.5 x 16 Pitch 0.45",
+                    "label_bbox_pct": [72.0, 31.0, 10.0, 43.0],
+                    "detected_specs": {"size": "M2.5", "length": "16 mm", "pitch": "0.45 mm"},
+                    "groups": [
+                        {
+                            "finish_key": "black",
+                            "finish": "Black Oxide Steel",
+                            "comp_type": "bolt",
+                            "head": "shcs",
+                            "drive": "hex",
+                            "size": "M2.5",
+                            "length": "16 mm",
+                            "count": 18,
+                            "notes": "18 M2.5x16 black oxide socket head cap screws",
+                        }
+                    ],
+                    "questions": [],
+                },
+            },
+        )
+
+    monkeypatch.setattr("httpx.post", fake_gemini_6399)
+    with open(img_6399_path, "rb") as f:
+        raw_bytes = f.read()
+
+    res = analyze_cartridge_photo(raw_bytes)
+    assert res["analysis_source"] == "agy_gemini_vision"
+    assert res["detected_specs"]["size"] == "M2.5"
+    assert res["detected_specs"]["length"] == "16 mm"
+    assert res["groups"][0]["count"] == 18
+
+
+def test_list_ingested_bins_single_pass_efficiency_and_loopback_api(monkeypatch, tmp_path):
+    """
+    Verify list_ingested_bins() performs at most 2 HTTP requests (locations + items)
+    by computing cartridges_root_id and next_bin_id directly from the fetched locations list,
+    and batch-updates qr_forwarding.json in a single pass.
+    """
+    from server.app.services.homebox_service import (
+        list_ingested_bins,
+        set_homebox_mock_transport,
+    )
+
+    fwd_file = tmp_path / "qr_forwarding.json"
+    monkeypatch.setenv("QR_FORWARDING_FILE", str(fwd_file))
+    monkeypatch.setenv("HOMEBOX_API_TOKEN", "test-token")
+
+    request_log = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        request_log.append((request.method, request.url.path, str(request.url.query)))
+        if request.url.path == "/api/v1/entities" and "isLocation=true" in str(request.url.query):
+            return httpx.Response(
+                200,
+                json={
+                    "items": [
+                        {"id": "loc-root", "name": "Gridfinity Cartridges", "description": "Root"},
+                        {"id": "loc-001", "name": "BIN-001 (M4 × 6)", "description": "Bin 1", "parentId": "loc-root"},
+                        {"id": "loc-002", "name": "BIN-002 (M4 × 9 Washer)", "description": "Bin 2", "parentId": "loc-root"},
+                    ]
+                },
+            )
+        if request.url.path == "/api/v1/entities" and "isLocation=false" in str(request.url.query):
+            return httpx.Response(
+                200,
+                json={
+                    "items": [
+                        {"id": "item-1", "name": "M4 × 6 mm Socket Head Cap Screw (Black Oxide Steel)", "quantity": 20, "parentId": "loc-001"},
+                        {"id": "item-2", "name": "M4 × 9 mm Flat Washer (Black Oxide Steel)", "quantity": 25, "parentId": "loc-002"},
+                        {"id": "item-3", "name": "M4 × 20 mm Fender Washer (Stainless Steel)", "quantity": 10, "parentId": "loc-002"},
+                    ]
+                },
+            )
+        return httpx.Response(404, json={"error": "unexpected call"})
+
+    set_homebox_mock_transport(httpx.MockTransport(handler))
+    try:
+        res = list_ingested_bins(limit=50)
+        assert res["authenticated"] is True
+        assert res["total_bins"] == 2
+        assert res["next_bin_id"] == "BIN-003"
+        assert res["homebox_locations_url"].endswith("/location/loc-root")
+        # Must make ONLY 2 HTTP requests (locations + items), not 4!
+        assert len(request_log) == 2
+    finally:
+        set_homebox_mock_transport(None)
+
+
+

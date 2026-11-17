@@ -13,7 +13,7 @@ from sqlalchemy.orm import selectinload
 
 from server.app.models import PartRecord, CategoryRecord, BinCompartmentRecord
 from server.app.services.homebox_service import list_ingested_bins
-from server.app.services.part_ingestor_service import lookup_fastener_specs
+from server.app.services.part_ingestor_service import lookup_fastener_specs, normalize_head_and_comp_type
 from hardware.labels.canonical_label import (
     LabelData,
     format_four_digit_bin,
@@ -25,9 +25,16 @@ from hardware.labels.thermal_exporter import generate_thermal_roll_svg
 
 CATEGORY_COLOR_MAP: Dict[str, str] = {
     "metric": "#0077CC",
+    "metric_coarse": "#0077CC",
+    "metric_fine": "#0077CC",
     "imperial": "#E65100",
+    "imperial_unc": "#E65100",
+    "imperial_unf": "#E65100",
     "nuts_washers": "#2E7D32",
-    "inserts": "#C5A059",
+    "washers": "#2E7D32",
+    "inserts": "#D4A017",
+    "heat_set_inserts": "#D4A017",
+    "specialty": "#D4A017",
 }
 
 
@@ -72,13 +79,42 @@ def custom_spec_to_label_data(spec: Dict[str, Any], index: int = 1) -> LabelData
     bin_4d = format_four_digit_bin(raw_bin, fallback_num=index)
     size = str(spec.get("size") or "M3").strip()
     length = str(spec.get("length") or "").strip()
-    head = str(spec.get("head") or "shcs").strip().lower()
+    raw_head = str(spec.get("head") or "").strip().lower()
+    raw_comp = str(spec.get("comp_type") or "").strip().lower()
+    extra_note = str(spec.get("extra_note") or "").strip()
+
+    # If head/comp_type wasn't explicitly passed in custom_labels, infer from name/extra_note if present
+    if not raw_head and not raw_comp:
+        blob = f"{spec.get('name') or ''} {extra_note}".lower()
+        if "nyloc" in blob:
+            raw_head, raw_comp = "nyloc", "nut"
+        elif "pre-insert" in blob or "pre_insert" in blob or "pre-ins" in blob:
+            raw_head, raw_comp = "tnut_pre", "nut"
+        elif "post-insert" in blob or "post_insert" in blob or "post-ins" in blob:
+            raw_head, raw_comp = "tnut_post", "nut"
+        elif "t-nut" in blob or "tnut" in blob:
+            raw_head, raw_comp = "tnut_pre", "nut"
+        elif "flange" in blob:
+            raw_head, raw_comp = "flange_nut", "nut"
+        elif "square" in blob:
+            raw_head, raw_comp = "square_nut", "nut"
+        elif "nut" in blob:
+            raw_head, raw_comp = "nut", "nut"
+        elif "split" in blob:
+            raw_head, raw_comp = "split_washer", "washer"
+        elif "fender" in blob:
+            raw_head, raw_comp = "fender_washer", "washer"
+        elif "washer" in blob:
+            raw_head, raw_comp = "washer", "washer"
+        elif "insert" in blob:
+            raw_head, raw_comp = "insert", "insert"
+
+    head, comp_type = normalize_head_and_comp_type(raw_head or "shcs", raw_comp or None)
     enriched = lookup_fastener_specs(size=size, head=head)
     cat_key = str(spec.get("category_id") or spec.get("category") or "").strip().lower()
     if not cat_key:
-        cat_key = "metric" if size.upper().startswith("M") else "imperial"
+        cat_key = "nuts_washers" if comp_type in ("nut", "washer") else ("inserts" if comp_type == "insert" else ("metric" if size.upper().startswith("M") else "imperial"))
     accent_color = str(spec.get("accent_color") or CATEGORY_COLOR_MAP.get(cat_key, "#0077CC")).strip()
-    extra_note = str(spec.get("extra_note") or "").strip()
 
     return LabelData(
         part_id=str(spec.get("part_id") or f"BIN-{bin_4d}"),
@@ -87,7 +123,7 @@ def custom_spec_to_label_data(spec: Dict[str, Any], index: int = 1) -> LabelData
         length=length,
         head=head,
         drive=str(spec.get("drive") or enriched.get("drive") or "hex"),
-        comp_type=str(spec.get("comp_type") or "bolt"),
+        comp_type=comp_type,
         pitch=str(spec.get("pitch") or enriched.get("pitch") or ""),
         tap_drill=str(spec.get("tap_drill") or enriched.get("tap_drill") or ""),
         clearance_drill=str(spec.get("clearance_drill") or enriched.get("clearance_drill") or ""),

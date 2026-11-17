@@ -35,6 +35,189 @@ from server.app.seed import find_fasteners_json
 
 logger = logging.getLogger(__name__)
 
+NUT_HEAD_TYPES = {"nut", "nyloc", "flange_nut", "square_nut", "wing_nut", "tnut", "tnut_pre", "tnut_post"}
+WASHER_HEAD_TYPES = {"washer", "fender_washer", "split_washer"}
+
+HEAD_DISPLAY_NAMES: Dict[str, str] = {
+    "shcs": "Socket Head Cap Screw",
+    "bhcs": "Button Head Cap Screw",
+    "fhcs": "Flat Head Countersunk Screw",
+    "hex": "Hex Head Bolt",
+    "pan": "Pan Head Screw",
+    "nut": "Hex Nut",
+    "nyloc": "Nyloc Lock Nut",
+    "flange_nut": "Flange Hex Nut",
+    "square_nut": "Square Nut",
+    "wing_nut": "Wing Nut",
+    "tnut": "T-Nut",
+    "tnut_pre": "Pre-Insert T-Nut",
+    "tnut_post": "Post-Insert T-Nut",
+    "washer": "Flat Washer",
+    "fender_washer": "Fender Washer",
+    "split_washer": "Split Lock Washer",
+    "insert": "Brass Heat-Set Insert",
+}
+
+CANONICAL_FINISH_LABELS: Dict[str, str] = {
+    "black": "Black Oxide Steel",
+    "silver": "Stainless Steel (Silver)",
+    "zinc": "Zinc Plated (Silver)",
+    "nickel": "Nickel Plated (Silver)",
+    "brass": "Brass",
+    "nylon": "Nylon / Plastic",
+}
+
+
+def normalize_finish_key_and_label(raw_key: Optional[str], raw_finish: Optional[str]) -> Tuple[str, str]:
+    """Normalize finish_key and canonical UI dropdown finish label from Gemini Vision or form input."""
+    fk = (raw_key or "").strip().lower()
+    fl = (raw_finish or "").strip()
+    combined = f"{fk} {fl}".lower()
+
+    if "nickel" in combined:
+        return "nickel", CANONICAL_FINISH_LABELS["nickel"]
+    if "zinc" in combined or "galvan" in combined:
+        return "zinc", CANONICAL_FINISH_LABELS["zinc"]
+    if any(k in combined for k in ("brass", "bronze", "gold", "copper")):
+        return "brass", CANONICAL_FINISH_LABELS["brass"]
+    if any(k in combined for k in ("nylon", "plastic", "poly")):
+        return "nylon", CANONICAL_FINISH_LABELS["nylon"]
+    if any(k in combined for k in ("stainless", "silver", "304", "316", "18-8", "a2", "a4", "chrome", "bright")):
+        return "silver", CANONICAL_FINISH_LABELS["silver"]
+    if any(k in combined for k in ("black", "oxide", "phosphate")):
+        return "black", CANONICAL_FINISH_LABELS["black"]
+
+    if fk in CANONICAL_FINISH_LABELS:
+        return fk, CANONICAL_FINISH_LABELS[fk]
+    return "black", CANONICAL_FINISH_LABELS["black"]
+
+# ISO 4032 / DIN 934 (Metric) and ASME B18.2.2 (Imperial) Hex Nut Width Across Flats
+NUT_WRENCH_FLATS_MAP: Dict[str, str] = {
+    "M1.6": "3.2 mm",
+    "M2": "4.0 mm",
+    "M2.5": "5.0 mm",
+    "M3": "5.5 mm",
+    "M4": "7.0 mm",
+    "M5": "8.0 mm",
+    "M6": "10.0 mm",
+    "M8": "13.0 mm",
+    "M10": "16.0 mm",
+    "M12": "18.0 mm",
+    "#0-80": '5/32"',
+    "#2-56": '3/16"',
+    "#4-40": '1/4"',
+    "#6-32": '5/16"',
+    "#8-32": '11/32"',
+    "#10-24": '3/8"',
+    "#10-32": '3/8"',
+    '1/4"-20': '7/16"',
+    '5/16"-18': '1/2"',
+    '3/8"-16': '9/16"',
+    '1/2"-13': '3/4"',
+}
+
+
+def normalize_head_and_comp_type(raw_head: Optional[str], raw_comp: Optional[str] = None) -> Tuple[str, str]:
+    """Normalize head/subtype aliases and component type ('bolt', 'nut', 'washer', 'insert')."""
+    h = (raw_head or "").strip().lower()
+    c = (raw_comp or "").strip().lower()
+    aliases = {
+        "socket": "shcs",
+        "cap": "shcs",
+        "button": "bhcs",
+        "dome": "bhcs",
+        "flat": "fhcs",
+        "countersunk": "fhcs",
+        "hex_nut": "nut",
+        "hex nut": "nut",
+        "lock_nut": "nyloc",
+        "lock nut": "nyloc",
+        "nylock": "nyloc",
+        "nyloc_nut": "nyloc",
+        "flange": "flange_nut",
+        "flange nut": "flange_nut",
+        "serrated_nut": "flange_nut",
+        "square": "square_nut",
+        "square nut": "square_nut",
+        "wing": "wing_nut",
+        "wing nut": "wing_nut",
+        "t_nut": "tnut",
+        "t-nut": "tnut",
+        "pre_insert_tnut": "tnut_pre",
+        "pre-insert t-nut": "tnut_pre",
+        "pre_insert_t_nut": "tnut_pre",
+        "slide_in_tnut": "tnut_pre",
+        "sliding_tnut": "tnut_pre",
+        "post_insert_tnut": "tnut_post",
+        "post-insert t-nut": "tnut_post",
+        "post_insert_t_nut": "tnut_post",
+        "hammer_tnut": "tnut_post",
+        "drop_in_tnut": "tnut_post",
+        "roll_in_tnut": "tnut_post",
+        "flat_washer": "washer",
+        "flat washer": "washer",
+        "fender": "fender_washer",
+        "fender washer": "fender_washer",
+        "lock_washer": "split_washer",
+        "split": "split_washer",
+        "split_lock_washer": "split_washer",
+        "heat_set_insert": "insert",
+    }
+    h = aliases.get(h, h)
+    if c == "nut" and h in ("", "hex", "bolt", "shcs"):
+        h = "nut"
+    elif c == "washer" and h not in WASHER_HEAD_TYPES:
+        h = "washer"
+    elif h not in HEAD_DISPLAY_NAMES:
+        h = "nut" if c == "nut" else "washer" if c == "washer" else "insert" if c == "insert" else "shcs"
+
+    if h in NUT_HEAD_TYPES:
+        comp = "nut"
+    elif h in WASHER_HEAD_TYPES:
+        comp = "washer"
+    elif h == "insert":
+        comp = "insert"
+    else:
+        comp = c if c in ("bolt", "nut", "washer", "insert") else "bolt"
+    return h, comp
+
+
+def _format_cartridge_summary_label(size: str, length: str, groups: List[Dict[str, Any]]) -> str:
+    """Format concise Cartridge Summary Label for bolts ('M4 × 6'), nuts ('M2.5 Nut'), and washers ('M4 × 9 Washer' or 'M4 Washer')."""
+    sz = (size or "").strip()
+    bare_len = re.sub(r"\s*mm$", "", (length or "").strip(), flags=re.IGNORECASE).strip()
+    if not sz:
+        return bare_len
+
+    all_nuts = bool(groups) and all(g.get("comp_type") == "nut" or g.get("head") in NUT_HEAD_TYPES for g in groups)
+    all_washers = bool(groups) and all(g.get("comp_type") == "washer" or g.get("head") in WASHER_HEAD_TYPES for g in groups)
+
+    if all_nuts:
+        first_h = (groups[0].get("head") or "nut").lower()
+        nut_tag = (
+            "Nyloc"
+            if first_h == "nyloc"
+            else "Flange Nut"
+            if first_h == "flange_nut"
+            else "Square Nut"
+            if first_h == "square_nut"
+            else "Pre-Insert T-Nut"
+            if first_h == "tnut_pre"
+            else "Post-Insert T-Nut"
+            if first_h == "tnut_post"
+            else "T-Nut"
+            if first_h == "tnut"
+            else "Nut"
+        )
+        return f"{sz} × {bare_len} {nut_tag}".strip() if bare_len else f"{sz} {nut_tag}".strip()
+
+    if all_washers:
+        first_h = (groups[0].get("head") or "washer").lower()
+        w_tag = "Split Washer" if first_h == "split_washer" else "Washer"
+        return f"{sz} × {bare_len} {w_tag}".strip() if bare_len else f"{sz} {w_tag}".strip()
+
+    return f"{sz} × {bare_len}".strip() if bare_len else sz
+
 
 def _load_fastener_reference_table() -> Dict[str, Any]:
     """Load thread pitches, tap drills, clearance drills, and hex key sizes from fasteners.json."""
@@ -52,17 +235,28 @@ def lookup_fastener_specs(size: str, head: str = "shcs", drive: str = "hex") -> 
     """Look up pitch, tap_drill, clearance_drill, and tool_key for a given thread size and head style."""
     ref = _load_fastener_reference_table()
     clean_sz = (size or "").strip().upper()
-    head_key = (head or "shcs").strip().lower()
-    if head_key in ("socket", "cap"):
-        head_key = "shcs"
-    elif head_key in ("button", "dome"):
-        head_key = "bhcs"
-    elif head_key in ("flat", "countersunk"):
-        head_key = "fhcs"
+    head_key, comp_type = normalize_head_and_comp_type(head)
 
     for m in ref.get("threads", {}).get("metric", []):
         if m.get("size", "").upper() == clean_sz:
             pitch = m.get("pitch_coarse", "")
+            pitch_str = f"{pitch} mm" if pitch and "mm" not in str(pitch) else str(pitch)
+            if comp_type == "nut":
+                return {
+                    "pitch": pitch_str,
+                    "tap_drill": "",
+                    "clearance_drill": m.get("clearance_drill", ""),
+                    "tool_key": NUT_WRENCH_FLATS_MAP.get(clean_sz, ""),
+                    "category_id": "nuts_washers",
+                }
+            if comp_type == "washer":
+                return {
+                    "pitch": "",
+                    "tap_drill": "",
+                    "clearance_drill": m.get("clearance_drill", ""),
+                    "tool_key": "",
+                    "category_id": "nuts_washers",
+                }
             hex_map = m.get("hex_key", {})
             torx_map = m.get("torx_key", {})
             if drive == "torx" and isinstance(torx_map, dict):
@@ -72,7 +266,7 @@ def lookup_fastener_specs(size: str, head: str = "shcs", drive: str = "hex") -> 
             else:
                 tool_key = str(hex_map)
             return {
-                "pitch": f"{pitch} mm" if pitch and "mm" not in str(pitch) else str(pitch),
+                "pitch": pitch_str,
                 "tap_drill": m.get("tap_drill", ""),
                 "clearance_drill": m.get("clearance_drill", ""),
                 "tool_key": tool_key,
@@ -82,10 +276,27 @@ def lookup_fastener_specs(size: str, head: str = "shcs", drive: str = "hex") -> 
     for imp in ref.get("threads", {}).get("imperial", []):
         if imp.get("size", "").upper() == clean_sz:
             tpi = imp.get("tpi_coarse", "")
+            pitch_str = f"{tpi} TPI" if tpi and "TPI" not in str(tpi) else str(tpi)
+            if comp_type == "nut":
+                return {
+                    "pitch": pitch_str,
+                    "tap_drill": "",
+                    "clearance_drill": imp.get("clearance_drill", ""),
+                    "tool_key": NUT_WRENCH_FLATS_MAP.get(clean_sz, ""),
+                    "category_id": "nuts_washers",
+                }
+            if comp_type == "washer":
+                return {
+                    "pitch": "",
+                    "tap_drill": "",
+                    "clearance_drill": imp.get("clearance_drill", ""),
+                    "tool_key": "",
+                    "category_id": "nuts_washers",
+                }
             hex_map = imp.get("hex_key", {})
             tool_key = hex_map.get(head_key, hex_map.get("shcs", "")) if isinstance(hex_map, dict) else str(hex_map)
             return {
-                "pitch": f"{tpi} TPI" if tpi and "TPI" not in str(tpi) else str(tpi),
+                "pitch": pitch_str,
                 "tap_drill": imp.get("tap_drill", ""),
                 "clearance_drill": imp.get("clearance_drill", ""),
                 "tool_key": tool_key,
@@ -96,8 +307,8 @@ def lookup_fastener_specs(size: str, head: str = "shcs", drive: str = "hex") -> 
         "pitch": "",
         "tap_drill": "",
         "clearance_drill": "",
-        "tool_key": "",
-        "category_id": "metric_coarse" if clean_sz.startswith("M") else "imperial_unc",
+        "tool_key": NUT_WRENCH_FLATS_MAP.get(clean_sz, "") if comp_type == "nut" else "",
+        "category_id": "nuts_washers" if comp_type in ("nut", "washer") else ("metric_coarse" if clean_sz.startswith("M") else "imperial_unc"),
     }
 
 
@@ -352,7 +563,7 @@ def parse_label_ocr_text(raw_text: str) -> Dict[str, Optional[str]]:
     length: Optional[str] = None
     pitch: Optional[str] = None
 
-    # 1. Metric pattern: M2, M2.5, M3, M4, M5, M6, M8, M10, M12 x <length>
+    # 1. Metric pattern: M2, M2.5, M3, M4, M5, M6, M8, M10, M12 x <length_or_od>
     m_metric = re.search(
         r"\b(M\d+(?:\.\d+)?)\s*x\s*(\d+(?:\.\d+)?)\s*(?:mm)?\b",
         normalized,
@@ -362,7 +573,7 @@ def parse_label_ocr_text(raw_text: str) -> Dict[str, Optional[str]]:
         size = m_metric.group(1).upper()
         length = f"{m_metric.group(2)} mm"
     else:
-        # Check Imperial pattern: e.g. #4-40 x 1/2" or 1/4"-20 x 3/4"
+        # Check Imperial pattern with length/OD: e.g. #4-40 x 1/2" or 1/4"-20 x 3/4"
         m_imp = re.search(
             r"(#\d+-\d+|\d+/\d+\"?-\d+)\s*x\s*(\d+/\d+\"?|\d+(?:\.\d+)?\"?)",
             normalized,
@@ -371,6 +582,33 @@ def parse_label_ocr_text(raw_text: str) -> Dict[str, Optional[str]]:
         if m_imp:
             size = m_imp.group(1)
             length = m_imp.group(2)
+        else:
+            # Check dual-diameter numeric ID x OD washer pattern: e.g. '3.2 x 7 mm' or '4.3 x 9'
+            m_dual_dia = re.search(
+                r"\b(\d+(?:\.\d+)?)\s*x\s*(\d+(?:\.\d+)?)\s*(?:mm)?\b",
+                normalized,
+                flags=re.IGNORECASE,
+            )
+            # Check standalone Metric thread size on Nut / Washer label cutouts (no 'x <length>')
+            m_metric_solo = re.search(
+                r"\b(M(?:1\.6|2\.5|2|3|4|5|6|8|10|12))\b",
+                normalized,
+                flags=re.IGNORECASE,
+            )
+            m_imp_solo = re.search(
+                r"(#\d+-\d+|\d+/\d+\"?-\d+)",
+                normalized,
+                flags=re.IGNORECASE,
+            )
+            if m_metric_solo:
+                size = m_metric_solo.group(1).upper()
+                length = None
+            elif m_imp_solo:
+                size = m_imp_solo.group(1)
+                length = None
+            elif m_dual_dia:
+                size = f"{m_dual_dia.group(1)} mm"
+                length = f"{m_dual_dia.group(2)} mm"
 
     # 2. Pitch pattern: e.g. 'Pitch 0.7' or '0.7 mm'
     m_pitch = re.search(r"Pitch\s*[:.]?\s*(\d+(?:\.\d+)?)", normalized, flags=re.IGNORECASE)
@@ -544,8 +782,14 @@ def classify_bolt_head_type(
     max_radius = float(np.max(dist)) if dist.size > 0 else 1.0
 
     # Check bright circular/ring specular highlights inside the head (characteristic of domed button heads)
-    gray = cv2.cvtColor(crop_bgr, cv2.COLOR_BGR2GRAY)
-    masked_vals = gray[component_mask > 0]
+    if crop_bgr is not None and crop_bgr.size > 0:
+        gray = cv2.cvtColor(crop_bgr, cv2.COLOR_BGR2GRAY)
+        if gray.shape == component_mask.shape:
+            masked_vals = gray[component_mask > 0]
+        else:
+            masked_vals = gray.ravel()
+    else:
+        masked_vals = np.empty(0, dtype=np.uint8)
     if masked_vals.size > 10:
         p95 = float(np.percentile(masked_vals, 95))
         p50 = float(np.percentile(masked_vals, 50))
@@ -958,8 +1202,12 @@ def segment_and_classify_fasteners(
                 x1, y1 = max(0, px - patch_r), max(0, py - patch_r)
                 x2, y2 = min(ww, px + patch_r), min(wh, py + patch_r)
                 patch_fg = lbl_img[y1:y2, x1:x2] == idx
-                crop_bgr = work[y1:y2, x1:x2]
-                local_mask = np.where(patch_fg, 255, 0).astype(np.uint8) if np.any(patch_fg) else comp_mask
+                if np.any(patch_fg):
+                    crop_bgr = work[y1:y2, x1:x2]
+                    local_mask = np.where(patch_fg, 255, 0).astype(np.uint8)
+                else:
+                    crop_bgr = work[by : by + bh, bx : bx + bw]
+                    local_mask = comp_mask
                 head_type = classify_bolt_head_type(local_mask, crop_bgr, finish_key)
 
                 pieces.append(
@@ -1018,7 +1266,9 @@ def render_annotated_overlay(
     if label_info.get("bbox"):
         lx, ly, lw, lh = [int(v * scale) for v in label_info["bbox"]]
         cv2.rectangle(canvas, (lx, ly), (lx + lw, ly + lh), (34, 197, 94), 3)
-        lbl_str = f"Label: {label_info.get('size') or '?'} x {label_info.get('length') or '?'}"
+        sz_lbl = label_info.get("size") or "?"
+        ln_lbl = label_info.get("length")
+        lbl_str = f"Label: {sz_lbl} x {ln_lbl}" if ln_lbl else f"Label: {sz_lbl}"
         cv2.rectangle(canvas, (lx, max(0, ly - 28)), (lx + max(160, lw), ly), (34, 197, 94), -1)
         cv2.putText(canvas, lbl_str, (lx + 6, max(18, ly - 8)), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (255, 255, 255), 2, cv2.LINE_AA)
 
@@ -1072,6 +1322,8 @@ def build_clarification_questions(
 ) -> List[Dict[str, Any]]:
     """Generate interactive clarification prompts when label is missing or visual attributes need confirmation."""
     questions: List[Dict[str, Any]] = []
+    all_nuts = bool(groups) and all(g.get("comp_type") == "nut" or g.get("head") in NUT_HEAD_TYPES for g in groups)
+    all_washers = bool(groups) and all(g.get("comp_type") == "washer" or g.get("head") in WASHER_HEAD_TYPES for g in groups)
 
     if not label_detected or not size:
         guess_sz = size or "M4"
@@ -1081,14 +1333,39 @@ def build_clarification_questions(
                 "field": "size",
                 "question": (
                     f"No label cutout was detected in the photo. Our educated guess is {guess_sz}. "
-                    "What thread size are these parts?"
+                    + ("What nominal size / inner diameter (ID) are these washers?" if all_washers else "What thread size are these parts?")
                 ),
                 "suggested_value": guess_sz,
                 "options": ["M2", "M2.5", "M3", "M4", "M5", "M6", "M8", "#4-40", "#6-32", "#8-32", "1/4\"-20"],
             }
         )
 
-    if not label_detected or not length:
+    if all_nuts:
+        # Nuts do not have a bolt thread length; never prompt for bolt length on nuts.
+        pass
+    elif all_washers:
+        if not label_detected and not length:
+            questions.append(
+                {
+                    "id": "q_length",
+                    "field": "length",
+                    "question": "Do these washers have an Outer Diameter (OD) to specify (e.g. M4 × 9 mm), or standard size only?",
+                    "suggested_value": length or "",
+                    "options": [
+                        "5 mm",
+                        "6 mm",
+                        "7 mm",
+                        "8 mm",
+                        "9 mm",
+                        "10 mm",
+                        "12 mm",
+                        "15 mm",
+                        "18 mm",
+                        "20 mm",
+                    ],
+                }
+            )
+    elif not label_detected or not length:
         guess_len = length or "6 mm"
         questions.append(
             {
@@ -1103,14 +1380,14 @@ def build_clarification_questions(
             }
         )
 
-    # Always ask/confirm head style when bolts are detected
+    # Always ask/confirm hardware style
     if groups:
         head_summary = ", ".join(f"{g['finish']} ({g['head'].upper()})" for g in groups)
         questions.append(
             {
                 "id": "q_head",
                 "field": "head",
-                "question": f"We classified the bolt head style(s) as: {head_summary}. Does that match the hardware?",
+                "question": f"We classified the hardware style(s) as: {head_summary}. Does that match the parts?",
                 "suggested_value": groups[0]["head"],
                 "options": [
                     "shcs (Socket Head Cap)",
@@ -1119,7 +1396,14 @@ def build_clarification_questions(
                     "hex (Hex Bolt)",
                     "pan (Pan Head)",
                     "nut (Hex Nut)",
-                    "washer (Washer)",
+                    "nyloc (Nyloc Lock Nut)",
+                    "flange_nut (Flange Nut)",
+                    "tnut_pre (Pre-Insert T-Nut)",
+                    "tnut_post (Post-Insert T-Nut)",
+                    "washer (Flat Washer)",
+                    "fender_washer (Fender Washer)",
+                    "split_washer (Split Lock Washer)",
+                    "insert (Brass Heat-Set Insert)",
                 ],
             }
         )
@@ -1292,23 +1576,34 @@ def analyze_cartridge_photo(
     if vision_res and isinstance(vision_res.get("groups"), list) and len(vision_res["groups"]) > 0:
         v_specs = vision_res.get("detected_specs") or {}
         resolved_size = user_hints.get("size") or v_specs.get("size") or label_info.get("size") or "M4"
-        resolved_length = user_hints.get("length") or v_specs.get("length") or label_info.get("length") or "6 mm"
-        base_specs = lookup_fastener_specs(resolved_size, head="shcs")
-        resolved_pitch = user_hints.get("pitch") or v_specs.get("pitch") or base_specs.get("pitch") or "0.7 mm"
+        raw_resolved_len = (user_hints.get("length") or v_specs.get("length") or label_info.get("length") or "").strip()
 
         v_groups: List[Dict[str, Any]] = []
         for idx, vg in enumerate(vision_res["groups"], start=1):
-            g_size = vg.get("size") or resolved_size
-            g_len = vg.get("length") or resolved_length
-            g_head = (vg.get("head") or "shcs").lower()
-            g_drive = (vg.get("drive") or "hex").lower()
-            g_finish_key = (vg.get("finish_key") or "black").lower()
-            g_finish = vg.get("finish") or ("Black Oxide Steel" if g_finish_key == "black" else "Stainless Steel (Silver)")
-            g_comp = vg.get("comp_type") or ("nut" if g_head == "nut" else "washer" if g_head == "washer" else "insert" if g_head == "insert" else "bolt")
+            g_size = (vg.get("size") or resolved_size).strip()
+            g_head, g_comp = normalize_head_and_comp_type(vg.get("head"), vg.get("comp_type"))
+            g_drive = (vg.get("drive") or ("none" if g_comp in ("washer", "insert") else "hex")).lower()
+            g_finish_key, g_finish = normalize_finish_key_and_label(vg.get("finish_key"), vg.get("finish"))
             g_qty = int(vg.get("count") or vg.get("quantity") or 1)
+
+            raw_grp_len = str(vg.get("length") or vg.get("outer_diameter") or vg.get("od") or "").strip()
+            if g_comp == "nut":
+                # Do not inherit '6 mm' default or bolt length on nuts
+                g_len = raw_grp_len if (raw_grp_len and raw_grp_len != "6 mm") else (user_hints.get("length") or "").strip()
+            elif g_comp == "washer":
+                # Washers preserve optional 2nd diameter (Outer Diameter OD), or stay "" if single-diameter
+                cand_len = raw_grp_len or raw_resolved_len
+                if cand_len and not any(u in cand_len.lower() for u in ("mm", "in", '"')) and g_size.upper().startswith("M"):
+                    cand_len = f"{cand_len} mm"
+                g_len = cand_len
+            else:
+                g_len = raw_grp_len or raw_resolved_len or "6 mm"
+                if g_len and not any(u in g_len.lower() for u in ("mm", "in", '"')) and g_size.upper().startswith("M"):
+                    g_len = f"{g_len} mm"
+
             grp_specs = lookup_fastener_specs(g_size, head=g_head, drive=g_drive)
-            h_title = head_names.get(g_head, "Fastener")
-            size_len_prefix = f"{g_size} × {g_len}".strip() if g_len and g_head not in ("nut", "washer") else g_size
+            h_title = HEAD_DISPLAY_NAMES.get(g_head, "Fastener")
+            size_len_prefix = f"{g_size} × {g_len}".strip() if g_len else g_size
             v_groups.append(
                 {
                     "group_index": idx,
@@ -1318,7 +1613,7 @@ def analyze_cartridge_photo(
                     "quantity": g_qty,
                     "size": g_size,
                     "length": g_len,
-                    "pitch": grp_specs.get("pitch") or resolved_pitch,
+                    "pitch": grp_specs.get("pitch") or v_specs.get("pitch") or "",
                     "head": g_head,
                     "head_name": h_title,
                     "drive": g_drive,
@@ -1331,9 +1626,28 @@ def analyze_cartridge_photo(
                 }
             )
 
+        all_nuts_or_washers = all(g["comp_type"] in ("nut", "washer") for g in v_groups)
+        if all_nuts_or_washers:
+            resolved_length = v_groups[0]["length"]
+        else:
+            resolved_length = raw_resolved_len or v_groups[0]["length"] or "6 mm"
+
+        base_specs = lookup_fastener_specs(resolved_size, head=v_groups[0]["head"])
+        resolved_pitch = (
+            user_hints.get("pitch")
+            or v_specs.get("pitch")
+            or base_specs.get("pitch")
+            or ("" if v_groups[0]["comp_type"] == "washer" else "0.7 mm")
+        )
+
         v_label_detected = bool(vision_res.get("label_detected") or label_info.get("detected"))
         ruler_calibrated = bool(ruler_mm_per_px and ruler_mm_per_px > 0)
-        v_questions = vision_res.get("questions") or build_clarification_questions(
+        # Filter out any length question if Gemini returned one for nuts
+        raw_v_questions = [
+            q for q in (vision_res.get("questions") or [])
+            if not (q.get("field") == "length" and all(g["comp_type"] == "nut" for g in v_groups))
+        ]
+        v_questions = raw_v_questions or build_clarification_questions(
             label_detected=v_label_detected,
             size=resolved_size if v_label_detected else None,
             length=resolved_length if v_label_detected else None,
@@ -1351,7 +1665,7 @@ def analyze_cartridge_photo(
             black_pieces=black_pieces,
             silver_pieces=silver_pieces,
         )
-        cartridge_label = f"{resolved_size} × {resolved_length.replace(' mm', '')}" if resolved_size and resolved_length else ""
+        cartridge_label = _format_cartridge_summary_label(resolved_size, resolved_length, v_groups)
         return {
             "analysis_source": "agy_gemini_vision",
             "label_detected": v_label_detected,

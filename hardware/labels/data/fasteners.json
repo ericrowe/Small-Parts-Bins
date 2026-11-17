@@ -1,8 +1,8 @@
 {
   "categories": {
     "metric_coarse": {
-      "name": "Metric Coarse (ISO)",
-      "filament": "Elegoo Blue PETG",
+      "name": "Metric Fasteners (ISO)",
+      "filament": "Elegoo Blue PETG (or Black PETG for Screws)",
       "color_name": "Elegoo Blue",
       "color_hex": "#0077CC",
       "color_bg": "#E6F3FA",
@@ -10,15 +10,15 @@
     },
     "metric_fine": {
       "name": "Metric Fine (ISO)",
-      "filament": "Elegoo Blue PETG",
-      "color_name": "Elegoo Blue / Dark Navy",
-      "color_hex": "#005599",
-      "color_bg": "#E8EEF5",
+      "filament": "Elegoo Blue PETG (or Black PETG for Screws)",
+      "color_name": "Elegoo Blue",
+      "color_hex": "#0077CC",
+      "color_bg": "#E6F3FA",
       "prefix": "M"
     },
     "imperial_unc": {
       "name": "Imperial Coarse (UNC / SAE)",
-      "filament": "Elegoo Orange PETG",
+      "filament": "Elegoo Orange PETG (or Black PETG for Screws)",
       "color_name": "Elegoo Orange",
       "color_hex": "#E65100",
       "color_bg": "#FEEFE6",
@@ -26,14 +26,22 @@
     },
     "imperial_unf": {
       "name": "Imperial Fine (UNF / SAE)",
-      "filament": "Elegoo Orange PETG",
+      "filament": "Elegoo Orange PETG (or Black PETG for Screws)",
       "color_name": "Elegoo Orange",
       "color_hex": "#E65100",
       "color_bg": "#FEEFE6",
       "prefix": "#"
     },
+    "screws_black_bin": {
+      "name": "Screws (Black Bin — Blue Label Metric / Orange Label Imperial)",
+      "filament": "Elegoo Black PETG",
+      "color_name": "Black Bin (Blue/Orange Label)",
+      "color_hex": "#0077CC",
+      "color_bg": "#F1F5F9",
+      "prefix": ""
+    },
     "washers": {
-      "name": "Washers & Spacers",
+      "name": "Nuts, Washers & Spacers",
       "filament": "Elegoo / Geeetech Green PETG",
       "color_name": "Green",
       "color_hex": "#2E7D32",
@@ -41,7 +49,7 @@
       "prefix": ""
     },
     "specialty": {
-      "name": "Specialty & Wood/Sheet Metal",
+      "name": "Inserts, Standoffs & Specialty",
       "filament": "Elegoo / Overture Yellow PETG",
       "color_name": "Yellow",
       "color_hex": "#D4A017",
@@ -49,11 +57,11 @@
       "prefix": ""
     },
     "heat_set_inserts": {
-      "name": "Brass Heat-Set Inserts",
-      "filament": "Elegoo Black PETG",
-      "color_name": "Black / Brass Gold Accent",
-      "color_hex": "#C5A059",
-      "color_bg": "#F9F6EE",
+      "name": "Brass Heat-Set Inserts (Yellow Specialty Bin)",
+      "filament": "Elegoo / Overture Yellow PETG",
+      "color_name": "Yellow",
+      "color_hex": "#D4A017",
+      "color_bg": "#FEF9E7",
       "prefix": "M"
     }
   },

@@ -29,6 +29,7 @@ from server.app.services.homebox_service import (
     list_qr_forwarding_entries,
     register_qr_forwarding_entry,
     delete_qr_forwarding_entry,
+    set_bins_printed_status,
     _get_qr_forwarding_file_path,
 )
 from server.app.services.part_ingestor_service import (
@@ -46,6 +47,12 @@ class BatchLabelExportRequest(BaseModel):
     format: str = "split_vertical_12x35"
     title: Optional[str] = "Homebox Cartridge Labels"
     include_qr: bool = True
+    mark_printed: bool = False
+
+
+class LabelPrintedStatusUpdateRequest(BaseModel):
+    bin_codes: List[str]
+    printed: bool = True
 
 
 # Pydantic Request Schemas
@@ -569,7 +576,7 @@ async def export_batch_labels_post(
     req: BatchLabelExportRequest,
     db: AsyncSession = Depends(get_db),
 ) -> Response:
-    """Generate and return batch label SVG package (12x35 Split Pair, Cricut, Avery, or Thermal) via POST."""
+    """Generate and return batch label SVG package (11x34 Split Pair, Cricut, Avery, or Thermal) via POST."""
     labels = await get_labels_for_parts(
         db,
         part_ids=req.part_ids,
@@ -590,11 +597,33 @@ async def export_batch_labels_post(
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"Homebox API error: {e}")
 
+    headers: Dict[str, str] = {
+        "Content-Disposition": f'attachment; filename="{export_res["filename"]}"',
+    }
+    if req.mark_printed:
+        page_count = int(export_res.get("label_count") or len(labels))
+        page_bins = [lbl.bin_id for lbl in labels[:page_count] if getattr(lbl, "bin_id", "")]
+        if page_bins:
+            updated = set_bins_printed_status(page_bins, printed=True)
+            headers["X-Marked-Printed-Bins"] = ",".join(u["code"] for u in updated)
+
     return Response(
         content=export_res["content"],
         media_type=export_res["media_type"],
-        headers={"Content-Disposition": f'attachment; filename="{export_res["filename"]}"'},
+        headers=headers,
     )
+
+
+@router.post("/labels/printed-status")
+async def update_labels_printed_status_endpoint(req: LabelPrintedStatusUpdateRequest) -> Dict[str, Any]:
+    """Mark one or more 4-digit bin codes as printed or unprinted."""
+    updated = set_bins_printed_status(req.bin_codes, printed=req.printed)
+    return {
+        "status": "ok",
+        "printed": req.printed,
+        "updated": updated,
+        "entries": list_qr_forwarding_entries(),
+    }
 
 
 @router.get("/labels/export-batch")

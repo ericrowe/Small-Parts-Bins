@@ -13,7 +13,12 @@ from typing import Any, Optional
 import qrcode
 from qrcode.main import QRCode
 
-from hardware.labels.vector_icons import get_component_icon_svg, get_drive_icon_svg, get_head_icon_svg
+from hardware.labels.vector_icons import (
+    get_component_icon_svg,
+    get_drive_icon_svg,
+    get_head_icon_svg,
+    get_label_b_part_illustration_svg,
+)
 
 # Default Finished Cut Label Geometry (mm)
 STRIP_W = 34.00
@@ -155,9 +160,9 @@ def format_label_strings(spec: LabelData) -> tuple[str, str, str]:
         sub1 = spec.pitch if spec.pitch else ""
         sub2 = f"Key {spec.tool_key}" if spec.tool_key else spec.material
     elif spec.comp_type in ("washer", "split"):
-        suffix = spec.length.replace(" Washer", "").strip() if spec.length else "Washer"
-        title = f"{spec.size} {suffix}".strip()
-        sub1 = spec.extra_note or ""
+        od_list = format_washer_od_tokens(spec.length, is_sae=bool(spec.size) and not spec.size.upper().startswith("M"))
+        title = f"{spec.size} WASHER".strip()
+        sub1 = ", ".join(od_list) if od_list else (spec.extra_note or "")
         sub2 = spec.material or ""
     elif spec.comp_type == "insert":
         len_str = spec.length.replace("L: ", "").strip()
@@ -351,8 +356,8 @@ def render_canonical_label_svg(
 
 
 # Vertical Split-Label Geometry for Horizontal Drawer Cartridges (mm, Zero Bleed)
-VERT_LABEL_W = 12.00
-VERT_LABEL_H = 35.00
+VERT_LABEL_W = 11.00
+VERT_LABEL_H = 34.00
 
 
 def format_four_digit_bin(raw_bin: str, fallback_num: int = 1) -> str:
@@ -373,6 +378,33 @@ def format_bare_length(raw_length: str) -> str:
     return cleaned
 
 
+def format_washer_od_tokens(raw_length: str, is_sae: bool = False) -> list[str]:
+    """
+    Parse known washer Outer Diameter (OD) values from `raw_length` and format metric ODs
+    with explicit 'mm' units (e.g. '9mm', '20mm'). Unknown/blank ODs return an empty list.
+    """
+    if not raw_length:
+        return []
+    tokens: list[str] = []
+    for part in re.split(r"[,;]+", str(raw_length)):
+        cleaned = re.sub(r"(?i)\b(?:L|OD):\s*", "", part).strip()
+        cleaned = re.sub(r"(?i)\b(?:washer|fender|flat|split)\b", "", cleaned).strip()
+        if not cleaned or cleaned in ("—", "-", "?", "unknown", "none"):
+            continue
+        bare_num = re.sub(r"(?i)\s*mm\b", "", cleaned).strip()
+        try:
+            fval = float(bare_num)
+            if fval <= 0:
+                continue
+            num_str = str(int(fval)) if fval.is_integer() else f"{fval:g}"
+            tok_fmt = f'{num_str}"' if is_sae else f"{num_str}mm"
+        except ValueError:
+            tok_fmt = bare_num if is_sae else (cleaned if cleaned.lower().endswith("mm") else f"{bare_num}mm")
+        if tok_fmt not in tokens:
+            tokens.append(tok_fmt)
+    return tokens
+
+
 def _contrast_text_color_for_bar(hex_color: str) -> str:
     """Return high-contrast text color (#FFFFFF or #111111) for text overlaid on the category color bar."""
     c = (hex_color or "#0077CC").lstrip("#")
@@ -388,6 +420,24 @@ def _contrast_text_color_for_bar(hex_color: str) -> str:
     return "#FFFFFF"
 
 
+def _estimate_svg_text_width(text: str, font_size: float, font_weight: str = "bold") -> float:
+    """Estimate rendered width in mm for Arial/Helvetica SVG text, accounting for wide glyphs (W, M, m, uppercase)."""
+    is_bold = font_weight == "bold"
+    total_em = 0.0
+    for ch in text:
+        if ch in ("W", "M", "m", "@", "%", "×"):
+            total_em += 0.94 if is_bold else 0.86
+        elif ch.isupper():
+            total_em += 0.73 if is_bold else 0.66
+        elif ch.isdigit():
+            total_em += 0.58 if is_bold else 0.54
+        elif ch in (" ", ".", ",", ":", ";", "!", "|", "i", "l", "I", "1", "/", "-"):
+            total_em += 0.35 if is_bold else 0.32
+        else:
+            total_em += 0.58 if is_bold else 0.52
+    return total_em * font_size
+
+
 def render_keepout_centered_text(
     text: str,
     cx: float,
@@ -401,16 +451,15 @@ def render_keepout_centered_text(
     if not text:
         return ""
     escaped = escape_xml(text)
-    char_factor = 0.60 if font_weight == "bold" else 0.52
-    est_width = len(text) * base_font_size * char_factor
+    est_width = _estimate_svg_text_width(text, base_font_size, font_weight)
     font_size = base_font_size
     text_length_attr = ""
 
     if est_width > max_width and max_width > 0:
         scale = max_width / est_width
-        font_size = max(base_font_size * scale, base_font_size * 0.60)
-        new_est = len(text) * font_size * char_factor
-        if new_est > max_width * 0.92:
+        font_size = max(base_font_size * scale, base_font_size * 0.55)
+        new_est = _estimate_svg_text_width(text, font_size, font_weight)
+        if new_est > max_width * 1.01:
             text_length_attr = f' textLength="{max_width:.2f}" lengthAdjust="spacingAndGlyphs"'
 
     return (
@@ -428,30 +477,59 @@ def render_vertical_split_label_pair_svg(
     label_h: float = VERT_LABEL_H,
     forwarding_base_url: str = "HTTP://TASKER-PI.LOCAL:8090",
     fallback_bin_num: int = 1,
+    include_bleed: bool = False,
+    bleed: float = BLEED,
+    pair_gap_x: float = 0.0,
+    include_qr: bool = True,
 ) -> str:
     """
-    Render a zero-bleed vertical split-label pair ([Label A | Label B] = 24x35 mm) for a horizontally
+    Render a vertical split-label pair ([Label A | Label B], each 11x34 mm) for a horizontally
     oriented drawer cartridge:
-      - Label A (12x35 mm, Part Identity End):
-          * Category color bar at top with thread size (e.g. 'M4') overlaid in large bold text.
-          * Bare length number (e.g. '6') below color bar (no 'mm' unit, no 'SHCS' head text, no icons).
-          * Lower region left blank by default; renders `spec.extra_note` only if provided.
-      - Label B (12x35 mm, Bin & QR End):
+      - Label A (11x34 mm, Part Identity End):
+          * Category color bar at top (Blue = Metric, Orange = SAE) with thread size overlaid.
+          * Bare length number or vertical column below color bar (or NUT / WASHER).
+          * Optional small Green strip across the bottom for Green nut/washer bins.
+      - Label B (11x34 mm, Part Illustration, QR & Bin End):
           * Matching category color bar at top.
-          * 4-digit bin number (e.g. '0001', no 'BIN' prefix) below color bar.
-          * Low-density QR code encoding `<forwarding_base_url>/<4-digit-id>` for fast camera scanning.
+          * Part illustration in the middle zone.
+          * Low-density QR code encoding `<forwarding_base_url>/<4-digit-id>` + subtle gray 4-digit bin below QR.
+      - When `include_bleed=True` (Cricut Print-Then-Cut mode), background and top/bottom color bars
+        extend by `bleed` (+1.0 mm) past the cut lines so the finished Cricut-cut labels are identical
+        to the paper-cutter labels.
     """
     color = spec.accent_color or "#0077CC"
     bg = spec.bg_color or "#FFFFFF"
-    bar_text_color = _contrast_text_color_for_bar(color)
     bin_4digit = format_four_digit_bin(spec.bin_id, fallback_num=fallback_bin_num)
     bare_len = format_bare_length(spec.length)
     size_text = (spec.size or spec.name or "").strip()
 
+    comp_lower = (spec.comp_type or "").lower()
+    head_lower = (spec.head or "").lower()
+    is_nut = comp_lower in ("nut", "nyloc") or head_lower in ("nut", "nyloc", "flange_nut", "square_nut", "wing_nut", "tnut", "tnut_pre", "tnut_post")
+    is_washer = comp_lower in ("washer", "split") or head_lower in ("washer", "fender_washer", "split_washer")
+
+    # Two-color convention for Green bins (Nuts & Washers):
+    # Top color bar indicates thread system (Blue #0077CC = Metric, Orange #E65100 = SAE/Imperial),
+    # and a small Green (#2E7D32) strip across the bottom of Label A indicates the Green bin.
+    is_sae_size = bool(size_text) and not size_text.upper().startswith("M")
+    if is_nut or is_washer:
+        if color.upper() == "#2E7D32":
+            top_bar_color = "#E65100" if is_sae_size else "#0077CC"
+        else:
+            top_bar_color = color
+        bottom_strip_color = "#2E7D32"
+    else:
+        top_bar_color = color
+        bottom_strip_color = ""
+
+    bar_text_color = _contrast_text_color_for_bar(top_bar_color)
+
     pair_id = clean_id("vsplit", spec.part_id or size_text, bin_4digit, int(x), int(y))
+    bx = label_w + pair_gap_x
     cx_a = label_w / 2.0
-    cx_b = label_w + (label_w / 2.0)
+    cx_b = bx + (label_w / 2.0)
     max_txt_w = label_w - 1.6
+    b_pad = bleed if include_bleed else 0.0
 
     svg_parts = [f'<g id="{pair_id}" transform="translate({x:.2f},{y:.2f})">']
 
@@ -459,12 +537,18 @@ def render_vertical_split_label_pair_svg(
     # LABEL A: Part Identity End (0 .. label_w, 0 .. label_h)
     # ==========================================================================
     bar_a_h = 9.00
+    stroke_attr = 'stroke="none"' if include_bleed else 'stroke="#CCCCCC" stroke-width="0.18"'
     svg_parts.append(
-        f'<rect x="0.00" y="0.00" width="{label_w:.2f}" height="{label_h:.2f}" fill="{bg}" stroke="#CCCCCC" stroke-width="0.18"/>'
+        f'<rect x="{-b_pad:.2f}" y="{-b_pad:.2f}" width="{label_w + 2 * b_pad:.2f}" height="{label_h + 2 * b_pad:.2f}" fill="{bg}" {stroke_attr}/>'
     )
     svg_parts.append(
-        f'<rect x="0.00" y="0.00" width="{label_w:.2f}" height="{bar_a_h:.2f}" fill="{color}" stroke="none"/>'
+        f'<rect x="{-b_pad:.2f}" y="{-b_pad:.2f}" width="{label_w + 2 * b_pad:.2f}" height="{bar_a_h + b_pad:.2f}" fill="{top_bar_color}" stroke="none"/>'
     )
+    if bottom_strip_color:
+        bot_strip_h = 2.60
+        svg_parts.append(
+            f'<rect x="{-b_pad:.2f}" y="{label_h - bot_strip_h:.2f}" width="{label_w + 2 * b_pad:.2f}" height="{bot_strip_h + b_pad:.2f}" fill="{bottom_strip_color}" stroke="none"/>'
+        )
     # Size overlaid on the color bar (e.g. "M4")
     if size_text:
         svg_parts.append(
@@ -479,22 +563,143 @@ def render_vertical_split_label_pair_svg(
             )
         )
 
-    # Bare length below the color bar (e.g. "6")
-    if bare_len:
+    # Bare length / OD below the color bar (e.g. "6", stacked column "6 / 8 / 10", or "NUT"/"WASHER" when length is blank)
+
+    # Resolve optional lower note first so multi-length column layout can adapt cleanly
+    note_text = (spec.extra_note or "").strip()
+    if note_text.upper() == "PRE-INS":
+        note_text = "PRE"
+    elif note_text.upper() == "POST-INS":
+        note_text = "POST"
+    if not note_text:
+        if head_lower == "tnut_pre":
+            note_text = "PRE"
+        elif head_lower == "tnut_post":
+            note_text = "POST"
+
+    if is_washer:
+        od_tokens = format_washer_od_tokens(spec.length, is_sae=is_sae_size)
+        washer_y = 14.00 if (od_tokens or note_text) else 15.80
         svg_parts.append(
             render_keepout_centered_text(
-                bare_len,
+                "WASHER",
                 cx=cx_a,
-                y=16.20,
-                base_font_size=4.80,
-                max_width=max_txt_w,
+                y=washer_y,
+                base_font_size=1.98,
+                max_width=label_w - 2.2,
                 font_weight="bold",
                 fill="#111111",
             )
         )
+        if od_tokens:
+            if len(od_tokens) == 1:
+                y_positions = [20.20] if note_text else [21.40]
+                od_fs = 2.40 if note_text else 2.55
+            elif len(od_tokens) == 2:
+                y_positions = [18.60, 22.20] if note_text else [19.60, 24.40]
+                od_fs = 2.30 if note_text else 2.45
+            elif len(od_tokens) == 3:
+                y_positions = [17.80, 20.60, 23.40] if note_text else [18.80, 22.80, 26.80]
+                od_fs = 2.15 if note_text else 2.30
+            else:
+                y_start = 17.60 if note_text else 18.40
+                y_end = 23.40 if note_text else 27.80
+                step = (y_end - y_start) / max(1, len(od_tokens) - 1)
+                y_positions = [y_start + i * step for i in range(len(od_tokens))]
+                od_fs = 1.95 if note_text else 2.10
 
-    # Optional special detail note in lower space (blank by default unless extra_note is provided)
-    note_text = (spec.extra_note or "").strip()
+            for od_val, y_pos in zip(od_tokens, y_positions):
+                svg_parts.append(
+                    render_keepout_centered_text(
+                        od_val,
+                        cx=cx_a,
+                        y=y_pos,
+                        base_font_size=od_fs,
+                        max_width=label_w - 2.2,
+                        font_weight="bold",
+                        fill="#111111",
+                    )
+                )
+    elif bare_len:
+        len_parts = [p.strip() for p in re.split(r"[,;]+", bare_len) if p.strip()]
+        if len(len_parts) >= 2:
+            if len(len_parts) == 2:
+                y_positions = [14.30, 19.40] if note_text else [15.80, 22.60]
+                col_fs = 3.70 if note_text else 4.40
+            elif len(len_parts) == 3:
+                y_positions = [13.40, 17.40, 21.40] if note_text else [14.80, 21.00, 27.20]
+                col_fs = 3.20 if note_text else 4.20
+            else:
+                y_start = 13.20 if note_text else 14.00
+                y_end = 21.60 if note_text else 29.40
+                step = (y_end - y_start) / max(1, len(len_parts) - 1)
+                y_positions = [y_start + i * step for i in range(len(len_parts))]
+                col_fs = 2.70 if note_text else 3.30
+
+            for part_val, y_pos in zip(len_parts, y_positions):
+                svg_parts.append(
+                    render_keepout_centered_text(
+                        part_val,
+                        cx=cx_a,
+                        y=y_pos,
+                        base_font_size=col_fs,
+                        max_width=max_txt_w,
+                        font_weight="bold",
+                        fill="#111111",
+                    )
+                )
+        else:
+            len_fs = 2.50 if ("/" in bare_len or len(bare_len) >= 5) else 4.60
+            svg_parts.append(
+                render_keepout_centered_text(
+                    bare_len,
+                    cx=cx_a,
+                    y=16.00,
+                    base_font_size=len_fs,
+                    max_width=max_txt_w,
+                    font_weight="bold",
+                    fill="#111111",
+                )
+            )
+    elif is_nut:
+        if head_lower == "square_nut":
+            svg_parts.append(
+                render_keepout_centered_text(
+                    "SQUARE",
+                    cx=cx_a,
+                    y=14.60,
+                    base_font_size=2.15,
+                    max_width=label_w - 2.0,
+                    font_weight="bold",
+                    fill="#111111",
+                )
+            )
+            svg_parts.append(
+                render_keepout_centered_text(
+                    "NUT",
+                    cx=cx_a,
+                    y=17.80,
+                    base_font_size=2.40,
+                    max_width=label_w - 2.0,
+                    font_weight="bold",
+                    fill="#111111",
+                )
+            )
+        else:
+            nut_word = "NYLOC" if head_lower == "nyloc" else "T-NUT" if head_lower in ("tnut", "tnut_pre", "tnut_post") else "NUT"
+            nut_fs = 2.55 if len(nut_word) >= 5 else 3.20
+            svg_parts.append(
+                render_keepout_centered_text(
+                    nut_word,
+                    cx=cx_a,
+                    y=15.80,
+                    base_font_size=nut_fs,
+                    max_width=label_w - 2.2,
+                    font_weight="bold",
+                    fill="#111111",
+                )
+            )
+
     if note_text:
         words = note_text.split()
         if len(words) >= 2 and len(note_text) > 8:
@@ -503,51 +708,72 @@ def render_vertical_split_label_pair_svg(
             line2 = " ".join(words[mid:])
             svg_parts.append(
                 render_keepout_centered_text(
-                    line1, cx=cx_a, y=25.50, base_font_size=2.10, max_width=max_txt_w, font_weight="bold", fill="#333333"
+                    line1, cx=cx_a, y=24.80, base_font_size=2.05, max_width=max_txt_w, font_weight="bold", fill="#333333"
                 )
             )
             svg_parts.append(
                 render_keepout_centered_text(
-                    line2, cx=cx_a, y=28.40, base_font_size=2.10, max_width=max_txt_w, font_weight="bold", fill="#333333"
+                    line2, cx=cx_a, y=27.60, base_font_size=2.05, max_width=max_txt_w, font_weight="bold", fill="#333333"
                 )
             )
         else:
             svg_parts.append(
                 render_keepout_centered_text(
-                    note_text, cx=cx_a, y=26.80, base_font_size=2.20, max_width=max_txt_w, font_weight="bold", fill="#333333"
+                    note_text, cx=cx_a, y=26.00, base_font_size=2.15, max_width=max_txt_w, font_weight="bold", fill="#333333"
                 )
             )
 
     # ==========================================================================
-    # LABEL B: Bin Number & Low-Density QR End (label_w .. 2*label_w, 0 .. label_h)
+    # LABEL B: Part Illustration & Low-Density QR End (bx .. bx + label_w, 0 .. label_h)
     # ==========================================================================
     bar_b_h = 5.50
     svg_parts.append(
-        f'<rect x="{label_w:.2f}" y="0.00" width="{label_w:.2f}" height="{label_h:.2f}" fill="{bg}" stroke="#CCCCCC" stroke-width="0.18"/>'
+        f'<rect x="{bx - b_pad:.2f}" y="{-b_pad:.2f}" width="{label_w + 2 * b_pad:.2f}" height="{label_h + 2 * b_pad:.2f}" fill="{bg}" {stroke_attr}/>'
     )
     svg_parts.append(
-        f'<rect x="{label_w:.2f}" y="0.00" width="{label_w:.2f}" height="{bar_b_h:.2f}" fill="{color}" stroke="none"/>'
-    )
-
-    # 4-digit bin number below the color bar (no "BIN" text)
-    svg_parts.append(
-        render_keepout_centered_text(
-            bin_4digit,
-            cx=cx_b,
-            y=12.20,
-            base_font_size=3.80,
-            max_width=max_txt_w,
-            font_weight="bold",
-            fill="#111111",
-        )
+        f'<rect x="{bx - b_pad:.2f}" y="{-b_pad:.2f}" width="{label_w + 2 * b_pad:.2f}" height="{bar_b_h + b_pad:.2f}" fill="{top_bar_color}" stroke="none"/>'
     )
 
     # Low-density QR code encoding uppercase forwarding URL (Version 1/2 <= 25x25 modules)
     qr_payload = f"{forwarding_base_url.rstrip('/')}/{bin_4digit}".upper()
-    qr_sz = 10.60
-    qr_x = label_w + (label_w - qr_sz) / 2.0
+    qr_sz = min(10.60, label_w - 1.40)
+    qr_x = bx + (label_w - qr_sz) / 2.0
     qr_y = label_h - qr_sz - 2.20
-    svg_parts.append(generate_qr_svg_path(qr_payload, size=qr_sz, x=qr_x, y=qr_y, color="#111111"))
+
+    # Fill the space between the top color bar (5.50mm) and the QR code with the part illustration
+    avail_top = bar_b_h + 1.00
+    avail_bot = qr_y - 1.00
+    illus_h = max(8.0, avail_bot - avail_top)
+    illus_w = label_w - 2.00
+    illus_x = bx + 1.00
+    illus_y = avail_top
+    svg_parts.append(
+        get_label_b_part_illustration_svg(
+            comp_type=spec.comp_type,
+            head=spec.head,
+            x=illus_x,
+            y=illus_y,
+            w=illus_w,
+            h=illus_h,
+            color="#111111",
+        )
+    )
+
+    if include_qr:
+        svg_parts.append(generate_qr_svg_path(qr_payload, size=qr_sz, x=qr_x, y=qr_y, color="#111111"))
+
+    # Subtle 4-digit bin number below the QR code in gray text inside the existing 2.20mm bottom margin
+    svg_parts.append(
+        render_keepout_centered_text(
+            bin_4digit,
+            cx=cx_b,
+            y=label_h - 0.55,
+            base_font_size=1.55,
+            max_width=label_w - 1.40,
+            font_weight="normal",
+            fill="#888888",
+        )
+    )
 
     svg_parts.append("</g>")
     return "\n".join(svg_parts)
@@ -555,20 +781,20 @@ def render_vertical_split_label_pair_svg(
 
 def generate_split_vertical_sheet_svg(
     labels: list[LabelData],
-    title: str = "Cartridge Split Labels (12x35mm Zero-Bleed)",
+    title: str = "Cartridge Split Labels (11x34mm Zero-Bleed)",
     forwarding_base_url: str = "HTTP://TASKER-PI.LOCAL:8090",
 ) -> str:
     """
-    Compose a zero-bleed Letter sheet (215.9 x 279.4 mm) of vertical 12x35mm [Label A | Label B]
-    cartridge pairs (24x35mm per pair) with shared cut edges for fast straight-line paper cutter slicing.
+    Compose a zero-bleed Letter sheet (215.9 x 279.4 mm) of vertical 11x34mm [Label A | Label B]
+    cartridge pairs (22x34mm per pair) with shared cut edges for fast straight-line paper cutter slicing.
     """
     page_w = 215.90
     page_h = 279.40
-    pair_w = VERT_LABEL_W * 2.0  # 24.0 mm
-    pair_h = VERT_LABEL_H        # 35.0 mm
+    pair_w = VERT_LABEL_W * 2.0  # 22.0 mm
+    pair_h = VERT_LABEL_H        # 34.0 mm
 
-    pair_cols = 8  # 8 pairs = 16 labels across (192.0 mm width)
-    rows = 7       # 7 rows = 245.0 mm height (56 cartridge pairs = 112 labels per sheet)
+    pair_cols = 8  # 8 pairs = 16 labels across (176.0 mm width)
+    rows = 7       # 7 rows = 238.0 mm height (56 cartridge pairs = 112 labels per sheet)
     capacity = pair_cols * rows
 
     grid_w = pair_cols * pair_w
@@ -581,7 +807,7 @@ def generate_split_vertical_sheet_svg(
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{page_w:.2f}mm" height="{page_h:.2f}mm" viewBox="0 0 {page_w:.2f} {page_h:.2f}">',
         f'  <rect x="0" y="0" width="{page_w:.2f}" height="{page_h:.2f}" fill="#FFFFFF"/>',
         f'  <text x="{start_x:.2f}" y="11.50" font-family="Arial, Helvetica, sans-serif" font-size="3.80" font-weight="bold" fill="#111111">{escape_xml(title)}</text>',
-        f'  <text x="{start_x + grid_w:.2f}" y="11.50" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="2.60" fill="#555555">Zero-Bleed Paper Cutter Grid: 12×35 mm Vertical Pairs ([Label A | Label B])</text>',
+        f'  <text x="{start_x + grid_w:.2f}" y="11.50" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="2.60" fill="#555555">Zero-Bleed Paper Cutter Grid: 11×34 mm Vertical Pairs ([Label A | Label B])</text>',
         '  <g id="split-vertical-pairs">',
     ]
 

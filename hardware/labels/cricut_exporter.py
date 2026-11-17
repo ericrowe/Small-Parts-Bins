@@ -1,8 +1,9 @@
 """Cricut Print-Then-Cut Exporter for Fastener and Storage Labels.
 
 Generates standard multi-up SVG sheets with optical sensor registration marks,
-+1.0mm bleed artwork layer for high-tolerance printing, and exact 34x10mm cut path layers
-for Cricut Design Space, Silhouette Studio, or Brother ScanNCut kiss-cutting.
++1.0mm bleed artwork layer for high-tolerance printing, and exact 11x34mm cut path layers
+for each [Label A | Label B] vertical split cartridge pair so the finished labels are
+identical to the paper-cutter split pairs.
 """
 
 from __future__ import annotations
@@ -11,12 +12,11 @@ import datetime
 from typing import Any, List
 from hardware.labels.canonical_label import (
     BLEED,
-    STRIP_H,
-    STRIP_R,
-    STRIP_W,
+    VERT_LABEL_H,
+    VERT_LABEL_W,
     LabelData,
     escape_xml,
-    render_canonical_label_svg,
+    render_vertical_split_label_pair_svg,
 )
 
 # Page Dimensions (mm)
@@ -29,15 +29,20 @@ SENSOR_BOX_H = 234.95   # 9.25 in
 SENSOR_BOX_X = (PAGE_W_LETTER - SENSOR_BOX_W) / 2.0  # 22.225 mm
 SENSOR_BOX_Y = 24.00    # Top margin leaving room for sheet title header
 
-# Grid Spacing
-GRID_COLS = 4
-GRID_ROWS = 15
-COL_PITCH = 39.00       # 34mm cut + 2mm bleed + 3mm gap
-ROW_PITCH = 14.50       # 10mm cut + 2mm bleed + 2.5mm gap
+# Vertical Split-Pair Grid Spacing inside Cricut Sensor Box
+# Each pair contains Label A (11x34mm) + 3.0mm gap + Label B (11x34mm) = 25.0mm cut span (27.0mm with +1.0mm bleed)
+PAIR_GAP_X = 3.00
+PAIR_CUT_SPAN_W = VERT_LABEL_W * 2.0 + PAIR_GAP_X  # 25.00 mm
+GRID_COLS = 6           # 6 cartridge pairs = 12 individual 11x34mm labels per row
+GRID_ROWS = 6           # 6 rows = 36 cartridge pairs (72 individual 11x34mm labels) per sheet
+COL_PITCH = 28.20       # 25.0mm pair cut span + 2.0mm outer bleed + 1.2mm inter-pair gap
+ROW_PITCH = 37.80       # 34.0mm cut height + 2.0mm bleed + 1.8mm vertical gap
 
 # Grid Offset within Sensor Box
-GRID_START_X = SENSOR_BOX_X + (SENSOR_BOX_W - (GRID_COLS * COL_PITCH - (COL_PITCH - STRIP_W))) / 2.0
-GRID_START_Y = SENSOR_BOX_Y + 8.00
+GRID_TOTAL_W = (GRID_COLS - 1) * COL_PITCH + PAIR_CUT_SPAN_W
+GRID_TOTAL_H = (GRID_ROWS - 1) * ROW_PITCH + VERT_LABEL_H
+GRID_START_X = SENSOR_BOX_X + (SENSOR_BOX_W - GRID_TOTAL_W) / 2.0
+GRID_START_Y = SENSOR_BOX_Y + (SENSOR_BOX_H - GRID_TOTAL_H) / 2.0
 
 
 def render_registration_marks(x: float, y: float, w: float, h: float) -> str:
@@ -86,39 +91,45 @@ def generate_cricut_sheet(
     header_svg = (
         f'<g id="header-text">'
         f'<text x="{PAGE_W_LETTER / 2.0:.2f}" y="12.00" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="4.5" fill="#111111">{escape_xml(title)}</text>'
-        f'<text x="{PAGE_W_LETTER / 2.0:.2f}" y="17.00" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="2.2" fill="#666666">Cricut Print-Then-Cut Standard (34x10mm) • {count} Labels • Generated {ts}</text>'
+        f'<text x="{PAGE_W_LETTER / 2.0:.2f}" y="17.00" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="2.2" fill="#666666">Cricut Print-Then-Cut Vertical Split Pairs (11×34mm + 1mm Bleed) • {count} Cartridge Pairs ({count * 2} Labels) • Generated {ts}</text>'
         f'</g>'
     )
 
     reg_marks = render_registration_marks(SENSOR_BOX_X, SENSOR_BOX_Y, SENSOR_BOX_W, SENSOR_BOX_H)
 
-    # 1. Generate Print Elements (with Bleed)
+    # 1. Generate Print Elements (with +1.0mm Bleed)
     print_elements: List[str] = [header_svg, reg_marks, '<g id="print-artwork">']
-    # 2. Generate Cut Elements (Exact 34x10mm)
-    cut_elements: List[str] = [f'<g id="cut-lines" fill="none" stroke="#FF0000" stroke-width="0.2">']
+    # 2. Generate Cut Elements (Exact 11.00 x 34.00 mm rectangles for Label A and Label B)
+    cut_elements: List[str] = ['<g id="cut-lines" fill="none" stroke="#FF0000" stroke-width="0.2">']
 
     for idx, spec in enumerate(active_labels):
         col = idx % GRID_COLS
         row = idx // GRID_COLS
         lx = GRID_START_X + col * COL_PITCH
         ly = GRID_START_Y + row * ROW_PITCH
+        bx = lx + VERT_LABEL_W + PAIR_GAP_X
 
-        # Render Bleed Artwork for Print
-        lbl_print_svg = render_canonical_label_svg(
+        # Render Bleed Artwork for Print (identical design to paper-cutter vertical split pair, with +1mm bleed)
+        lbl_print_svg = render_vertical_split_label_pair_svg(
             spec,
             x=lx,
             y=ly,
-            width=STRIP_W,
-            height=STRIP_H,
-            corner_radius=STRIP_R,
+            label_w=VERT_LABEL_W,
+            label_h=VERT_LABEL_H,
+            fallback_bin_num=idx + 1,
             include_bleed=True,
+            bleed=BLEED,
+            pair_gap_x=PAIR_GAP_X,
             include_qr=include_qr,
         )
         print_elements.append(lbl_print_svg)
 
-        # Render Exact Cut Boundary for Cricut Cut
+        # Render Exact Cut Boundaries for Cricut Cut (Label A + Label B)
         cut_elements.append(
-            f'<rect x="{lx:.2f}" y="{ly:.2f}" width="{STRIP_W:.2f}" height="{STRIP_H:.2f}" rx="{STRIP_R:.2f}" />'
+            f'<rect x="{lx:.2f}" y="{ly:.2f}" width="{VERT_LABEL_W:.2f}" height="{VERT_LABEL_H:.2f}" />'
+        )
+        cut_elements.append(
+            f'<rect x="{bx:.2f}" y="{ly:.2f}" width="{VERT_LABEL_W:.2f}" height="{VERT_LABEL_H:.2f}" />'
         )
 
     print_elements.append('</g>')

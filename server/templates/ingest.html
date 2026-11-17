@@ -282,23 +282,58 @@
     }
 
     const HEAD_OPTIONS = [
-        { value: "shcs", label: "Socket Head Cap (SHCS — Tall Cylindrical)" },
-        { value: "bhcs", label: "Button Head (BHCS — Low-Profile Dome)" },
-        { value: "fhcs", label: "Flat / Countersunk (FHCS — Conical)" },
-        { value: "hex", label: "Hex Head Bolt" },
-        { value: "pan", label: "Pan Head" },
-        { value: "nut", label: "Hex Nut" },
-        { value: "washer", label: "Flat Washer" },
-        { value: "insert", label: "Brass Heat-Set Insert" }
+        { value: "shcs", label: "Socket Head Cap (SHCS — Tall Cylindrical)", comp: "bolt", title: "Socket Head Cap Screw" },
+        { value: "bhcs", label: "Button Head (BHCS — Low-Profile Dome)", comp: "bolt", title: "Button Head Cap Screw" },
+        { value: "fhcs", label: "Flat / Countersunk (FHCS — Conical)", comp: "bolt", title: "Flat Head Countersunk Screw" },
+        { value: "hex", label: "Hex Head Bolt", comp: "bolt", title: "Hex Head Bolt" },
+        { value: "pan", label: "Pan Head Screw", comp: "bolt", title: "Pan Head Screw" },
+        { value: "nut", label: "Hex Nut", comp: "nut", title: "Hex Nut" },
+        { value: "nyloc", label: "Nyloc Lock Nut", comp: "nut", title: "Nyloc Lock Nut" },
+        { value: "flange_nut", label: "Flange / Serrated Nut", comp: "nut", title: "Flange Hex Nut" },
+        { value: "square_nut", label: "Square Nut", comp: "nut", title: "Square Nut" },
+        { value: "tnut_pre", label: "Pre-Insert T-Nut (Slide-In Extrusion)", comp: "nut", title: "Pre-Insert T-Nut" },
+        { value: "tnut_post", label: "Post-Insert T-Nut (Drop-In / Hammer / Roll-In)", comp: "nut", title: "Post-Insert T-Nut" },
+        { value: "tnut", label: "T-Nut (Generic / Wood)", comp: "nut", title: "T-Nut" },
+        { value: "washer", label: "Flat Washer (Standard or ID × OD)", comp: "washer", title: "Flat Washer" },
+        { value: "fender_washer", label: "Fender Washer (Large OD, ID × OD)", comp: "washer", title: "Fender Washer" },
+        { value: "split_washer", label: "Split Lock Washer", comp: "washer", title: "Split Lock Washer" },
+        { value: "insert", label: "Brass Heat-Set Insert", comp: "insert", title: "Brass Heat-Set Insert" }
     ];
 
     const FINISH_OPTIONS = [
         { key: "black", label: "Black Oxide Steel" },
         { key: "silver", label: "Stainless Steel (Silver)" },
         { key: "zinc", label: "Zinc Plated (Silver)" },
+        { key: "nickel", label: "Nickel Plated (Silver)" },
         { key: "brass", label: "Brass" },
         { key: "nylon", label: "Nylon / Plastic" }
     ];
+
+    function resolveFinishForGroup(g) {
+        if (!g) return FINISH_OPTIONS[0];
+        const fk = String(g.finish_key || "").trim().toLowerCase();
+        const fl = String(g.finish || "").trim();
+        const exactLbl = FINISH_OPTIONS.find(f => f.label.toLowerCase() === fl.toLowerCase());
+        if (exactLbl) {
+            g.finish_key = exactLbl.key;
+            g.finish = exactLbl.label;
+            return exactLbl;
+        }
+        const combined = `${fk} ${fl}`.toLowerCase();
+        let matchedKey = null;
+        if (combined.includes("nickel")) matchedKey = "nickel";
+        else if (combined.includes("zinc") || combined.includes("galvan")) matchedKey = "zinc";
+        else if (combined.includes("brass") || combined.includes("bronze") || combined.includes("gold")) matchedKey = "brass";
+        else if (combined.includes("nylon") || combined.includes("plastic")) matchedKey = "nylon";
+        else if (combined.includes("stainless") || combined.includes("silver") || combined.includes("304") || combined.includes("316") || combined.includes("chrome")) matchedKey = "silver";
+        else if (combined.includes("black") || combined.includes("oxide")) matchedKey = "black";
+        else if (fk) matchedKey = fk;
+
+        const byKey = FINISH_OPTIONS.find(f => f.key === matchedKey) || FINISH_OPTIONS[0];
+        g.finish_key = byKey.key;
+        g.finish = byKey.label;
+        return byKey;
+    }
 
     document.getElementById("bin-id-input").addEventListener("input", (e) => {
         document.getElementById("target-bin-label").textContent = e.target.value;
@@ -420,11 +455,15 @@
 
             const badge = document.getElementById("preview-status-badge");
             const srcTag = data.analysis_source === "agy_gemini_vision" ? "[🤖 AGY Gemini Vision] " : "[📷 Local CV] ";
+            const specDim = data.detected_specs.length
+                ? `${data.detected_specs.size} × ${data.detected_specs.length}`
+                : `${data.detected_specs.size}`;
+            const pitchTxt = data.detected_specs.pitch ? ` (Pitch ${data.detected_specs.pitch})` : "";
             if (data.label_detected) {
-                badge.textContent = `${srcTag}✅ Label Cutout Read: ${data.detected_specs.size} × ${data.detected_specs.length} (Pitch ${data.detected_specs.pitch}) · ${data.total_pieces_detected} total pcs`;
+                badge.textContent = `${srcTag}✅ Label Cutout Read: ${specDim}${pitchTxt} · ${data.total_pieces_detected} total pcs`;
                 badge.className = "font-semibold text-emerald-400";
             } else {
-                badge.textContent = `${srcTag}⚠️ No Label Cutout Found — Guessed ${data.detected_specs.size} × ${data.detected_specs.length} · ${data.total_pieces_detected} total pcs`;
+                badge.textContent = `${srcTag}⚠️ No Label Cutout Found — Guessed ${specDim} · ${data.total_pieces_detected} total pcs`;
                 badge.className = "font-semibold text-amber-400";
             }
 
@@ -504,28 +543,33 @@
         for (let i = 0; i < currentGroups.length; i++) {
             if (field === "size") {
                 currentGroups[i].size = value;
-                try {
-                    const res = await fetch(`/api/ingest/specs?size=${encodeURIComponent(value)}&head=${encodeURIComponent(currentGroups[i].head || 'shcs')}`);
-                    if (res.ok) {
-                        const sp = await res.json();
-                        if (sp.pitch) currentGroups[i].pitch = sp.pitch;
-                        if (sp.tap_drill) currentGroups[i].tap_drill = sp.tap_drill;
-                        if (sp.clearance_drill) currentGroups[i].clearance_drill = sp.clearance_drill;
-                        if (sp.tool_key) currentGroups[i].tool_key = sp.tool_key;
-                    }
-                } catch (_) {}
             } else if (field === "length") {
                 currentGroups[i].length = value;
             } else if (field === "head") {
                 currentGroups[i].head = value;
+                const hObj = HEAD_OPTIONS.find(h => h.value === value);
+                if (hObj && hObj.comp) {
+                    currentGroups[i].comp_type = hObj.comp;
+                    if (hObj.comp === "nut") {
+                        currentGroups[i].length = "";
+                    }
+                }
+            }
+            if (field === "size" || field === "head") {
+                try {
+                    const res = await fetch(`/api/ingest/specs?size=${encodeURIComponent(currentGroups[i].size || '')}&head=${encodeURIComponent(currentGroups[i].head || 'shcs')}`);
+                    if (res.ok) {
+                        const sp = await res.json();
+                        currentGroups[i].pitch = sp.pitch || "";
+                        currentGroups[i].tap_drill = sp.tap_drill || "";
+                        currentGroups[i].clearance_drill = sp.clearance_drill || "";
+                        currentGroups[i].tool_key = sp.tool_key || "";
+                    }
+                } catch (_) {}
             }
             rebuildGroupName(i);
         }
-        if (currentGroups.length > 0) {
-            const sz = currentGroups[0].size || "";
-            const ln = (currentGroups[0].length || "").replace(" mm", "");
-            document.getElementById("cartridge-label-input").value = `${sz} × ${ln}`.trim();
-        }
+        updateCartridgeSummaryLabel();
         renderGroupCards();
         renderQuestions(currentQuestions);
     }
@@ -533,8 +577,37 @@
     function rebuildGroupName(idx) {
         const g = currentGroups[idx];
         const headObj = HEAD_OPTIONS.find(h => h.value === g.head);
-        const headTitle = headObj ? headObj.label.split(" (")[0] + " Screw" : "Fastener";
-        g.name = `${g.size || ''} × ${g.length || ''} ${headTitle} (${g.finish || 'Steel'})`.replace(/\s+/g, " ").trim();
+        const headTitle = headObj ? headObj.title : "Fastener";
+        if (headObj && headObj.comp) {
+            g.comp_type = headObj.comp;
+        }
+        const sz = (g.size || "").trim();
+        let ln = (g.length || "").trim();
+        if (ln && !/(mm|in|")/i.test(ln) && /^M\d/i.test(sz)) {
+            ln = `${ln} mm`;
+        }
+        const dimPrefix = ln ? `${sz} × ${ln}`.trim() : sz;
+        g.name = `${dimPrefix} ${headTitle} (${g.finish || 'Steel'})`.replace(/\s+/g, " ").trim();
+    }
+
+    function updateCartridgeSummaryLabel() {
+        if (currentGroups.length === 0) return;
+        const g0 = currentGroups[0];
+        const sz = (g0.size || "").trim();
+        const bareLen = (g0.length || "").replace(/\s*mm$/i, "").trim();
+        const allNuts = currentGroups.every(g => g.comp_type === "nut" || ["nut", "nyloc", "flange_nut", "square_nut", "tnut", "tnut_pre", "tnut_post"].includes(g.head));
+        const allWashers = currentGroups.every(g => g.comp_type === "washer" || ["washer", "fender_washer", "split_washer"].includes(g.head));
+        let lbl = "";
+        if (allNuts) {
+            const nTag = g0.head === "nyloc" ? "Nyloc" : g0.head === "flange_nut" ? "Flange Nut" : g0.head === "square_nut" ? "Square Nut" : g0.head === "tnut_pre" ? "Pre-Insert T-Nut" : g0.head === "tnut_post" ? "Post-Insert T-Nut" : g0.head === "tnut" ? "T-Nut" : "Nut";
+            lbl = bareLen ? `${sz} × ${bareLen} ${nTag}` : `${sz} ${nTag}`;
+        } else if (allWashers) {
+            const wTag = g0.head === "split_washer" ? "Split Washer" : "Washer";
+            lbl = bareLen ? `${sz} × ${bareLen} ${wTag}` : `${sz} ${wTag}`;
+        } else {
+            lbl = bareLen ? `${sz} × ${bareLen}` : sz;
+        }
+        document.getElementById("cartridge-label-input").value = lbl.trim();
     }
 
     function addHardwareGroupCard(defaults = null) {
@@ -576,6 +649,21 @@
     async function onGroupSpecChange(idx, field, val) {
         syncInputsToState();
         currentGroups[idx][field] = val;
+        if (field === "head") {
+            const hObj = HEAD_OPTIONS.find(h => h.value === val);
+            if (hObj && hObj.comp) {
+                currentGroups[idx].comp_type = hObj.comp;
+                if (hObj.comp === "nut" && currentGroups[idx].length === "6 mm") {
+                    currentGroups[idx].length = "";
+                }
+            }
+        } else if (field === "finish") {
+            const fObj = FINISH_OPTIONS.find(f => f.label === val);
+            if (fObj) {
+                currentGroups[idx].finish_key = fObj.key;
+                currentGroups[idx].finish = fObj.label;
+            }
+        }
         if (idx === 0 && (field === "size" || field === "length" || field === "head")) {
             selectedAnswers[field] = val;
             renderQuestions(currentQuestions);
@@ -585,14 +673,17 @@
                 const res = await fetch(`/api/ingest/specs?size=${encodeURIComponent(currentGroups[idx].size)}&head=${encodeURIComponent(currentGroups[idx].head)}`);
                 if (res.ok) {
                     const sp = await res.json();
-                    if (sp.pitch) currentGroups[idx].pitch = sp.pitch;
-                    if (sp.tap_drill) currentGroups[idx].tap_drill = sp.tap_drill;
-                    if (sp.clearance_drill) currentGroups[idx].clearance_drill = sp.clearance_drill;
-                    if (sp.tool_key) currentGroups[idx].tool_key = sp.tool_key;
+                    currentGroups[idx].pitch = sp.pitch || "";
+                    currentGroups[idx].tap_drill = sp.tap_drill || "";
+                    currentGroups[idx].clearance_drill = sp.clearance_drill || "";
+                    currentGroups[idx].tool_key = sp.tool_key || "";
                 }
             } catch (_) {}
         }
         rebuildGroupName(idx);
+        if (idx === 0 && (field === "size" || field === "length" || field === "head")) {
+            updateCartridgeSummaryLabel();
+        }
         renderGroupCards();
     }
 
@@ -612,7 +703,11 @@
             if (lenEl) g.length = lenEl.value;
             if (pitchEl) g.pitch = pitchEl.value;
             if (headEl) g.head = headEl.value;
-            if (finEl) g.finish = finEl.value;
+            if (finEl) {
+                g.finish = finEl.value;
+                const fObj = FINISH_OPTIONS.find(f => f.label === finEl.value);
+                if (fObj) g.finish_key = fObj.key;
+            }
             if (keyEl) g.tool_key = keyEl.value;
         });
     }
@@ -622,7 +717,8 @@
         container.innerHTML = "";
 
         currentGroups.forEach((g, idx) => {
-            const isBlack = (g.finish || "").toLowerCase().includes("black") || g.finish_key === "black";
+            const resolvedFinish = resolveFinishForGroup(g);
+            const isBlack = resolvedFinish.key === "black";
             const badgeClass = isBlack
                 ? "bg-amber-950/80 text-amber-300 border-amber-700/60"
                 : "bg-sky-950/80 text-sky-300 border-sky-700/60";
@@ -632,8 +728,19 @@
             ).join("");
 
             const finishOptsHtml = FINISH_OPTIONS.map(f =>
-                `<option value="${f.label}" ${g.finish === f.label ? 'selected' : ''}>${f.label}</option>`
+                `<option value="${f.label}" ${(f.key === resolvedFinish.key || f.label === g.finish) ? 'selected' : ''}>${f.label}</option>`
             ).join("");
+
+            const isNut = g.comp_type === "nut" || ["nut", "nyloc", "flange_nut", "square_nut", "tnut", "tnut_pre", "tnut_post"].includes(g.head);
+            const isWasher = g.comp_type === "washer" || ["washer", "fender_washer", "split_washer"].includes(g.head);
+
+            const sizeLabel = isWasher ? "Size / Inner Dia (ID)" : "Thread Size";
+            const sizePlaceholder = isWasher ? "e.g. M4 or 4.3 mm" : "e.g. M3, M4";
+            const lenLabel = isWasher ? "Outer Dia (OD — 2nd Dia)" : (isNut ? "Height / Spec (Opt)" : "Length");
+            const lenPlaceholder = isWasher ? "e.g. 9 mm or 12 mm" : (isNut ? "Blank for std nut" : "e.g. 6 mm");
+            const pitchLabel = isWasher ? "Thickness (Opt)" : "Pitch";
+            const pitchPlaceholder = isWasher ? "e.g. 0.8 mm" : "e.g. 0.7 mm";
+            const keyLabel = isNut ? "Wrench / Socket Flats" : (isWasher ? "Clearance / ID" : "Hex / Tool Key");
 
             const card = document.createElement("div");
             card.className = "rounded-xl bg-slate-950 border border-slate-800 p-4 space-y-3";
@@ -664,30 +771,30 @@
 
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Thread Size</label>
-                        <input id="grp-size-${idx}" type="text" value="${g.size || ''}" onchange="onGroupSpecChange(${idx}, 'size', this.value)"
+                        <label class="block text-xs text-slate-400 mb-1">${sizeLabel}</label>
+                        <input id="grp-size-${idx}" type="text" value="${g.size || ''}" placeholder="${sizePlaceholder}" onchange="onGroupSpecChange(${idx}, 'size', this.value)"
                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white font-semibold" />
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Length</label>
-                        <input id="grp-len-${idx}" type="text" value="${g.length || ''}" onchange="onGroupSpecChange(${idx}, 'length', this.value)"
+                        <label class="block text-xs text-slate-400 mb-1">${lenLabel}</label>
+                        <input id="grp-len-${idx}" type="text" value="${g.length || ''}" placeholder="${lenPlaceholder}" onchange="onGroupSpecChange(${idx}, 'length', this.value)"
                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white font-semibold" />
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Pitch</label>
-                        <input id="grp-pitch-${idx}" type="text" value="${g.pitch || ''}"
+                        <label class="block text-xs text-slate-400 mb-1">${pitchLabel}</label>
+                        <input id="grp-pitch-${idx}" type="text" value="${g.pitch || ''}" placeholder="${pitchPlaceholder}"
                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-300" />
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Hex / Tool Key</label>
-                        <input id="grp-key-${idx}" type="text" value="${g.tool_key || ''}"
+                        <label class="block text-xs text-slate-400 mb-1">${keyLabel}</label>
+                        <input id="grp-key-${idx}" type="text" value="${g.tool_key || g.clearance_drill || ''}"
                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-300" />
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Bolt Head Style</label>
+                        <label class="block text-xs text-slate-400 mb-1">Hardware / Head Style</label>
                         <select id="grp-head-${idx}" onchange="onGroupSpecChange(${idx}, 'head', this.value)"
                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white">
                             ${headOptsHtml}

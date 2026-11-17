@@ -152,3 +152,158 @@ def get_component_icon_svg(comp_type: str, x: float, y: float, w: float, h: floa
             <circle cx="12" cy="12" r="8"/>
         </g>'''
     return paths
+
+
+def get_label_b_part_illustration_svg(
+    comp_type: str,
+    head: str,
+    x: float,
+    y: float,
+    w: float,
+    h: float,
+    color: str = "#111111",
+) -> str:
+    """
+    Render a bold, high-contrast vector illustration of the part for Label B (the 12x35mm QR label),
+    filling the space between the top category color bar and the bottom QR code.
+      - All bolts/screws use a single unmistakable generic threaded bolt illustration.
+      - Standard hex nuts use a hex nut illustration.
+      - Specialty nuts (Nyloc lock nut, Flange nut, Square nut, Pre-Insert T-Nut, Post-Insert T-Nut),
+        washers (Flat, Fender, Split Lock), and Heat-Set Inserts each have a distinct illustration.
+     Coordinates are authored in a 100x100 viewBox and scaled uniformly into [x, y, w, h].
+    """
+    c_type = (comp_type or "bolt").strip().lower()
+    h_type = (head or "shcs").strip().lower()
+
+    side = min(w, h)
+    ox = x + (w - side) / 2.0
+    oy = y + (h - side) / 2.0
+    scale = side / 100.0
+    transform = f'transform="translate({ox:.2f},{oy:.2f}) scale({scale:.4f})"'
+
+    # 1. Pre-Insert T-Nut (Top-down rectangular body with a clean circular hole in the center)
+    if h_type in ("tnut_pre", "tnut"):
+        return f'''<g class="part-illustration-tnut-pre" {transform}>
+            <rect x="8" y="24" width="84" height="52" rx="5" fill="{color}"/>
+            <circle cx="50" cy="50" r="15" fill="#FFFFFF"/>
+        </g>'''
+
+    # 2. Post-Insert T-Nut (Drop-in / Hammer-head cam profile with diagonal locking corners + central tapped hole)
+    if h_type == "tnut_post":
+        return f'''<g class="part-illustration-tnut-post" {transform}>
+            <polygon points="34,14 82,14 90,22 90,46 66,86 18,86 10,78 10,54" fill="{color}"/>
+            <polygon points="37,22 76,22 81,27 81,44 63,78 24,78 19,73 19,56"
+                     fill="none" stroke="#FFFFFF" stroke-width="2.4" opacity="0.65"/>
+            <circle cx="50" cy="50" r="20" fill="#FFFFFF"/>
+            <circle cx="50" cy="50" r="15" fill="none" stroke="{color}" stroke-width="2.8" stroke-dasharray="6,3"/>
+        </g>'''
+
+    # 3. Nyloc Lock Nut (Hex base + raised rounded nylon locking collar dome at top)
+    if h_type == "nyloc" or c_type == "nyloc":
+        return f'''<g class="part-illustration-nyloc" {transform}>
+            <rect x="20" y="14" width="60" height="34" rx="14" fill="#FFFFFF" stroke="{color}" stroke-width="5"/>
+            <rect x="27" y="21" width="46" height="14" rx="5" fill="#0077CC"/>
+            <polygon points="10,44 90,44 90,82 82,88 18,88 10,82" fill="{color}"/>
+            <line x1="34" y1="44" x2="34" y2="88" stroke="#FFFFFF" stroke-width="3"/>
+            <line x1="66" y1="44" x2="66" y2="88" stroke="#FFFFFF" stroke-width="3"/>
+            <line x1="38" y1="15" x2="38" y2="44" stroke="{color}" stroke-width="2.2" stroke-dasharray="3,3"/>
+            <line x1="62" y1="15" x2="62" y2="44" stroke="{color}" stroke-width="2.2" stroke-dasharray="3,3"/>
+        </g>'''
+
+    # 4. Flange / Serrated Nut (Hex body + wide flared serrated base flange)
+    if h_type == "flange_nut":
+        return f'''<g class="part-illustration-flange-nut" {transform}>
+            <polygon points="20,20 80,20 84,26 84,66 16,66 16,26" fill="{color}"/>
+            <line x1="38" y1="20" x2="38" y2="66" stroke="#FFFFFF" stroke-width="3"/>
+            <line x1="62" y1="20" x2="62" y2="66" stroke="#FFFFFF" stroke-width="3"/>
+            <polygon points="16,66 84,66 94,76 94,85 6,85 6,76" fill="{color}"/>
+            <line x1="14" y1="66" x2="86" y2="66" stroke="#FFFFFF" stroke-width="2.2"/>
+            <line x1="16" y1="85" x2="12" y2="91" stroke="{color}" stroke-width="3"/>
+            <line x1="28" y1="85" x2="24" y2="91" stroke="{color}" stroke-width="3"/>
+            <line x1="40" y1="85" x2="36" y2="91" stroke="{color}" stroke-width="3"/>
+            <line x1="52" y1="85" x2="48" y2="91" stroke="{color}" stroke-width="3"/>
+            <line x1="64" y1="85" x2="60" y2="91" stroke="{color}" stroke-width="3"/>
+            <line x1="76" y1="85" x2="72" y2="91" stroke="{color}" stroke-width="3"/>
+            <line x1="88" y1="85" x2="84" y2="91" stroke="{color}" stroke-width="3"/>
+        </g>'''
+
+    # 5. Square Nut (Top-down 1:1 square with a clean circular hole in the center)
+    if h_type == "square_nut":
+        return f'''<g class="part-illustration-square-nut" {transform}>
+            <rect x="15" y="15" width="70" height="70" rx="5" fill="{color}"/>
+            <circle cx="50" cy="50" r="20" fill="#FFFFFF"/>
+        </g>'''
+
+    # 6. Standard Hex Nut (Top-down hexagon with chamfer ring + threaded center bore)
+    if c_type == "nut" or h_type in ("nut", "wing_nut"):
+        return f'''<g class="part-illustration-hex-nut" {transform}>
+            <polygon points="50,7 89,28.5 89,71.5 50,93 11,71.5 11,28.5" fill="{color}"/>
+            <circle cx="50" cy="50" r="34" fill="none" stroke="#FFFFFF" stroke-width="2.2" opacity="0.65"/>
+            <circle cx="50" cy="50" r="21" fill="#FFFFFF"/>
+            <circle cx="50" cy="50" r="16" fill="none" stroke="{color}" stroke-width="2.8" stroke-dasharray="6.5,3.2"/>
+        </g>'''
+
+    # 7. Split Lock Washer (Helical split ring with offset gap cut at top)
+    if h_type == "split_washer" or c_type == "split":
+        return f'''<g class="part-illustration-split-washer" {transform}>
+            <circle cx="50" cy="52" r="40" fill="{color}"/>
+            <circle cx="50" cy="52" r="21" fill="#FFFFFF"/>
+            <polygon points="42,6 60,6 56,34 45,34" fill="#FFFFFF"/>
+            <line x1="42" y1="10" x2="45" y2="32" stroke="{color}" stroke-width="3.5" stroke-linecap="round"/>
+            <line x1="60" y1="15" x2="55" y2="33" stroke="{color}" stroke-width="3.5" stroke-linecap="round"/>
+        </g>'''
+
+    # 8. Fender Washer (Extra-wide OD with small inner hole)
+    if h_type == "fender_washer":
+        return f'''<g class="part-illustration-fender-washer" {transform}>
+            <circle cx="50" cy="50" r="43" fill="{color}"/>
+            <circle cx="50" cy="50" r="37" fill="none" stroke="#FFFFFF" stroke-width="1.8" opacity="0.45"/>
+            <circle cx="50" cy="50" r="13" fill="#FFFFFF"/>
+            <circle cx="50" cy="50" r="13" fill="none" stroke="{color}" stroke-width="2"/>
+        </g>'''
+
+    # 9. Standard Flat Washer (Classic concentric washer ring)
+    if c_type == "washer" or h_type == "washer":
+        return f'''<g class="part-illustration-flat-washer" {transform}>
+            <circle cx="50" cy="50" r="41" fill="{color}"/>
+            <circle cx="50" cy="50" r="21" fill="#FFFFFF"/>
+        </g>'''
+
+    # 10. Brass Heat-Set Insert (Stepped cylinder with opposing diagonal knurl bands)
+    if c_type == "insert" or h_type == "insert":
+        return f'''<g class="part-illustration-insert" {transform}>
+            <rect x="20" y="10" width="60" height="28" rx="3" fill="{color}"/>
+            <line x1="28" y1="13" x2="36" y2="35" stroke="#FFFFFF" stroke-width="2.5"/>
+            <line x1="41" y1="13" x2="49" y2="35" stroke="#FFFFFF" stroke-width="2.5"/>
+            <line x1="54" y1="13" x2="62" y2="35" stroke="#FFFFFF" stroke-width="2.5"/>
+            <line x1="67" y1="13" x2="74" y2="35" stroke="#FFFFFF" stroke-width="2.5"/>
+            <rect x="27" y="38" width="46" height="10" fill="{color}"/>
+            <rect x="20" y="48" width="60" height="26" rx="3" fill="{color}"/>
+            <line x1="36" y1="51" x2="28" y2="71" stroke="#FFFFFF" stroke-width="2.5"/>
+            <line x1="49" y1="51" x2="41" y2="71" stroke="#FFFFFF" stroke-width="2.5"/>
+            <line x1="62" y1="51" x2="54" y2="71" stroke="#FFFFFF" stroke-width="2.5"/>
+            <line x1="74" y1="51" x2="67" y2="71" stroke="#FFFFFF" stroke-width="2.5"/>
+            <rect x="27" y="74" width="46" height="16" rx="2" fill="{color}"/>
+            <ellipse cx="50" cy="14" rx="16" ry="3.5" fill="#FFFFFF"/>
+        </g>'''
+
+    # 11. Generic Bolt (Used for ALL bolts & screws regardless of head type — fills vertical height)
+    b_scale_x = w / 100.0
+    b_scale_y = min(h / 100.0, b_scale_x * 1.32)
+    b_ox = x + (w - 100.0 * b_scale_x) / 2.0
+    b_oy = y + (h - 100.0 * b_scale_y) / 2.0
+    b_transform = f'transform="translate({b_ox:.2f},{b_oy:.2f}) scale({b_scale_x:.4f},{b_scale_y:.4f})"'
+    return f'''<g class="part-illustration-bolt" {b_transform}>
+        <polygon points="18,6 82,6 86,11 86,25 14,25 14,11" fill="{color}"/>
+        <line x1="35" y1="6" x2="35" y2="25" stroke="#FFFFFF" stroke-width="2.8"/>
+        <line x1="65" y1="6" x2="65" y2="25" stroke="#FFFFFF" stroke-width="2.8"/>
+        <rect x="10" y="25" width="80" height="4.5" rx="1.5" fill="{color}"/>
+        <polygon points="32,29.5 68,29.5 68,89 61,96 39,96 32,89" fill="{color}"/>
+        <line x1="32" y1="39" x2="68" y2="35" stroke="#FFFFFF" stroke-width="2.5"/>
+        <line x1="32" y1="48" x2="68" y2="44" stroke="#FFFFFF" stroke-width="2.5"/>
+        <line x1="32" y1="57" x2="68" y2="53" stroke="#FFFFFF" stroke-width="2.5"/>
+        <line x1="32" y1="66" x2="68" y2="62" stroke="#FFFFFF" stroke-width="2.5"/>
+        <line x1="32" y1="75" x2="68" y2="71" stroke="#FFFFFF" stroke-width="2.5"/>
+        <line x1="32" y1="84" x2="68" y2="80" stroke="#FFFFFF" stroke-width="2.5"/>
+    </g>'''
+

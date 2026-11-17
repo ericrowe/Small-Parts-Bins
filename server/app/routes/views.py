@@ -1,3 +1,4 @@
+import asyncio
 import os
 import re
 from typing import Optional
@@ -80,7 +81,7 @@ async def dashboard_view(request: Request, db: AsyncSession = Depends(get_db)):
                 "bulk_total": sum(s.quantity_on_hand for s in sources),
             })
 
-    hb_summary = list_ingested_bins(limit=12)
+    hb_summary = await asyncio.to_thread(list_ingested_bins, limit=12)
     return templates.TemplateResponse(
         request=request,
         name="dashboard.html",
@@ -222,7 +223,7 @@ async def label_batch_export_view(
     db: AsyncSession = Depends(get_db),
 ):
     """Render interactive Homebox cartridge label generator and batch SVG exporter interface."""
-    hb_summary = list_ingested_bins(limit=200)
+    hb_summary = await asyncio.to_thread(list_ingested_bins, limit=200)
     hb_bins = list(hb_summary.get("bins") or [])
     hb_bins.sort(key=lambda b: b.get("bin_4digit") or b.get("bin_code") or "")
     if category:
@@ -234,10 +235,10 @@ async def label_batch_export_view(
         selected_bin_4d = f"{int(m_sel.group(1)):04d}" if m_sel else str(bin).strip().upper()
 
     homebox_categories = [
-        {"id": "metric", "name": "Metric Fasteners", "color_hex": "#0077CC"},
-        {"id": "imperial", "name": "Imperial Fasteners", "color_hex": "#E65100"},
-        {"id": "nuts_washers", "name": "Nuts & Washers", "color_hex": "#2E7D32"},
-        {"id": "inserts", "name": "Inserts & Standoffs", "color_hex": "#C5A059"},
+        {"id": "metric", "name": "Metric (Blue Label — Blue/Black Bin)", "color_hex": "#0077CC"},
+        {"id": "imperial", "name": "Imperial (Orange Label — Orange/Black Bin)", "color_hex": "#E65100"},
+        {"id": "nuts_washers", "name": "Nuts & Washers (Green Bin)", "color_hex": "#2E7D32"},
+        {"id": "inserts", "name": "Inserts, Standoffs & Specialty (Yellow Bin)", "color_hex": "#D4A017"},
     ]
 
     next_bin_raw = hb_summary.get("next_bin_id", "BIN-001")
@@ -251,6 +252,7 @@ async def label_batch_export_view(
             "categories": homebox_categories,
             "homebox_bins": hb_bins,
             "homebox_base_url": hb_summary.get("homebox_base_url", "http://tasker-pi.local:7745"),
+            "homebox_locations_url": hb_summary.get("homebox_locations_url") or hb_summary.get("homebox_base_url", "http://tasker-pi.local:7745"),
             "homebox_authenticated": hb_summary.get("authenticated", False),
             "next_bin_4digit": next_bin_4digit,
             "current_category": category or "",
@@ -264,7 +266,7 @@ async def label_batch_export_view(
 @router.get("/ingest", response_class=HTMLResponse)
 async def parts_ingestor_view(request: Request):
     """Render mobile and desktop Parts Ingestor (Photo OCR/CV + Form Entry) syncing to Homebox."""
-    hb_summary = list_ingested_bins(limit=25)
+    hb_summary = await asyncio.to_thread(list_ingested_bins, limit=25)
     return templates.TemplateResponse(
         request=request,
         name="ingest.html",

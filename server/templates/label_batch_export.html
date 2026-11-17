@@ -14,7 +14,7 @@
                 <span>🏷️</span> Standardized Batch Label Generator (Homebox Cartridges)
             </h1>
             <p class="text-sm text-slate-400 mt-1">
-                Zero-bleed <strong class="text-slate-200">12×35mm Vertical Split Pairs</strong> (<code class="text-sky-300">[Label A: Size + Length | Label B: 4-Digit Bin + QR]</code>) and multi-medium sheets backed by Homebox locations.
+                Zero-bleed <strong class="text-slate-200">11×34mm Vertical Split Pairs</strong> (<code class="text-sky-300">[Label A: Size + Length | Label B: Icon + QR + 0001]</code>) and multi-medium sheets backed by Homebox locations.
             </p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
@@ -24,7 +24,7 @@
             <a href="/ingest" class="px-3 py-1.5 rounded-lg bg-emerald-950/70 hover:bg-emerald-900/70 border border-emerald-700/60 text-emerald-300 text-xs font-semibold transition">
                 📸 + Ingest New Cartridge
             </a>
-            <a href="{{ homebox_base_url }}/location" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sky-300 text-xs font-semibold transition">
+            <a href="{{ homebox_locations_url }}" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sky-300 text-xs font-semibold transition">
                 Open Homebox Locations ↗
             </a>
         </div>
@@ -61,10 +61,10 @@
                             <input type="radio" name="export_format" value="split_vertical_12x35" checked class="mt-1 text-sky-500 focus:ring-sky-500">
                             <div>
                                 <div class="text-xs font-bold text-white flex items-center gap-1.5">
-                                    <span>🔪</span> 12×35mm Vertical Split Pair (Paper Cutter)
+                                    <span>🔪</span> 11×34mm Vertical Split Pair (Paper Cutter)
                                 </div>
                                 <div class="text-[11px] text-slate-300 mt-0.5">
-                                    Zero-bleed [Label A: M4 / 6 | Label B: 0001 + QR] pairs for horizontal drawer cartridges (56 pairs / 112 labels per sheet).
+                                    Zero-bleed [Label A: M4 / 6 | Label B: Icon + QR + 0001] pairs for horizontal drawer cartridges (56 pairs / 112 labels per sheet).
                                 </div>
                             </div>
                         </label>
@@ -73,10 +73,10 @@
                             <input type="radio" name="export_format" value="cricut_print_cut" class="mt-1 text-sky-500 focus:ring-sky-500">
                             <div>
                                 <div class="text-xs font-bold text-white flex items-center gap-1.5">
-                                    <span>✂️</span> Cricut Print-Then-Cut
+                                    <span>✂️</span> Cricut Print-Then-Cut (11×34mm Split Pair + Bleed)
                                 </div>
                                 <div class="text-[11px] text-slate-400 mt-0.5">
-                                    Letter sheet, +1mm bleed layer, 34x10mm cut paths & sensor marks (60/sheet).
+                                    Identical 11×34mm [Label A | Label B] split pairs with +1mm bleed layer, exact cut paths &amp; optical sensor marks (36 pairs / 72 labels per sheet).
                                 </div>
                             </div>
                         </label>
@@ -131,6 +131,10 @@
                         <input type="checkbox" id="include-qr" checked class="rounded bg-slate-950 border-slate-700 text-sky-500 focus:ring-sky-500">
                         <span>Include 4-Digit Homebox QR Code (/0001)</span>
                     </label>
+                    <label class="flex items-center gap-2 text-xs text-emerald-300 cursor-pointer">
+                        <input type="checkbox" id="mark-printed-on-download" checked class="rounded bg-slate-950 border-slate-700 text-emerald-500 focus:ring-emerald-500">
+                        <span>Mark every label on page as Printed on download</span>
+                    </label>
                 </div>
 
                 <!-- Action Buttons -->
@@ -146,9 +150,9 @@
 
             <!-- Format Info Card -->
             <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-xs text-slate-400 space-y-2">
-                <div class="font-bold text-slate-300">🔪 12×35mm Split-Pair Spec</div>
-                <p>• <strong>Label A (Left)</strong>: Thread size (<code class="text-sky-300">M4</code>) in top color bar + bare length (<code class="text-slate-200">6</code>) below. Blank lower zone unless Special Note is entered.</p>
-                <p>• <strong>Label B (Right)</strong>: Top color bar + 4-digit bin (<code class="text-emerald-300">0001</code>) + low-density QR forwarding <code class="text-slate-300">/0001</code> → Homebox Location.</p>
+                <div class="font-bold text-slate-300">🔪 11×34mm Split-Pair Spec</div>
+                <p>• <strong>Label A (Left)</strong>: Thread size (<code class="text-sky-300">M4</code>) in top color bar (<strong>Blue</strong> = Metric, <strong>Orange</strong> = SAE) + bare length (<code class="text-slate-200">6</code> or column <code class="text-slate-200">6 / 8 / 10</code>) below. Nuts &amp; Washers automatically render a small <strong>Green strip</strong> across the bottom for Green bins.</p>
+                <p>• <strong>Label B (Right)</strong>: Top color bar + part illustration + low-density QR forwarding <code class="text-slate-300">/0001</code> → Homebox Location + subtle gray 4-digit bin (<code class="text-slate-400">0001</code>) below the QR code.</p>
             </div>
         </div>
 
@@ -173,18 +177,34 @@
                         <input type="text" id="add-size" value="M4" placeholder="M4, M3, #6-32"
                             class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-bold text-white focus:border-sky-500 focus:outline-none">
                     </div>
-                    <div class="sm:col-span-2">
-                        <label class="block text-[11px] text-slate-400 mb-1">Length(s) (single or comma list)</label>
-                        <input type="text" id="add-lengths" placeholder="e.g. 8 or 6, 8, 10, 12, 16, 20"
+                    <div>
+                        <label class="block text-[11px] text-slate-400 mb-1">Length / OD</label>
+                        <input type="text" id="add-lengths" placeholder="e.g. 8 or blank for nut"
                             class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:border-sky-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-slate-400 mb-1">Part Icon</label>
+                        <select id="add-head" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white focus:border-sky-500 focus:outline-none">
+                            <option value="shcs" data-comp="bolt">Bolt / Screw</option>
+                            <option value="nut" data-comp="nut">Hex Nut</option>
+                            <option value="nyloc" data-comp="nut">Nyloc Lock Nut</option>
+                            <option value="flange_nut" data-comp="nut">Flange Nut</option>
+                            <option value="tnut_pre" data-comp="nut">Pre-Insert T-Nut</option>
+                            <option value="tnut_post" data-comp="nut">Post-Insert T-Nut</option>
+                            <option value="square_nut" data-comp="nut">Square Nut</option>
+                            <option value="washer" data-comp="washer">Flat Washer</option>
+                            <option value="fender_washer" data-comp="washer">Fender Washer</option>
+                            <option value="split_washer" data-comp="washer">Split Washer</option>
+                            <option value="insert" data-comp="insert">Heat-Set Insert</option>
+                        </select>
                     </div>
                     <div>
                         <label class="block text-[11px] text-slate-400 mb-1">Color Bar</label>
                         <select id="add-color" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white focus:border-sky-500 focus:outline-none">
-                            <option value="#0077CC">Metric Blue</option>
-                            <option value="#E65100">Imperial Orange</option>
-                            <option value="#2E7D32">Nuts/Washers Green</option>
-                            <option value="#C5A059">Inserts Gold</option>
+                            <option value="#0077CC">Metric Blue (Blue / Black Screw Bin)</option>
+                            <option value="#E65100">Imperial Orange (Orange / Black Screw Bin)</option>
+                            <option value="#2E7D32">Nuts &amp; Washers Green</option>
+                            <option value="#D4A017">Inserts &amp; Specialty Yellow</option>
                         </select>
                     </div>
                     <div>
@@ -204,9 +224,12 @@
             <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
                 <!-- Selection Toolbar -->
                 <div class="p-4 bg-slate-800/60 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
-                    <div class="flex items-center gap-2">
+                    <div class="flex flex-wrap items-center gap-2">
                         <button type="button" id="btn-select-all" class="px-2.5 py-1 rounded bg-slate-700 hover:bg-slate-600 text-xs text-slate-200 font-medium transition">
                             Select All
+                        </button>
+                        <button type="button" id="btn-select-unprinted" class="px-2.5 py-1 rounded bg-amber-600/80 hover:bg-amber-500 text-xs text-white font-bold transition shadow-sm">
+                            🖨️ Select Unprinted Only
                         </button>
                         <button type="button" id="btn-deselect-all" class="px-2.5 py-1 rounded bg-slate-700 hover:bg-slate-600 text-xs text-slate-200 font-medium transition">
                             Deselect All
@@ -230,8 +253,10 @@
                                 <th class="p-3 w-10 text-center">
                                     <input type="checkbox" id="th-select-all" checked class="rounded bg-slate-950 border-slate-600 text-sky-500 focus:ring-sky-500">
                                 </th>
-                                <th class="p-3">Label B (4-Digit Bin)</th>
-                                <th class="p-3">Label A (Size & Bare Length)</th>
+                                <th class="p-3 text-center">Printed</th>
+                                <th class="p-3">Label B (QR + Icon)</th>
+                                <th class="p-3">Label A (Size &amp; Bare Length)</th>
+                                <th class="p-3">Part Illustration Icon</th>
                                 <th class="p-3">Optional Lower Note</th>
                                 <th class="p-3">Homebox Inventory Contents</th>
                                 <th class="p-3 text-right">QR / Homebox</th>
@@ -239,11 +264,24 @@
                         </thead>
                         <tbody class="divide-y divide-slate-800/60 text-slate-300" id="parts-table-body">
                             {% for b in homebox_bins %}
+                            {% set row_head = b.head or 'shcs' %}
+                            {% set is_printed = b.printed or false %}
                             <tr class="hover:bg-slate-800/40 transition part-row"
                                 data-id="{{ b.bin_code }}"
-                                data-search="{{ b.bin_4digit }} {{ b.bin_code }} {{ b.name }} {{ b.size }} {{ b.length }} {{ b.finishes_summary }}">
+                                data-head="{{ row_head }}"
+                                data-comp="{{ b.comp_type or 'bolt' }}"
+                                data-printed="{{ 'true' if is_printed else 'false' }}"
+                                data-search="{{ b.bin_4digit }} {{ b.bin_code }} {{ b.name }} {{ b.size }} {{ b.length }} {{ b.finishes_summary }} {{ 'printed' if is_printed else 'unprinted' }}">
                                 <td class="p-3 text-center">
-                                    <input type="checkbox" class="part-checkbox rounded bg-slate-950 border-slate-600 text-sky-500 focus:ring-sky-500" value="{{ b.bin_code }}" {% if not selected_bin_4d or b.bin_4digit == selected_bin_4d %}checked{% endif %}>
+                                    <input type="checkbox" class="part-checkbox rounded bg-slate-950 border-slate-600 text-sky-500 focus:ring-sky-500" value="{{ b.bin_code }}" {% if selected_bin_4d %}{% if b.bin_4digit == selected_bin_4d %}checked{% endif %}{% elif not is_printed %}checked{% endif %}>
+                                </td>
+                                <td class="p-3 text-center">
+                                    <label class="inline-flex items-center gap-1.5 cursor-pointer select-none" title="Track whether this bin's label has been printed">
+                                        <input type="checkbox" class="row-printed rounded bg-slate-950 border-slate-600 text-emerald-500 focus:ring-emerald-500" {% if is_printed %}checked{% endif %}>
+                                        <span class="row-printed-badge text-[10px] font-bold px-1.5 py-0.5 rounded {% if is_printed %}bg-emerald-950/80 text-emerald-300 border border-emerald-700/60{% else %}bg-amber-950/60 text-amber-300 border border-amber-800/50{% endif %}">
+                                            {{ 'Printed' if is_printed else 'Unprinted' }}
+                                        </span>
+                                    </label>
                                 </td>
                                 <td class="p-3">
                                     <div class="flex items-center gap-2">
@@ -255,8 +293,23 @@
                                     <div class="flex items-center gap-1.5">
                                         <input type="text" class="row-size w-16 bg-slate-950 border border-slate-700 rounded px-2 py-1 font-bold text-white text-xs" value="{{ b.size }}" title="Top Color Bar Text (e.g. M4)">
                                         <span class="text-slate-500 font-bold">×</span>
-                                        <input type="text" class="row-length w-14 bg-slate-950 border border-slate-700 rounded px-2 py-1 font-mono text-sky-300 text-xs" value="{{ b.length }}" placeholder="—" title="Bare Length Number (e.g. 6)">
+                                        <input type="text" class="row-length w-20 bg-slate-950 border border-slate-700 rounded px-2 py-1 font-mono text-sky-300 text-xs" value="{{ b.length }}" placeholder="—" title="Bare Length Number (e.g. 6 or 6, 8, 10)">
                                     </div>
+                                </td>
+                                <td class="p-3">
+                                    <select class="row-head bg-slate-950 border border-slate-700 rounded px-2 py-1 text-xs text-white">
+                                        <option value="shcs" data-comp="bolt" {% if row_head in ('shcs', 'bhcs', 'fhcs', 'hex', 'pan') %}selected{% endif %}>🔩 Bolt / Screw</option>
+                                        <option value="nut" data-comp="nut" {% if row_head == 'nut' %}selected{% endif %}>⬡ Hex Nut</option>
+                                        <option value="nyloc" data-comp="nut" {% if row_head == 'nyloc' %}selected{% endif %}>🔵 Nyloc Lock Nut</option>
+                                        <option value="flange_nut" data-comp="nut" {% if row_head == 'flange_nut' %}selected{% endif %}>⚙️ Flange Nut</option>
+                                        <option value="tnut_pre" data-comp="nut" {% if row_head in ('tnut_pre', 'tnut') %}selected{% endif %}>▭ Pre-Insert T-Nut</option>
+                                        <option value="tnut_post" data-comp="nut" {% if row_head == 'tnut_post' %}selected{% endif %}>▱ Post-Insert T-Nut</option>
+                                        <option value="square_nut" data-comp="nut" {% if row_head == 'square_nut' %}selected{% endif %}>◻️ Square Nut</option>
+                                        <option value="washer" data-comp="washer" {% if row_head == 'washer' %}selected{% endif %}>⭕ Flat Washer</option>
+                                        <option value="fender_washer" data-comp="washer" {% if row_head == 'fender_washer' %}selected{% endif %}>🔘 Fender Washer</option>
+                                        <option value="split_washer" data-comp="washer" {% if row_head == 'split_washer' %}selected{% endif %}>🌀 Split Washer</option>
+                                        <option value="insert" data-comp="insert" {% if row_head == 'insert' %}selected{% endif %}>🟨 Heat-Set Insert</option>
+                                    </select>
                                 </td>
                                 <td class="p-3">
                                     <input type="text" class="row-note w-full min-w-[130px] bg-slate-950/70 border border-slate-800 rounded px-2 py-1 text-slate-300 text-xs placeholder-slate-600" value="{{ b.extra_note }}" placeholder="(Blank by default)">
@@ -410,14 +463,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const tbody = document.getElementById('parts-table-body');
     const thSelectAll = document.getElementById('th-select-all');
     const btnSelectAll = document.getElementById('btn-select-all');
+    const btnSelectUnprinted = document.getElementById('btn-select-unprinted');
     const btnDeselectAll = document.getElementById('btn-deselect-all');
     const selectedCountEl = document.getElementById('selected-count');
     const quickFilterInput = document.getElementById('quick-filter');
+    const markPrintedOnDownloadCb = document.getElementById('mark-printed-on-download');
 
     const btnAddRows = document.getElementById('btn-add-rows');
     const addBinStart = document.getElementById('add-bin-start');
     const addSize = document.getElementById('add-size');
     const addLengths = document.getElementById('add-lengths');
+    const addHead = document.getElementById('add-head');
     const addColor = document.getElementById('add-color');
     const addNote = document.getElementById('add-note');
 
@@ -444,10 +500,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function applyRowPrintedVisual(row, isPrinted) {
+        row.setAttribute('data-printed', isPrinted ? 'true' : 'false');
+        const prCb = row.querySelector('.row-printed');
+        if (prCb) prCb.checked = isPrinted;
+        const badge = row.querySelector('.row-printed-badge');
+        if (badge) {
+            badge.textContent = isPrinted ? 'Printed' : 'Unprinted';
+            badge.className = isPrinted
+                ? 'row-printed-badge text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-700/60'
+                : 'row-printed-badge text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-950/60 text-amber-300 border border-amber-800/50';
+        }
+    }
+
     function bindRowEvents(row) {
         const cb = row.querySelector('.part-checkbox');
         if (cb) {
             cb.addEventListener('change', updateSelectedCount);
+        }
+        const prCb = row.querySelector('.row-printed');
+        if (prCb) {
+            prCb.addEventListener('change', async () => {
+                const isPrinted = prCb.checked;
+                applyRowPrintedVisual(row, isPrinted);
+                const binVal = (row.querySelector('.row-bin')?.value || "0001").trim();
+                try {
+                    await fetch('/api/labels/printed-status', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ bin_codes: [binVal], printed: isPrinted })
+                    });
+                } catch (_) {}
+            });
         }
     }
 
@@ -458,6 +542,21 @@ document.addEventListener('DOMContentLoaded', () => {
             getCheckboxes().forEach(cb => {
                 if (cb.closest('tr').style.display !== 'none') {
                     cb.checked = true;
+                }
+            });
+            updateSelectedCount();
+        });
+    }
+
+    if (btnSelectUnprinted) {
+        btnSelectUnprinted.addEventListener('click', () => {
+            document.querySelectorAll('.part-row').forEach(row => {
+                if (row.style.display === 'none') return;
+                const cb = row.querySelector('.part-checkbox');
+                const prCb = row.querySelector('.row-printed');
+                const isPrinted = prCb ? prCb.checked : (row.getAttribute('data-printed') === 'true');
+                if (cb) {
+                    cb.checked = !isPrinted;
                 }
             });
             updateSelectedCount();
@@ -489,6 +588,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const rawLengths = (addLengths.value || "").split(',').map(s => s.trim()).filter(Boolean);
             const lengthsList = rawLengths.length > 0 ? rawLengths : [""];
             const colorVal = addColor.value || "#0077CC";
+            const headVal = (addHead && addHead.value) ? addHead.value : "shcs";
+            const compVal = (addHead && addHead.selectedOptions[0]) ? (addHead.selectedOptions[0].getAttribute('data-comp') || 'bolt') : 'bolt';
             const noteVal = (addNote.value || "").trim();
 
             lengthsList.forEach((lenStr, idx) => {
@@ -498,10 +599,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-800/40 transition part-row";
                 tr.setAttribute('data-id', `BIN-${bin4d}`);
-                tr.setAttribute('data-search', `${bin4d} ${sizeVal} ${bareLen} ${noteVal}`);
+                tr.setAttribute('data-head', headVal);
+                tr.setAttribute('data-comp', compVal);
+                tr.setAttribute('data-printed', 'false');
+                tr.setAttribute('data-search', `${bin4d} ${sizeVal} ${bareLen} ${headVal} ${noteVal} unprinted`);
                 tr.innerHTML = `
                     <td class="p-3 text-center">
                         <input type="checkbox" class="part-checkbox rounded bg-slate-950 border-slate-600 text-sky-500 focus:ring-sky-500" value="BIN-${bin4d}" checked>
+                    </td>
+                    <td class="p-3 text-center">
+                        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none" title="Track whether this bin's label has been printed">
+                            <input type="checkbox" class="row-printed rounded bg-slate-950 border-slate-600 text-emerald-500 focus:ring-emerald-500">
+                            <span class="row-printed-badge text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-950/60 text-amber-300 border border-amber-800/50">
+                                Unprinted
+                            </span>
+                        </label>
                     </td>
                     <td class="p-3">
                         <div class="flex items-center gap-2">
@@ -513,8 +625,23 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="flex items-center gap-1.5">
                             <input type="text" class="row-size w-16 bg-slate-950 border border-slate-700 rounded px-2 py-1 font-bold text-white text-xs" value="${sizeVal}">
                             <span class="text-slate-500 font-bold">×</span>
-                            <input type="text" class="row-length w-14 bg-slate-950 border border-slate-700 rounded px-2 py-1 font-mono text-sky-300 text-xs" value="${bareLen}" placeholder="—">
+                            <input type="text" class="row-length w-20 bg-slate-950 border border-slate-700 rounded px-2 py-1 font-mono text-sky-300 text-xs" value="${bareLen}" placeholder="—">
                         </div>
+                    </td>
+                    <td class="p-3">
+                        <select class="row-head bg-slate-950 border border-slate-700 rounded px-2 py-1 text-xs text-white">
+                            <option value="shcs" data-comp="bolt" ${headVal === 'shcs' ? 'selected' : ''}>🔩 Bolt / Screw</option>
+                            <option value="nut" data-comp="nut" ${headVal === 'nut' ? 'selected' : ''}>⬡ Hex Nut</option>
+                            <option value="nyloc" data-comp="nut" ${headVal === 'nyloc' ? 'selected' : ''}>🔵 Nyloc Lock Nut</option>
+                            <option value="flange_nut" data-comp="nut" ${headVal === 'flange_nut' ? 'selected' : ''}>⚙️ Flange Nut</option>
+                            <option value="tnut_pre" data-comp="nut" ${headVal === 'tnut_pre' ? 'selected' : ''}>▭ Pre-Insert T-Nut</option>
+                            <option value="tnut_post" data-comp="nut" ${headVal === 'tnut_post' ? 'selected' : ''}>▱ Post-Insert T-Nut</option>
+                            <option value="square_nut" data-comp="nut" ${headVal === 'square_nut' ? 'selected' : ''}>◻️ Square Nut</option>
+                            <option value="washer" data-comp="washer" ${headVal === 'washer' ? 'selected' : ''}>⭕ Flat Washer</option>
+                            <option value="fender_washer" data-comp="washer" ${headVal === 'fender_washer' ? 'selected' : ''}>🔘 Fender Washer</option>
+                            <option value="split_washer" data-comp="washer" ${headVal === 'split_washer' ? 'selected' : ''}>🌀 Split Washer</option>
+                            <option value="insert" data-comp="insert" ${headVal === 'insert' ? 'selected' : ''}>🟨 Heat-Set Insert</option>
+                        </select>
                     </td>
                     <td class="p-3">
                         <input type="text" class="row-note w-full min-w-[130px] bg-slate-950/70 border border-slate-800 rounded px-2 py-1 text-slate-300 text-xs placeholder-slate-600" value="${noteVal}" placeholder="(Blank by default)">
@@ -556,7 +683,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateSelectedCount();
 
-    function getPayload() {
+    function getPayload(markPrinted = false) {
         const selectedRows = Array.from(document.querySelectorAll('.part-row')).filter(row => {
             const cb = row.querySelector('.part-checkbox');
             return cb && cb.checked && row.style.display !== 'none';
@@ -566,12 +693,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const binVal = (row.querySelector('.row-bin')?.value || "0001").trim();
             const sizeVal = (row.querySelector('.row-size')?.value || "M4").trim();
             const lenVal = (row.querySelector('.row-length')?.value || "").trim();
+            const headSel = row.querySelector('.row-head');
+            const headVal = (headSel?.value || row.getAttribute('data-head') || "shcs").trim();
+            const compVal = (headSel?.selectedOptions?.[0]?.getAttribute('data-comp') || row.getAttribute('data-comp') || "bolt").trim();
             const colorVal = (row.querySelector('.row-color')?.value || "#0077CC").trim();
             const noteVal = (row.querySelector('.row-note')?.value || "").trim();
             return {
                 bin_id: binVal,
                 size: sizeVal,
                 length: lenVal,
+                head: headVal,
+                comp_type: compVal,
                 accent_color: colorVal,
                 extra_note: noteVal
             };
@@ -586,12 +718,24 @@ document.addEventListener('DOMContentLoaded', () => {
             custom_labels: customLabels,
             format: format,
             title: title,
-            include_qr: includeQr
+            include_qr: includeQr,
+            mark_printed: Boolean(markPrinted)
         };
     }
 
-    async function fetchSvgContent() {
-        const payload = getPayload();
+    function markPageRowsAsPrinted(markedBinsHeader) {
+        if (!markedBinsHeader) return;
+        const binSet = new Set(markedBinsHeader.split(',').map(s => s.trim()).filter(Boolean));
+        document.querySelectorAll('.part-row').forEach(row => {
+            const binVal = (row.querySelector('.row-bin')?.value || "").trim().padStart(4, '0');
+            if (binSet.has(binVal)) {
+                applyRowPrintedVisual(row, true);
+            }
+        });
+    }
+
+    async function fetchSvgContent(markPrinted = false) {
+        const payload = getPayload(markPrinted);
         const res = await fetch('/api/labels/export-batch', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -607,6 +751,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const match = disposition.match(/filename="?([^"]+)"?/);
         if (match && match[1]) {
             currentFilename = match[1];
+        }
+
+        const markedBins = res.headers.get('x-marked-printed-bins') || '';
+        if (markedBins) {
+            markPageRowsAsPrinted(markedBins);
         }
 
         const text = await res.text();
@@ -631,7 +780,8 @@ document.addEventListener('DOMContentLoaded', () => {
             btnDownload.disabled = true;
             btnDownload.innerHTML = '<span>⏳</span> Generating SVG...';
             try {
-                const svg = await fetchSvgContent();
+                const shouldMark = Boolean(markPrintedOnDownloadCb && markPrintedOnDownloadCb.checked);
+                const svg = await fetchSvgContent(shouldMark);
                 triggerDownload(svg, currentFilename);
             } catch (err) {
                 alert(err.message);
@@ -647,7 +797,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnPreview.disabled = true;
             btnPreview.innerHTML = '<span>⏳</span> Loading...';
             try {
-                const svg = await fetchSvgContent();
+                const svg = await fetchSvgContent(false);
                 previewContainer.innerHTML = svg;
                 previewModal.classList.remove('hidden');
             } catch (err) {
@@ -666,7 +816,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (btnModalDownload) {
-        btnModalDownload.addEventListener('click', () => {
+        btnModalDownload.addEventListener('click', async () => {
+            const shouldMark = Boolean(markPrintedOnDownloadCb && markPrintedOnDownloadCb.checked);
+            if (shouldMark) {
+                try {
+                    const svg = await fetchSvgContent(true);
+                    triggerDownload(svg, currentFilename);
+                    return;
+                } catch (_) {}
+            }
             if (currentSvgData) {
                 triggerDownload(currentSvgData, currentFilename);
             }

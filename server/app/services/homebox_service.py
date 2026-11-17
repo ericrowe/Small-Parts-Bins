@@ -12,6 +12,7 @@ import json
 import logging
 import os
 import re
+import socket
 import uuid
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
@@ -47,8 +48,26 @@ def _get_auth_cache_path() -> str:
     return os.path.join(data_dir, "homebox_auth.json")
 
 
+def _resolve_internal_api_base(public_base_url: str) -> str:
+    """
+    When running on tasker-pi alongside Homebox (:7745), route backend REST API calls over
+    loopback (127.0.0.1:7745) to avoid Avahi mDNS lookup latency/timeouts while preserving
+    the public `http://tasker-pi.local:7745` URL for browser-facing links.
+    """
+    explicit_internal = os.environ.get("HOMEBOX_INTERNAL_BASE_URL")
+    if explicit_internal:
+        return explicit_internal.rstrip("/")
+    try:
+        host = socket.gethostname().strip().lower()
+        if host.startswith("tasker-pi") and "tasker-pi.local" in public_base_url.lower():
+            return re.sub(r"(?i)//tasker-pi\.local\b", "//127.0.0.1", public_base_url)
+    except Exception:
+        pass
+    return public_base_url
+
+
 def resolve_homebox_paths() -> Dict[str, str]:
-    """Return Homebox base URL and API v1 endpoint URL."""
+    """Return Homebox public base URL (for browser links) and fast internal API v1 endpoint URL."""
     base_url = os.environ.get("HOMEBOX_BASE_URL", DEFAULT_HOMEBOX_BASE_URL).rstrip("/")
     try:
         cache_path = _get_auth_cache_path()
@@ -59,9 +78,11 @@ def resolve_homebox_paths() -> Dict[str, str]:
                     base_url = data["base_url"].rstrip("/")
     except Exception:
         pass
+    internal_base = _resolve_internal_api_base(base_url)
     return {
         "base_url": base_url,
-        "api_url": f"{base_url}/api/v1",
+        "internal_base_url": internal_base,
+        "api_url": f"{internal_base}/api/v1",
     }
 
 
@@ -295,11 +316,23 @@ def _fetch_all_locations(client: httpx.Client, api_url: str) -> List[Dict[str, A
     return _flatten_locations(raw_list)
 
 
+def _compute_next_bin_from_locations(locations: List[Dict[str, Any]]) -> str:
+    """Compute next sequential BIN-XXX identifier from an already-fetched locations list."""
+    max_num = 0
+    for loc in locations:
+        name = (loc.get("name") or "").strip()
+        m = re.match(r"^BIN-(\d+)", name, flags=re.IGNORECASE)
+        if m:
+            max_num = max(max_num, int(m.group(1)))
+    return f"BIN-{max_num + 1:03d}"
+
+
 def get_next_sequential_bin_name(base_url: Optional[str] = None) -> str:
     """Query Homebox GET /api/v1/entities?isLocation=true for existing BIN-XXX locations and return the next sequential bin ID."""
     paths = resolve_homebox_paths()
     target_base = (base_url or paths["base_url"]).rstrip("/")
-    api_url = f"{target_base}/api/v1"
+    internal_base = _resolve_internal_api_base(target_base)
+    api_url = f"{internal_base}/api/v1"
     tok = _ensure_authenticated_token(target_base)
 
     if not tok and _custom_transport is None:
@@ -308,13 +341,7 @@ def get_next_sequential_bin_name(base_url: Optional[str] = None) -> str:
     try:
         with _build_client(token=tok, timeout=8.0) as client:
             locations = _fetch_all_locations(client, api_url)
-            max_num = 0
-            for loc in locations:
-                name = (loc.get("name") or "").strip()
-                m = re.match(r"^BIN-(\d+)", name, flags=re.IGNORECASE)
-                if m:
-                    max_num = max(max_num, int(m.group(1)))
-            return f"BIN-{max_num + 1:03d}"
+            return _compute_next_bin_from_locations(locations)
     except Exception as e:
         logger.warning("Fallback BIN-001 (could not query Homebox locations: %s)", e)
         return "BIN-001"
@@ -449,7 +476,8 @@ def commit_cartridge_to_homebox(
     """Commit a cataloged cartridge (sequential bin location + 1..N part items) via Homebox's REST API (/api/v1)."""
     paths = resolve_homebox_paths()
     target_base = (base_url or paths["base_url"]).rstrip("/")
-    api_url = f"{target_base}/api/v1"
+    internal_base = _resolve_internal_api_base(target_base)
+    api_url = f"{internal_base}/api/v1"
     tok = _ensure_authenticated_token(target_base)
 
     if not tok and _custom_transport is None:
@@ -528,7 +556,16 @@ def commit_cartridge_to_homebox(
             "truss": "Truss Head Screw",
             "round": "Round Head Screw",
             "nut": "Hex Nut",
+            "nyloc": "Nyloc Lock Nut",
+            "flange_nut": "Flange Hex Nut",
+            "square_nut": "Square Nut",
+            "wing_nut": "Wing Nut",
+            "tnut": "T-Nut",
+            "tnut_pre": "Pre-Insert T-Nut",
+            "tnut_post": "Post-Insert T-Nut",
             "washer": "Flat Washer",
+            "fender_washer": "Fender Washer",
+            "split_washer": "Split Lock Washer",
             "insert": "Heat-Set Insert",
         }
 
@@ -543,7 +580,7 @@ def commit_cartridge_to_homebox(
             pitch = (grp.get("pitch") or "").strip()
             head_code = (grp.get("head") or "shcs").strip().lower()
             drive_code = (grp.get("drive") or "hex").strip().lower()
-            comp_type = (grp.get("comp_type") or "bolt").strip().lower()
+            comp_type = (grp.get("comp_type") or ("nut" if head_code in ("nut", "nyloc", "flange_nut", "square_nut", "wing_nut", "tnut", "tnut_pre", "tnut_post") else "washer" if head_code in ("washer", "fender_washer", "split_washer") else "insert" if head_code == "insert" else "bolt")).strip().lower()
             finish = (grp.get("finish") or grp.get("material") or "Steel").strip()
             finish_key = (grp.get("finish_key") or "").strip().lower()
             qty = max(1, int(grp.get("quantity") if grp.get("quantity") is not None else (grp.get("count") or 1)))
@@ -554,13 +591,14 @@ def commit_cartridge_to_homebox(
 
             head_label = head_display_map.get(head_code, head_code.upper())
 
+            dim_part = f"{size} × {length}".strip(" ×") if (size and length) else (size or length or "Hardware Part")
             item_name = (grp.get("name") or "").strip()
             if not item_name:
-                dim_part = f"{size} × {length}".strip(" ×") if (size or length) else "Hardware Part"
                 item_name = f"{dim_part} {head_label} ({finish})"
 
-            model_code = f"{size}-{length.replace(' ', '')}-{head_code.upper()}-{finish_key.upper() or finish[:3].upper()}".strip("-")
-            description = f"{size} × {length} {head_label} | Finish: {finish}" + (f" | Pitch: {pitch}" if pitch else "")
+            model_parts = [p for p in (size, length.replace(" ", ""), head_code.upper(), (finish_key.upper() or finish[:3].upper())) if p]
+            model_code = "-".join(model_parts)
+            description = f"{dim_part} {head_label} | Finish: {finish}" + (f" | Pitch: {pitch}" if pitch else "")
 
             tag_ids = {fastener_tag_id, cartridge_tag_id}
             if size.upper().startswith("M"):
@@ -573,10 +611,11 @@ def commit_cartridge_to_homebox(
             elif "silver" in finish.lower() or "stainless" in finish.lower() or finish_key == "silver":
                 tag_ids.add(_get_or_create_tag_api(client, api_url, existing_tags, "Stainless / Silver", "#94a3b8"))
 
+            len_field_label = "Outer Diameter (OD)" if comp_type == "washer" else "Length"
             custom_fields_pairs = [
                 ("Temporary Bin", requested_bin),
                 ("Thread Size", size),
-                ("Length", length),
+                (len_field_label, length),
                 ("Pitch", pitch),
                 ("Head Style", head_label),
                 ("Drive Type", drive_code.upper()),
@@ -767,8 +806,17 @@ def register_qr_forwarding_entry(
     existing = entries.get(code_4d)
     if preserve_existing and isinstance(existing, dict) and existing.get("target_url"):
         norm_existing = _normalize_homebox_web_url(existing["target_url"])
+        dirty_existing = False
         if norm_existing != existing["target_url"]:
             existing["target_url"] = norm_existing
+            dirty_existing = True
+        if label and not existing.get("manual_override") and existing.get("label") != label:
+            existing["label"] = label
+            dirty_existing = True
+        if "printed" not in existing:
+            existing["printed"] = False
+            dirty_existing = True
+        if dirty_existing:
             try:
                 with open(path, "w", encoding="utf-8") as f:
                     json.dump(entries, f, indent=2)
@@ -776,12 +824,16 @@ def register_qr_forwarding_entry(
                 pass
         return existing
 
+    prev_printed = bool(existing.get("printed", False)) if isinstance(existing, dict) else False
+    prev_printed_at = existing.get("printed_at", "") if isinstance(existing, dict) else ""
     entry = {
         "code": code_4d,
         "target_url": norm_target,
         "label": label or (existing.get("label", "") if isinstance(existing, dict) else ""),
         "location_id": location_id or (existing.get("location_id", "") if isinstance(existing, dict) else ""),
         "manual_override": bool(manual_override),
+        "printed": prev_printed,
+        "printed_at": prev_printed_at,
         "updated_at": datetime.now(timezone.utc).isoformat(),
     }
     entries[code_4d] = entry
@@ -792,6 +844,53 @@ def register_qr_forwarding_entry(
     except Exception as e:
         logger.warning("Could not save QR forwarding entry: %s", e)
     return entry
+
+
+def set_bins_printed_status(bin_codes: List[str], printed: bool = True) -> List[Dict[str, Any]]:
+    """Mark one or more 4-digit bin codes as printed (or unprinted) in qr_forwarding.json."""
+    path = _get_qr_forwarding_file_path()
+    entries: Dict[str, Any] = {}
+    if os.path.exists(path):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                loaded = json.load(f)
+                if isinstance(loaded, dict):
+                    entries = loaded
+        except Exception:
+            entries = {}
+
+    now_iso = datetime.now(timezone.utc).isoformat()
+    paths = resolve_homebox_paths()
+    default_target = f"{paths['base_url']}/location"
+    updated_entries: List[Dict[str, Any]] = []
+
+    for raw in bin_codes:
+        code_4d = _normalize_four_digit_code(raw)
+        if not code_4d:
+            continue
+        item = entries.get(code_4d)
+        if not isinstance(item, dict):
+            item = {
+                "code": code_4d,
+                "target_url": default_target,
+                "label": f"BIN-{code_4d}",
+                "location_id": "",
+                "manual_override": False,
+                "updated_at": now_iso,
+            }
+        item["printed"] = bool(printed)
+        item["printed_at"] = now_iso if printed else ""
+        entries[code_4d] = item
+        updated_entries.append(item)
+
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(entries, f, indent=2)
+    except Exception as e:
+        logger.warning("Could not persist bin printed status: %s", e)
+
+    return updated_entries
 
 
 def list_qr_forwarding_entries() -> List[Dict[str, Any]]:
@@ -822,6 +921,8 @@ def list_qr_forwarding_entries() -> List[Dict[str, Any]]:
                     "label": item.get("label") or "",
                     "location_id": item.get("location_id") or "",
                     "manual_override": bool(item.get("manual_override", False)),
+                    "printed": bool(item.get("printed", False)),
+                    "printed_at": item.get("printed_at") or "",
                     "updated_at": item.get("updated_at") or "",
                 }
             )
@@ -894,7 +995,8 @@ def resolve_qr_forwarding_target(bin_code: str, base_url: Optional[str] = None) 
 
     paths = resolve_homebox_paths()
     target_base = (base_url or paths["base_url"]).rstrip("/")
-    api_url = f"{target_base}/api/v1"
+    internal_base = _resolve_internal_api_base(target_base)
+    api_url = f"{internal_base}/api/v1"
     tok = _ensure_authenticated_token(target_base)
 
     try:
@@ -935,21 +1037,24 @@ def _extract_cartridge_specs_from_homebox_bin(
     combined_header = f"{b_name} {b_desc}".strip()
     first_item_name = items_list[0].get("name", "") if items_list else ""
     first_item_desc = items_list[0].get("description", "") if items_list else ""
-    search_blob = f"{combined_header} {first_item_name} {first_item_desc}"
+    all_items_blob = " ".join(
+        f"{it.get('name', '')} {it.get('description', '')}" for it in items_list
+    ).strip()
+    search_blob = f"{combined_header} {all_items_blob}" if all_items_blob else f"{combined_header} {first_item_name} {first_item_desc}"
 
     size = ""
     length = ""
 
-    # 1. Try metric pattern: e.g. "M4 × 6", "M3 x 12 mm", "M2.5 × 8"
+    # 1. Try metric pattern (including multi-chamber lengths like "M2 × 6, 8, 10" or "M4 × 6"):
     m_metric = re.search(
-        r"\b(M\d+(?:\.\d+)?)\s*(?:[×xX*\s\-]+(\d+(?:\.\d+)?)\s*(?:mm)?)?\b",
+        r"\b(M\d+(?:\.\d+)?)\s*(?:[×xX*\s\-]+(\d+(?:\.\d+)?(?:\s*(?:mm)?\s*[,/]\s*\d+(?:\.\d+)?)*)\s*(?:mm)?)?\b",
         search_blob,
         flags=re.IGNORECASE,
     )
     if m_metric:
         size = m_metric.group(1).upper()
         if m_metric.group(2):
-            length = m_metric.group(2)
+            length = re.sub(r"(?i)\s*mm\b", "", m_metric.group(2)).strip()
 
     # 2. Try imperial pattern if not metric: e.g. "#6-32 × 1/2", "1/4-20 x 3/4"
     if not size:
@@ -973,16 +1078,69 @@ def _extract_cartridge_specs_from_homebox_bin(
             if len(parts) > 1:
                 length = re.sub(r"\s*mm$", "", parts[1].strip(), flags=re.IGNORECASE)
 
-    # Determine category & top bar color
+    # Determine category, component type & top bar color (check nuts/washers/t-nuts BEFORE 'insert' so 'Pre-Insert T-Nut' is a nut, not a heat-set insert!)
     lower_blob = search_blob.lower()
-    if "insert" in lower_blob or "standoff" in lower_blob:
-        category_id = "inserts"
-        category_name = "Inserts & Standoffs"
-        accent_color = "#C5A059"
-    elif ("washer" in lower_blob or "nut" in lower_blob) and not length:
+    comp_type = "bolt"
+    head_detected = "shcs"
+    if any(k in lower_blob for k in ("washer", "fender", "nut", "nyloc", "t-nut", "tnut")):
         category_id = "nuts_washers"
         category_name = "Nuts & Washers"
-        accent_color = "#2E7D32"
+        accent_color = "#E65100" if (size and not size.upper().startswith("M")) else "#0077CC"
+        if "washer" in lower_blob or "fender" in lower_blob:
+            comp_type = "washer"
+            head_detected = "fender_washer" if "fender" in lower_blob else "split_washer" if "split" in lower_blob else "washer"
+            # Aggregate all known Outer Diameters (ODs) across items in this bin (omit any washer whose OD is unknown)
+            known_numeric_ods: Dict[float, str] = {}
+            known_other_ods: List[str] = []
+            sources_to_scan = [
+                f"{it.get('name', '')} {it.get('description', '')}" for it in items_list
+            ] if items_list else [combined_header]
+            for src_txt in sources_to_scan:
+                for m_od in re.finditer(
+                    r"\b(?:M\d+(?:\.\d+)?)\s*[×xX*]\s*(\d+(?:\.\d+)?(?:\s*(?:mm)?\s*[,/]\s*\d+(?:\.\d+)?)*)\s*(?:mm)?\b",
+                    src_txt,
+                    flags=re.IGNORECASE,
+                ):
+                    raw_nums = m_od.group(1)
+                    for token in re.split(r"[,/]+", raw_nums):
+                        tok_clean = re.sub(r"(?i)\s*mm\b", "", token).strip()
+                        if not tok_clean:
+                            continue
+                        try:
+                            fval = float(tok_clean)
+                            fmt_od = f"{int(fval)}mm" if fval.is_integer() else f"{fval:g}mm"
+                            known_numeric_ods[fval] = fmt_od
+                        except ValueError:
+                            if tok_clean not in known_other_ods:
+                                known_other_ods.append(tok_clean)
+            if known_numeric_ods or known_other_ods:
+                sorted_ods = [known_numeric_ods[k] for k in sorted(known_numeric_ods.keys())] + known_other_ods
+                length = ", ".join(sorted_ods)
+            else:
+                length = ""
+        else:
+            comp_type = "nut"
+            head_detected = (
+                "nyloc"
+                if "nyloc" in lower_blob
+                else "tnut_pre"
+                if ("pre-insert" in lower_blob or "pre_insert" in lower_blob)
+                else "tnut_post"
+                if ("post-insert" in lower_blob or "post_insert" in lower_blob)
+                else "tnut_pre"
+                if ("t-nut" in lower_blob or "tnut" in lower_blob)
+                else "flange_nut"
+                if "flange" in lower_blob
+                else "square_nut"
+                if "square" in lower_blob
+                else "nut"
+            )
+    elif "insert" in lower_blob or "standoff" in lower_blob or "dowel" in lower_blob or "specialty" in lower_blob:
+        category_id = "inserts"
+        category_name = "Inserts, Standoffs & Specialty"
+        accent_color = "#D4A017"
+        comp_type = "insert"
+        head_detected = "insert"
     elif size and not size.upper().startswith("M"):
         category_id = "imperial"
         category_name = "Imperial Fasteners"
@@ -1010,7 +1168,7 @@ def _extract_cartridge_specs_from_homebox_bin(
         fin = it.get("finish") or ""
         nm = it.get("name") or ""
         head_tag = ""
-        for code in ("SHCS", "BHCS", "FHCS", "Hex", "Pan", "Nut", "Washer"):
+        for code in ("SHCS", "BHCS", "FHCS", "Nyloc", "Nut", "Fender Washer", "Washer", "Hex", "Pan"):
             if code.lower() in nm.lower():
                 head_tag = code
                 break
@@ -1024,6 +1182,8 @@ def _extract_cartridge_specs_from_homebox_bin(
         "size": size or bin_code,
         "length": length,
         "pitch": pitch,
+        "comp_type": comp_type,
+        "head": head_detected,
         "category_id": category_id,
         "category_name": category_name,
         "accent_color": accent_color,
@@ -1037,12 +1197,14 @@ def list_ingested_bins(base_url: Optional[str] = None, limit: int = 50) -> Dict[
     """Return all sequential BIN-XXX locations and their contained hardware items via Homebox REST API."""
     paths = resolve_homebox_paths()
     target_base = (base_url or paths["base_url"]).rstrip("/")
-    api_url = f"{target_base}/api/v1"
+    internal_base = _resolve_internal_api_base(target_base)
+    api_url = f"{internal_base}/api/v1"
     tok = _ensure_authenticated_token(target_base)
 
     if not tok and _custom_transport is None:
         return {
             "homebox_base_url": target_base,
+            "homebox_locations_url": target_base,
             "authenticated": False,
             "next_bin_id": "BIN-001",
             "total_bins": 0,
@@ -1052,12 +1214,13 @@ def list_ingested_bins(base_url: Optional[str] = None, limit: int = 50) -> Dict[
     try:
         with _build_client(token=tok, timeout=10.0) as client:
             locations = _fetch_all_locations(client, api_url)
-            if any((loc.get("name") or "").strip().lower() == "gridfinity cartridges" for loc in locations):
-                try:
-                    loc_type_id, _ = _get_entity_type_ids(client, api_url)
-                    _get_or_create_cartridges_root_api(client, api_url, locations, location_type_id=loc_type_id)
-                except Exception:
-                    pass
+            cartridges_root_id: Optional[str] = None
+            for loc in locations:
+                if (loc.get("name") or "").strip().lower() == "gridfinity cartridges":
+                    cartridges_root_id = loc.get("id")
+                    break
+            homebox_locations_url = f"{target_base}/location/{cartridges_root_id}" if cartridges_root_id else target_base
+            next_bin_id = _compute_next_bin_from_locations(locations)
             bin_locs = [
                 loc
                 for loc in locations
@@ -1085,6 +1248,20 @@ def list_ingested_bins(base_url: Optional[str] = None, limit: int = 50) -> Dict[
                 )
                 if loc_id:
                     items_by_loc.setdefault(loc_id, []).append(it)
+
+            # Load qr_forwarding.json once for the entire batch rather than on every bin iteration
+            fwd_path = _get_qr_forwarding_file_path()
+            fwd_entries: Dict[str, Any] = {}
+            if os.path.exists(fwd_path):
+                try:
+                    with open(fwd_path, "r", encoding="utf-8") as f:
+                        loaded = json.load(f)
+                        if isinstance(loaded, dict):
+                            fwd_entries = loaded
+                except Exception:
+                    fwd_entries = {}
+            fwd_dirty = False
+            now_iso = datetime.now(timezone.utc).isoformat()
 
             bins_out: List[Dict[str, Any]] = []
             for b_loc in bin_locs:
@@ -1116,13 +1293,34 @@ def list_ingested_bins(base_url: Optional[str] = None, limit: int = 50) -> Dict[
                     bin_code=bin_code,
                     items_list=items_list,
                 )
-                register_qr_forwarding_entry(
-                    bin_code=specs["bin_4digit"],
-                    target_url=hb_loc_url,
-                    label=b_name,
-                    location_id=b_id,
-                    preserve_existing=True,
-                )
+                code_4d = specs["bin_4digit"]
+                norm_target = _normalize_homebox_web_url(hb_loc_url)
+                existing_fwd = fwd_entries.get(code_4d)
+                if isinstance(existing_fwd, dict) and existing_fwd.get("target_url"):
+                    norm_existing = _normalize_homebox_web_url(existing_fwd["target_url"])
+                    if norm_existing != existing_fwd["target_url"]:
+                        existing_fwd["target_url"] = norm_existing
+                        fwd_dirty = True
+                    if b_name and not existing_fwd.get("manual_override") and existing_fwd.get("label") != b_name:
+                        existing_fwd["label"] = b_name
+                        fwd_dirty = True
+                    if "printed" not in existing_fwd:
+                        existing_fwd["printed"] = False
+                        fwd_dirty = True
+                    fwd_entry = existing_fwd
+                else:
+                    fwd_entry = {
+                        "code": code_4d,
+                        "target_url": norm_target,
+                        "label": b_name,
+                        "location_id": b_id,
+                        "manual_override": False,
+                        "printed": False,
+                        "printed_at": "",
+                        "updated_at": now_iso,
+                    }
+                    fwd_entries[code_4d] = fwd_entry
+                    fwd_dirty = True
 
                 bins_out.append(
                     {
@@ -1134,12 +1332,16 @@ def list_ingested_bins(base_url: Optional[str] = None, limit: int = 50) -> Dict[
                         "size": specs["size"],
                         "length": specs["length"],
                         "pitch": specs["pitch"],
+                        "comp_type": specs.get("comp_type", "bolt"),
+                        "head": specs.get("head", "shcs"),
                         "category_id": specs["category_id"],
                         "category_name": specs["category_name"],
                         "accent_color": specs["accent_color"],
                         "extra_note": specs["extra_note"],
                         "finishes_summary": specs["finishes_summary"],
                         "qr_short_url": specs["qr_short_url"],
+                        "printed": bool(fwd_entry.get("printed", False)),
+                        "printed_at": fwd_entry.get("printed_at", ""),
                         "updated_at": b_loc.get("updatedAt", ""),
                         "homebox_url": hb_loc_url,
                         "item_count": len(items_list),
@@ -1148,10 +1350,19 @@ def list_ingested_bins(base_url: Optional[str] = None, limit: int = 50) -> Dict[
                     }
                 )
 
+            if fwd_dirty:
+                try:
+                    os.makedirs(os.path.dirname(fwd_path), exist_ok=True)
+                    with open(fwd_path, "w", encoding="utf-8") as fw:
+                        json.dump(fwd_entries, fw, indent=2)
+                except Exception as e:
+                    logger.warning("Could not save batched QR forwarding entries: %s", e)
+
             return {
                 "homebox_base_url": target_base,
+                "homebox_locations_url": homebox_locations_url,
                 "authenticated": True,
-                "next_bin_id": get_next_sequential_bin_name(target_base),
+                "next_bin_id": next_bin_id,
                 "total_bins": len(bins_out),
                 "bins": bins_out,
             }
@@ -1159,6 +1370,7 @@ def list_ingested_bins(base_url: Optional[str] = None, limit: int = 50) -> Dict[
         logger.warning("Could not list Homebox bins via API: %s", e)
         return {
             "homebox_base_url": target_base,
+            "homebox_locations_url": target_base,
             "authenticated": False,
             "next_bin_id": "BIN-001",
             "total_bins": 0,
